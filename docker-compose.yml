@@ -1,0 +1,30 @@
+services:
+    db:
+        image: postgres
+        container_name: ${POSTGRES_CONTAINER_NAME-postgres}
+        environment:
+            POSTGRES_DB: ${POSTGRES_DB}
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        ports:
+            - "${POSTGRES_PORT}:5432"
+    glassfish:
+        image: ghcr.io/eclipse-ee4j/glassfish
+        container_name: ${GLASSFISH_CONTAINER_NAME-glassfish}
+        volumes:
+            - ./deploy/deployments:/opt/glassfish7/glassfish/domains/domain1/autodeploy
+            - ./deploy/glassfish_init:/opt/glassfish7/custom:ro
+        environment:
+            AS_ADMIN_MASTERPASSWORD: ${AS_ADMIN_MASTERPASSWORD}
+            AS_ADMIN_PASSWORD: ${AS_ADMIN_PASSWORD}
+
+            POSTGRES_CONTAINER_NAME: ${POSTGRES_CONTAINER_NAME-postgres}
+            POSTGRES_DB: ${POSTGRES_DB}
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+            JTA_DATA_SOURCE: ${JTA_DATA_SOURCE}
+        ports:
+            - "8080:8080"
+            - "4848:4848"
+
