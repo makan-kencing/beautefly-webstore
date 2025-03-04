@@ -6,10 +6,6 @@
         <option name="sourceFilePath" value="docker-compose.yml" />
       </settings>
     </deployment>
-    <method v="2">
-      <option name="BuildArtifacts" enabled="true">
-        <artifact name="web-deploy:war" />
-      </option>
-    </method>
+    <method v="2" />
   </configuration>
 </component>
