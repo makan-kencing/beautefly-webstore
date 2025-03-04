@@ -1,6 +1,6 @@
 package com.samseng.web.user;
 
-import com.samseng.web.user.models.User;
+import com.samseng.web.user.entity.User;
 import jakarta.annotation.Nullable;
 import jakarta.data.repository.*;
 import jakarta.transaction.Transactional;

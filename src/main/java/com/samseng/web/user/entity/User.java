@@ -1,4 +1,4 @@
-package com.samseng.web.user.models;
+package com.samseng.web.user.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;

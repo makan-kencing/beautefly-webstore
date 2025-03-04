@@ -1,7 +1,7 @@
 package com.samseng.web.user;
 
-import com.samseng.web.user.models.User;
-import com.samseng.web.user.schemas.UserRegisterDTO;
+import com.samseng.web.user.entity.User;
+import com.samseng.web.user.dto.UserRegisterDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -12,7 +12,7 @@ import java.util.List;
 @Path("/users")
 @ApplicationScoped
 @Transactional
-public class UserService {
+public class UserController {
     @Inject
     private UserRepository userRepository;
 

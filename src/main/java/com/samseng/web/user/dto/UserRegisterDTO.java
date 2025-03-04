@@ -1,4 +1,4 @@
-package com.samseng.web.user.schemas;
+package com.samseng.web.user.dto;
 
 public class UserRegisterDTO extends UserBaseDTO {
 }
