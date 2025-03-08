@@ -1,7 +1,7 @@
-package com.samseng.web.user;
+package com.lavacorp.beautifly.webstore.user;
 
-import com.samseng.web.user.entity.User;
-import com.samseng.web.user.dto.UserRegisterDTO;
+import com.lavacorp.beautifly.webstore.user.entity.User;
+import com.lavacorp.beautifly.webstore.user.dto.UserRegisterDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;

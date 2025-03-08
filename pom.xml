@@ -4,10 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.samseng</groupId>
-    <artifactId>web</artifactId>
+    <groupId>com.lavacorp</groupId>
+    <artifactId>beautifly.webstore</artifactId>
     <version>1.0</version>
-    <name>samseng-webstore</name>
+    <name>beautifly-webstore</name>
     <packaging>war</packaging>
 
     <properties>

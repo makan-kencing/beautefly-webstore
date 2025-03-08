@@ -1,4 +1,4 @@
-package com.samseng.web.user.entity;
+package com.lavacorp.beautifly.webstore.user.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;

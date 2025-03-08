@@ -1,4 +1,4 @@
-package com.samseng.web;
+package com.lavacorp.beautifly.webstore;
 
 import java.io.*;
 
