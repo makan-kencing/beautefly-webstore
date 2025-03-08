@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Deploy with Glassfish" type="GlassfishConfiguration" factoryName="Local" APPLICATION_SERVER_NAME="GlassFish 7.0.22" ALTERNATIVE_JRE_ENABLED="false">
+  <configuration default="false" name="Deploy with Local Glassfish" type="GlassfishConfiguration" factoryName="Local" APPLICATION_SERVER_NAME="GlassFish 7.0.22" ALTERNATIVE_JRE_ENABLED="false">
     <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/web-1.0/hello-servlet" />
     <option name="UPDATING_POLICY" value="redeploy-artifacts" />
     <deployment>
