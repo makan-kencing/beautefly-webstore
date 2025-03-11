@@ -1,6 +1,6 @@
-package com.lavacorp.beautifly.webstore.user;
+package com.lavacorp.beautefly.webstore.user;
 
-import com.lavacorp.beautifly.webstore.user.entity.User;
+import com.lavacorp.beautefly.webstore.user.entity.User;
 import jakarta.annotation.Nullable;
 import jakarta.data.repository.*;
 import jakarta.transaction.Transactional;

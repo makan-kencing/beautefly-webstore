@@ -1,4 +1,4 @@
-Beautifly Cosmetics Webstore
+Beautéfly Webstore
 ============================
 
 ## Development

@@ -1,4 +1,4 @@
-package com.lavacorp.beautifly.webstore;
+package com.lavacorp.beautefly.webstore;
 
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.GET;

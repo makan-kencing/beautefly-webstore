@@ -1,4 +1,4 @@
-package com.lavacorp.beautifly.webstore;
+package com.lavacorp.beautefly.webstore;
 
 import java.io.*;
 

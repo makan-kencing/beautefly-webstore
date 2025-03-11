@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.lavacorp</groupId>
-    <artifactId>beautifly.webstore</artifactId>
+    <artifactId>beautefly.webstore</artifactId>
     <version>1.0</version>
-    <name>beautifly-webstore</name>
+    <name>beautefly-webstore</name>
     <packaging>war</packaging>
 
     <properties>
