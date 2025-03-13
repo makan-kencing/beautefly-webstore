@@ -148,7 +148,7 @@ Project Modules Overview
     </tr>
     <tr>
         <td rowspan="2">Payment</td>
-        <td>Checkout 🟢</td>
+        <td>Checkout 🟡</td>
         <td>
             <ul>
                 <li>Choose shipping address</li>
@@ -172,7 +172,7 @@ Project Modules Overview
         </td>
     </tr>
     <tr>
-        <td>Payment processing 🟢</td>
+        <td>Payment processing 🟡</td>
         <td>
             <ul>
                 <li>Mock fake payment methods</li>
@@ -184,7 +184,7 @@ Project Modules Overview
     </tr>
     <tr>
         <td rowspan="2">Promotion</td>
-        <td>Promotion campaign 🟢</td>
+        <td>Promotion campaign 🟡</td>
         <td>
             <ul>
                 <li>Products with discounted price for limited time</li>
