@@ -13,10 +13,10 @@ import java.time.Instant;
 
 @Data
 @Entity
-public class OrderProduct implements Serializable {
+public class SalesOrderProduct implements Serializable {
     @Id
     @ManyToOne
-    private Order order;
+    private SalesOrder order;
 
     @Id
     @ManyToOne

@@ -17,7 +17,7 @@ import java.util.Set;
 
 @Data
 @Entity
-public class Order implements Serializable {
+public class SalesOrder implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -49,12 +49,12 @@ public class Order implements Serializable {
     @PositiveOrZero
     private BigDecimal discountAmount;
 
-    @OneToMany(mappedBy = OrderProduct_.ORDER)
-    private Set<OrderProduct> orderedProducts;
+    @OneToMany(mappedBy = SalesOrderProduct_.ORDER)
+    private Set<SalesOrderProduct> orderedProducts;
 
     public BigDecimal getGrossAmount() {
         return orderedProducts.stream()
-                .map(OrderProduct::getUnitPrice)
+                .map(SalesOrderProduct::getUnitPrice)
                 .reduce(BigDecimal::add)
                 .orElse(BigDecimal.valueOf(0));
     }

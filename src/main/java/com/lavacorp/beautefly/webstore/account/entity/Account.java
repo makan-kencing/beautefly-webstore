@@ -2,7 +2,7 @@ package com.lavacorp.beautefly.webstore.account.entity;
 
 import com.lavacorp.beautefly.webstore.cart.entity.CartProduct;
 import com.lavacorp.beautefly.webstore.cart.entity.CartProduct_;
-import com.lavacorp.beautefly.webstore.order.entity.Order;
+import com.lavacorp.beautefly.webstore.order.entity.SalesOrder;
 import com.lavacorp.beautefly.webstore.order.entity.Order_;
 import com.lavacorp.beautefly.webstore.wishlist.entity.WishlistProduct;
 import com.lavacorp.beautefly.webstore.wishlist.entity.WishlistProduct_;
@@ -14,7 +14,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.NaturalId;
 
 import java.io.Serializable;
 import java.time.Duration;
@@ -61,7 +60,7 @@ public class Account implements Serializable {
     private Set<WishlistProduct> wishlist;
 
     @OneToMany(mappedBy = Order_.ACCOUNT)
-    private Set<Order> orders;
+    private Set<SalesOrder> orders;
 
     public int getAge() {
         return (int) (Duration.between(LocalDate.now(), dob).toDays() / 365);
