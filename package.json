@@ -1,0 +1,17 @@
+{
+    "name": "beautefly-webstore",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.jsp",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/makan-kencing/beautifly-webstore.git"
+    },
+    "devDependencies": {
+        "sass": "^1.85.1"
+    },
+    "private": true
+}
