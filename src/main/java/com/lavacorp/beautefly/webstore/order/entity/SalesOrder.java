@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CurrentTimestamp;
 
 import java.io.Serializable;
@@ -29,8 +28,7 @@ public class SalesOrder implements Serializable {
     private Address shippingAddress;
 
     @Enumerated(EnumType.STRING)
-    @ColumnDefault("ARRIVING")
-    private Status status;
+    private Status status = Status.ARRIVING;
 
     @Enumerated(EnumType.STRING)
     @NotNull

@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
-import org.hibernate.annotations.ColumnDefault;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -26,8 +25,7 @@ public class SalesOrderProduct implements Serializable {
     private int quantity;
 
     @Enumerated(EnumType.STRING)
-    @ColumnDefault("ORDERED")
-    private Status status;
+    private Status status = Status.ORDERED;
 
     @Positive
     private BigDecimal unitPrice;

@@ -3,7 +3,7 @@ package com.lavacorp.beautefly.webstore.account.entity;
 import com.lavacorp.beautefly.webstore.cart.entity.CartProduct;
 import com.lavacorp.beautefly.webstore.cart.entity.CartProduct_;
 import com.lavacorp.beautefly.webstore.order.entity.SalesOrder;
-import com.lavacorp.beautefly.webstore.order.entity.Order_;
+import com.lavacorp.beautefly.webstore.order.entity.SalesOrder_;
 import com.lavacorp.beautefly.webstore.wishlist.entity.WishlistProduct;
 import com.lavacorp.beautefly.webstore.wishlist.entity.WishlistProduct_;
 import jakarta.annotation.Nullable;
@@ -13,7 +13,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import lombok.Data;
-import org.hibernate.annotations.ColumnDefault;
 
 import java.io.Serializable;
 import java.time.Duration;
@@ -29,8 +28,7 @@ public class Account implements Serializable {
 
     @ElementCollection
     @Enumerated(EnumType.STRING)
-    @ColumnDefault("USER")
-    private Set<Role> roles;
+    private Set<Role> roles = Set.of(Role.USER);
 
     @NotBlank
     private String username;
@@ -59,7 +57,7 @@ public class Account implements Serializable {
     @OneToMany(mappedBy = WishlistProduct_.ACCOUNT)
     private Set<WishlistProduct> wishlist;
 
-    @OneToMany(mappedBy = Order_.ACCOUNT)
+    @OneToMany(mappedBy = SalesOrder_.ACCOUNT)
     private Set<SalesOrder> orders;
 
     public int getAge() {
