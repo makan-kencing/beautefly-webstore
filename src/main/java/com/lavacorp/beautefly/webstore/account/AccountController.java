@@ -9,7 +9,7 @@ import jakarta.ws.rs.*;
 
 import java.util.List;
 
-@Path("/accounts")
+@Path("/account")
 @ApplicationScoped
 @Transactional
 public class AccountController {
