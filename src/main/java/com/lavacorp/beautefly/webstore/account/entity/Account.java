@@ -30,7 +30,6 @@ public class Account implements Serializable {
     private int id;
 
     @ElementCollection
-    @NaturalId
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     private Set<Role> roles = Set.of(Role.USER);
 
