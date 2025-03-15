@@ -30,7 +30,7 @@ public class SalesOrder implements Serializable {
     private Address shippingAddress;
 
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
-    private Status status = Status.ARRIVING;
+    private OrderStatus status = OrderStatus.ARRIVING;
 
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @NotNull
@@ -63,7 +63,7 @@ public class SalesOrder implements Serializable {
         return getGrossAmount().subtract(taxAmount).subtract(shippingAmount).add(discountAmount);
     }
 
-    public enum Status {
+    public enum OrderStatus {
         ARRIVING, COMPLETED, CANCELLED
     }
 

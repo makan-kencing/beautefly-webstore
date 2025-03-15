@@ -29,7 +29,7 @@ public class SalesOrderProduct implements Serializable {
     private int quantity;
 
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
-    private Status status = Status.ORDERED;
+    private OrderProductStatus status = OrderProductStatus.ORDERED;
 
     @Positive
     private BigDecimal unitPrice;
@@ -40,7 +40,7 @@ public class SalesOrderProduct implements Serializable {
     @PastOrPresent
     private Instant deliveredAt;
 
-    public enum Status {
+    public enum OrderProductStatus {
         ORDERED, SHIPPED, OUT_FOR_DELIVERY, DELIVERED
     }
 }
