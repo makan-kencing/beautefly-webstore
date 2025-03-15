@@ -13,6 +13,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import lombok.Data;
+import org.hibernate.annotations.NaturalId;
 
 import java.io.Serializable;
 import java.time.Duration;
@@ -27,6 +28,7 @@ public class Account implements Serializable {
     private int id;
 
     @ElementCollection
+    @NaturalId
     @Enumerated(EnumType.STRING)
     private Set<Role> roles = Set.of(Role.USER);
 
@@ -35,7 +37,7 @@ public class Account implements Serializable {
 
     @NotNull
     @Email
-    @Column(unique = true)
+    @NaturalId
     private String email;
 
     @NotNull
