@@ -1,10 +1,14 @@
 package com.lavacorp.beautefly.webstore.order.entity;
 
 import com.lavacorp.beautefly.webstore.product.entity.Product;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -24,7 +28,7 @@ public class SalesOrderProduct implements Serializable {
     @Positive
     private int quantity;
 
-    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     private Status status = Status.ORDERED;
 
     @Positive
