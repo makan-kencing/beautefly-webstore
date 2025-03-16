@@ -10,9 +10,10 @@ RUN nvm install 22
 WORKDIR /usr/app
 
 # Install node modules
-#COPY package.json .
+COPY package.json .
+COPY package-lock.json .
 
-#RUN npm install
+RUN npm ci
 
 # Build source
 COPY . .

@@ -13,7 +13,7 @@ import java.util.Set;
 @Entity
 public class Product implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @NotBlank

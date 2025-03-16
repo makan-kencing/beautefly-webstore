@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Entity
 public class Address implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @NotBlank
