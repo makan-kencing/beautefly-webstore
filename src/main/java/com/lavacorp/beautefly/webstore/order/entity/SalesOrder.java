@@ -20,7 +20,7 @@ import java.util.Set;
 @Entity
 public class SalesOrder implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @ManyToOne

@@ -26,7 +26,7 @@ import java.util.Set;
 @Entity
 public class Account implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @ElementCollection

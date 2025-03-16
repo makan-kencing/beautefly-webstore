@@ -12,7 +12,7 @@ import java.time.Instant;
 @Entity
 public class Reply implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @ManyToOne
