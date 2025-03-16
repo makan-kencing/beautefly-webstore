@@ -18,6 +18,7 @@
         <hibernate-orm.version>6.6.9.Final</hibernate-orm.version>
         <hibernate-validator.version>8.0.2.Final</hibernate-validator.version>
         <lombok.version>1.18.36</lombok.version>
+        <glassfish.version>7.0.22</glassfish.version>
     </properties>
 
     <dependencies>
@@ -122,4 +123,55 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>glassfish</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <cargo.zipUrlInstaller.downloadDir>${project.basedir}/installs</cargo.zipUrlInstaller.downloadDir>
+            </properties>
+            <dependencies>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.cargo</groupId>
+                        <artifactId>cargo-maven3-plugin</artifactId>
+                        <version>${cargo-maven3-plugin.version}</version>
+                        <configuration>
+                            <container>
+                                <containerId>glassfish7x</containerId>
+                                <zipUrlInstaller>
+                                    <url>
+                                        https://github.com/eclipse-ee4j/glassfish/releases/download/${glassfish.version}/glassfish-${glassfish.version}.zip
+                                    </url>
+                                    <downloadDir>${cargo.zipUrlInstaller.downloadDir}</downloadDir>
+                                </zipUrlInstaller>
+                            </container>
+                            <configuration>
+                                <!-- the configuration used to deploy -->
+                                <home>${project.build.directory}/glassfish7x-home</home>
+                                <properties>
+                                    <cargo.remote.password></cargo.remote.password>
+                                    <cargo.glassfish.removeDefaultDatasource>true</cargo.glassfish.removeDefaultDatasource>
+                                </properties>
+                                <datasources>
+                                    <datasource>
+                                        <driverClass></driverClass>
+                                        <url>jdbc:derby:derbyDB;create=true</url>
+                                        <jndiName>jdbc/__default</jndiName>
+                                        <username>APP</username>
+                                        <password>${env.</password>
+                                    </datasource>
+                                </datasources>
+                            </configuration>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
