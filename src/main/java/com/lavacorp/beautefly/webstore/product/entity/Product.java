@@ -1,8 +1,11 @@
 package com.lavacorp.beautefly.webstore.product.entity;
 
+import com.lavacorp.beautefly.webstore.promotion.entity.PromotionProduct;
+import com.lavacorp.beautefly.webstore.promotion.entity.PromotionProduct_;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import org.hibernate.annotations.Filter;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -43,4 +46,8 @@ public class Product implements Serializable {
     @NotNull
     @PositiveOrZero
     private int stockCount;
+
+    // TODO: filter only within period
+    @OneToMany(mappedBy = PromotionProduct_.PRODUCT)
+    private Set<PromotionProduct> promotedProduct;
 }
