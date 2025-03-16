@@ -13,9 +13,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import lombok.Data;
-import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.NaturalId;
-import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
 import java.time.Duration;
@@ -30,7 +28,7 @@ public class Account implements Serializable {
     private int id;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Enumerated(EnumType.STRING)
     private Set<Role> roles = Set.of(Role.USER);
 
     @NotBlank

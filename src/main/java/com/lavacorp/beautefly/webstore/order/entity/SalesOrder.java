@@ -8,8 +8,6 @@ import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 import org.hibernate.annotations.CurrentTimestamp;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -29,10 +27,10 @@ public class SalesOrder implements Serializable {
     @ManyToOne
     private Address shippingAddress;
 
-    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Enumerated(EnumType.STRING)
     private OrderStatus status = OrderStatus.ARRIVING;
 
-    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Enumerated(EnumType.STRING)
     @NotNull
     private PaymentMethod paymentMethod;
 
