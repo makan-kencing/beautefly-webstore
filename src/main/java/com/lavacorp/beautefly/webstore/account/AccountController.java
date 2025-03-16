@@ -19,7 +19,7 @@ public class AccountController {
     @GET
     @Produces("application/json")
     public List<Account> getAllAccounts() {
-        return accountRepository.findAll();
+        return accountRepository.findAll().toList();
     }
 
     @POST
