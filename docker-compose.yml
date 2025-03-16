@@ -18,6 +18,7 @@ services:
             POSTGRES_DB: ${POSTGRES_DB}
             POSTGRES_USER: ${POSTGRES_USER}
             POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            GLASSFISH_ADMIN_PASSWORD: ${GLASSFISH_ADMIN_PASSWORD}
         ports:
             - "8080:8080"
             - "4848:4848"
