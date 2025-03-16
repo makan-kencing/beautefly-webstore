@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <t:base pageTitle="Login">
     <jsp:attribute name="header">
@@ -34,6 +35,8 @@
                 <div>
                     <sub><a href="#">Forgot password?</a></sub>
                 </div>
+
+                <c:if test="${param.get('error') != null}">Invalid username or password</c:if>
 
                 <button type="submit">Login</button>
             </form>
