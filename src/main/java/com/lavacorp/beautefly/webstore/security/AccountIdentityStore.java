@@ -23,11 +23,6 @@ public class AccountIdentityStore implements IdentityStore {
     @Named("Argon2idPasswordHash")
     private PasswordHash passwordHash;
 
-    @Override
-    public Set<ValidationType> validationTypes() {
-        return Set.of(ValidationType.VALIDATE);
-    }
-
     public CredentialValidationResult validate(UsernamePasswordCredential credential) {
         // TODO: redo logic to prevent timing attacks
         var account = accountRepository.findByEmail(credential.getCaller());
@@ -43,10 +38,23 @@ public class AccountIdentityStore implements IdentityStore {
                     credential.getCaller(),
                     account.getRoles()
                             .stream()
-                            .map(Enum::toString)
+                            .map(Enum::name)
                             .collect(Collectors.toSet())
             );
 
         return CredentialValidationResult.INVALID_RESULT;
+    }
+
+    @Override
+    public Set<String> getCallerGroups(CredentialValidationResult validationResult) {
+        var account = accountRepository.findByEmail(validationResult.getCallerPrincipal().getName());
+
+        if (account == null)
+            return null;
+
+        return account.getRoles()
+                .stream()
+                .map(Enum::name)
+                .collect(Collectors.toSet());
     }
 }
