@@ -29,7 +29,7 @@ public class Account implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     private Set<Role> roles = Set.of(Role.USER);
 
