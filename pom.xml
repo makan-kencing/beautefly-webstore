@@ -19,11 +19,11 @@
 
         <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <cargo-maven3-plugin.version>1.10.12</cargo-maven3-plugin.version>
 
         <jakartaee-api.version>10.0.0</jakartaee-api.version>
         <jakarta-data.version>1.0.1</jakarta-data.version>
         <jakarta-mvc.version>2.1.0</jakarta-mvc.version>
-
 
         <glassfish-jaxb-bom.version>4.0.5</glassfish-jaxb-bom.version>
         <jboss-weld.version>5.1.5.Final</jboss-weld.version>
@@ -211,10 +211,8 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <cargo.zipUrlInstaller.downloadDir>${project.basedir}/installs</cargo.zipUrlInstaller.downloadDir>
+                <cargo.zipUrlInstaller.downloadDir>${project.build.directory}/installs</cargo.zipUrlInstaller.downloadDir>
             </properties>
-            <dependencies>
-            </dependencies>
             <build>
                 <plugins>
                     <plugin>
@@ -230,24 +228,42 @@
                                     </url>
                                     <downloadDir>${cargo.zipUrlInstaller.downloadDir}</downloadDir>
                                 </zipUrlInstaller>
+                                <dependencies>
+                                    <dependency>
+                                        <groupId>org.postgresql</groupId>
+                                        <artifactId>postgresql</artifactId>
+                                    </dependency>
+                                </dependencies>
                             </container>
+
                             <configuration>
-                                <!-- the configuration used to deploy -->
-                                <home>${project.build.directory}/glassfish7x-home</home>
+                                <home>${project.build.directory}/glassfish7x</home>
                                 <properties>
-                                    <cargo.remote.password></cargo.remote.password>
+                                    <cargo.remote.password>${env.GLASSFISH_ADMIN_PASSWORD}</cargo.remote.password>
                                     <cargo.glassfish.removeDefaultDatasource>true</cargo.glassfish.removeDefaultDatasource>
                                 </properties>
                                 <datasources>
                                     <datasource>
-                                        <driverClass></driverClass>
-                                        <url>jdbc:derby:derbyDB;create=true</url>
+                                        <driverClass>org.postgresql.Driver</driverClass>
+                                        <transactionSupport>LOCAL_TRANSACTION</transactionSupport>
+                                        <url>jdbc:postgresql://${env.POSTGRES_HOST}:${env.POSTGRES_PORT}/${env.POSTGRES_DB}</url>
                                         <jndiName>jdbc/__default</jndiName>
-                                        <username>APP</username>
-                                        <password>${env.</password>
+                                        <username>${env.POSTGRES_USER}</username>
+                                        <password>${env.POSTGRES_PASSWORD}</password>
                                     </datasource>
                                 </datasources>
                             </configuration>
+
+                            <deployables>
+                                <deployable>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>${project.artifactId}</artifactId>
+                                    <type>war</type>
+                                    <properties>
+                                        <context>/</context>
+                                    </properties>
+                                </deployable>
+                            </deployables>
                         </configuration>
                     </plugin>
                 </plugins>
