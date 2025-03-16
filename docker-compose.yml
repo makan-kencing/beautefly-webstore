@@ -7,24 +7,18 @@ services:
             POSTGRES_USER: ${POSTGRES_USER}
             POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
         volumes:
-            -   ./pg_data:/var/lib/postgresql/data
+            - ./pg_data:/var/lib/postgresql/data
         ports:
             - "${POSTGRES_PORT}:5432"
-    glassfish:
+    web:
         build: .
-        container_name: ${GLASSFISH_CONTAINER_NAME-glassfish}
-        volumes:
-            - ./deploy/glassfish_init:/opt/glassfish7/custom:ro
+        container_name: web
         environment:
-            AS_ADMIN_MASTERPASSWORD: ${AS_ADMIN_MASTERPASSWORD}
-            AS_ADMIN_PASSWORD: ${AS_ADMIN_PASSWORD}
-
-            POSTGRES_CONTAINER_NAME: ${POSTGRES_CONTAINER_NAME-postgres}
+            POSTGRES_HOST: ${POSTGRES_CONTAINER_NAME-postgres}
             POSTGRES_DB: ${POSTGRES_DB}
             POSTGRES_USER: ${POSTGRES_USER}
             POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-
-            JTA_DATA_SOURCE: ${JTA_DATA_SOURCE}
+            GLASSFISH_ADMIN_PASSWORD: ${GLASSFISH_ADMIN_PASSWORD}
         ports:
             - "8080:8080"
             - "4848:4848"
