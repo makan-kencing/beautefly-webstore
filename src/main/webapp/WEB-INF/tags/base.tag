@@ -13,6 +13,7 @@
     <title>Le Beautéfly | ${pageTitle}</title>
 
     <link rel="" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
     <jsp:invoke fragment="header"/>
