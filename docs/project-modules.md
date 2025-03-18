@@ -43,7 +43,7 @@ Project Modules Overview
                         <li>Products purchased</li>
                         <li>Shipping address</li>
                         <li>Ordered date</li>
-                        <li>Total paid</li>
+                        <li>Payment details</li>
                     </ul>
                 </li>
                 <li>Show order status
@@ -65,7 +65,7 @@ Project Modules Overview
         </td>
     </tr>
     <tr>
-        <td rowspan="3">Security</td>
+        <td rowspan="4">Security</td>
         <td>Account Registration</td>
         <td>
             <ul>
@@ -83,6 +83,15 @@ Project Modules Overview
                 <li>Form-based login</li>
                 <li>Remember me feature (optional)</li>
                 <li>2FA (optional)</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Account Recovery</td>
+        <td>
+            <ul>
+                <li>Creating password recovery link with expiry time</li>
+                <li>Sending password reset link with email</li>
             </ul>
         </td>
     </tr>
@@ -184,26 +193,57 @@ Project Modules Overview
     </tr>
     <tr>
         <td rowspan="2">Promotion</td>
-        <td>Promotion campaign</td>
+        <td>Promotion</td>
         <td>
             <ul>
                 <li>Products with discounted price for limited time</li>
                 <li>Promotion placement in home page, header, etc.</li>
+                <li>Apply discounted price on promoted products.</li>
+                <li>Applied based on conditions (optional)
+                    <ul>
+                        <li>Registered only</li>
+                        <li>Minimum quantity</li>
+                    </ul>
+                </li>
             </ul>
         </td>
     </tr>
     <tr>
-        <td>Voucher</td>
+        <td>Promotion Management</td>
         <td>
             <ul>
-                TODO:
-                <li>Distributed to users</li>
-                <li>Has expiration</li>
+                <li>Create / editing promotion details</li>
+                <li>Associating products with promotion with discounted price</li>
             </ul>
         </td>
     </tr>
     <tr>
-        <td rowspan="5">Admin</td>
+        <td rowspan="2">File</td>
+        <td>File Upload</td>
+        <td>
+            <ul>
+                <li>Allow user / staff to upload images</li>
+                <li>Enforce file size limit and extensions</li>
+                <li>Associate uploaded file with entities in database
+                    <ul>
+                        <li>product images</li>
+                    </ul>
+                </li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>File Storage</td>
+        <td>
+            <ul>
+                <li>Saves user uploaded file. (probably filesystem)</li>
+                <li>Expose the file to public access in a convenient manner</li>
+                <li>Cleanup of images not used (optional)</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td rowspan="4">Admin</td>
         <td>Admin Panel</td>
         <td>
             <ul>
@@ -221,17 +261,10 @@ Project Modules Overview
         </td>
     </tr>
     <tr>
-        <td>Customer Account Management</td>
+        <td>Users Account Management</td>
         <td>
             <ul>
                 <li>Add & edit & remove customer accounts</li>
-            </ul>
-        </td>
-    </tr>
-    <tr>
-        <td>Staff Account Management</td>
-        <td>
-            <ul>
                 <li>Add & edit & remove staff accounts</li>
             </ul>
         </td>
