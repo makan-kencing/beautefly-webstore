@@ -10,7 +10,7 @@ Project Modules Overview
         <th>Scope</th>
     </tr>
     <tr>
-        <td rowspan="3">Account</td>
+        <td rowspan="1">Account</td>
         <td>Account Management</td>
         <td>
             <ul>
@@ -21,6 +21,7 @@ Project Modules Overview
         </td>
     </tr>
     <tr>
+        <td rowspan="2">Order</td>
         <td>Cart</td>
         <td>
             <ul>
@@ -59,50 +60,6 @@ Project Modules Overview
                         <li>Shipped</li>
                         <li>Out for delivery</li>
                         <li>Delivered</li>
-                    </ul>
-                </li>
-            </ul>
-        </td>
-    </tr>
-    <tr>
-        <td rowspan="4">Security</td>
-        <td>Account Registration</td>
-        <td>
-            <ul>
-                <li>Minimum password requirements (12 chars, 1 capital and lowercase min)</li>
-                <li>Client side input validation</li>
-                <li>Server side input validation</li>
-                <li>Password hashing</li>
-            </ul>
-        </td>
-    </tr>
-    <tr>
-        <td>Account Login</td>
-        <td>
-            <ul>
-                <li>Form-based login</li>
-                <li>Remember me feature (optional)</li>
-                <li>2FA (optional)</li>
-            </ul>
-        </td>
-    </tr>
-    <tr>
-        <td>Account Recovery</td>
-        <td>
-            <ul>
-                <li>Creating password recovery link with expiry time</li>
-                <li>Sending password reset link with email</li>
-            </ul>
-        </td>
-    </tr>
-    <tr>
-        <td>Role</td>
-        <td>
-            <ul>
-                <li>Role-based distinction for users
-                    <ul>
-                        <li>User</li>
-                        <li>Staff</li>
                     </ul>
                 </li>
             </ul>
@@ -214,6 +171,50 @@ Project Modules Overview
             <ul>
                 <li>Create / editing promotion details</li>
                 <li>Associating products with promotion with discounted price</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td rowspan="4">Security</td>
+        <td>Account Registration</td>
+        <td>
+            <ul>
+                <li>Minimum password requirements (12 chars, 1 capital and lowercase min)</li>
+                <li>Client side input validation</li>
+                <li>Server side input validation</li>
+                <li>Password hashing</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Account Login</td>
+        <td>
+            <ul>
+                <li>Form-based login</li>
+                <li>Remember me feature (optional)</li>
+                <li>2FA (optional)</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Account Recovery</td>
+        <td>
+            <ul>
+                <li>Creating password recovery link with expiry time</li>
+                <li>Sending password reset link with email</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Role</td>
+        <td>
+            <ul>
+                <li>Role-based distinction for users
+                    <ul>
+                        <li>User</li>
+                        <li>Staff</li>
+                    </ul>
+                </li>
             </ul>
         </td>
     </tr>
