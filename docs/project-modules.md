@@ -11,7 +11,7 @@ Project Modules Overview
     </tr>
     <tr>
         <td rowspan="3">Account</td>
-        <td>Account Management 🟡</td>
+        <td>Account Management</td>
         <td>
             <ul>
                 <li>Manage username & email & password</li>
@@ -21,7 +21,7 @@ Project Modules Overview
         </td>
     </tr>
     <tr>
-        <td>Cart 🟡</td>
+        <td>Cart</td>
         <td>
             <ul>
                 <li>Add & remove products from cart</li>
@@ -34,7 +34,7 @@ Project Modules Overview
         </td>
     </tr>
     <tr>
-        <td>Order 🔴</td>
+        <td>Order</td>
         <td>
             <ul>
                 <li>List order histories</li>
@@ -66,7 +66,7 @@ Project Modules Overview
     </tr>
     <tr>
         <td rowspan="3">Security</td>
-        <td>Account Registration 🟡</td>
+        <td>Account Registration</td>
         <td>
             <ul>
                 <li>Minimum password requirements (12 chars, 1 capital and lowercase min)</li>
@@ -77,7 +77,7 @@ Project Modules Overview
         </td>
     </tr>
     <tr>
-        <td>Account Login 🟡</td>
+        <td>Account Login</td>
         <td>
             <ul>
                 <li>Form-based login</li>
@@ -87,7 +87,7 @@ Project Modules Overview
         </td>
     </tr>
     <tr>
-        <td>Role 🟢</td>
+        <td>Role</td>
         <td>
             <ul>
                 <li>Role-based distinction for users
@@ -101,7 +101,7 @@ Project Modules Overview
     </tr>
     <tr>
         <td rowspan="3">Product</td>
-        <td>Product Information 🟡</td>
+        <td>Product Information</td>
         <td>
             <ul>
                 <li>View product information
@@ -120,7 +120,7 @@ Project Modules Overview
         </td>
     </tr>
     <tr>
-        <td>Searching 🟡</td>
+        <td>Searching</td>
         <td>
             <ul>
                 <li>Searching / filtering with:
@@ -137,7 +137,7 @@ Project Modules Overview
         </td>
     </tr>
     <tr>
-        <td>Rating 🟢</td>
+        <td>Rating</td>
         <td>
             <ul>
                 <li>Customer adds rating to products</li>
@@ -148,7 +148,7 @@ Project Modules Overview
     </tr>
     <tr>
         <td rowspan="2">Payment</td>
-        <td>Checkout 🟡</td>
+        <td>Checkout</td>
         <td>
             <ul>
                 <li>Choose shipping address</li>
@@ -172,7 +172,7 @@ Project Modules Overview
         </td>
     </tr>
     <tr>
-        <td>Payment processing 🟡</td>
+        <td>Payment processing</td>
         <td>
             <ul>
                 <li>Mock fake payment methods</li>
@@ -184,7 +184,7 @@ Project Modules Overview
     </tr>
     <tr>
         <td rowspan="2">Promotion</td>
-        <td>Promotion campaign 🟡</td>
+        <td>Promotion campaign</td>
         <td>
             <ul>
                 <li>Products with discounted price for limited time</li>
@@ -204,7 +204,7 @@ Project Modules Overview
     </tr>
     <tr>
         <td rowspan="5">Admin</td>
-        <td>Admin Panel 🟢</td>
+        <td>Admin Panel</td>
         <td>
             <ul>
                 <li>Dashboard for admin features</li>
@@ -213,7 +213,7 @@ Project Modules Overview
         </td>
     </tr>
     <tr>
-        <td>Product Management 🟢</td>
+        <td>Product Management</td>
         <td>
             <ul>
                 <li>Add & edit & remove product information</li>
@@ -221,7 +221,7 @@ Project Modules Overview
         </td>
     </tr>
     <tr>
-        <td>Customer Account Management 🟢</td>
+        <td>Customer Account Management</td>
         <td>
             <ul>
                 <li>Add & edit & remove customer accounts</li>
@@ -229,7 +229,7 @@ Project Modules Overview
         </td>
     </tr>
     <tr>
-        <td>Staff Account Management 🟢</td>
+        <td>Staff Account Management</td>
         <td>
             <ul>
                 <li>Add & edit & remove staff accounts</li>
@@ -237,7 +237,7 @@ Project Modules Overview
         </td>
     </tr>
     <tr>
-        <td>Reporting 🟡</td>
+        <td>Reporting</td>
         <td>
             <ul>
                 <li>Overview on business performances</li>
