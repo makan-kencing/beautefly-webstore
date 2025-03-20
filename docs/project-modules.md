@@ -295,7 +295,7 @@ Project Modules Overview
         <th>Scope</th>
     </tr>
     <tr>
-        <td rowspan="2">Page components</td>
+        <td rowspan="12">Webstore</td>
         <td>Header</td>
         <td>
             <ul>
@@ -305,6 +305,167 @@ Project Modules Overview
     </tr>
     <tr>
         <td>Footer</td>
+        <td>
+            <ul>
+                <li></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Home</td>
+        <td>
+            <ul>
+                <li></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Login / Register</td>
+        <td>
+            <ul>
+                <li></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Account</td>
+        <td>
+            <ul>
+                <li></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Order History</td>
+        <td>
+            <ul>
+                <li></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Order Details</td>
+        <td>
+            <ul>
+                <li></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Search</td>
+        <td>
+            <ul>
+                <li></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Product</td>
+        <td>
+            <ul>
+                <li></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Cart</td>
+        <td>
+            <ul>
+                <li></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Checkout</td>
+        <td>
+            <ul>
+                <li></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Checkout Complete</td>
+        <td>
+            <ul>
+                <li></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td rowspan="10">Admin</td>
+        <td>Header</td>
+        <td>
+            <ul>
+                <li></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Footer</td>
+        <td>
+            <ul>
+                <li></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Admin Dashboard</td>
+        <td>
+            <ul>
+                <li></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Report</td>
+        <td>
+            <ul>
+                <li></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Product List</td>
+        <td>
+            <ul>
+                <li></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Product Details</td>
+        <td>
+            <ul>
+                <li></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Account List</td>
+        <td>
+            <ul>
+                <li></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Account Details</td>
+        <td>
+            <ul>
+                <li></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Promotion List</td>
+        <td>
+            <ul>
+                <li></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Promotion Details</td>
         <td>
             <ul>
                 <li></li>
