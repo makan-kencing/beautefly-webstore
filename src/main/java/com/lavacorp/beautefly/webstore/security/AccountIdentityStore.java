@@ -22,7 +22,6 @@ public class AccountIdentityStore implements IdentityStore {
     private AccountRepository accountRepository;
 
     @Inject
-    @Named("Argon2idPasswordHash")
     private PasswordHash passwordHash;
 
     public CredentialValidationResult validate(UsernamePasswordCredential credential) {
