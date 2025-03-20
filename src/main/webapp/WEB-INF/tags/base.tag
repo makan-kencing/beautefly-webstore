@@ -12,7 +12,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Le Beautéfly | ${pageTitle}</title>
 
-    <link rel="" type="text/css">
+    <link href="${pageContext.request.contextPath}/static/css/output.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
