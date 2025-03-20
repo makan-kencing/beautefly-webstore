@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Deploy with Local Glassfish" type="GlassfishConfiguration" factoryName="Local" APPLICATION_SERVER_NAME="GlassFish 7.0.22" ALTERNATIVE_JRE_ENABLED="false">
+  <configuration default="false" name="Develop with Local Glassfish" type="GlassfishConfiguration" factoryName="Local" APPLICATION_SERVER_NAME="GlassFish 7.0.22" ALTERNATIVE_JRE_ENABLED="false">
     <option name="OPEN_IN_BROWSER" value="false" />
     <option name="UPDATING_POLICY" value="restart-server" />
     <deployment>
@@ -78,8 +78,6 @@
     </ConfigurationWrapper>
     <method v="2">
       <option name="RunConfigurationTask" enabled="true" run_configuration_name="Run Database" run_configuration_type="docker-deploy" />
-      <option name="RunConfigurationTask" enabled="true" run_configuration_name="npm build" run_configuration_type="js.build_tools.npm" />
-      <option name="RunConfigurationTask" enabled="true" run_configuration_name="build" run_configuration_type="js.build_tools.npm" />
       <option name="Make" enabled="true" />
       <option name="BuildArtifacts" enabled="true">
         <artifact name="beautefly-webstore:war exploded" />
