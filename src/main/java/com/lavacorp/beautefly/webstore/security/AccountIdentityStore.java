@@ -14,6 +14,8 @@ import org.hibernate.Hibernate;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static jakarta.security.enterprise.identitystore.CredentialValidationResult.INVALID_RESULT;
+
 @ApplicationScoped
 public class AccountIdentityStore implements IdentityStore {
     @Inject
@@ -28,7 +30,7 @@ public class AccountIdentityStore implements IdentityStore {
         var account = accountRepository.findByEmail(credential.getCaller());
 
         if (account == null)
-            return CredentialValidationResult.INVALID_RESULT;
+            return INVALID_RESULT;
 
         if (passwordHash.verify(
                 credential.getPasswordAsString().toCharArray(),
@@ -42,7 +44,7 @@ public class AccountIdentityStore implements IdentityStore {
                             .collect(Collectors.toSet())
             );
 
-        return CredentialValidationResult.INVALID_RESULT;
+        return INVALID_RESULT;
     }
 
     @Override
