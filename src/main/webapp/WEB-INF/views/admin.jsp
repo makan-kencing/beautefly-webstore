@@ -21,7 +21,7 @@
 
     <jsp:body>
         <div style="display: flex; flex-flow: column; align-items: center;">
-            Admin stuff
+            Hello ${pageContext.request.userPrincipal.name}
         </div>
     </jsp:body>
 </t:base>
