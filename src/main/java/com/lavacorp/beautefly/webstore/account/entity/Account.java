@@ -46,20 +46,20 @@ public class Account implements Serializable {
     private LocalDate dob;
 
     @OneToMany(mappedBy = Address_.ACCOUNT)
-    private Set<Address> addresses;
+    private transient Set<Address> addresses;
 
     @Nullable
     @OneToOne
     private Address defaultAddress;
 
     @OneToMany(mappedBy = CartProduct_.ACCOUNT)
-    private Set<CartProduct> cart;
+    private transient Set<CartProduct> cart;
 
     @OneToMany(mappedBy = WishlistProduct_.ACCOUNT)
-    private Set<WishlistProduct> wishlist;
+    private transient Set<WishlistProduct> wishlist;
 
     @OneToMany(mappedBy = SalesOrder_.ACCOUNT)
-    private Set<SalesOrder> orders;
+    private transient Set<SalesOrder> orders;
 
     public int getAge() {
         return (int) (Duration.between(LocalDate.now(), dob).toDays() / 365);
