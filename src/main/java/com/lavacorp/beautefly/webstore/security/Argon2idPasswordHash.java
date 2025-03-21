@@ -1,19 +1,16 @@
 package com.lavacorp.beautefly.webstore.security;
 
-import jakarta.annotation.Priority;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.inject.Alternative;
+import jakarta.enterprise.inject.Default;
+import jakarta.inject.Named;
 import jakarta.security.enterprise.identitystore.PasswordHash;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 
 import java.util.Arrays;
 import java.util.Map;
 
-import static jakarta.interceptor.Interceptor.Priority.APPLICATION;
-
-@Alternative
-@Priority(APPLICATION)
 @ApplicationScoped
+@Named("Argon2idPasswordHash")
 public class Argon2idPasswordHash implements PasswordHash {
     private static final int SALT_LENGTH = 16;
     private static final int ITERATIONS = 2;
