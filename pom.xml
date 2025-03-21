@@ -26,7 +26,9 @@
         <jakarta-mvc.version>2.1.0</jakarta-mvc.version>
 
         <glassfish-jaxb-bom.version>4.0.5</glassfish-jaxb-bom.version>
+        <glassfish-jstl.version>3.0.1</glassfish-jstl.version>
         <jboss-weld.version>5.1.5.Final</jboss-weld.version>
+
         <hibernate-orm.version>6.6.9.Final</hibernate-orm.version>
         <hibernate-validator.version>8.0.2.Final</hibernate-validator.version>
         <commons-logging.version>1.2</commons-logging.version>
@@ -100,6 +102,12 @@
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+            <version>${glassfish-jstl.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
