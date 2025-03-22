@@ -1,6 +1,7 @@
 <%@tag description="Base page template" pageEncoding="UTF-8" %>
 <%@attribute name="header" fragment="true" %>
 <%@attribute name="footer" fragment="true" %>
+<%@attribute name="includeHead" fragment="true" %>
 <%@attribute name="pageTitle" required="true" type="java.lang.String" %>
 
 <!doctype html>
@@ -14,6 +15,8 @@
 
     <link href="${pageContext.request.contextPath}/static/css/output.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <jsp:invoke fragment="includeHead"/>
 </head>
 <body>
     <jsp:invoke fragment="header"/>
