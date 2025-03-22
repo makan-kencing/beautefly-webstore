@@ -3,7 +3,6 @@
     <option name="OPEN_IN_BROWSER" value="false" />
     <option name="UPDATE_ON_FRAME_DEACTIVATION" value="true" />
     <option name="UPDATE_CLASSES_ON_FRAME_DEACTIVATION" value="true" />
-    <option name="UPDATING_POLICY" value="restart-server" />
     <deployment>
       <artifact name="beautefly-webstore:war exploded">
         <settings>
