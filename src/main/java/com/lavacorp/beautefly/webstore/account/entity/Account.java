@@ -4,6 +4,8 @@ import com.lavacorp.beautefly.webstore.cart.entity.CartProduct;
 import com.lavacorp.beautefly.webstore.cart.entity.CartProduct_;
 import com.lavacorp.beautefly.webstore.order.entity.SalesOrder;
 import com.lavacorp.beautefly.webstore.order.entity.SalesOrder_;
+import com.lavacorp.beautefly.webstore.security.entity.Credential;
+import com.lavacorp.beautefly.webstore.security.entity.Credential_;
 import com.lavacorp.beautefly.webstore.wishlist.entity.WishlistProduct;
 import com.lavacorp.beautefly.webstore.wishlist.entity.WishlistProduct_;
 import jakarta.annotation.Nullable;
@@ -27,10 +29,6 @@ public class Account implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Enumerated(EnumType.STRING)
-    private Set<Role> roles = Set.of(Role.USER);
-
     @NotBlank
     private String username;
 
@@ -39,8 +37,8 @@ public class Account implements Serializable {
     @NaturalId
     private String email;
 
-    @NotNull
-    private String password;
+    @OneToOne(optional = false, mappedBy = Credential_.ACCOUNT)
+    private Credential credential;
 
     @Past
     private LocalDate dob;
@@ -63,9 +61,5 @@ public class Account implements Serializable {
 
     public int getAge() {
         return (int) (Duration.between(LocalDate.now(), dob).toDays() / 365);
-    }
-
-    public enum Role {
-        USER, ADMIN, STAFF
     }
 }
