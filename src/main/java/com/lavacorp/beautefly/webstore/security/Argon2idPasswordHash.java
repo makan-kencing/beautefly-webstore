@@ -1,7 +1,6 @@
 package com.lavacorp.beautefly.webstore.security;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.inject.Default;
 import jakarta.inject.Named;
 import jakarta.security.enterprise.identitystore.PasswordHash;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
@@ -18,7 +17,7 @@ public class Argon2idPasswordHash implements PasswordHash {
     private static final int HASH_LENGTH = 32;
     private static final int PARALLELISM = 1;
 
-    private Argon2PasswordEncoder encoder = new Argon2PasswordEncoder(
+    private final Argon2PasswordEncoder encoder = new Argon2PasswordEncoder(
             SALT_LENGTH,
             HASH_LENGTH,
             PARALLELISM,
