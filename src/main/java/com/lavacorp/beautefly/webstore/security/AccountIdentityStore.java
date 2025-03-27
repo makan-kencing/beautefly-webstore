@@ -9,10 +9,8 @@ import jakarta.security.enterprise.identitystore.CredentialValidationResult;
 import jakarta.security.enterprise.identitystore.IdentityStore;
 import jakarta.security.enterprise.identitystore.PasswordHash;
 import jakarta.transaction.Transactional;
-import org.hibernate.Hibernate;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static jakarta.security.enterprise.identitystore.CredentialValidationResult.INVALID_RESULT;
 
@@ -25,6 +23,8 @@ public class AccountIdentityStore implements IdentityStore {
     @Named("Argon2idPasswordHash")
     private PasswordHash passwordHash;
 
+    @SuppressWarnings("unused")
+    @Transactional
     public CredentialValidationResult validate(UsernamePasswordCredential credential) {
         // TODO: redo logic to prevent timing attacks
         var account = accountRepository.findByEmail(credential.getCaller());
@@ -34,29 +34,24 @@ public class AccountIdentityStore implements IdentityStore {
 
         if (passwordHash.verify(
                 credential.getPasswordAsString().toCharArray(),
-                account.getPassword()
+                account.getCredential().getPassword()
         ))
             return new CredentialValidationResult(
                     credential.getCaller(),
-                    account.getRoles()
-                            .stream()
-                            .map(Enum::name)
-                            .collect(Collectors.toSet())
+                    account.getCredential().getRolesAsString()
             );
 
         return INVALID_RESULT;
     }
 
     @Override
+    @Transactional
     public Set<String> getCallerGroups(CredentialValidationResult validationResult) {
         var account = accountRepository.findByEmail(validationResult.getCallerPrincipal().getName());
 
         if (account == null)
             return null;
 
-        return account.getRoles()
-                .stream()
-                .map(Enum::name)
-                .collect(Collectors.toSet());
+        return account.getCredential().getRolesAsString();
     }
 }

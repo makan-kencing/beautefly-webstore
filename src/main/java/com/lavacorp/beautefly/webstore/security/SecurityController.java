@@ -4,6 +4,7 @@ import com.lavacorp.beautefly.webstore.account.AccountRepository;
 import com.lavacorp.beautefly.webstore.account.dto.AccountLoginDTO;
 import com.lavacorp.beautefly.webstore.account.dto.AccountRegisterDTO;
 import com.lavacorp.beautefly.webstore.account.entity.Account;
+import com.lavacorp.beautefly.webstore.security.entity.Credential;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -64,13 +65,14 @@ public class SecurityController {
     public Response register(AccountRegisterDTO registerAccount) {
         try {
             var account = new Account();
+            var credential = account.getCredential();
 
             account.setUsername(registerAccount.getUsername());
             account.setEmail(registerAccount.getEmail());
-            account.setPassword(passwordHash.generate(registerAccount.getPassword().toCharArray()));
             account.setDob(registerAccount.getDob());
 
-            account.setRoles(Set.of(Account.Role.USER));
+            credential.setPassword(passwordHash.generate(registerAccount.getPassword().toCharArray()));
+            credential.setRoles(Set.of(Credential.Role.USER));
 
             accountRepository.insert(account);
 
