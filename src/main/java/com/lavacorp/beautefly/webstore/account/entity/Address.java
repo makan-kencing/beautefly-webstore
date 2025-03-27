@@ -2,11 +2,13 @@ package com.lavacorp.beautefly.webstore.account.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 
-@Data
+@Getter
+@Setter
 @Entity
 public class Address implements Serializable {
     @Id

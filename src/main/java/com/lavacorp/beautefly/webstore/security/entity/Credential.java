@@ -3,12 +3,14 @@ package com.lavacorp.beautefly.webstore.security.entity;
 import com.lavacorp.beautefly.webstore.account.entity.Account;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Data
+@Getter
+@Setter
 @Entity
 public class Credential {
     @Id

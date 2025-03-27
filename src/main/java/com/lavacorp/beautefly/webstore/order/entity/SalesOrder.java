@@ -6,7 +6,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.PositiveOrZero;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.CurrentTimestamp;
 
 import java.io.Serializable;
@@ -14,7 +16,8 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
 public class SalesOrder implements Serializable {
     @Id
@@ -48,6 +51,7 @@ public class SalesOrder implements Serializable {
     private BigDecimal discountAmount;
 
     @OneToMany(mappedBy = SalesOrderProduct_.ORDER)
+    @ToString.Exclude
     private Set<SalesOrderProduct> orderedProducts;
 
     public BigDecimal getGrossAmount() {

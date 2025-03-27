@@ -4,7 +4,9 @@ import com.lavacorp.beautefly.webstore.promotion.entity.PromotionProduct;
 import com.lavacorp.beautefly.webstore.promotion.entity.PromotionProduct_;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -13,7 +15,8 @@ import java.util.Set;
 
 import static jakarta.persistence.FetchType.LAZY;
 
-@Data
+@Getter
+@Setter
 @Entity
 public class Product implements Serializable {
     @Id
@@ -50,5 +53,6 @@ public class Product implements Serializable {
 
     // TODO: filter only within period
     @OneToMany(mappedBy = PromotionProduct_.PRODUCT, fetch = LAZY)
+    @ToString.Exclude
     private Set<PromotionProduct> promotedProduct;
 }

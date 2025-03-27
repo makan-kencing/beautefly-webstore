@@ -14,7 +14,9 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.NaturalId;
 
 import java.io.Serializable;
@@ -24,7 +26,8 @@ import java.util.Set;
 
 import static jakarta.persistence.FetchType.LAZY;
 
-@Data
+@Getter
+@Setter
 @Entity
 public class Account implements Serializable {
     @Id
@@ -46,19 +49,24 @@ public class Account implements Serializable {
     private LocalDate dob;
 
     @OneToMany(mappedBy = Address_.ACCOUNT, fetch = LAZY)
+    @ToString.Exclude
     private transient Set<Address> addresses;
 
     @Nullable
     @OneToOne(fetch = LAZY)
+    @ToString.Exclude
     private Address defaultAddress;
 
     @OneToMany(mappedBy = CartProduct_.ACCOUNT, fetch = LAZY)
+    @ToString.Exclude
     private transient Set<CartProduct> cart;
 
     @OneToMany(mappedBy = WishlistProduct_.ACCOUNT, fetch = LAZY)
+    @ToString.Exclude
     private transient Set<WishlistProduct> wishlist;
 
     @OneToMany(mappedBy = SalesOrder_.ACCOUNT, fetch = LAZY)
+    @ToString.Exclude
     private transient Set<SalesOrder> orders;
 
     public int getAge() {

@@ -5,7 +5,9 @@ import com.lavacorp.beautefly.webstore.product.entity.Product;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.validator.constraints.Range;
 
@@ -13,7 +15,8 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
 public class Rating implements Serializable {
     @Id
@@ -37,5 +40,6 @@ public class Rating implements Serializable {
     private Instant ratedOn;
 
     @OneToMany(mappedBy = Reply_.ORIGINAL)
+    @ToString.Exclude
     private Set<Reply> replies;
 }

@@ -6,13 +6,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.PastOrPresent;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CurrentTimestamp;
 
 import java.io.Serializable;
 import java.time.Instant;
 
-@Data
+@Getter
+@Setter
 @Entity
 public class WishlistProduct implements Serializable {
     @Id

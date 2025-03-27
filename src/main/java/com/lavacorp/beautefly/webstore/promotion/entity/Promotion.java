@@ -3,12 +3,15 @@ package com.lavacorp.beautefly.webstore.promotion.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
 public class Promotion {
     @Id
@@ -31,5 +34,6 @@ public class Promotion {
     private LocalDate endDate;
 
     @OneToMany(mappedBy = PromotionProduct_.PROMOTION)
+    @ToString.Exclude
     private Set<PromotionProduct> products;
 }
