@@ -6,13 +6,14 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
 @Setter
 @Entity
-public class Credential {
+public class Credential implements Serializable {
     @Id
     private int id;
 
