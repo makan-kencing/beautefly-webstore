@@ -1,5 +1,6 @@
-package com.lavacorp.beautefly.webstore.account;
+package com.lavacorp.beautefly.webstore.security;
 
+import com.lavacorp.beautefly.webstore.account.AccountRepository;
 import com.lavacorp.beautefly.webstore.account.dto.AccountLoginDTO;
 import com.lavacorp.beautefly.webstore.account.dto.AccountRegisterDTO;
 import com.lavacorp.beautefly.webstore.account.entity.Account;
@@ -25,7 +26,7 @@ import java.util.Set;
 @Path("/account")
 @ApplicationScoped
 @Transactional
-public class AccountController {
+public class SecurityController {
     @Inject
     private AccountRepository accountRepository;
 
@@ -34,7 +35,7 @@ public class AccountController {
     private PasswordHash passwordHash;
 
     @POST
-    @Path("/auth")
+    @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response login(AccountLoginDTO loginAccount, @Context HttpServletRequest req) {
         try {
@@ -47,7 +48,7 @@ public class AccountController {
 
     @DELETE
     @RolesAllowed({"USER"})
-    @Path("/auth")
+    @Path("/logout")
     public Response logout(@Context HttpServletRequest req) {
         try {
             req.logout();
@@ -59,6 +60,7 @@ public class AccountController {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/register")
     public Response register(AccountRegisterDTO registerAccount) {
         try {
             var account = new Account();
