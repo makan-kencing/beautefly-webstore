@@ -21,7 +21,7 @@ public class Credential {
     @NotBlank
     private String password;
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection
     @Enumerated(EnumType.STRING)
     private Set<Role> roles = Set.of(
             Role.USER

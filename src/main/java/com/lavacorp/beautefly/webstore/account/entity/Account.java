@@ -22,6 +22,8 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.util.Set;
 
+import static jakarta.persistence.FetchType.LAZY;
+
 @Data
 @Entity
 public class Account implements Serializable {
@@ -43,20 +45,20 @@ public class Account implements Serializable {
     @Past
     private LocalDate dob;
 
-    @OneToMany(mappedBy = Address_.ACCOUNT)
+    @OneToMany(mappedBy = Address_.ACCOUNT, fetch = LAZY)
     private transient Set<Address> addresses;
 
     @Nullable
-    @OneToOne
+    @OneToOne(fetch = LAZY)
     private Address defaultAddress;
 
-    @OneToMany(mappedBy = CartProduct_.ACCOUNT)
+    @OneToMany(mappedBy = CartProduct_.ACCOUNT, fetch = LAZY)
     private transient Set<CartProduct> cart;
 
-    @OneToMany(mappedBy = WishlistProduct_.ACCOUNT)
+    @OneToMany(mappedBy = WishlistProduct_.ACCOUNT, fetch = LAZY)
     private transient Set<WishlistProduct> wishlist;
 
-    @OneToMany(mappedBy = SalesOrder_.ACCOUNT)
+    @OneToMany(mappedBy = SalesOrder_.ACCOUNT, fetch = LAZY)
     private transient Set<SalesOrder> orders;
 
     public int getAge() {

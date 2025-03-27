@@ -5,12 +5,13 @@ import com.lavacorp.beautefly.webstore.promotion.entity.PromotionProduct_;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
-import org.hibernate.annotations.Filter;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
+
+import static jakarta.persistence.FetchType.LAZY;
 
 @Data
 @Entity
@@ -48,6 +49,6 @@ public class Product implements Serializable {
     private int stockCount;
 
     // TODO: filter only within period
-    @OneToMany(mappedBy = PromotionProduct_.PRODUCT)
+    @OneToMany(mappedBy = PromotionProduct_.PRODUCT, fetch = LAZY)
     private Set<PromotionProduct> promotedProduct;
 }
