@@ -12,13 +12,13 @@
 
                 <div class="space-y-1">
                     <label for="email" class="block font-bold">Email</label>
-                    <input type="email" name="j_username" id="email"
+                    <input type="email" name="j_username" id="email" required
                            class="w-full rounded-md border border-gray-500 p-1.5 text-gray-700 shadow">
                 </div>
 
                 <div class="mb-8 space-y-1">
                     <label for="password" class="block font-bold">Password</label>
-                    <input type="password" name="j_password" id="password"
+                    <input type="password" name="j_password" id="password" required
                            class="w-full rounded-md border border-gray-500 p-1.5 text-gray-700 shadow">
                 </div>
 
