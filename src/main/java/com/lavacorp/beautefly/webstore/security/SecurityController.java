@@ -35,10 +35,13 @@ public class SecurityController {
     @Named("Argon2idPasswordHash")
     private PasswordHash passwordHash;
 
+    @Context
+    private HttpServletRequest req;
+
     @POST
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response login(AccountLoginDTO loginAccount, @Context HttpServletRequest req) {
+    public Response login(AccountLoginDTO loginAccount) {
         try {
             req.login(loginAccount.getEmail(), loginAccount.getPassword());
         } catch (ServletException exc) {
@@ -50,7 +53,7 @@ public class SecurityController {
     @DELETE
     @RolesAllowed({"USER"})
     @Path("/logout")
-    public Response logout(@Context HttpServletRequest req) {
+    public Response logout() {
         try {
             req.logout();
         } catch (ServletException ignored) {
