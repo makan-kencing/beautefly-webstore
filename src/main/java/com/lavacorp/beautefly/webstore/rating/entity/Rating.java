@@ -40,6 +40,5 @@ public class Rating implements Serializable {
     private Instant ratedOn;
 
     @OneToMany(mappedBy = Reply_.ORIGINAL)
-    @ToString.Exclude
     private Set<Reply> replies;
 }

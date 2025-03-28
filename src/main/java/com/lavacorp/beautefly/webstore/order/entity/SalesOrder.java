@@ -51,7 +51,6 @@ public class SalesOrder implements Serializable {
     private BigDecimal discountAmount;
 
     @OneToMany(mappedBy = SalesOrderProduct_.ORDER)
-    @ToString.Exclude
     private Set<SalesOrderProduct> orderedProducts;
 
     public BigDecimal getGrossAmount() {

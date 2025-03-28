@@ -53,6 +53,5 @@ public class Product implements Serializable {
 
     // TODO: filter only within period
     @OneToMany(mappedBy = PromotionProduct_.PRODUCT, fetch = LAZY)
-    @ToString.Exclude
     private Set<PromotionProduct> promotedProduct;
 }

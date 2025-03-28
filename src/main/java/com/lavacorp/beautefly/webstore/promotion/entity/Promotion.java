@@ -34,6 +34,5 @@ public class Promotion {
     private LocalDate endDate;
 
     @OneToMany(mappedBy = PromotionProduct_.PROMOTION)
-    @ToString.Exclude
     private Set<PromotionProduct> products;
 }
