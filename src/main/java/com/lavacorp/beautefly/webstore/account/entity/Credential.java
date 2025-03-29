@@ -1,6 +1,5 @@
-package com.lavacorp.beautefly.webstore.security.entity;
+package com.lavacorp.beautefly.webstore.account.entity;
 
-import com.lavacorp.beautefly.webstore.account.entity.Account;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -10,21 +9,16 @@ import java.io.Serializable;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static jakarta.persistence.FetchType.EAGER;
+
 @Getter
 @Setter
-@Entity
+@Embeddable
 public class Credential implements Serializable {
-    @Id
-    private int id;
-
-    @OneToOne(optional = false)
-    @MapsId
-    private Account account;
-
     @NotBlank
     private String password;
 
-    @ElementCollection
+    @ElementCollection(fetch = EAGER)
     @Enumerated(EnumType.STRING)
     private Set<Role> roles = Set.of(
             Role.USER

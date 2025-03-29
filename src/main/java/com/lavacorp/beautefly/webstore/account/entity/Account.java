@@ -1,14 +1,9 @@
 package com.lavacorp.beautefly.webstore.account.entity;
 
-import com.lavacorp.beautefly.webstore.cart.entity.CartProduct;
-import com.lavacorp.beautefly.webstore.cart.entity.CartProduct_;
+import com.lavacorp.beautefly.webstore.cart.entity.Cart;
 import com.lavacorp.beautefly.webstore.order.entity.SalesOrder;
 import com.lavacorp.beautefly.webstore.order.entity.SalesOrder_;
-import com.lavacorp.beautefly.webstore.security.entity.Credential;
-import com.lavacorp.beautefly.webstore.security.entity.Credential_;
-import com.lavacorp.beautefly.webstore.wishlist.entity.WishlistProduct;
-import com.lavacorp.beautefly.webstore.wishlist.entity.WishlistProduct_;
-import jakarta.annotation.Nullable;
+import com.lavacorp.beautefly.webstore.wishlist.entity.Wishlist;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -16,7 +11,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.annotations.NaturalId;
 
 import java.io.Serializable;
@@ -42,27 +36,23 @@ public class Account implements Serializable {
     @NaturalId
     private String email;
 
-    @OneToOne(optional = false, mappedBy = Credential_.ACCOUNT)
-    private Credential credential;
-
     @Past
     private LocalDate dob;
 
-    @OneToMany(mappedBy = Address_.ACCOUNT, fetch = LAZY)
-    private transient Set<Address> addresses;
+    @Embedded
+    private Credential credential;
 
-    @Nullable
-    @OneToOne(fetch = LAZY)
-    private Address defaultAddress;
+    @Embedded
+    private AddressBook addressBook;
 
-    @OneToMany(mappedBy = CartProduct_.ACCOUNT, fetch = LAZY)
-    private transient Set<CartProduct> cart;
+    @Embedded
+    private Cart cart;
 
-    @OneToMany(mappedBy = WishlistProduct_.ACCOUNT, fetch = LAZY)
-    private transient Set<WishlistProduct> wishlist;
+    @Embedded
+    private Wishlist wishlist;
 
     @OneToMany(mappedBy = SalesOrder_.ACCOUNT, fetch = LAZY)
-    private transient Set<SalesOrder> orders;
+    private Set<SalesOrder> orders;
 
     public int getAge() {
         return (int) (Duration.between(LocalDate.now(), dob).toDays() / 365);
