@@ -4,7 +4,7 @@ import com.lavacorp.beautefly.webstore.account.AccountRepository;
 import com.lavacorp.beautefly.webstore.account.dto.AccountLoginDTO;
 import com.lavacorp.beautefly.webstore.account.dto.AccountRegisterDTO;
 import com.lavacorp.beautefly.webstore.account.entity.Account;
-import com.lavacorp.beautefly.webstore.security.entity.Credential;
+import com.lavacorp.beautefly.webstore.account.entity.Credential;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -21,8 +21,6 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.hibernate.exception.ConstraintViolationException;
-
-import java.util.Set;
 
 @Path("/account")
 @ApplicationScoped
@@ -68,16 +66,16 @@ public class SecurityController {
     public Response register(AccountRegisterDTO registerAccount) {
         try {
             var account = new Account();
-            var credential = account.getCredential();
+            var credential = new Credential();
 
             account.setUsername(registerAccount.getUsername());
             account.setEmail(registerAccount.getEmail());
             account.setDob(registerAccount.getDob());
 
             credential.setPassword(passwordHash.generate(registerAccount.getPassword().toCharArray()));
-            credential.setRoles(Set.of(Credential.Role.USER));
+            account.setCredential(credential);
 
-            accountRepository.insert(account);
+            accountRepository.register(account);
 
             return Response.status(Response.Status.CREATED).build();
         } catch (ConstraintViolationException exc) {
