@@ -9,8 +9,8 @@ import jakarta.ws.rs.core.Application;
 
 @FormAuthenticationMechanismDefinition(
         loginToContinue = @LoginToContinue(
-                loginPage = "/login.jsp",
-                errorPage = "/login.jsp?error"
+                loginPage = "/login",
+                errorPage = "/login?error"
         )
 )
 @DeclareRoles({"USER", "STAFF", "ADMIN"})
