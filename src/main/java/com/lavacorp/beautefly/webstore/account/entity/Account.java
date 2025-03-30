@@ -23,6 +23,10 @@ import static jakarta.persistence.FetchType.LAZY;
 @Getter
 @Setter
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Account.findByEmail", query = "select a from Account a where a.email = :email"),
+        @NamedQuery(name = "Account.findByUsername", query = "select a from Account a where a.username = :username")
+})
 public class Account implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
