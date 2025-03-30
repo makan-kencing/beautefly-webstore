@@ -5,7 +5,6 @@ import com.lavacorp.beautefly.webstore.account.dto.AccountLoginDTO;
 import com.lavacorp.beautefly.webstore.account.dto.AccountRegisterDTO;
 import com.lavacorp.beautefly.webstore.account.entity.Account;
 import com.lavacorp.beautefly.webstore.account.entity.Credential;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -13,10 +12,7 @@ import jakarta.security.enterprise.identitystore.PasswordHash;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -25,6 +21,8 @@ import org.hibernate.exception.ConstraintViolationException;
 @Path("/account")
 @ApplicationScoped
 @Transactional
+@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_FORM_URLENCODED})
+@Produces(MediaType.APPLICATION_JSON)
 public class SecurityController {
     @Inject
     private AccountRepository accountRepository;
@@ -38,7 +36,6 @@ public class SecurityController {
 
     @POST
     @Path("/login")
-    @Consumes(MediaType.APPLICATION_JSON)
     public Response login(AccountLoginDTO loginAccount) {
         try {
             req.login(loginAccount.getEmail(), loginAccount.getPassword());
@@ -48,8 +45,7 @@ public class SecurityController {
         return Response.ok().build();
     }
 
-    @DELETE
-    @RolesAllowed({"USER"})
+    @GET
     @Path("/logout")
     public Response logout() {
         try {
@@ -61,7 +57,6 @@ public class SecurityController {
     }
 
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
     @Path("/register")
     public Response register(AccountRegisterDTO registerAccount) {
         try {
