@@ -21,11 +21,7 @@ import org.hibernate.exception.ConstraintViolationException;
 @Path("/account")
 @ApplicationScoped
 @Transactional
-@Consumes({
-        MediaType.APPLICATION_JSON,
-        MediaType.APPLICATION_FORM_URLENCODED,
-        MediaType.APPLICATION_FORM_URLENCODED + "; charset=UTF-8"
-})
+@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_FORM_URLENCODED})
 @Produces(MediaType.APPLICATION_JSON)
 public class SecurityController {
     @Inject
