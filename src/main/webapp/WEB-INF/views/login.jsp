@@ -42,7 +42,7 @@
 
             <hr class="border-gray-400">
 
-            <a href="${pageContext.request.contextPath}/register.jsp"
+            <a href="${pageContext.request.contextPath}/register"
                class="rounded-full border border-gray-400 text-center text-sm p-1.5 hover:bg-gray-100">
                 Create new account
             </a>
