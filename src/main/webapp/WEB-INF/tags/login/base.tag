@@ -1,4 +1,5 @@
 <%@tag description="Login page base template" pageEncoding="UTF-8" %>
+<%@attribute name="includeHead" fragment="true" %>
 <%@attribute name="pageTitle" required="true" type="java.lang.String" %>
 
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
@@ -11,6 +12,10 @@
 
     <jsp:attribute name="footer">
         <login:footer />
+    </jsp:attribute>
+
+    <jsp:attribute name="includeHead">
+        <jsp:invoke fragment="includeHead" />
     </jsp:attribute>
 
     <jsp:body>
