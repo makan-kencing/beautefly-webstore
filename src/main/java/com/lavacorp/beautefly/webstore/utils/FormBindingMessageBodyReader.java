@@ -30,8 +30,9 @@ public class FormBindingMessageBodyReader<T> implements MessageBodyReader<T> {
 
     @Override
     public boolean isReadable(final Class<?> type, final Type genericType, final Annotation[] annotations, final MediaType mediaType) {
-        return !type.isAssignableFrom(Form.class) && !type.isAssignableFrom(Collections.class)
-                && mediaType.equals(MediaType.APPLICATION_FORM_URLENCODED_TYPE);
+        if (type.isAssignableFrom(Form.class) || type.isAssignableFrom(Collections.class))
+            return false;
+        return mediaType.isCompatible(MediaType.APPLICATION_FORM_URLENCODED_TYPE);
     }
 
     @Override
