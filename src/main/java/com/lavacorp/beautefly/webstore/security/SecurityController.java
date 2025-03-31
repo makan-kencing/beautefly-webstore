@@ -1,8 +1,8 @@
 package com.lavacorp.beautefly.webstore.security;
 
 import com.lavacorp.beautefly.webstore.account.AccountRepository;
-import com.lavacorp.beautefly.webstore.account.dto.AccountLoginDTO;
-import com.lavacorp.beautefly.webstore.account.dto.AccountRegisterDTO;
+import com.lavacorp.beautefly.webstore.security.dto.AccountLoginDTO;
+import com.lavacorp.beautefly.webstore.security.dto.AccountRegisterDTO;
 import com.lavacorp.beautefly.webstore.account.entity.Account;
 import com.lavacorp.beautefly.webstore.account.entity.Credential;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -12,6 +12,7 @@ import jakarta.security.enterprise.identitystore.PasswordHash;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
@@ -36,9 +37,9 @@ public class SecurityController {
 
     @POST
     @Path("/login")
-    public Response login(AccountLoginDTO loginAccount) {
+    public Response login(@Valid AccountLoginDTO loginAccount) {
         try {
-            req.login(loginAccount.getEmail(), loginAccount.getPassword());
+            req.login(loginAccount.email(), loginAccount.password());
         } catch (ServletException exc) {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
@@ -58,16 +59,15 @@ public class SecurityController {
 
     @POST
     @Path("/register")
-    public Response register(AccountRegisterDTO registerAccount) {
+    public Response register(@Valid AccountRegisterDTO registerAccount) {
         try {
             var account = new Account();
             var credential = new Credential();
 
-            account.setUsername(registerAccount.getUsername());
-            account.setEmail(registerAccount.getEmail());
-            account.setDob(registerAccount.getDob());
+            account.setUsername(registerAccount.username());
+            account.setEmail(registerAccount.email());
 
-            credential.setPassword(passwordHash.generate(registerAccount.getPassword().toCharArray()));
+            credential.setPassword(passwordHash.generate(registerAccount.password().toCharArray()));
             account.setCredential(credential);
 
             accountRepository.register(account);
