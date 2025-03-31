@@ -1,5 +1,6 @@
 package com.lavacorp.beautefly.webstore.admin;
 
+import com.lavacorp.beautefly.webstore.admin.model.DashboardStats;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.HttpConstraint;

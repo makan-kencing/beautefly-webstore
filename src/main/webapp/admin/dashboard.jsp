@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="com.lavacorp.beautefly.webstore.admin.DashboardStats" %>
+<%@ page import="com.lavacorp.beautefly.webstore.admin.model.DashboardStats" %>
 
 <html>
 <head>
@@ -10,5 +10,7 @@
     <%
         DashboardStats stats = (DashboardStats) request.getAttribute("stats");
     %>
+    <%@ include file="adminNavigationBar.jsp" %>
+
 </body>
 </html>
