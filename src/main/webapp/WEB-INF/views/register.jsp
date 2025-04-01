@@ -49,17 +49,20 @@
                         <div class="form-field space-y-1">
                             <h3 class="font-bold">Your password must contain: </h3>
                             <ul>
-                                <li class="group flex items-center gap-2 data-passed:text-blue-300" data-strength-rule="lowercase">
+                                <li class="group flex items-center gap-2 data-passed:text-blue-300"
+                                    data-strength-rule="lowercase">
                                     <i class="fa-solid fa-circle-xmark group-data-passed:hidden!"></i>
                                     <i class="fa-solid fa-circle-check group-not-data-passed:hidden!"></i>
                                     at least 1 lowercase
                                 </li>
-                                <li class="group flex items-center gap-2 data-passed:text-blue-300" data-strength-rule="uppercase">
+                                <li class="group flex items-center gap-2 data-passed:text-blue-300"
+                                    data-strength-rule="uppercase">
                                     <i class="fa-solid fa-circle-xmark group-data-passed:hidden!"></i>
                                     <i class="fa-solid fa-circle-check group-not-data-passed:hidden!"></i>
                                     at least 1 uppercase
                                 </li>
-                                <li class="group flex items-center gap-2 data-passed:text-blue-300" data-strength-rule="min-length">
+                                <li class="group flex items-center gap-2 data-passed:text-blue-300"
+                                    data-strength-rule="min-length">
                                     <i class="fa-solid fa-circle-xmark group-data-passed:hidden!"></i>
                                     <i class="fa-solid fa-circle-check group-not-data-passed:hidden!"></i>
                                     minimum 8 characters
@@ -107,17 +110,6 @@
         </script>
 
         <script>
-            $('form').ajaxForm({
-                beforeSubmit: (formData, $form, options) => {
-                    return $form.valid();
-                },
-                success: (response, statusText, jqXHR, $form) => {
-                    window.location.replace('${pageContext.request.contextPath}/login');
-                },
-                error: (jqXHR, statusText, errorText, $form) => {
-                }
-            })
-            // .validate();
 
             function validateRule(password) {
                 switch (this.getAttribute('data-strength-rule')) {
@@ -130,7 +122,19 @@
                 }
             }
 
-            $('form input#password').on('input', function () {
+            function getReason() {
+                switch (this.getAttribute('data-strength-rule')) {
+                    case 'lowercase':
+                        return 'Password must contain at least 1 lowercase.'
+                    case 'uppercase':
+                        return 'Password must contain at least 1 uppercase.';
+                    case 'min-length':
+                        return 'Password must be at least 8 characters long.';
+                }
+            }
+
+            $passwordInput = $('form input#password');
+            $passwordInput.on('input', function () {
                 let $this = $(this);
 
                 let password = $this.val();
@@ -146,13 +150,22 @@
                         this.removeAttribute('data-passed');
                 });
 
+                let field = this
                 let $rules = $formField.find('[data-strength-rule]')
                 $rules.each(function () {
                     if (validateRule.call(this, password))
                         this.setAttribute('data-passed', '');
-                    else
+                    else {
                         this.removeAttribute('data-passed');
+                        field.setCustomValidity(getReason.call(this));
+                    }
                 });
+            });
+
+            $('form input#confirm-password').on('input', function () {
+                 this.setCustomValidity('');
+                 if (this.value !== $passwordInput.val())
+                     this.setCustomValidity('Passwords does not match.');
             });
 
             $('form button.show-password').mousedown(function () {
@@ -161,6 +174,14 @@
                 $(this).prev().prop("type", "password");
             }).mouseout(function () {
                 $(this).prev().prop("type", "password");
+            });
+
+            $('form').ajaxForm({
+                success: (response, statusText, jqXHR, $form) => {
+                    window.location.replace('${pageContext.request.contextPath}/login');
+                },
+                error: (jqXHR, statusText, errorText, $form) => {
+                }
             });
         </script>
     </jsp:body>
