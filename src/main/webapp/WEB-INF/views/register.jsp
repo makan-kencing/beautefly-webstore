@@ -116,7 +116,10 @@
         </script>
 
         <script>
+            $password = $('form input#password');
+            $confirmPassword = $('form input#confirm-password');
 
+            // this = password rule item
             function validateRule(password) {
                 switch (this.getAttribute('data-strength-rule')) {
                     case 'lowercase':
@@ -128,7 +131,8 @@
                 }
             }
 
-            function getReason() {
+            // this = password rule item
+            function getRuleReason() {
                 switch (this.getAttribute('data-strength-rule')) {
                     case 'lowercase':
                         return 'Password must contain at least 1 lowercase.'
@@ -139,40 +143,69 @@
                 }
             }
 
-            $passwordInput = $('form input#password');
-            $passwordInput.on('input', function () {
-                let $this = $(this);
+            // this = input
+            function validateField() {
+                switch (this.id) {
+                    case 'username':
+                        break;
+                    case 'email':
+                        break;
+                    case 'password':
+                        let password = this.value;
+                        let score = zxcvbnts.core.zxcvbn(password).score;  // 0 - 4
 
-                let password = $this.val();
-                let score = zxcvbnts.core.zxcvbn(password).score;  // 0 - 4
+                        let formField = this.closest('.form-field');
+                        let strengthBar = formField.querySelector('.strength-bar');
 
-                let $formField = $this.closest('.form-field');
+                        updateStrengthBar.call(strengthBar, score);
+                        updatePasswordRule.call(this);
 
-                let $strengthBar = $formField.find('.strength-bar');
-                $strengthBar.children().each(function (i, _) {
+                        $confirmPassword[0].setCustomValidity('');
+                        if (this.value !== $confirmPassword.val())
+                            $confirmPassword[0].setCustomValidity('Passwords does not match.');
+                        break;
+                    case 'confirm-password':
+                        this.setCustomValidity('');
+                        if (this.value !== $password.val())
+                            this.setCustomValidity('Passwords does not match.');
+                        break;
+                }
+                return this.validity.valid;
+            }
+
+            // this = form
+            function validateForm() {
+                return Array.from(this.querySelectorAll('input'))
+                    .map(input => validateField.call(input))
+                    .every(Boolean);
+            }
+
+            // this = strength bar
+            function updateStrengthBar(score) {
+                for (let [i, bar] of Array.from(this.children).entries())
                     if (i < score)
-                        this.setAttribute('data-passed', '');
+                        bar.setAttribute('data-passed', '');
                     else
-                        this.removeAttribute('data-passed');
-                });
+                        bar.removeAttribute('data-passed');
+            }
 
-                let field = this
-                let $rules = $formField.find('[data-strength-rule]')
-                $rules.each(function () {
-                    if (validateRule.call(this, password))
-                        this.setAttribute('data-passed', '');
-                    else {
-                        this.removeAttribute('data-passed');
-                        field.setCustomValidity(getReason.call(this));
+            // this = password input
+            function updatePasswordRule() {
+                let input = this;
+                let rules = this.closest('.form-field').querySelectorAll('[data-strength-rule]');
+                rules.forEach(function (rule) {
+                    if (validateRule.call(rule, input.value)) {
+                        rule.setAttribute('data-passed', '');
+                        input.setCustomValidity('');
+                    } else {
+                        rule.removeAttribute('data-passed');
+                        input.setCustomValidity(getRuleReason.call(rule));
                     }
                 });
-            });
+            }
 
-            $('form input#confirm-password').on('input', function () {
-                 this.setCustomValidity('');
-                 if (this.value !== $passwordInput.val())
-                     this.setCustomValidity('Passwords does not match.');
-            });
+            $password.on('input', validateField);
+            $confirmPassword.on('input', validateField);
 
             $('form .show-password').mousedown(function () {
                 $(this).prev().prop('type', 'text');
@@ -186,10 +219,13 @@
             });
 
             $('form').ajaxForm({
-                success: (response, statusText, jqXHR, $form) => {
+                beforeSubmit: (formData, $form, _options) => {
+                    return validateForm.call($form[0]);
+                },
+                success: (_response, _statusText, _jqXHR, _$form) => {
                     window.location.replace('${pageContext.request.contextPath}/login');
                 },
-                error: (jqXHR, statusText, errorText, $form) => {
+                error: (_jqXHR, _statusText, _errorText, _$form) => {
                 }
             });
         </script>
