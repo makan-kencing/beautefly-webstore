@@ -1,37 +1,42 @@
 package com.lavacorp.beautefly.webstore.admin;
 
-import com.lavacorp.beautefly.webstore.admin.model.UsersStats;
+import com.lavacorp.beautefly.webstore.account.entity.Account;
+import com.lavacorp.beautefly.webstore.account.entity.Credential;
 import jakarta.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @ApplicationScoped
 public class AdminUserDAO {
-    public List<UsersStats> getAllUsers() {
-        List<UsersStats> users = new ArrayList<>();
+    public List<Account> getAllUsers() {
+        List<Account> users = new ArrayList<>();
 
-        UsersStats u1 = new UsersStats();
-        u1.setUsername("Alexang0325");
-        u1.setFirstName("Ang");
-        u1.setLastName("Ru Seng");
+        //User 1
+        Account u1 = new Account();
+        u1.setUsername("alexang0325");
         u1.setEmail("alexang0325@gmail.com");
-        u1.setGroupId(1);
-        u1.setStaff(true);
-        u1.setSuperuser(false);
         u1.setActive(true);
+
+        Credential c1 = new Credential();
+        c1.setRoles(Set.of(Credential.Role.USER, Credential.Role.STAFF));
+        u1.setCredential(c1);
+
         users.add(u1);
 
-        UsersStats u2 = new UsersStats();
-        u2.setUsername("Mibo");
-        u2.setFirstName("Mi");
-        u2.setLastName("Bo");
-        u2.setEmail("mibo@gmail.com");
-        u2.setGroupId(1);
-        u2.setStaff(false);
-        u2.setSuperuser(false);
-        u2.setActive(false);
+        //User 2
+        Account u2 = new Account();
+        u2.setUsername("testadmin");
+        u2.setEmail("admin@example.com");
+        u2.setActive(true);
+
+        Credential c2 = new Credential();
+        c2.setRoles(Set.of(Credential.Role.USER, Credential.Role.ADMIN));
+        u2.setCredential(c2);
+
         users.add(u2);
 
         return users;
+
     }
 }

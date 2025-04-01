@@ -59,6 +59,8 @@ public class Account implements Serializable {
     @OneToMany(mappedBy = SalesOrder_.ACCOUNT, fetch = LAZY)
     private Set<SalesOrder> orders;
 
+    private boolean active;
+
     public int getAge() {
         return (int) (Duration.between(LocalDate.now(), dob).toDays() / 365);
     }

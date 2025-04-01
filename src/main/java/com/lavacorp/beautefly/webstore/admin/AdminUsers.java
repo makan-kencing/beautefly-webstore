@@ -1,6 +1,6 @@
 package com.lavacorp.beautefly.webstore.admin;
 
-import com.lavacorp.beautefly.webstore.admin.model.UsersStats;
+import com.lavacorp.beautefly.webstore.account.entity.Account;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -32,7 +32,7 @@ public class AdminUsers extends HttpServlet {
             }
         }
 
-        List<UsersStats> users = userDAO.getAllUsers();
+        List<Account> users = userDAO.getAllUsers();
 
         //Search Funtion
         if (search != null && !search.trim().isEmpty()) {
@@ -43,20 +43,11 @@ public class AdminUsers extends HttpServlet {
             );
         }
 
-        //Sort Function
-        if (sort != null) {
-            switch (sort) {
-                case "username" -> users.sort((a, b) -> a.getUsername().compareToIgnoreCase(b.getUsername()));
-                case "email" -> users.sort((a, b) -> a.getEmail().compareToIgnoreCase(b.getEmail()));
-                case "group" -> users.sort((a, b) -> Integer.compare(a.getGroupId(), b.getGroupId()));
-            }
-        }
-
         //Page Function
         int totalUsers = users.size();
         int fromIndex = Math.max((page - 1) * pageSize, 0);
         int toIndex = Math.min(fromIndex + pageSize, totalUsers);
-        List<UsersStats> paginated = users.subList(fromIndex, toIndex);
+        List<Account> paginated = users.subList(fromIndex, toIndex);
 
         request.setAttribute("users", paginated);
         request.setAttribute("currentPage", page);

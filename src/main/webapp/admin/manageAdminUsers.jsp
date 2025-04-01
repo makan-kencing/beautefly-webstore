@@ -1,44 +1,15 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.lavacorp.beautefly.webstore.admin.model.UsersStats" %>
 <%@ page import="com.lavacorp.beautefly.webstore.admin.model.DashboardStats" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="adminNavigationBar.jsp" %>
+<script src="https://cdn.tailwindcss.com"></script>
 
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>Users</title>
-    <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-        th {
-            background-color: #f3f3f3;
-        }
-        .status-yes {
-            background-color: #b2f2bb;
-            color: green;
-            font-weight: bold;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-        .status-no {
-            background-color: #ffa8a8;
-            color: red;
-            font-weight: bold;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-    </style>
 </head>
 <body>
 <h1>Admin Dashboard</h1>
@@ -66,32 +37,38 @@
     <button type="submit">Apply</button>
 </form>
 
-<table border="1">
+<table class="w-full mt-4 border-collapse text-sm">
+    <thead class="bg-gray-200 text-left">
     <tr>
-        <th>Username</th>
-        <th>First</th>
-        <th>Last</th>
-        <th>Email</th>
-        <th>Group</th>
-        <th>Staff</th>
-        <th>Superuser</th>
-        <th>Active</th>
+        <th class="p-2">Username</th>
+        <th class="p-2">Email</th>
+        <th class="p-2">Roles</th>
+        <th class="p-2">Active</th>
     </tr>
-    <%
-        List<UsersStats> users = (List<UsersStats>) request.getAttribute("users");
-        for (UsersStats u : users) {
-    %>
-    <tr>
-        <td><%= u.getUsername() %></td>
-        <td><%= u.getFirstName() %></td>
-        <td><%= u.getLastName() %></td>
-        <td><%= u.getEmail() %></td>
-        <td><%= u.getGroupId() %></td>
-        <td><%= u.isStaff() ? "YES" : "NO" %></td>
-        <td><%= u.isSuperuser() ? "YES" : "NO" %></td>
-        <td><%= u.isActive() ? "YES" : "NO" %></td>
-    </tr>
-    <% } %>
+    </thead>
+    <tbody>
+    <c:forEach var="user" items="${users}">
+        <tr class="border-b">
+            <td class="p-2">${user.username}</td>
+            <td class="p-2">${user.email}</td>
+            <td class="p-2">
+                <c:forEach var="role" items="${user.credential.roles}">
+                        <span class="px-2 py-1 text-white text-xs rounded-full mr-1
+                            ${role == 'ADMIN' ? 'bg-red-600' :
+                              role == 'STAFF' ? 'bg-blue-600' :
+                              role == 'USER' ? 'bg-green-600' : 'bg-gray-500'}">
+                                ${role}
+                        </span>
+                </c:forEach>
+            </td>
+            <td class="p-2">
+                    <span class="${user.active ? 'text-green-600' : 'text-red-600'} font-semibold">
+                            ${user.active ? 'YES' : 'NO'}
+                    </span>
+            </td>
+        </tr>
+    </c:forEach>
+    </tbody>
 </table>
 
 <%
