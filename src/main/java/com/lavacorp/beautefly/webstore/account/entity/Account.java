@@ -25,7 +25,8 @@ import static jakarta.persistence.FetchType.LAZY;
 @Entity
 @NamedQueries({
         @NamedQuery(name = "Account.findByEmail", query = "select a from Account a where a.email = :email"),
-        @NamedQuery(name = "Account.findByUsername", query = "select a from Account a where a.username = :username")
+        @NamedQuery(name = "Account.findByUsername", query = "select a from Account a where a.username = :username"),
+        @NamedQuery(name = "Account.findByUsernameLike", query = "select a from Account a where a.username ilike concat('%', :username, '%')"),
 })
 public class Account implements Serializable {
     @Id
