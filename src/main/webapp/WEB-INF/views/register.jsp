@@ -17,19 +17,19 @@
                       class="rounded-xl border border-gray-300 px-7 py-6 shadow min-w-90 space-y-4">
                     <h2 class="text-3xl font-bold">Register</h2>
 
-                    <div class="space-y-1">
+                    <div class="form-field space-y-1">
                         <label for="username" class="block font-bold">Username</label>
                         <input type="text" name="username" id="username" required
                                class="w-full rounded-md border border-gray-500 text-gray-700 shadow p-1.5">
                     </div>
 
-                    <div class="space-y-1">
+                    <div class="form-field space-y-1">
                         <label for="email" class="block font-bold">Email</label>
                         <input type="email" name="email" id="email" required
                                class="w-full rounded-md border border-gray-500 text-gray-700 shadow p-1.5">
                     </div>
 
-                    <div class="space-y-1">
+                    <div class="form-field space-y-1">
                         <label for="password" class="block font-bold">Password</label>
                         <div class="space-y-1">
                             <div class="flex items-center">
@@ -46,12 +46,24 @@
                             </div>
                         </div>
 
-                        <div>
+                        <div class="form-field space-y-1">
                             <h3 class="font-bold">Your password must contain: </h3>
                             <ul>
-                                <li>Should contain lowercase</li>
-                                <li>Should contain uppercase</li>
-                                <li>Minimum 8 characters</li>
+                                <li class="group flex items-center gap-2 data-passed:text-blue-300" data-strength-rule="lowercase">
+                                    <i class="fa-solid fa-circle-xmark group-data-passed:hidden!"></i>
+                                    <i class="fa-solid fa-circle-check group-not-data-passed:hidden!"></i>
+                                    at least 1 lowercase
+                                </li>
+                                <li class="group flex items-center gap-2 data-passed:text-blue-300" data-strength-rule="uppercase">
+                                    <i class="fa-solid fa-circle-xmark group-data-passed:hidden!"></i>
+                                    <i class="fa-solid fa-circle-check group-not-data-passed:hidden!"></i>
+                                    at least 1 uppercase
+                                </li>
+                                <li class="group flex items-center gap-2 data-passed:text-blue-300" data-strength-rule="min-length">
+                                    <i class="fa-solid fa-circle-xmark group-data-passed:hidden!"></i>
+                                    <i class="fa-solid fa-circle-check group-not-data-passed:hidden!"></i>
+                                    minimum 8 characters
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -107,20 +119,39 @@
             })
             // .validate();
 
+            function validateRule(password) {
+                switch (this.getAttribute('data-strength-rule')) {
+                    case 'lowercase':
+                        return /[a-z]/.test(password);
+                    case 'uppercase':
+                        return /[A-Z]/.test(password);
+                    case 'min-length':
+                        return password.length >= 8;
+                }
+            }
+
             $('form input#password').on('input', function () {
                 let $this = $(this);
 
                 let password = $this.val();
                 let score = zxcvbnts.core.zxcvbn(password).score;  // 0 - 4
 
-                let $inputGroup = $this.parent().parent();
-                let $strengthBar = $inputGroup.find('.strength-bar');
+                let $formField = $this.closest('.form-field');
 
-                $strengthBar.children().each(function (i, bar) {
+                let $strengthBar = $formField.find('.strength-bar');
+                $strengthBar.children().each(function (i, _) {
                     if (i < score)
-                        $(this).attr('data-passed', '');
+                        this.setAttribute('data-passed', '');
                     else
-                        $(this).removeAttr('data-passed');
+                        this.removeAttribute('data-passed');
+                });
+
+                let $rules = $formField.find('[data-strength-rule]')
+                $rules.each(function () {
+                    if (validateRule.call(this, password))
+                        this.setAttribute('data-passed', '');
+                    else
+                        this.removeAttribute('data-passed');
                 });
             });
 
