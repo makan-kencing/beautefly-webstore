@@ -1,4 +1,4 @@
-package com.lavacorp.beautefly.webstore.utils;
+package com.lavacorp.beautefly.webstore.utils.provider;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.ws.rs.Consumes;
