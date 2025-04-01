@@ -34,6 +34,7 @@
         <commons-logging.version>1.2</commons-logging.version>
         <log4j-bom.version>2.24.3</log4j-bom.version>
         <spring-security-bom.version>6.4.3</spring-security-bom.version>
+        <jackson-bom.version>2.18.3</jackson-bom.version>
         <bouncycastle.version>1.78.1</bouncycastle.version>
         <junit.version>5.10.2</junit.version>
 
@@ -71,6 +72,13 @@
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-bom</artifactId>
                 <version>${spring-security-bom.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson</groupId>
+                <artifactId>jackson-bom</artifactId>
+                <version>${jackson-bom.version}</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
@@ -149,6 +157,10 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
