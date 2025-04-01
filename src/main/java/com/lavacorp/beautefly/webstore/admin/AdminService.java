@@ -1,5 +1,6 @@
 package com.lavacorp.beautefly.webstore.admin;
 
+import com.lavacorp.beautefly.webstore.admin.model.DashboardStats;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
