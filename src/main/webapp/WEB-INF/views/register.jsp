@@ -48,7 +48,7 @@
                         <div class="flex items-center">
                             <input type="password" id="confirm-password" required
                                    class="w-full rounded-md border border-gray-500 text-gray-700 shadow p-1.5">
-                            <button type="button" class="-ml-6 show-password"></button>
+                            <button type="button" class="-ml-6 show-password">O</button>
                         </div>
                     </div>
 
@@ -70,19 +70,15 @@
         </div>
 
         <script>
-            ;(function () {
-                // all package will be available under zxcvbnts
-                const options = {
-                    translations: zxcvbnts['language-en'].translations,
-                    graphs: zxcvbnts['language-common'].adjacencyGraphs,
-                    dictionary: {
-                        ...zxcvbnts['language-common'].dictionary,
-                        ...zxcvbnts['language-en'].dictionary,
-                    },
-                }
-                zxcvbnts.core.zxcvbnOptions.setOptions(options)
-                console.log(zxcvbnts.core.zxcvbn('somePassword'))
-            })();
+            const options = {
+                translations: zxcvbnts['language-en'].translations,
+                graphs: zxcvbnts['language-common'].adjacencyGraphs,
+                dictionary: {
+                    ...zxcvbnts['language-common'].dictionary,
+                    ...zxcvbnts['language-en'].dictionary,
+                },
+            };
+            zxcvbnts.core.zxcvbnOptions.setOptions(options);
         </script>
 
         <script>
