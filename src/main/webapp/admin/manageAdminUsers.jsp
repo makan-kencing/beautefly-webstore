@@ -2,7 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.lavacorp.beautefly.webstore.admin.model.DashboardStats" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ include file="adminNavigationBar.jsp" %>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <script src="https://cdn.tailwindcss.com"></script>
 
 

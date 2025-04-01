@@ -10,7 +10,7 @@
     <%
         DashboardStats stats = (DashboardStats) request.getAttribute("stats");
     %>
-    <%@ include file="adminNavigationBar.jsp" %>
+    <my:adminNavbar />
 
 </body>
 </html>
