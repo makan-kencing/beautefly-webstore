@@ -35,7 +35,10 @@
                             <div class="flex items-center">
                                 <input type="password" name="password" id="password" required
                                        class="w-full rounded-md border border-gray-500 text-gray-700 shadow p-1.5">
-                                <button type="button" class="-ml-6 show-password">O</button>
+                                <div class="-ml-7 show-password group">
+                                    <i class="fa-solid fa-eye-slash group-data-visible:hidden!"></i>
+                                    <i class="fa-solid fa-eye group-not-data-visible:hidden!"></i>
+                                </div>
                             </div>
 
                             <div class="strength-bar rounded-full flex gap-0.5">
@@ -76,7 +79,10 @@
                         <div class="flex items-center">
                             <input type="password" id="confirm-password" required
                                    class="w-full rounded-md border border-gray-500 text-gray-700 shadow p-1.5">
-                            <button type="button" class="-ml-6 show-password">O</button>
+                            <div class="-ml-7 show-password group">
+                                <i class="fa-solid fa-eye-slash group-data-visible:hidden!"></i>
+                                <i class="fa-solid fa-eye group-not-data-visible:hidden!"></i>
+                            </div>
                         </div>
                     </div>
 
@@ -168,12 +174,15 @@
                      this.setCustomValidity('Passwords does not match.');
             });
 
-            $('form button.show-password').mousedown(function () {
-                $(this).prev().prop("type", "text");
+            $('form .show-password').mousedown(function () {
+                $(this).prev().prop('type', 'text');
+                this.setAttribute('data-visible', '');
             }).mouseup(function () {
-                $(this).prev().prop("type", "password");
-            }).mouseout(function () {
-                $(this).prev().prop("type", "password");
+                $(this).prev().prop('type', 'password');
+                this.removeAttribute('data-visible');
+            }).mouseleave(function () {
+                $(this).prev().prop('type', 'password');
+                this.removeAttribute('data-visible');
             });
 
             $('form').ajaxForm({
