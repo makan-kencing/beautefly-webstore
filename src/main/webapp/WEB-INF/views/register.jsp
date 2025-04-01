@@ -31,16 +31,29 @@
 
                     <div class="space-y-1">
                         <label for="password" class="block font-bold">Password</label>
-                        <div class="flex items-center">
-                            <input type="password" name="password" id="password" required
-                                   class="w-full rounded-md border border-gray-500 text-gray-700 shadow p-1.5">
-                            <button type="button" class="-ml-6 show-password">O</button>
+                        <div class="space-y-1">
+                            <div class="flex items-center">
+                                <input type="password" name="password" id="password" required
+                                       class="w-full rounded-md border border-gray-500 text-gray-700 shadow p-1.5">
+                                <button type="button" class="-ml-6 show-password">O</button>
+                            </div>
+
+                            <div class="strength-bar rounded-full flex gap-0.5">
+                                <div class="bg-gray-300 h-1.5 flex-auto data-passed:bg-blue-300"></div>
+                                <div class="bg-gray-300 h-1.5 flex-auto data-passed:bg-blue-300"></div>
+                                <div class="bg-gray-300 h-1.5 flex-auto data-passed:bg-blue-300"></div>
+                                <div class="bg-gray-300 h-1.5 flex-auto data-passed:bg-blue-300"></div>
+                            </div>
                         </div>
 
-                        <div class="rounded-full bg-gray-300">
-                            <div class="h-2 strength-bar rounded-full"></div>
+                        <div>
+                            <h3 class="font-bold">Your password must contain: </h3>
+                            <ul>
+                                <li>Should contain lowercase</li>
+                                <li>Should contain uppercase</li>
+                                <li>Minimum 8 characters</li>
+                            </ul>
                         </div>
-                        <div class="strength-text">Password strength: <span class="strength-label">-</span></div>
                     </div>
 
                     <div class="space-y-1">
@@ -100,38 +113,15 @@
                 let password = $this.val();
                 let score = zxcvbnts.core.zxcvbn(password).score;  // 0 - 4
 
-                let $strength_bar = $('.strength-bar');
-                let $strength_text = $('.strength-text');
-                let $strength_label = $('.strength-label');
+                let $inputGroup = $this.parent().parent();
+                let $strengthBar = $inputGroup.find('.strength-bar');
 
-                let strength;
-                let width;
-                let color;
-                if (score === 4) {
-                    strength = "Very strong";
-                    width = "100%";
-                    color = "#25ce00";
-                } else if (score === 3) {
-                    strength = "Strong";
-                    width = "75%";
-                    color = "#4caf50";
-                } else if (score === 2) {
-                    strength = "Medium";
-                    width = "50%";
-                    color = "orange";
-                } else if (score === 1) {
-                    strength = "Weak";
-                    width = "25%";
-                    color = "red";
-                } else {
-                    strength = "Very weak";
-                    width = "1%";
-                    color = "darkred";
-                }
-                $strength_bar.css("width", width);
-                $strength_bar.css("background-color", color);
-                $strength_label.text(strength);
-                $strength_text.css("color", color);
+                $strengthBar.children().each(function (i, bar) {
+                    if (i < score)
+                        $(this).attr('data-passed', '');
+                    else
+                        $(this).removeAttr('data-passed');
+                });
             });
 
             $('form button.show-password').mousedown(function () {
