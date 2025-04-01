@@ -14,10 +14,10 @@ import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 //  Rules taken from https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html#implement-proper-password-strength-controls
-@Size(min = 8, message = "atleast 8 charaters")
+@Size(min = 8, message = "at least 8 characters")
 @Size(max = 256, message = "max 256 characters")
-@Pattern(regexp = ".*[a-z].*", message = "atleast 1 lowercase character")
-@Pattern(regexp = ".*[A-Z].*", message = "atleast 1 uppercase character")
+@Pattern(regexp = ".*[a-z].*", message = "atleast 1 lowercase")
+@Pattern(regexp = ".*[A-Z].*", message = "atleast 1 uppercase")
 
 @Target({FIELD, METHOD, PARAMETER, ANNOTATION_TYPE, TYPE_USE})
 @Retention(RUNTIME)
