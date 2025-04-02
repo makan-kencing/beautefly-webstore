@@ -19,7 +19,6 @@
     <select name="sort" class="border px-2 py-1 rounded">
         <option value="username" ${param.sort == 'username' ? 'selected' : ''}>Username</option>
         <option value="email" ${param.sort == 'email' ? 'selected' : ''}>Email</option>
-        <option value="group" ${param.sort == 'group' ? 'selected' : ''}>Group</option>
     </select>
     <button type="submit" class="bg-blue-500 text-white px-3 py-1 rounded">Apply</button>
 </form>
