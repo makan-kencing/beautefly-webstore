@@ -34,7 +34,7 @@
                 </div>
             </form>
 
-            <c:if test="${param.get('error') != null}">
+            <c:if test="${param.error != null}">
                 <div class="rounded-xl border border-red-400 bg-red-100 p-3 text-red-700" role="alert">
                     <span>The username or password is invalid.</span>
                 </div>
