@@ -116,6 +116,7 @@
         </script>
 
         <script>
+            $email = $('form input#email');
             $password = $('form input#password');
             $confirmPassword = $('form input#confirm-password');
 
@@ -176,8 +177,10 @@
             // this = form
             function validateForm() {
                 return Array.from(this.querySelectorAll('input'))
-                    .map(input => validateField.call(input))
-                    .every(Boolean);
+                    .map(input => {
+                        validateField.call(input);
+                        return input.reportValidity();
+                    }).every(Boolean);
             }
 
             // this = strength bar
@@ -219,13 +222,17 @@
             });
 
             $('form').ajaxForm({
-                beforeSubmit: (formData, $form, _options) => {
+                beforeSubmit: (_formData, $form, _options) => {
                     return validateForm.call($form[0]);
                 },
                 success: (_response, _statusText, _jqXHR, _$form) => {
                     window.location.replace('${pageContext.request.contextPath}/login');
                 },
-                error: (_jqXHR, _statusText, _errorText, _$form) => {
+                error: (jqXHR, _statusText, _errorText, _$form) => {
+                    if (jqXHR.status === 409) {
+                        $email[0].setCustomValidity('Email is already taken.');
+                        $email[0].reportValidity();
+                    }
                 }
             });
         </script>
