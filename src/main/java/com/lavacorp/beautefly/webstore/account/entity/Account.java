@@ -11,6 +11,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.NaturalId;
 
 import java.io.Serializable;
@@ -59,6 +60,7 @@ public class Account implements Serializable {
     @OneToMany(mappedBy = SalesOrder_.ACCOUNT, fetch = LAZY)
     private Set<SalesOrder> orders;
 
+    @ColumnDefault("true")
     private boolean active;
 
     public int getAge() {
