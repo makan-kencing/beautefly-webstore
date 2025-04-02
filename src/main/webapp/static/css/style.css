@@ -1,0 +1,127 @@
+        h1{
+            text-align: center;
+            font-size: 60px;
+            font-family: 'Times New Roman', Times, serif, sans-serif;
+        }
+        
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, auto);
+            gap: 15px;
+            max-width: 900px; 
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .grid-item {
+            padding: 20px;
+            border: 2px solid #ccc;
+            border-radius: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .grid-item h3 {
+            font-size: 22px; 
+            font-weight: bold; 
+            margin-bottom: 10px;
+        }
+
+        .grid-item p {
+            font-size: 16px;
+            color: #666;
+            font-family: 'Times New Roman', Times, serif, sans-serif;
+        }
+
+        .grid-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .grid-item a {
+            text-decoration: none;
+            color: #333;
+            font-size: 30px;
+            font-family: 'Times New Roman', Times, serif, sans-serif;
+
+        }
+
+
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(to right, #70D6FF, #FF70A6);
+            padding: 10px 20px;
+            color: white;
+            font-family: 'Times New Roman', Times, serif, sans-serif;
+        }
+
+        .navbar a{
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            position: relative;
+            padding: 0 10px;
+        }       
+
+        .nav-links a:not(:last-child)::after {
+            content: "|";
+            color: #fff;
+            position: absolute;
+            right: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .logo {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+
+        .search-bar {
+            flex: 1;
+            margin: 0 20px;
+            display: flex;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            outline: none;
+        }
+
+        .search-bar button {
+            padding: 8px 15px;
+            border: none;
+            background: #FFF;
+            cursor: pointer;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
