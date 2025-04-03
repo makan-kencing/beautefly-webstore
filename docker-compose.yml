@@ -28,10 +28,3 @@ services:
         ports:
             - "8080:8080"
             - "4848:4848"
-        develop:
-            watch:
-                -   action: sync+exec
-                    path: ./src
-                    target: /usr/app/src
-                    exec:
-                        command: ./mvnw package && npm run build
