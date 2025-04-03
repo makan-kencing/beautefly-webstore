@@ -41,30 +41,30 @@
                                 </div>
                             </div>
 
-                            <div class="strength-bar rounded-full flex gap-0.5">
-                                <div class="bg-gray-300 h-1.5 flex-auto data-passed:bg-blue-300"></div>
-                                <div class="bg-gray-300 h-1.5 flex-auto data-passed:bg-blue-300"></div>
-                                <div class="bg-gray-300 h-1.5 flex-auto data-passed:bg-blue-300"></div>
-                                <div class="bg-gray-300 h-1.5 flex-auto data-passed:bg-blue-300"></div>
+                            <div class="flex rounded-full strength-bar gap-0.5">
+                                <div class="flex-auto bg-gray-300 data-passed:bg-blue-300 h-1.5"></div>
+                                <div class="flex-auto bg-gray-300 data-passed:bg-blue-300 h-1.5"></div>
+                                <div class="flex-auto bg-gray-300 data-passed:bg-blue-300 h-1.5"></div>
+                                <div class="flex-auto bg-gray-300 data-passed:bg-blue-300 h-1.5"></div>
                             </div>
                         </div>
 
                         <div class="form-field space-y-1">
                             <h3 class="font-bold">Your password must contain: </h3>
                             <ul>
-                                <li class="group flex items-center gap-2 data-passed:text-blue-300"
+                                <li class="flex items-center gap-2 data-passed:text-blue-300 group"
                                     data-strength-rule="lowercase">
                                     <i class="fa-solid fa-circle-xmark group-data-passed:hidden!"></i>
                                     <i class="fa-solid fa-circle-check group-not-data-passed:hidden!"></i>
                                     at least 1 lowercase
                                 </li>
-                                <li class="group flex items-center gap-2 data-passed:text-blue-300"
+                                <li class="flex items-center gap-2 data-passed:text-blue-300 group"
                                     data-strength-rule="uppercase">
                                     <i class="fa-solid fa-circle-xmark group-data-passed:hidden!"></i>
                                     <i class="fa-solid fa-circle-check group-not-data-passed:hidden!"></i>
                                     at least 1 uppercase
                                 </li>
-                                <li class="group flex items-center gap-2 data-passed:text-blue-300"
+                                <li class="flex items-center gap-2 data-passed:text-blue-300 group"
                                     data-strength-rule="min-length">
                                     <i class="fa-solid fa-circle-xmark group-data-passed:hidden!"></i>
                                     <i class="fa-solid fa-circle-check group-not-data-passed:hidden!"></i>
