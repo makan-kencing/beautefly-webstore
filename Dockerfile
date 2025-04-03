@@ -1,11 +1,15 @@
 FROM amazoncorretto:21-alpine
 
-ENV POSTGRES_PORT=5432
-
 # Install node.js
-RUN apk update && apk --no-cache add nodejs npm
+RUN apk update && apk --no-cache add nodejs npm curl
 
 WORKDIR /usr/app
+
+COPY .mvn ./.mvn
+COPY mvnw .
+COPY pom.xml .
+
+RUN ./mvnw dependency:resolve cargo:configure
 
 # Install node modules
 COPY package.json .
@@ -18,4 +22,13 @@ COPY . .
 
 RUN npm run build
 
-ENTRYPOINT ["./mvnw", "clean", "package", "cargo:run", "-Pglassfish"]
+ENTRYPOINT [ \
+    "./mvnw", "package", "cargo:run", "-Pglassfish", \
+    "-Dapp.dataSource.jdbcUrl=${DATASOURCE_JDBC_URL}", \
+    "-Dapp.dataSource.username=${DATASOURCE_USERNAME}", \
+    "-Dapp.dataSource.password=${DATASOURCE_PASSWORD}", \
+    "-Dglassfish.adminPassword=${GLASSFISH_ADMIN_PASSWORD}" \
+]
+
+HEALTHCHECK --start-period=1m \
+  CMD curl -f http://localhost:8080/ || exit 1
