@@ -9,19 +9,45 @@
     <title>Manage Users</title>
 </head>
 <body class="p-6">
+
+<!-- Pop Up Successful Message-->
+<c:if test="${param.created == '1'}">
+    <div id="toast"
+         class="fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50
+                opacity-100 transition-opacity duration-500 ease-in-out">
+        User created successfully!!
+    </div>
+
+    <script>
+        setTimeout(() => {
+            const toast = document.getElementById("toast");
+            toast.classList.remove("opacity-100");
+            toast.classList.add("opacity-0");
+            setTimeout(() => toast.remove(), 500);
+        }, 2000);
+    </script>
+</c:if>
+
 <my:adminNavBar />
 
 <h2 class="text-2xl font-bold mb-4">Manage Users</h2>
 
-<!-- Search + Sort Form -->
-<form method="get" action="/admin/users" class="mb-4 flex gap-2">
-    <input type="text" name="search" placeholder="Search username/email..." value="${param.search}" class="border px-2 py-1 rounded" />
-    <select name="sort" class="border px-2 py-1 rounded">
-        <option value="username" ${param.sort == 'username' ? 'selected' : ''}>Username</option>
-        <option value="email" ${param.sort == 'email' ? 'selected' : ''}>Email</option>
-    </select>
-    <button type="submit" class="bg-blue-500 text-white px-3 py-1 rounded">Apply</button>
-</form>
+<div class="flex justify-between items-center mb-4">
+    <!-- Search + Sort Function-->
+    <form method="get" action="/admin/users" class="flex gap-2">
+        <input type="text" name="search" value="${param.search}" placeholder="Search username/email..." class="border p-2 rounded" />
+        <select name="sort" class="border p-2 rounded">
+            <option value="username" ${param.sort == 'username' ? 'selected' : ''}>Username</option>
+            <option value="email" ${param.sort == 'email' ? 'selected' : ''}>Email</option>
+        </select>
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Apply</button>
+    </form>
+
+    <!-- Add New User -->
+    <a href="javascript:void(0)" onclick="openModal()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+        + Add
+    </a>
+</div>
 
 <!-- User Table -->
 <table class="w-full mt-4 border-collapse text-sm">
@@ -70,3 +96,42 @@
 </div>
 </body>
 </html>
+
+<!-- Add New User -->
+<div id="addUserModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white p-6 rounded shadow w-[400px]">
+        <h2 class="text-xl font-bold mb-4">Add New User</h2>
+        <form method="post" action="/admin/users/add" class="space-y-3">
+            <input type="text" name="username" placeholder="Username" required class="w-full border p-2 rounded" />
+            <input type="email" name="email" placeholder="Email" required class="w-full border p-2 rounded" />
+            <input type="password" name="password" placeholder="Password" required class="w-full border p-2 rounded" />
+
+            <label class="block">Roles:</label>
+            <select name="roles" multiple required class="w-full border p-2 rounded">
+                <option value="USER">User</option>
+                <option value="STAFF">Staff</option>
+                <option value="ADMIN">Admin</option>
+            </select>
+
+            <div>
+                <label><input type="checkbox" name="active" value="true" /> Active</label>
+            </div>
+
+            <div class="flex justify-between">
+                <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">Create</button>
+                <button type="button" onclick="closeModal()" class="text-gray-500 hover:underline">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- JavaScript on Add Function-->
+<script>
+    function openModal() {
+        document.getElementById("addUserModal").classList.remove("hidden");
+    }
+    function closeModal() {
+        document.getElementById("addUserModal").classList.add("hidden");
+    }
+</script>
+
