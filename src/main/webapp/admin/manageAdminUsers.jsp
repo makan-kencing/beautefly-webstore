@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags/admin" %>
 <script src="https://cdn.tailwindcss.com"></script>
 
 <!DOCTYPE html>
@@ -28,6 +28,7 @@
     </script>
 </c:if>
 
+<my:header />
 <my:adminNavBar />
 
 <h2 class="text-2xl font-bold mb-4">Manage Users</h2>
@@ -50,7 +51,7 @@
 </div>
 
 <!-- User Table -->
-<table class="w-full mt-4 border-collapse text-sm">
+<my:adminTable>
     <thead class="bg-gray-200 text-left">
     <tr>
         <th class="p-2">Username</th>
@@ -66,23 +67,24 @@
             <td class="p-2">${user.email}</td>
             <td class="p-2">
                 <c:forEach var="role" items="${user.credential.roles}">
-                            <span class="px-2 py-1 text-white text-xs rounded-full mr-1
-                                ${role == 'ADMIN' ? 'bg-red-600' :
-                                  role == 'STAFF' ? 'bg-blue-600' :
-                                  role == 'USER' ? 'bg-green-600' : 'bg-gray-500'}">
-                                    ${role}
-                            </span>
+            <span class="px-2 py-1 text-white text-xs rounded-full mr-1
+              ${role == 'ADMIN' ? 'bg-red-600' :
+                role == 'STAFF' ? 'bg-blue-600' :
+                role == 'USER' ? 'bg-green-600' : 'bg-gray-500'}">
+                    ${role}
+            </span>
                 </c:forEach>
             </td>
             <td class="p-2">
-                        <span class="${user.active ? 'text-green-600' : 'text-red-600'} font-semibold">
-                                ${user.active ? 'YES' : 'NO'}
-                        </span>
+          <span class="${user.active ? 'text-green-600' : 'text-red-600'} font-semibold">
+                  ${user.active ? 'YES' : 'NO'}
+          </span>
             </td>
         </tr>
     </c:forEach>
     </tbody>
-</table>
+</my:adminTable>
+
 
 <!-- Pagination -->
 <div class="mt-4">
@@ -96,6 +98,7 @@
 </div>
 </body>
 </html>
+<my:footer />
 
 <!-- Add New User -->
 <div id="addUserModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">

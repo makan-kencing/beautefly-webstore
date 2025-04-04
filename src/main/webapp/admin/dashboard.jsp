@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags/admin" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -10,6 +10,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="p-6">
+
+<my:header />
 <my:adminNavBar />
 
 <h1 class="text-2xl font-bold mb-4">Admin Dashboard</h1>
@@ -30,3 +32,4 @@
 </div>
 </body>
 </html>
+<my:footer />
