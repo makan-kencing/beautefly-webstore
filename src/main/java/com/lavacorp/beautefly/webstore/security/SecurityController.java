@@ -1,10 +1,10 @@
 package com.lavacorp.beautefly.webstore.security;
 
 import com.lavacorp.beautefly.webstore.account.AccountRepository;
-import com.lavacorp.beautefly.webstore.security.dto.AccountLoginDTO;
-import com.lavacorp.beautefly.webstore.security.dto.AccountRegisterDTO;
 import com.lavacorp.beautefly.webstore.account.entity.Account;
 import com.lavacorp.beautefly.webstore.account.entity.Credential;
+import com.lavacorp.beautefly.webstore.security.dto.AccountLoginDTO;
+import com.lavacorp.beautefly.webstore.security.dto.AccountRegisterDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -17,6 +17,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
 
 @Path("/account")
@@ -25,6 +26,9 @@ import org.hibernate.exception.ConstraintViolationException;
 @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_FORM_URLENCODED})
 @Produces(MediaType.APPLICATION_JSON)
 public class SecurityController {
+    @Inject
+    private Logger logger;
+
     @Inject
     private AccountRepository accountRepository;
 
@@ -41,6 +45,7 @@ public class SecurityController {
         try {
             req.login(loginAccount.email(), loginAccount.password());
         } catch (ServletException exc) {
+            logger.error(exc);
             return Response.status(Response.Status.FORBIDDEN).build();
         }
         return Response.ok().build();
@@ -51,8 +56,8 @@ public class SecurityController {
     public Response logout() {
         try {
             req.logout();
-        } catch (ServletException ignored) {
-
+        } catch (ServletException exc) {
+            logger.error(exc);
         }
         return Response.ok().build();
     }
@@ -74,6 +79,7 @@ public class SecurityController {
 
             return Response.status(Response.Status.CREATED).build();
         } catch (ConstraintViolationException exc) {
+            logger.warn(exc);
             return Response.status(Response.Status.CONFLICT).build();
         }
     }
