@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.validator.constraints.Range;
+import org.hibernate.validator.constraints.URL;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -33,6 +34,9 @@ public class Rating implements Serializable {
     private int rating;
 
     private String message;
+
+    @ElementCollection
+    private Set<@URL String> imageUrls;
 
     @CurrentTimestamp
     @PastOrPresent

@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.NaturalId;
+import org.hibernate.validator.constraints.URL;
 
 import java.io.Serializable;
 import java.time.Duration;
@@ -44,6 +45,9 @@ public class Account implements Serializable {
 
     @Past
     private LocalDate dob;
+
+    @URL
+    private String profileImageUrl;
 
     @Embedded
     private Credential credential;
