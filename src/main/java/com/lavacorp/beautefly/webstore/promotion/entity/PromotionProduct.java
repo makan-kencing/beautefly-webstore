@@ -8,12 +8,13 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Getter
 @Setter
 @Entity
-public class PromotionProduct {
+public class PromotionProduct implements Serializable {
     @Id
     @ManyToOne
     private Promotion promotion;

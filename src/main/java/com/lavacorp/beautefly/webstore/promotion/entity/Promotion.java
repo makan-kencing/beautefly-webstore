@@ -7,13 +7,14 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Set;
 
 @Getter
 @Setter
 @Entity
-public class Promotion {
+public class Promotion implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

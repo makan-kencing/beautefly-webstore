@@ -1,4 +1,6 @@
 package com.lavacorp.beautefly.webstore.utils.dto;
 
-public record ValidationError(String path, String message) {
+import java.io.Serializable;
+
+public record ValidationError(String path, String message) implements Serializable {
 }
