@@ -12,7 +12,6 @@ import jakarta.servlet.http.*;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 @WebServlet("/admin/users")
