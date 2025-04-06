@@ -12,11 +12,11 @@
             <button type="submit" class="-ml-8 cursor-pointer"><i class="text-blue-300 fa-solid fa-magnifying-glass"></i></button>
         </form>
 
-        <div class="nav-links">
-            <i class="text-2xl fa-solid fa-cart-shopping"></i>
-            <i class="text-2xl fa-solid fa-bell"></i>
-            <i class="text-2xl fa-solid fa-user"></i>
-            <i class="text-2xl fa-solid fa-bars"></i>
+        <div class="nav-links text-2xl">
+            <a href="${pageContext.request.contextPath}/cart" class="cursor-pointer"><i class="fa-solid fa-cart-shopping"></i></a>
+            <a href="" class="cursor-pointer"><i class="fa-solid fa-bell"></i></a>
+            <a href="${pageContext.request.contextPath}/account" class="cursor-pointer"><i class="fa-solid fa-user"></i></a>
+            <a href="" class="cursor-pointer"><i class="fa-solid fa-bars"></i></a>
         </div>
     </nav>
 </header>
