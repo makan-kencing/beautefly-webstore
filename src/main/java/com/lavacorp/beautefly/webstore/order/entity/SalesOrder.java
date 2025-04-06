@@ -13,6 +13,7 @@ import org.hibernate.annotations.CurrentTimestamp;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -50,10 +51,10 @@ public class SalesOrder implements Serializable {
     private BigDecimal discountAmount;
 
     @OneToMany(mappedBy = SalesOrderProduct_.ORDER)
-    private Set<SalesOrderProduct> orderedProducts;
+    private Set<SalesOrderProduct> products = new HashSet<>();
 
     public BigDecimal getGrossAmount() {
-        return orderedProducts.stream()
+        return products.stream()
                 .map(SalesOrderProduct::getUnitPrice)
                 .reduce(BigDecimal::add)
                 .orElse(BigDecimal.valueOf(0));

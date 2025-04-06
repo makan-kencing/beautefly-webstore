@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import static jakarta.persistence.FetchType.LAZY;
@@ -14,7 +15,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @Embeddable
 public class Cart implements Serializable {
     @OneToMany(mappedBy = CartProduct_.ACCOUNT, fetch = LAZY)
-    private Set<CartProduct> products;
+    private Set<CartProduct> products = new HashSet<>();
 
     public void addProduct(CartProduct product) {
         var cartProduct = products.stream().filter(product::equals).findAny();

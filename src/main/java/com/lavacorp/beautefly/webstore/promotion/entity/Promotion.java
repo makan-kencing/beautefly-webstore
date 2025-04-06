@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.URL;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -35,5 +36,5 @@ public class Promotion implements Serializable {
     private LocalDate endDate;
 
     @OneToMany(mappedBy = PromotionProduct_.PROMOTION)
-    private Set<PromotionProduct> products;
+    private Set<PromotionProduct> products = new HashSet<>();
 }

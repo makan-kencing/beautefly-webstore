@@ -1,10 +1,11 @@
 package com.lavacorp.beautefly.webstore.account.entity;
 
-import com.lavacorp.beautefly.webstore.cart.entity.Cart;
 import com.lavacorp.beautefly.webstore.order.entity.SalesOrder;
 import com.lavacorp.beautefly.webstore.order.entity.SalesOrder_;
-import com.lavacorp.beautefly.webstore.wishlist.entity.Wishlist;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -14,12 +15,12 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
-import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.URL;
 
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 import static jakarta.persistence.FetchType.LAZY;
@@ -48,13 +49,13 @@ public class UserAccount extends Account implements Serializable {
     private String profileImageUrl;
 
     @Embedded
-    private Credential credential;
+    private Credential credential = new Credential();
 
     @Embedded
-    private AddressBook addressBook;
+    private AddressBook addressBook = new AddressBook();
 
     @OneToMany(mappedBy = SalesOrder_.ACCOUNT, fetch = LAZY)
-    private Set<SalesOrder> orders;
+    private Set<SalesOrder> orders = new HashSet<>();
 
     @ColumnDefault("true")
     private boolean active;

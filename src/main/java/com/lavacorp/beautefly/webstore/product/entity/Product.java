@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.URL;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -26,7 +27,7 @@ public class Product implements Serializable {
     private String description;
 
     @ElementCollection
-    private Set<@URL String> imageUrls;
+    private Set<@URL String> imageUrls = new HashSet<>();
 
     private String brand;
 

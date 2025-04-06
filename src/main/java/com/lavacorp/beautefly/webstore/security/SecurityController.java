@@ -2,7 +2,6 @@ package com.lavacorp.beautefly.webstore.security;
 
 import com.lavacorp.beautefly.webstore.account.AccountRepository;
 import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
-import com.lavacorp.beautefly.webstore.account.entity.Credential;
 import com.lavacorp.beautefly.webstore.security.dto.AccountLoginDTO;
 import com.lavacorp.beautefly.webstore.security.dto.AccountRegisterDTO;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -67,13 +66,10 @@ public class SecurityController {
     public Response register(@Valid AccountRegisterDTO registerAccount) {
         try {
             var account = new UserAccount();
-            var credential = new Credential();
 
             account.setUsername(registerAccount.username());
             account.setEmail(registerAccount.email());
-
-            credential.setPassword(passwordHash.generate(registerAccount.password().toCharArray()));
-            account.setCredential(credential);
+            account.getCredential().setPassword(passwordHash.generate(registerAccount.password().toCharArray()));
 
             accountRepository.register(account);
 

@@ -21,10 +21,10 @@ public class Account implements Serializable {
     private int id;
 
     @Embedded
-    private Cart cart;
+    private Cart cart = new Cart();
 
     @Embedded
-    private Wishlist wishlist;
+    private Wishlist wishlist = new Wishlist();
 
     @CurrentTimestamp
     @PastOrPresent
