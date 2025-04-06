@@ -14,6 +14,7 @@ import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -59,5 +60,9 @@ public class CartProduct implements Serializable {
 
     public void removeQuantity(int quantity) {
         this.quantity -= quantity;
+    }
+
+    public BigDecimal getSubtotal() {
+        return product.getUnitPrice().multiply(BigDecimal.valueOf(quantity));
     }
 }
