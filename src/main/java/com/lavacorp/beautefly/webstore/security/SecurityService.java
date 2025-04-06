@@ -8,9 +8,11 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import org.apache.logging.log4j.Logger;
 
 @ApplicationScoped
+@Transactional
 public class SecurityService {
     @Inject
     private AccountRepository accountRepository;

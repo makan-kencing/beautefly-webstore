@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.NoSuchElementException;
 
 @WebServlet("/cart")
+@Transactional
 public class CartServlet extends HttpServlet {
     @Inject
     private SecurityService securityService;
@@ -24,7 +25,6 @@ public class CartServlet extends HttpServlet {
     private CartService cartService;
 
     @Override
-    @Transactional
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         var account = securityService.getAccountContext(req);
 

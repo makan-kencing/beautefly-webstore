@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.NoSuchElementException;
 
 @WebServlet("/cart/remove")
+@Transactional
 public class CartRemoveServlet extends HttpServlet {
     @Inject
     private SecurityService securityService;
@@ -24,7 +25,6 @@ public class CartRemoveServlet extends HttpServlet {
     private CartService cartService;
 
     @Override
-    @Transactional
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         var account = securityService.getAccountContext(req);
 
