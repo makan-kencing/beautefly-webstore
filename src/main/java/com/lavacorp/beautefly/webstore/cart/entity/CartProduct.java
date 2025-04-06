@@ -52,4 +52,12 @@ public class CartProduct implements Serializable {
     public final int hashCode() {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
     }
+
+    public void addQuantity(int quantity) {
+        this.quantity += quantity;
+    }
+
+    public void removeQuantity(int quantity) {
+        this.quantity -= quantity;
+    }
 }
