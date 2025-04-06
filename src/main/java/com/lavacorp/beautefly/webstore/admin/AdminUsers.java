@@ -1,7 +1,7 @@
 package com.lavacorp.beautefly.webstore.admin;
 
 import com.lavacorp.beautefly.webstore.account.AccountRepository;
-import com.lavacorp.beautefly.webstore.account.entity.Account;
+import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
 
 import jakarta.data.page.Page;
 import jakarta.data.page.PageRequest;
@@ -30,7 +30,7 @@ public class AdminUsers extends HttpServlet {
 
         PageRequest pageRequest = PageRequest.ofPage(page, pageSize, true);
 
-        Page<Account> usersPage = accountRepo.findByUsernameLike(
+        Page<UserAccount> usersPage = accountRepo.findByUsernameLike(
                 "%" + search + "%",
                 pageRequest,
                 Collections.emptyList()

@@ -38,5 +38,5 @@ public class Address implements Serializable {
     private String country;
 
     @ManyToOne
-    private Account account;
+    private UserAccount account;
 }

@@ -1,6 +1,6 @@
 package com.lavacorp.beautefly.webstore.admin;
 
-import com.lavacorp.beautefly.webstore.account.entity.Account;
+import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
 import com.lavacorp.beautefly.webstore.account.entity.Credential;
 import jakarta.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
@@ -9,11 +9,11 @@ import java.util.Set;
 
 @ApplicationScoped
 public class AdminUserDAO {
-    public List<Account> getAllUsers() {
-        List<Account> users = new ArrayList<>();
+    public List<UserAccount> getAllUsers() {
+        List<UserAccount> users = new ArrayList<>();
 
         //User 1
-        Account u1 = new Account();
+        UserAccount u1 = new UserAccount();
         u1.setUsername("alexang0325");
         u1.setEmail("alexang0325@gmail.com");
         u1.setActive(true);
@@ -25,7 +25,7 @@ public class AdminUserDAO {
         users.add(u1);
 
         //User 2
-        Account u2 = new Account();
+        UserAccount u2 = new UserAccount();
         u2.setUsername("testadmin");
         u2.setEmail("admin@example.com");
         u2.setActive(true);

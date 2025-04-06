@@ -1,6 +1,6 @@
 package com.lavacorp.beautefly.webstore.order.entity;
 
-import com.lavacorp.beautefly.webstore.account.entity.Account;
+import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
 import com.lavacorp.beautefly.webstore.account.entity.Address;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -24,7 +24,7 @@ public class SalesOrder implements Serializable {
     private int id;
 
     @ManyToOne
-    private Account account;
+    private UserAccount account;
 
     @ManyToOne
     private Address shippingAddress;

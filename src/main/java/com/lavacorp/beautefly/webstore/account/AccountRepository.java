@@ -1,6 +1,8 @@
 package com.lavacorp.beautefly.webstore.account;
 
-import com.lavacorp.beautefly.webstore.account.entity.Account;
+import com.lavacorp.beautefly.webstore.account.entity.GuestAccount;
+import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
+import jakarta.annotation.Nullable;
 import jakarta.data.page.Page;
 import jakarta.data.page.PageRequest;
 import jakarta.validation.constraints.Email;
@@ -10,15 +12,19 @@ import org.hibernate.query.Order;
 import java.util.List;
 
 public interface AccountRepository {
-    Account register(Account account);
+    UserAccount register(UserAccount account);
 
-    List<Account> findByUsername(@NotBlank String username);
+    GuestAccount createGuest(GuestAccount account);
 
-    Account findByEmail(@Email String email);
+    List<UserAccount> findByUsername(@NotBlank String username);
 
-    Page<Account> findByUsernameLike(@NotBlank String username, PageRequest page, List<Order<? super Account>> orderBy);
+    @Nullable UserAccount findByEmail(@Email String email);
 
-    void update(Account account);
+    Page<UserAccount> findByUsernameLike(@NotBlank String username, PageRequest page, List<Order<? super UserAccount>> orderBy);
 
-    void delete(Account account);
+    @Nullable GuestAccount findBySessionId(@NotBlank String sessionId);
+
+    void update(UserAccount account);
+
+    void delete(UserAccount account);
 }

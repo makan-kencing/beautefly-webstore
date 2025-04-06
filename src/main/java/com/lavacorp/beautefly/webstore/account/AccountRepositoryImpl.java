@@ -1,11 +1,14 @@
 package com.lavacorp.beautefly.webstore.account;
 
-import com.lavacorp.beautefly.webstore.account.entity.Account;
+import com.lavacorp.beautefly.webstore.account.entity.GuestAccount;
+import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
+import jakarta.annotation.Nullable;
 import jakarta.data.page.Page;
 import jakarta.data.page.PageRequest;
 import jakarta.data.page.impl.PageRecord;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.hibernate.Session;
@@ -21,25 +24,31 @@ public class AccountRepositoryImpl implements AccountRepository {
     private EntityManager em;
 
     @Override
-    public Account register(Account account) {
+    public UserAccount register(UserAccount account) {
         em.persist(account);
         return account;
     }
 
     @Override
-    public List<Account> findByUsername(String username) {
-        return em.createNamedQuery("Account.findByUsername", Account.class)
+    public GuestAccount createGuest(GuestAccount account) {
+        em.persist(account);
+        return account;
+    }
+
+    @Override
+    public List<UserAccount> findByUsername(String username) {
+        return em.createNamedQuery("UserAccount.findByUsername", UserAccount.class)
                 .setParameter("username", username)
                 .getResultList();
     }
 
     @Override
-    public Page<Account> findByUsernameLike(String username, PageRequest page, List<Order<? super Account>> orderBy) {
-        SelectionQuery<Account> query = em.unwrap(Session.class)
-                .createNamedSelectionQuery("Account.findByUsernameLike", Account.class)
+    public Page<UserAccount> findByUsernameLike(String username, PageRequest page, List<Order<? super UserAccount>> orderBy) {
+        SelectionQuery<UserAccount> query = em.unwrap(Session.class)
+                .createNamedSelectionQuery("UserAccount.findByUsernameLike", UserAccount.class)
                 .setParameter("username", username);
 
-        List<Account> accounts = query
+        List<UserAccount> accounts = query
                 .setOrder(orderBy)
                 .setFirstResult((int) (page.page() - 1) * page.size())
                 .setMaxResults(page.size())
@@ -50,19 +59,34 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public Account findByEmail(String email) {
-        return em.createNamedQuery("Account.findByEmail", Account.class)
-                .setParameter("email", email)
-                .getSingleResult();
+    public @Nullable UserAccount findByEmail(String email) {
+        try {
+            return em.createNamedQuery("UserAccount.findByEmail", UserAccount.class)
+                    .setParameter("email", email)
+                    .getSingleResult();
+        } catch (NoResultException ignored) {
+            return null;
+        }
     }
 
     @Override
-    public void update(Account account) {
+    public @Nullable GuestAccount findBySessionId(String sessionId) {
+        try {
+            return em.createNamedQuery("GuestAccount.findBySessionId", GuestAccount.class)
+                    .setParameter("sessionId", sessionId)
+                    .getSingleResult();
+        } catch (NoResultException ignored) {
+            return null;
+        }
+    }
+
+    @Override
+    public void update(UserAccount account) {
         em.merge(account);
     }
 
     @Override
-    public void delete(Account account) {
+    public void delete(UserAccount account) {
         em.remove(account);
     }
 }

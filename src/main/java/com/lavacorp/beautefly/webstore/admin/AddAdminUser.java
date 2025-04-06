@@ -1,7 +1,7 @@
 package com.lavacorp.beautefly.webstore.admin;
 
 import com.lavacorp.beautefly.webstore.account.AccountRepository;
-import com.lavacorp.beautefly.webstore.account.entity.Account;
+import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
 import com.lavacorp.beautefly.webstore.account.entity.Credential;
 
 import jakarta.inject.Inject;
@@ -36,7 +36,7 @@ public class AddAdminUser extends HttpServlet {
         String[] roles = request.getParameterValues("roles");
         boolean isActive = request.getParameter("active") != null;
 
-        Account newUser = new Account();
+        UserAccount newUser = new UserAccount();
         newUser.setUsername(username);
         newUser.setEmail(email);
         newUser.setActive(isActive);
