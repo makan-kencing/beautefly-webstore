@@ -25,7 +25,7 @@ public class MainPageServlet extends HttpServlet {
         );
 
         req.setAttribute("promos", promos);
-        var view = req.getRequestDispatcher("mainpage.jsp");
+        var view = req.getRequestDispatcher("WEB-INF/views/mainpage.jsp");
         view.forward(req, resp);
     }
 }
