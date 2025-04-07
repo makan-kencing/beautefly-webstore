@@ -1,41 +1,50 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<%@taglib prefix="webstore" tagdir="/WEB-INF/tags/webstore" %>
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="webstore" tagdir="/WEB-INF/tags/webstore" %>
+<jsp:useBean id="promos" type="java.util.List<com.lavacorp.beautefly.webstore.home.dto.MainPromoDTO>" scope="request"/>
 
 <webstore:base pageTitle="Home">
-    <main>
-        <div class="grid-container">
-            <div class="grid-item">
-                <h3><a href="Makeup.html">💄 Makeup</a></h3>
-                <p>Makeup products to enhance your beautiful look.</p>
-            </div>
 
-            <div class="grid-item">
-                <h3><a href="treatment.html">🌿 Special Treatment</a></h3>
-                <p>Professional care solutions for specific skin concerns.</p>
-            </div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
 
-            <div class="grid-item">
-                <h3><a href="BeautyTool.html">🛠️ Beauty Tools & Devices</a></h3>
-                <p>Beauty tools to make skincare more effective.</p>
-            </div>
-
-            <div class="grid-item">
-                <h3><a href="SkinCare.html">🧴 Skin Care</a></h3>
-                <p>Skincare range for a healthy, radiant complexion.</p>
-            </div>
-
-            <div class="grid-item">
-                <h3><a href="HairCare.html">💇‍♀️ Hair Care</a></h3>
-                <p>Hair care for smoother, shinier locks.</p>
-            </div>
-
-            <div class="grid-item">
-                <h3><a href="BodyCare.html">🛁 Body Care</a></h3>
-                <p>Body care products to pamper every inch of your skin.</p>
-            </div>
+    <div class="swiper-container w-full h-[calc(100vh-4.35rem)] overflow-x-hidden">
+        <div class="swiper-wrapper">
+            <!--skincare-->
+            <c:forEach var="item" items="${promos}">
+                <div class="swiper-slide bg-cover" style="background-image: url(${item.imageUrl()})">
+                    <div class="backdrop-blur-xs flex flex-col items-center justify-center w-full h-full gap-5">
+                        <h1 class="text-9xl text-white text-shadow-lg text-center font-bold ">${item.title()}</h1>
+                        <p class="text-xl text-white text-shadow-lg text-center">${item.description()}</p>
+                    </div>
+                </div>
+            </c:forEach>
         </div>
-    </main>
+
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const swiper = new Swiper('.swiper-container', {
+                loop: true,
+                autoplay: {
+                    delay: 10000,
+                    disableOnInteraction: false,
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+            });
+        });
+    </script>
+
 </webstore:base>
