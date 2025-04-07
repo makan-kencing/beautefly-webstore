@@ -1,19 +1,16 @@
 package com.lavacorp.beautefly.webstore.product.entity;
 
-import com.lavacorp.beautefly.webstore.promotion.entity.PromotionProduct;
-import com.lavacorp.beautefly.webstore.promotion.entity.PromotionProduct_;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
+import org.hibernate.validator.constraints.URL;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
-
-import static jakarta.persistence.FetchType.LAZY;
 
 @Getter
 @Setter
@@ -26,11 +23,11 @@ public class Product implements Serializable {
     @NotBlank
     private String name;
 
-    @NotBlank
+    @NotNull
     private String description;
 
     @ElementCollection
-    private Set<String> imageUrls;
+    private Set<@URL String> imageUrls = new HashSet<>();
 
     private String brand;
 
@@ -50,8 +47,4 @@ public class Product implements Serializable {
     @NotNull
     @PositiveOrZero
     private int stockCount;
-
-    // TODO: filter only within period
-    @OneToMany(mappedBy = PromotionProduct_.PRODUCT, fetch = LAZY)
-    private Set<PromotionProduct> promotedProduct;
 }

@@ -5,15 +5,17 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
+import org.hibernate.validator.constraints.URL;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
 @Setter
 @Entity
-public class Promotion {
+public class Promotion implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -25,7 +27,7 @@ public class Promotion {
     private String description;
 
     @ElementCollection
-    private Set<String> imageUrls;
+    private Set<@URL String> imageUrls;
 
     @NotNull
     private LocalDate startDate;
@@ -34,5 +36,5 @@ public class Promotion {
     private LocalDate endDate;
 
     @OneToMany(mappedBy = PromotionProduct_.PROMOTION)
-    private Set<PromotionProduct> products;
+    private Set<PromotionProduct> products = new HashSet<>();
 }

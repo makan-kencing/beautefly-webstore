@@ -1,6 +1,6 @@
 package com.lavacorp.beautefly.webstore.order.entity;
 
-import com.lavacorp.beautefly.webstore.account.entity.Account;
+import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
 import com.lavacorp.beautefly.webstore.account.entity.Address;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -8,12 +8,12 @@ import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.annotations.CurrentTimestamp;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -25,7 +25,7 @@ public class SalesOrder implements Serializable {
     private int id;
 
     @ManyToOne
-    private Account account;
+    private UserAccount account;
 
     @ManyToOne
     private Address shippingAddress;
@@ -51,10 +51,10 @@ public class SalesOrder implements Serializable {
     private BigDecimal discountAmount;
 
     @OneToMany(mappedBy = SalesOrderProduct_.ORDER)
-    private Set<SalesOrderProduct> orderedProducts;
+    private Set<SalesOrderProduct> products = new HashSet<>();
 
     public BigDecimal getGrossAmount() {
-        return orderedProducts.stream()
+        return products.stream()
                 .map(SalesOrderProduct::getUnitPrice)
                 .reduce(BigDecimal::add)
                 .orElse(BigDecimal.valueOf(0));

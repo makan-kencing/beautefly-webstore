@@ -15,10 +15,10 @@ GlassFish Application Server 3.1 Resource Definitions//EN"
             datasource-classname="org.postgresql.ds.PGConnectionPoolDataSource"
             wrap-jdbc-objects="false">
         <description/>
-        <property name="serverName" value="localhost"/>
-        <property name="port" value="5432"/>
-        <property name="databaseName" value="user"/>
-        <property name="user" value="user"/>
-        <property name="password" value="password"/>
+        <property name="serverName" value="app.dataSource.host"/>
+        <property name="port" value="app.dataSource.port"/>
+        <property name="databaseName" value="app.dataSource.dbname"/>
+        <property name="user" value="app.dataSource.user"/>
+        <property name="password" value="app.dataSource.password"/>
     </jdbc-connection-pool>
 </resources>
