@@ -1,0 +1,37 @@
+services:
+    db:
+        image: postgres
+        container_name: ${BEAUTEFLY_DB_CONTAINER_NAME:-beautefly-db}
+        environment:
+            PGDATA: /var/lib/postgresql/data/pgdb
+            POSTGRES_DB: ${BEAUTEFLY_DB_NAME:?You must provide the 'BEAUTEFLY_DB_NAME' variable in the .env file}
+            POSTGRES_USER: ${BEAUTEFLY_DB_USER:?You must provide the 'BEAUTEFLY_DB_USER' variable in the .env file}
+            POSTGRES_PASSWORD: ${BEAUTEFLY_DB_PASSWORD:?You must provide the 'BEAUTEFLY_DB_PASSWORD' variable in the .env file}
+        volumes:
+            - ${BEAUTEFLY_EXT_VOLUME:?You must specify the 'BEAUTEFLY_EXT_VOLUME' variable in the .env file!}:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+        healthcheck:
+            test: [ "CMD-SHELL", "pg_isready", "-d", "${BEAUTEFLY_DB_NAME}" ]
+            interval: 30s
+            timeout: 60s
+            retries: 5
+            start_period: 80s
+    web:
+        build:
+            dockerfile: docker/Dockerfile
+            context: .
+        container_name: ${BEAUTEFLY_SERVER_CONTAINER_NAME:-beautefly-server}
+        environment:
+            DATASOURCE_JDBC_URL: jdbc:${BEAUTEFLY_DB_ENGINE}://${BEAUTEFLY_DB_CONTAINER_NAME}:${BEAUTEFLY_DB_PORT}/${BEAUTEFLY_DB_NAME}
+            DATASOURCE_USERNAME: ${BEAUTEFLY_DB_USER}
+            DATASOURCE_PASSWORD: ${BEAUTEFLY_DB_PASSWORD}
+
+            GLASSFISH_ADMIN_PASSWORD: ${GLASSFISH_ADMIN_PASSWORD}
+        volumes:
+            - ${BEAUTEFLY_EXT_VOLUME}:/usr/app/data:z
+        ports:
+            - "8080:8080"
+            - "4848:4848"
+        depends_on:
+            - db
