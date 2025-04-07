@@ -1,0 +1,56 @@
+services:
+    db:
+        image: postgres
+        container_name: ${BEAUTEFLY_DB_CONTAINER_NAME:-beautefly-db}
+        restart: unless-stopped
+        environment:
+            PGDATA: /var/lib/postgresql/data/pgdb
+            POSTGRES_DB: ${BEAUTEFLY_DB_NAME:?You must provide the 'BEAUTEFLY_DB_NAME' variable in the .env file}
+            POSTGRES_USER: ${BEAUTEFLY_DB_USER:?You must provide the 'BEAUTEFLY_DB_USER' variable in the .env file}
+            POSTGRES_PASSWORD: ${BEAUTEFLY_DB_PASSWORD:?You must provide the 'BEAUTEFLY_DB_PASSWORD' variable in the .env file}
+        volumes:
+            - ${BEAUTEFLY_EXT_VOLUME:?You must specify the 'BEAUTEFLY_EXT_VOLUME' variable in the .env file!}:/var/lib/postgresql/data
+        healthcheck:
+            test: [ "CMD-SHELL", "pg_isready", "-d", "${BEAUTEFLY_DB_NAME}" ]
+            interval: 30s
+            timeout: 60s
+            retries: 5
+            start_period: 80s
+    web:
+        build:
+            dockerfile: docker/Dockerfile
+            context: .
+        container_name: ${BEAUTEFLY_SERVER_CONTAINER_NAME:-beautefly-server}
+        restart: unless-stopped
+        environment:
+            BEAUTEFLY_DB_HOST: ${BEAUTEFLY_DB_CONTAINER_NAME}
+            BEAUTEFLY_DB_PORT: ${BEAUTEFLY_DB_PORT}
+            BEAUTEFLY_DB_NAME: ${BEAUTEFLY_DB_NAME}
+            BEAUTEFLY_DB_USER: ${BEAUTEFLY_DB_USER}
+            BEAUTEFLY_DB_PASSWORD: ${BEAUTEFLY_DB_PASSWORD}
+
+            GLASSFISH_ADMIN_PASSWORD: ${GLASSFISH_ADMIN_PASSWORD}
+        volumes:
+            - ${BEAUTEFLY_EXT_VOLUME}:/usr/app/data:z
+        depends_on:
+            - db
+    proxy:
+        build:
+            dockerfile: docker/caddy.Dockerfile
+        container_name: ${BEAUTEFLY_PROXY_CONTAINER_NAME:-beautefly-proxy}
+        restart: unless-stopped
+        environment:
+            BEAUTEFLY_SITE_URL: ${BEAUTEFLY_SITE_URL}
+            BEAUTEFLY_SERVER: "http://${BEAUTEFLY_SERVER_CONTAINER_NAME}:8080"
+            CLOUDFLARE_API_TOKEN: ${CLOUDFLARE_API_TOKEN}
+        volumes:
+            - ./Caddyfile:/etc/caddy/Caddyfile:ro,z
+            - ${BEAUTEFLY_EXT_VOLUME}/media:/var/www/media:z
+            - ${BEAUTEFLY_EXT_VOLUME}:/var/log:z
+            - ${BEAUTEFLY_EXT_VOLUME}:/data:z
+            - ${BEAUTEFLY_EXT_VOLUME}:/config:z
+        ports:
+            - "80:80"
+            - "443:443"
+        depends_on:
+            - web
