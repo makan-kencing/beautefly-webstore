@@ -1,7 +1,7 @@
 <%@tag description="Webstore header" pageEncoding="UTF-8" %>
 
 <header>
-    <nav class="flex items-center gap-8 bg-blue-300 px-5 py-3 text-white">
+    <nav class="flex items-center gap-8 bg-linear-65 from-blue-300 to-pink-300 px-5 py-3 text-white">
 
         <div class="logo"><a href= "${pageContext.request.contextPath}/mainpage.jsp">Beautéfly</a></div>
 
