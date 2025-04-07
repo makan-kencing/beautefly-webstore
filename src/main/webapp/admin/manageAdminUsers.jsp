@@ -63,7 +63,11 @@
     <tbody>
     <c:forEach var="user" items="${users}">
         <tr class="border-b">
-            <td class="p-2">${user.username}</td>
+            <td class="p-2">
+                <a href="/admin/users/view?username=${user.username}" class="hover:underline text-blue-600">
+                        ${user.username}
+                </a>
+            </td>
             <td class="p-2">${user.email}</td>
             <td class="p-2">
                 <c:forEach var="role" items="${user.credential.roles}">
