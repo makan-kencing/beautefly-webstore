@@ -26,9 +26,10 @@ public class AdminUserDetails extends HttpServlet {
             return;
         }
 
-        Account user = accountRepo.findByUsername(username).getFirst();
-
-        if (user == null) {
+        Account user;
+        try {
+            user = accountRepo.findByUsername(username).get(0);
+        } catch (IndexOutOfBoundsException e) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "User not found");
             return;
         }

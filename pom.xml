@@ -13,9 +13,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <maven.compiler.release>21</maven.compiler.release>
-        <maven.compiler.target>21</maven.compiler.target>
-        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.release>17</maven.compiler.release>
 
         <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
@@ -228,65 +228,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>glassfish</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <cargo.zipUrlInstaller.downloadDir>${project.build.directory}/installs</cargo.zipUrlInstaller.downloadDir>
-                <glassfish.adminPassword>admin</glassfish.adminPassword>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.cargo</groupId>
-                        <artifactId>cargo-maven3-plugin</artifactId>
-                        <version>${cargo-maven3-plugin.version}</version>
-                        <configuration>
-                            <container>
-                                <containerId>glassfish7x</containerId>
-                                <zipUrlInstaller>
-                                    <url>
-                                        https://github.com/eclipse-ee4j/glassfish/releases/download/${glassfish.version}/glassfish-${glassfish.version}.zip
-                                    </url>
-                                    <downloadDir>${cargo.zipUrlInstaller.downloadDir}</downloadDir>
-                                </zipUrlInstaller>
-                                <dependencies>
-                                    <dependency>
-                                        <groupId>org.postgresql</groupId>
-                                        <artifactId>postgresql</artifactId>
-                                    </dependency>
-                                </dependencies>
-                            </container>
-
-                            <configuration>
-                                <home>${project.basedir}/glassfish7x</home>
-                                <type>standalone</type>
-
-                                <properties>
-                                    <cargo.remote.password>${glassfish.adminPassword}</cargo.remote.password>
-                                    <cargo.glassfish.removeDefaultDatasource>true</cargo.glassfish.removeDefaultDatasource>
-                                </properties>
-                            </configuration>
-
-                            <deployables>
-                                <deployable>
-                                    <groupId>${project.groupId}</groupId>
-                                    <artifactId>${project.artifactId}</artifactId>
-                                    <type>war</type>
-                                    <location>${project.build.directory}/${project.build.finalName}</location>
-                                    <properties>
-                                        <context>/</context>
-                                    </properties>
-                                </deployable>
-                            </deployables>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>
