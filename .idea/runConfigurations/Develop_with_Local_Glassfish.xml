@@ -75,6 +75,26 @@
         <option name="VM_PARAMETERS" value="" />
         <option name="PROGRAM_PARAMETERS" value="" />
       </SHUTDOWN>
+      <EnvironmentVariables>
+        <option name="NAME" value="BEAUTEFLY_DB_DRIVER" />
+        <option name="VALUE" value="org.postgresql.Driver" />
+        <option name="IS_PREDEFINED" value="false" />
+      </EnvironmentVariables>
+      <EnvironmentVariables>
+        <option name="NAME" value="BEAUTEFLY_DB_PASSWORD" />
+        <option name="VALUE" value="password" />
+        <option name="IS_PREDEFINED" value="false" />
+      </EnvironmentVariables>
+      <EnvironmentVariables>
+        <option name="NAME" value="BEAUTEFLY_DB_URL" />
+        <option name="VALUE" value="jdbc:postgresql://localhost:5432/user" />
+        <option name="IS_PREDEFINED" value="false" />
+      </EnvironmentVariables>
+      <EnvironmentVariables>
+        <option name="NAME" value="BEAUTEFLY_DB_USER" />
+        <option name="VALUE" value="user" />
+        <option name="IS_PREDEFINED" value="false" />
+      </EnvironmentVariables>
     </ConfigurationWrapper>
     <method v="2">
       <option name="RunConfigurationTask" enabled="true" run_configuration_name="Run Database" run_configuration_type="docker-deploy" />
