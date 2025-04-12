@@ -1,7 +1,6 @@
-package com.lavacorp.beautefly.webstore.utils.provider;
+package com.lavacorp.beautefly.util.response;
 
-import com.lavacorp.beautefly.webstore.utils.ResponseStatus;
-import com.lavacorp.beautefly.webstore.utils.dto.ValidationError;
+import com.lavacorp.beautefly.util.response.dto.ValidationError;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.core.MediaType;

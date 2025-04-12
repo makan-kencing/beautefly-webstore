@@ -2,7 +2,7 @@ package com.lavacorp.beautefly.webstore.cart.servlet;
 
 import com.lavacorp.beautefly.webstore.cart.CartService;
 import com.lavacorp.beautefly.webstore.security.SecurityService;
-import com.lavacorp.beautefly.webstore.utils.ResponseStatus;
+import com.lavacorp.beautefly.util.response.ResponseStatus;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

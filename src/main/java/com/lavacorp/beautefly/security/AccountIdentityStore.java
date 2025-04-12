@@ -1,4 +1,4 @@
-package com.lavacorp.beautefly.webstore.security;
+package com.lavacorp.beautefly.security;
 
 import com.lavacorp.beautefly.webstore.account.AccountRepository;
 import jakarta.enterprise.context.ApplicationScoped;

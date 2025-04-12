@@ -1,4 +1,4 @@
-package com.lavacorp.beautefly.webstore.utils.producer;
+package com.lavacorp.beautefly.logging;
 
 import jakarta.enterprise.inject.Produces;
 import jakarta.enterprise.inject.spi.InjectionPoint;
