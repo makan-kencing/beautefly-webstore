@@ -1,4 +1,5 @@
 <%@tag description="Webstore header" pageEncoding="UTF-8" %>
+<%@ taglib prefix="webstore" tagdir="/WEB-INF/tags/webstore" %>
 
 <header>
     <nav class="flex items-center gap-8 bg-linear-65 from-blue-300 to-pink-300 px-5 py-3 text-white">
@@ -16,7 +17,10 @@
             <a href="${pageContext.request.contextPath}/cart" class="cursor-pointer"><i class="fa-solid fa-cart-shopping"></i></a>
             <a href="" class="cursor-pointer"><i class="fa-solid fa-bell"></i></a>
             <a href="${pageContext.request.contextPath}/account" class="cursor-pointer"><i class="fa-solid fa-user"></i></a>
-            <a href="" class="cursor-pointer"><i class="fa-solid fa-bars"></i></a>
+            <button id="menubar" class="cursor-pointer" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></button>
         </div>
     </nav>
+
+    <webstore:menu />
+
 </header>
