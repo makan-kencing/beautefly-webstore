@@ -18,16 +18,15 @@ services:
             retries: 5
             start_period: 80s
     web:
-        build:
-            dockerfile: docker/Dockerfile
-            context: .
+        image: ghcr.io/eclipse-ee4j/glassfish
         container_name: ${BEAUTEFLY_SERVER_CONTAINER_NAME:-beautefly-server}
         environment:
-            DATASOURCE_JDBC_URL: jdbc:${BEAUTEFLY_DB_ENGINE}://${BEAUTEFLY_DB_CONTAINER_NAME}:${BEAUTEFLY_DB_PORT}/${BEAUTEFLY_DB_NAME}
-            DATASOURCE_USERNAME: ${BEAUTEFLY_DB_USER}
-            DATASOURCE_PASSWORD: ${BEAUTEFLY_DB_PASSWORD}
-
             GLASSFISH_ADMIN_PASSWORD: ${GLASSFISH_ADMIN_PASSWORD}
+
+            BEAUTEFLY_DB_DRIVER: ${BEAUTEFLY_DB_DRIVER}
+            BEAUTEFLY_DB_URL: jdbc:${BEAUTEFLY_DB_ENGINE}://${BEAUTEFLY_DB_CONTAINER_NAME}:5432/${BEAUTEFLY_DB_NAME}
+            BEAUTEFLY_DB_USER: ${BEAUTEFLY_DB_USER}
+            BEAUTEFLY_DB_PASSWORD: ${BEAUTEFLY_DB_PASSWORD}
         volumes:
             - ${BEAUTEFLY_EXT_VOLUME}:/usr/app/data:z
         ports:
@@ -35,3 +34,6 @@ services:
             - "4848:4848"
         depends_on:
             - db
+        healthcheck:
+            test: [ "CMD", "curl", "-f", "http://localhost:8080" ]
+            start_period: 30s

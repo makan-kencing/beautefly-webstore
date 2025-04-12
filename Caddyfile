@@ -2,6 +2,7 @@
 (log_common) {
     log {
         output file /var/log/caddy/{args[0]}.access.log
+        format console
     }
 }
 
@@ -28,17 +29,13 @@
         max_size 100MB
     }
 
-    tls {
-        dns cloudflare {$CLOUDFLARE_API_TOKEN}
-    }
-
     handle_path /media/* {
         import cors-headers media
 
         root * /var/www/media
         file_server
 
-        header Content-Disposition attachment
+        header Content-Disposition inline
     }
 
     reverse_proxy {$BEAUTEFLY_SERVER} {
