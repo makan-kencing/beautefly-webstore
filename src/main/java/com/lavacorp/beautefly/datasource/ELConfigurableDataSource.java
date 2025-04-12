@@ -1,0 +1,22 @@
+package com.lavacorp.beautefly.datasource;
+
+import com.lavacorp.beautefly.env.ConfigurableEnvironment;
+import com.lavacorp.beautefly.env.el.ELExpressionEvaluator;
+
+/**
+ * This is a configurable DataSource that is capable of looking up database
+ * connection information from the environment / profiles config properties as
+ * process values as EL expressions.
+ */
+public class ELConfigurableDataSource extends ConfigurableDataSource {
+
+    public ELConfigurableDataSource() {
+        super(
+                new ConfigurableEnvironment(
+                        new String[]{"application", "datasource", "security"},
+                        new ELExpressionEvaluator()
+                ),
+                new ELExpressionEvaluator()
+        );
+    }
+}

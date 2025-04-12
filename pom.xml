@@ -152,6 +152,11 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>6.3.0</version>
+        </dependency>
+        <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
             <version>${commons-logging.version}</version>
@@ -207,25 +212,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>${maven-war-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>prepare-war</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>exploded</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>default-war</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>war</goal>
-                        </goals>
-                        <configuration>
-                            <warSourceDirectory>${project.build.directory}/${project.build.finalName}</warSourceDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -244,44 +230,6 @@
                             <version>${lombok.version}</version>
                         </path>
                     </annotationProcessorPaths>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.google.code.maven-replacer-plugin</groupId>
-                <artifactId>replacer</artifactId>
-                <version>1.5.3</version>
-                <executions>
-                    <execution>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>replace</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <file>${project.build.directory}/${project.build.finalName}/WEB-INF/glassfish-resources.xml</file>
-                    <replacements>
-                        <replacement>
-                            <token>app.dataSource.host</token>
-                            <value>${app.dataSource.host}</value>
-                        </replacement>
-                        <replacement>
-                            <token>app.dataSource.port</token>
-                            <value>${app.dataSource.port}</value>
-                        </replacement>
-                        <replacement>
-                            <token>app.dataSource.dbname</token>
-                            <value>${app.dataSource.dbname}</value>
-                        </replacement>
-                        <replacement>
-                            <token>app.dataSource.user</token>
-                            <value>${app.dataSource.user}</value>
-                        </replacement>
-                        <replacement>
-                            <token>app.dataSource.password</token>
-                            <value>${app.dataSource.password}</value>
-                        </replacement>
-                    </replacements>
                 </configuration>
             </plugin>
         </plugins>
