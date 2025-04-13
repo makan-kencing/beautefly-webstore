@@ -64,28 +64,30 @@
     <c:forEach var="user" items="${users}">
         <tr class="border-b">
             <td class="p-2">
-                <a href="/admin/users/view?username=${user.username}" class="hover:underline text-blue-600">
+                <a href="/admin/users/view?username=${user.username}"
+                   class="text-blue-600 hover:underline">
                         ${user.username}
                 </a>
             </td>
             <td class="p-2">${user.email}</td>
             <td class="p-2">
                 <c:forEach var="role" items="${user.credential.roles}">
-            <span class="px-2 py-1 text-white text-xs rounded-full mr-1
-              ${role == 'ADMIN' ? 'bg-red-600' :
-                role == 'STAFF' ? 'bg-blue-600' :
-                role == 'USER' ? 'bg-green-600' : 'bg-gray-500'}">
-                    ${role}
-            </span>
+                <span class="px-2 py-1 text-white text-xs rounded-full mr-1
+                    ${role == 'ADMIN' ? 'bg-red-600' :
+                      role == 'STAFF' ? 'bg-blue-600' :
+                      role == 'USER' ? 'bg-green-600' : 'bg-gray-500'}">
+                        ${role}
+                </span>
                 </c:forEach>
             </td>
             <td class="p-2">
-          <span class="${user.active ? 'text-green-600' : 'text-red-600'} font-semibold">
-                  ${user.active ? 'YES' : 'NO'}
-          </span>
+            <span class="${user.active ? 'text-green-600' : 'text-red-600'} font-semibold">
+                    ${user.active ? 'YES' : 'NO'}
+            </span>
             </td>
         </tr>
     </c:forEach>
+
     </tbody>
 </my:adminTable>
 

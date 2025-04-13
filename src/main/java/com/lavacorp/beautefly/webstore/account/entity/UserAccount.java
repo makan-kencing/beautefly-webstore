@@ -37,6 +37,11 @@ public class UserAccount extends Account implements Serializable {
     @NotBlank
     private String username;
 
+    private String firstName;
+    private String lastName;
+    private String phone;
+    private String gender;
+
     @NotNull
     @Email
     @Column(unique = true)

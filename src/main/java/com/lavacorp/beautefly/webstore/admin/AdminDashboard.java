@@ -12,7 +12,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@ServletSecurity(@HttpConstraint(rolesAllowed = {"ADMIN"}))
 @WebServlet("/admin/dashboard")
 public class AdminDashboard extends HttpServlet {
 
