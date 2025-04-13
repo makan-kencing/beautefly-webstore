@@ -72,7 +72,9 @@
                             <div class="space-y-2">
                                 <h2 class="text-2xl font-bold">Your cart is empty</h2>
 
-                                <a href="${pageContext.request.contextPath}/" class="text-blue-500">Shop now</a>
+                                <p>Once you add something to your cart, it will appear here. Ready to get started?</p>
+
+                                <a href="${pageContext.request.contextPath}/" class="text-blue-500">Get started</a>
                             </div>
                         </c:otherwise>
                     </c:choose>
