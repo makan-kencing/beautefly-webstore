@@ -7,10 +7,10 @@
 
 <webstore:base pageTitle="Cart">
     <div class="flex flex-col items-center justify-center">
-        <div class="flex gap-5 w-full p-4 justify-center">
+        <div class="flex w-full justify-center gap-5 p-4">
 
-            <div class="flex flex-col max-w-6xl flex-1">
-                <div class="shadow border rounded p-4">
+            <div class="flex max-w-6xl flex-1 flex-col">
+                <div class="rounded-xl border p-4 shadow">
                     <c:choose>
                         <c:when test="${cart.items().size() > 0}">
                             <form>
@@ -69,8 +69,12 @@
                             </form>
                         </c:when>
                         <c:otherwise>
-                            <div>
-                                <h2>Your cart is empty</h2>
+                            <div class="space-y-2">
+                                <h2 class="text-2xl font-bold">Your cart is empty</h2>
+
+                                <p>Once you add something to your cart, it will appear here. Ready to get started?</p>
+
+                                <a href="${pageContext.request.contextPath}/" class="text-blue-500">Get started</a>
                             </div>
                         </c:otherwise>
                     </c:choose>
@@ -79,8 +83,8 @@
 
             <div class="flex flex-col w-xs">
                 <c:if test="${cart.items().size() > 0}">
-                    <div class="shadow border rounded p-4">
-                        <form action="${pageContext.request.contextPath}/cart/checkout" method="get">
+                    <div class="rounded border p-4 shadow">
+                        <form action="${pageContext.request.contextPath}/cart/checkout" method="get" class="space-y-2">
                             <h2>Summary</h2>
 
                             <table>
