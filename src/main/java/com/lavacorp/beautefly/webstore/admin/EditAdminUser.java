@@ -61,6 +61,7 @@ public class EditAdminUser extends HttpServlet {
         if (address == null) {
             address = new Address();
             address.setAccount(user);
+            user.getAddressBook().getAddresses().add(address);
             user.getAddressBook().setDefaultAddress(address);
         }
 
@@ -70,6 +71,7 @@ public class EditAdminUser extends HttpServlet {
         String state = request.getParameter("state");
         String country = request.getParameter("country");
 
+        address.setContactNo(request.getParameter("phone"));
         address.setName(recipientName);
         address.setAddress1(address1);
         address.setAddress2(request.getParameter("address2"));
