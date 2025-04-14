@@ -2,7 +2,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="webstore" tagdir="/WEB-INF/tags/webstore" %>
-<jsp:useBean id="submenu" type="java.util.List<com.lavacorp.beautefly.webstore.home.dto.MainPromoDTO>" scope="request"/>
+<jsp:useBean id="promos" type="java.util.List<com.lavacorp.beautefly.webstore.home.dto.MainPromoDTO>" scope="request"/>
 
 <webstore:base pageTitle="Home">
 
