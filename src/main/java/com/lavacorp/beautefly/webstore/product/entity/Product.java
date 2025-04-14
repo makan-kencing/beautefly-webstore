@@ -1,5 +1,6 @@
 package com.lavacorp.beautefly.webstore.product.entity;
 
+import com.github.slugify.Slugify;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
@@ -26,12 +27,13 @@ public class Product implements Serializable {
     @NotNull
     private String description;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<@URL String> imageUrls = new HashSet<>();
 
     private String brand;
 
-    private String category;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    private Subcategory subcategory;
 
     @PastOrPresent
     private LocalDate releaseDate;
@@ -47,4 +49,9 @@ public class Product implements Serializable {
     @NotNull
     @PositiveOrZero
     private int stockCount;
+
+    public String getSlug() {
+        var slug = Slugify.builder().build();
+        return slug.slugify(name);
+    }
 }
