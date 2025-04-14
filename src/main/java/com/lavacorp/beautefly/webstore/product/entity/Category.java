@@ -25,13 +25,19 @@ public class Category implements Serializable {
     private String name;
 
     private String description;
-    
+
     @NotNull
     @URL
     private String imageUrl;
 
-    @OneToMany(mappedBy = Subcategory_.CATEGORY, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Subcategory> subcategories = new HashSet<>();
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Category parent;
+
+    @OneToMany(mappedBy = Category_.PARENT, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Category> subcategories = new HashSet<>();
+
+    @OneToMany(mappedBy = Product_.CATEGORY, fetch = FetchType.LAZY)
+    private Set<Product> products;
 
     public String getSlug() {
         var slug = Slugify.builder().build();

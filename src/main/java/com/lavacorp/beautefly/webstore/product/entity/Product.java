@@ -33,7 +33,7 @@ public class Product implements Serializable {
     private String brand;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    private Subcategory subcategory;
+    private Category category;
 
     @PastOrPresent
     private LocalDate releaseDate;
