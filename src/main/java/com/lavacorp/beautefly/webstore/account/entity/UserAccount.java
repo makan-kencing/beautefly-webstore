@@ -2,10 +2,7 @@ package com.lavacorp.beautefly.webstore.account.entity;
 
 import com.lavacorp.beautefly.webstore.order.entity.SalesOrder;
 import com.lavacorp.beautefly.webstore.order.entity.SalesOrder_;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -61,6 +58,9 @@ public class UserAccount extends Account implements Serializable {
 
     @OneToMany(mappedBy = SalesOrder_.ACCOUNT, fetch = LAZY)
     private Set<SalesOrder> orders = new HashSet<>();
+
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Address> addresses = new HashSet<>();
 
     @ColumnDefault("true")
     private boolean active;
