@@ -12,14 +12,16 @@
 <my:header />
 <my:adminNavBar />
 
+<!-- Page Header + Edit Btn -->
 <div class="flex justify-between items-center mb-6">
     <h2 class="text-2xl font-bold">User Details</h2>
     <a href="/admin/users/edit?username=${user.username}"
        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
-        Edit Info
+        ✏️ Edit Info
     </a>
 </div>
 
+<!-- Detail Table -->
 <table class="w-full max-w-3xl bg-white rounded shadow text-sm">
     <tbody>
     <tr class="border-b">
@@ -47,27 +49,27 @@
         <td class="p-3">${user.gender}</td>
     </tr>
     <tr class="border-b">
-        <td class="p-3 font-semibold">Address:</td>
-        <td class="p-3">
-            <c:choose>
-                <c:when test="${not empty user.addressBook.defaultAddress}">
-                    ${user.addressBook.defaultAddress.address1},
-                    ${user.addressBook.defaultAddress.address2},
-                    ${user.addressBook.defaultAddress.address3},
-                    ${user.addressBook.defaultAddress.postcode},
-                    ${user.addressBook.defaultAddress.state},
-                    ${user.addressBook.defaultAddress.country}
-                </c:when>
-                <c:otherwise>
-                    <span class="text-gray-400">No address provided</span>
-                </c:otherwise>
-            </c:choose>
-        </td>
-    </tr>
-    <tr class="border-b">
         <td class="p-3 font-semibold">DOB:</td>
         <td class="p-3">${user.dob}</td>
     </tr>
+    <tr class="border-b">
+        <td class="p-3 font-semibold">Address:</td>
+        <td class="p-3">
+            ${user.addressBook.defaultAddress.address1},
+            ${user.addressBook.defaultAddress.address2},
+            ${user.addressBook.defaultAddress.address3},
+            ${user.addressBook.defaultAddress.postcode},
+            ${user.addressBook.defaultAddress.state},
+            ${user.addressBook.defaultAddress.country}
+        </td>
+        <td class="p-3">
+            <a href="/admin/users/edit-address?username=${user.username}"
+               class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-1 rounded">
+                Edit Address
+            </a>
+        </td>
+    </tr>
+
     <tr class="border-b">
         <td class="p-3 font-semibold">Active:</td>
         <td class="p-3">

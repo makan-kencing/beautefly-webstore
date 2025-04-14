@@ -10,11 +10,10 @@ import jakarta.servlet.http.*;
 import jakarta.transaction.Transactional;
 
 import java.io.IOException;
-import java.time.LocalDate;
 
-@WebServlet("/admin/users/edit")
+@WebServlet("/admin/users/edit-address")
 @Transactional
-public class EditAdminUser extends HttpServlet {
+public class EditUserAddress extends HttpServlet {
 
     @Inject
     private AccountRepository accountRepo;
@@ -22,42 +21,53 @@ public class EditAdminUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         String username = request.getParameter("username");
-        UserAccount user = accountRepo.findByUsername(username).stream().findFirst().orElse(null);
+        UserAccount user = accountRepo.findByUsername(username)
+                .stream().findFirst().orElse(null);
 
         if (user == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
 
+        if (user.getAddressBook() != null && user.getAddressBook().getDefaultAddress() != null) {
+            Address addr = user.getAddressBook().getDefaultAddress();
+            addr.getAddress1();
+        }
+
         request.setAttribute("user", user);
-        request.getRequestDispatcher("/admin/editUserDetails.jsp").forward(request, response);
+        request.getRequestDispatcher("/admin/editAddress.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         String username = request.getParameter("username");
-        UserAccount user = accountRepo.findByUsername(username).stream().findFirst().orElse(null);
+        UserAccount user = accountRepo.findByUsername(username)
+                .stream().findFirst().orElse(null);
 
         if (user == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
 
-        String dobStr = request.getParameter("dob");
-        if (dobStr != null && !dobStr.isEmpty()) {
-            user.setDob(LocalDate.parse(dobStr));
+        Address address = user.getAddressBook().getDefaultAddress();
+        if (address == null) {
+            address = new Address();
+            address.setAccount(user);
+            user.getAddressBook().setDefaultAddress(address);
         }
 
-        user.setFirstName(request.getParameter("firstName"));
-        user.setLastName(request.getParameter("lastName"));
-        user.setPhone(request.getParameter("phone"));
-        user.setGender(request.getParameter("gender"));
-        user.setProfileImageUrl(request.getParameter("profileImageUrl"));
-        user.setActive(true);
-
-        user.getAddressBook().setDefaultAddress(null);
+        address.setName(request.getParameter("recipientName"));
+        address.setContactNo(request.getParameter("contactNo"));
+        address.setAddress1(request.getParameter("address1"));
+        address.setAddress2(request.getParameter("address2"));
+        address.setAddress3(request.getParameter("address3"));
+        address.setPostcode(request.getParameter("postcode"));
+        address.setState(request.getParameter("state"));
+        address.setCountry(request.getParameter("country"));
 
         accountRepo.update(user);
 
