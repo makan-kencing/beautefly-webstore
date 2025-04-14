@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.URL;
 
 import java.io.Serializable;
@@ -22,6 +23,7 @@ public class Category implements Serializable {
 
     @NotNull
     @NotBlank
+    @NaturalId
     private String name;
 
     private String description;
