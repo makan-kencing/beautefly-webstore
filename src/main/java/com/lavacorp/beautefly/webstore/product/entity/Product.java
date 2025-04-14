@@ -27,12 +27,13 @@ public class Product implements Serializable {
     @NotNull
     private String description;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<@URL String> imageUrls = new HashSet<>();
 
     private String brand;
 
-    private String category;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    private Subcategory subcategory;
 
     @PastOrPresent
     private LocalDate releaseDate;
