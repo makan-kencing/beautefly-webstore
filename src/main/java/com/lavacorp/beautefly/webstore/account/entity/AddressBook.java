@@ -18,7 +18,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @Setter
 @Embeddable
 public class AddressBook implements Serializable {
-    @OneToMany(mappedBy = Address_.ACCOUNT, fetch = LAZY)
+    @OneToMany(mappedBy = Address_.ACCOUNT, fetch = LAZY, cascade = CascadeType.ALL)
     private Set<Address> addresses = new HashSet<>();
 
     @Nullable
