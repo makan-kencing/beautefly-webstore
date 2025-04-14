@@ -1,6 +1,7 @@
 package com.lavacorp.beautefly.webstore.account.entity;
 
 import jakarta.annotation.Nullable;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -21,6 +22,6 @@ public class AddressBook implements Serializable {
     private Set<Address> addresses = new HashSet<>();
 
     @Nullable
-    @OneToOne(fetch = LAZY)
+    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
     private Address defaultAddress;
 }

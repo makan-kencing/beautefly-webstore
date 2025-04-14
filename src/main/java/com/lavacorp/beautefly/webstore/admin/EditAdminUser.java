@@ -10,6 +10,7 @@ import jakarta.servlet.http.*;
 import jakarta.transaction.Transactional;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 @WebServlet("/admin/users/edit")
 @Transactional
@@ -22,8 +23,7 @@ public class EditAdminUser extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String username = request.getParameter("username");
-        UserAccount user = (UserAccount) accountRepo.findByUsername(username)
-                .stream().findFirst().orElse(null);
+        UserAccount user = accountRepo.findByUsername(username).stream().findFirst().orElse(null);
 
         if (user == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -38,12 +38,16 @@ public class EditAdminUser extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String username = request.getParameter("username");
-        UserAccount user = (UserAccount) accountRepo.findByUsername(username)
-                .stream().findFirst().orElse(null);
+        UserAccount user = accountRepo.findByUsername(username).stream().findFirst().orElse(null);
 
         if (user == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
+        }
+
+        String dobStr = request.getParameter("dob");
+        if (dobStr != null && !dobStr.isEmpty()) {
+            user.setDob(LocalDate.parse(dobStr));
         }
 
         user.setFirstName(request.getParameter("firstName"));
@@ -51,7 +55,7 @@ public class EditAdminUser extends HttpServlet {
         user.setPhone(request.getParameter("phone"));
         user.setGender(request.getParameter("gender"));
         user.setProfileImageUrl(request.getParameter("profileImageUrl"));
-        user.setActive(request.getParameter("active") != null);
+        user.setActive(true);
 
         Address address = user.getAddressBook().getDefaultAddress();
         if (address == null) {
@@ -60,14 +64,19 @@ public class EditAdminUser extends HttpServlet {
             user.getAddressBook().setDefaultAddress(address);
         }
 
-        address.setName(request.getParameter("recipientName"));
-        address.setContactNo(request.getParameter("contactNo"));
-        address.setAddress1(request.getParameter("address1"));
+        String recipientName = request.getParameter("recipientName");
+        String address1 = request.getParameter("address1");
+        String postcode = request.getParameter("postcode");
+        String state = request.getParameter("state");
+        String country = request.getParameter("country");
+
+        address.setName(recipientName);
+        address.setAddress1(address1);
         address.setAddress2(request.getParameter("address2"));
         address.setAddress3(request.getParameter("address3"));
-        address.setPostcode(request.getParameter("postcode"));
-        address.setState(request.getParameter("state"));
-        address.setCountry(request.getParameter("country"));
+        address.setPostcode(postcode);
+        address.setState(state);
+        address.setCountry(country);
 
         accountRepo.update(user);
 
