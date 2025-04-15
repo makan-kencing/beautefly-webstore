@@ -14,7 +14,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-
+// https://medium.com/@cmmapada/advanced-search-and-filtering-using-spring-data-jpa-specification-and-criteria-api-b6e8f891f2bf
+// https://stackoverflow.com/questions/55919913/implement-search-filter-with-conditions
 public record ProductSearchDTO(
         @Nullable String query,
         @Nullable List<String> categories,
@@ -49,7 +50,7 @@ public record ProductSearchDTO(
         if (this.query != null)
             where = builder.and(
                     where,
-                    builder.like(root.get(Product_.name), this.query)
+                    builder.ilike(root.get(Product_.name), "%" + this.query + "%")
             );
 
         if (this.categories != null) {
