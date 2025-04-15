@@ -4,7 +4,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="webstore" tagdir="/WEB-INF/tags/webstore" %>
 
-<jsp:useBean id="result" type="com.lavacorp.beautefly.webstore.product.dto.ProductSearchContext" scope="request"/>
+<jsp:useBean id="result" type="com.lavacorp.beautefly.webstore.product.dto.ProductSearchResultDTO" scope="request"/>
 
 <webstore:base pageTitle="Cart">
     <main>
@@ -70,19 +70,20 @@
 
                     <%-- product list --%>
                 <div id="product-list" class="grid">
-                    <c:forEach var="product" items="${result.page()}">
-                        <div class="product-item">
+                    <c:forEach var="product" items="${result.page().content()}">
+                        <jsp:useBean id="product" type="com.lavacorp.beautefly.webstore.product.dto.ProductDTO"/>
+                        <div>
                                 <%-- product image --%>
                             <div class="h-[60%]">
-                                <a href="${pageContext.request.contextPath}/product/${product.id}/${product.slug}">
-                                    <img src="${product.imageUrls[0]}" alt="${product.name}">
+                                <a href="${pageContext.request.contextPath}/product/${product.id()}/${product.slug()}">
+                                    <img src="${product.imageUrls()[0]}" alt="${product.name()}">
                                 </a>
                             </div>
                                 <%-- product details --%>
                             <div class="flex flex-col items-center h-[40%]">
-                                <h3>${product.name}</h3>
-                                <p>${product.description}</p>
-                                <p><fmt:formatNumber value="${product.unitPrice}" pattern="#,###.##" type="currency"
+                                <h3>${product.name()}</h3>
+                                <p>${product.description()}</p>
+                                <p><fmt:formatNumber value="${product.unitPrice()}" pattern="#,###.##" type="currency"
                                                      currencyCode="MYR"/></p>
                             </div>
                         </div>
