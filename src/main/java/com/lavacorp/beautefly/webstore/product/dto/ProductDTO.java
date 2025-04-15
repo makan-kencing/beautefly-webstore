@@ -6,7 +6,7 @@ import com.lavacorp.beautefly.webstore.product.entity.Product;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 /**
  * DTO for {@link Product}
@@ -15,7 +15,7 @@ public record ProductDTO(
         int id,
         String name,
         String description,
-        Set<String> imageUrls,
+        List<String> imageUrls,
         String brand,
         CategoryDTO category,
         ColorDTO color,
