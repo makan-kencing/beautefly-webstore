@@ -1,6 +1,5 @@
 package com.lavacorp.beautefly.webstore.product.entity;
 
-import com.github.slugify.Slugify;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -40,9 +39,4 @@ public class Category implements Serializable {
 
     @OneToMany(mappedBy = Product_.CATEGORY, fetch = FetchType.LAZY)
     private Set<Product> products;
-
-    public String getSlug() {
-        var slug = Slugify.builder().build();
-        return slug.slugify(name);
-    }
 }
