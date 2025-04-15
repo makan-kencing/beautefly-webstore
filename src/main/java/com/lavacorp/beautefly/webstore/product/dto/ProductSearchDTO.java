@@ -55,14 +55,14 @@ public record ProductSearchDTO(
 
         if (this.categories != null) {
             Join<Product, Category> category = root.join(Product_.category);
-            where = builder.or(
+            where = builder.and(
                     where,
                     builder.in(category.get(Category_.name), categories)
             );
         }
 
         if (this.brands != null)
-            where = builder.or(
+            where = builder.and(
                     where,
                     builder.in(root.get(Product_.brand), brands)
             );
@@ -81,7 +81,7 @@ public record ProductSearchDTO(
 
         if (this.colors != null) {
             Join<Product, Color> color = root.join(Product_.color);
-            where = builder.or(
+            where = builder.and(
                     where,
                     builder.in(color.get(Color_.name), colors)
             );
