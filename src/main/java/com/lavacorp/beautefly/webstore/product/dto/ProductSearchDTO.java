@@ -34,12 +34,10 @@ public record ProductSearchDTO(
         idDesc(Order.desc(Product_.id)),
         name(Order.asc(Product_.name)),
         nameDesc(Order.desc(Product_.name)),
-        category(Order.asc(Category_.name)),
-        categoryDesc(Order.desc(Category_.name)),
         price(Order.asc(Product_.unitPrice)),
         priceDesc(Order.desc(Product_.unitPrice));
 
-        private final Order<?> order;
+        private final Order<Product> order;
     }
 
     public Predicate toPredicate(Root<Product> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
