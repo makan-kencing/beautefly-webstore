@@ -28,6 +28,8 @@ services:
             BEAUTEFLY_DB_USER: ${BEAUTEFLY_DB_USER}
             BEAUTEFLY_DB_PASSWORD: ${BEAUTEFLY_DB_PASSWORD}
         volumes:
+            - ./deploy/init.asadmin:/opt/glassfish7/custom/init.asadmin
+            - ./deploy/postgresql-42.7.5.jar:/opt/glassfish7/domains/domain1/lib/
             - ${BEAUTEFLY_EXT_VOLUME}:/usr/app/data:z
         depends_on:
             - db
