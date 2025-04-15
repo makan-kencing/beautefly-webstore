@@ -35,6 +35,7 @@
         <log4j-bom.version>2.24.3</log4j-bom.version>
         <spring-security-bom.version>6.4.3</spring-security-bom.version>
         <jackson-bom.version>2.18.3</jackson-bom.version>
+        <org.mapstruct.version>1.6.2</org.mapstruct.version>
         <bouncycastle.version>1.78.1</bouncycastle.version>
         <junit.version>5.10.2</junit.version>
 
@@ -165,12 +166,25 @@
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.slugify</groupId>
             <artifactId>slugify</artifactId>
             <version>3.0.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${org.mapstruct.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -227,6 +241,11 @@
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                             <version>${lombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${org.mapstruct.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
