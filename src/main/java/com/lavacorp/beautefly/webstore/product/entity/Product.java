@@ -36,7 +36,7 @@ public class Product implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Category category;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Color color;
 
     @PastOrPresent
