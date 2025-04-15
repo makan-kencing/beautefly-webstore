@@ -1,8 +1,7 @@
 package com.lavacorp.beautefly.webstore.product.servlet;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lavacorp.beautefly.webstore.product.ProductSearchService;
-import com.lavacorp.beautefly.webstore.product.dto.ProductSearchDTO;
+import com.lavacorp.beautefly.webstore.product.mapper.ProductMapper;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -17,12 +16,12 @@ public class ProductSearchServlet extends HttpServlet {
     @Inject
     private ProductSearchService searchService;
 
-    private final ObjectMapper mapper = new ObjectMapper();
+    @Inject
+    private ProductMapper productMapper;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        var params = req.getParameterMap();
-        var search = mapper.convertValue(params, ProductSearchDTO.class);
+        var search = productMapper.fromReq(req);
 
         var result = searchService.search(search);
 
