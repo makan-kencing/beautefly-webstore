@@ -111,16 +111,27 @@
     <div class="bg-white p-6 rounded shadow w-[400px]">
         <h2 class="text-xl font-bold mb-4">Add New User</h2>
         <form method="post" action="/admin/users/add" class="space-y-3">
-            <input type="text" name="username" placeholder="Username" required class="w-full border p-2 rounded" />
-            <input type="email" name="email" placeholder="Email" required class="w-full border p-2 rounded" />
-            <input type="password" name="password" placeholder="Password" required class="w-full border p-2 rounded" />
+            <!--Error Message-->
+            <c:if test="${not empty errors}">
+                <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
+                    <ul>
+                        <c:forEach var="err" items="${errors}">
+                            <li>⚠️ ${err}</li>
+                        </c:forEach>
+                    </ul>
+                </div>
+            </c:if>
+            <input type="text" name="username" placeholder="Username" class="w-full border p-2 rounded" />
+            <input type="email" name="email" placeholder="Email" class="w-full border p-2 rounded" />
+            <input type="password" name="password" placeholder="Password" class="w-full border p-2 rounded" />
 
-            <label class="block">Roles:</label>
-            <select name="roles" multiple required class="w-full border p-2 rounded">
+            <label class="block font-semibold mb-1">Roles:</label>
+            <select name="roles" multiple class="w-full border rounded p-2">
                 <option value="USER">User</option>
                 <option value="STAFF">Staff</option>
                 <option value="ADMIN">Admin</option>
             </select>
+            <small class="text-gray-500">Hold Ctrl (or Cmd) to select multiple</small>
 
             <div>
                 <label><input type="checkbox" name="active" value="true" /> Active</label>
@@ -133,6 +144,15 @@
         </form>
     </div>
 </div>
+
+<c:if test="${not empty errors}">
+    <script>
+        window.onload = function () {
+            openModal();
+        };
+    </script>
+</c:if>
+
 
 <!-- JavaScript on Add Function-->
 <script>

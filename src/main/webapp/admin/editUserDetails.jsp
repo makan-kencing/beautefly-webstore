@@ -15,6 +15,17 @@
 <h2 class="text-2xl font-bold mb-6">Edit User Details</h2>
 
 <form action="/admin/users/edit" method="post" class="w-full max-w-4xl bg-white p-6 rounded shadow">
+    <!--Error Message-->
+    <c:if test="${not empty errors}">
+        <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
+            <ul>
+                <c:forEach var="err" items="${errors}">
+                    <li>⚠️ ${err}</li>
+                </c:forEach>
+            </ul>
+        </div>
+    </c:if>
+
     <input type="hidden" name="username" value="${user.username}" />
 
     <div class="grid grid-cols-2 gap-4">
@@ -35,7 +46,7 @@
 
         <div>
             <label class="block font-semibold mb-1">Email</label>
-            <input type="email" name="email" value="${user.email}" class="w-full border rounded p-2" readonly />
+            <input type="email" name="email" value="${user.email}" class="w-full border rounded p-2" />
         </div>
 
         <div>

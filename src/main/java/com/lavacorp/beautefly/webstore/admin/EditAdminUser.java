@@ -11,6 +11,8 @@ import jakarta.transaction.Transactional;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet("/admin/users/edit")
 @Transactional
@@ -39,6 +41,29 @@ public class EditAdminUser extends HttpServlet {
             throws ServletException, IOException {
         String username = request.getParameter("username");
         UserAccount user = accountRepo.findByUsername(username).stream().findFirst().orElse(null);
+
+        //Error Messages
+        List<String> errors = new ArrayList<>();
+
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String email = request.getParameter("email");
+        String phone = request.getParameter("phone");
+        String gender = request.getParameter("gender");
+
+        if (firstName == null || firstName.trim().isEmpty()) errors.add("First name is required.");
+        if (lastName == null || lastName.trim().isEmpty()) errors.add("Last name is required.");
+        if (email == null || email.trim().isEmpty()) errors.add("Email is required.");
+        if (phone == null || phone.trim().isEmpty()) errors.add("Phone number is required.");
+        if (gender == null || !(gender.equalsIgnoreCase("Male") || gender.equalsIgnoreCase("Female")))
+            errors.add("Gender must be either 'Male' or 'Female'.");
+
+        if (!errors.isEmpty()) {
+            request.setAttribute("errors", errors);
+            request.setAttribute("user", user);
+            request.getRequestDispatcher("/admin/editUserDetails.jsp").forward(request, response);
+            return;
+        }
 
         if (user == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
