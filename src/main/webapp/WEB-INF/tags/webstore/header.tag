@@ -17,14 +17,12 @@
 
 <header>
     <nav class="flex items-center gap-8 from-blue-300 to-pink-300 px-5 py-3 text-white bg-linear-65">
-
         <div class="logo"><a href="${pageContext.request.contextPath}/home">Beautéfly</a></div>
 
         <form class="flex flex-1 items-center rounded-md bg-white">
             <label for="query"></label>
             <input type="text" name="query" id="query" placeholder="Search for products..."
                    class="w-full p-2 text-gray-700">
-
             <button type="submit" class="-ml-8 cursor-pointer"><i
                     class="text-blue-300 fa-solid fa-magnifying-glass"></i></button>
         </form>
@@ -39,9 +37,11 @@
             <a href="${pageContext.request.contextPath}/account">
                 <i class="fa-solid fa-user"></i>
             </a>
-            <button type="button" onclick="document.querySelector('#nav-menu').showModal()">
+
+            <button onclick="document.getElementById('nav-menu').showModal()">
                 <i class="fa-solid fa-bars"></i>
             </button>
+
         </div>
     </nav>
 </header>
@@ -50,15 +50,8 @@
     <dialog id="nav-menu"
             class="ml-auto overflow-hidden bg-transparent p-4 text-xl backdrop:blur-xl backdrop:brightness-200">
         <div class="flex h-full flex-row-reverse gap-3 rounded-xl bg-white">
-
             <%-- main menus --%>
             <div>
-                <div class="text-base">
-                    <button type="button" onclick="this.closest('dialog').close()" class="w-full text-left">
-                        <i class="mr-1 fa-solid fa-xmark"></i>
-                        Close
-                    </button>
-                </div>
                 <div class="font-times font-bold">
                     <ul>
                         <li class="fancy-li"><a href="#sub-skin-care">Skin Care</a></li>
@@ -72,7 +65,7 @@
             </div>
 
             <%-- submenus --%>
-            <div class="*:py-4 *:px-8">
+            <div class="">
                 <div id="sub-skin-care" class="not-target:hidden">
                     <ul>
                         <li class="fancy-li"><a href="${pageContext.request.contextPath}../../views/SkinCare/Cleansing.jsp">Cleansing</a></li>
@@ -139,4 +132,19 @@
     </dialog>
 </nav>
 
+<script>
+    const dialog = document.getElementById('nav-menu');
 
+    dialog.addEventListener('click', function (event) {
+        const rect = dialog.getBoundingClientRect();
+        const isInDialog =
+            event.clientX >= rect.left &&
+            event.clientX <= rect.right &&
+            event.clientY >= rect.top &&
+            event.clientY <= rect.bottom;
+
+        if (!isInDialog) {
+            dialog.close();
+        }
+    });
+</script>
