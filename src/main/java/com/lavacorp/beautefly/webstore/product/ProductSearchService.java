@@ -1,11 +1,7 @@
 package com.lavacorp.beautefly.webstore.product;
 
-import com.lavacorp.beautefly.webstore.product.dto.PaginatedResult;
-import com.lavacorp.beautefly.webstore.product.dto.ProductSearchResultDTO;
-import com.lavacorp.beautefly.webstore.product.dto.ProductSearchDTO;
-import com.lavacorp.beautefly.webstore.product.dto.ProductSearchContextDTO;
+import com.lavacorp.beautefly.webstore.product.dto.*;
 import com.lavacorp.beautefly.webstore.product.entity.Product;
-import com.lavacorp.beautefly.webstore.product.dto.ProductPageDTO;
 import com.lavacorp.beautefly.webstore.product.entity.Product_;
 import com.lavacorp.beautefly.webstore.product.mapper.ProductMapper;
 import jakarta.data.page.Page;
@@ -23,7 +19,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.SelectionQuery;
 import org.hibernate.query.criteria.CriteriaDefinition;
 
-import java.util.stream.Stream;
+import java.util.List;
 
 @ApplicationScoped
 @Transactional
@@ -58,13 +54,13 @@ public class ProductSearchService {
             query = query.setOrder(search.sort().getOrder());
 
         long total = query.getResultCount();
-        Stream<Product> products = query
+        List<Product> products = query
                 .setFirstResult((search.page() - 1) * search.pageSize())
                 .setMaxResults(search.pageSize())
-                .getResultStream();
+                .getResultList();
         Page<ProductSearchResultDTO> page = new PageRecord<>(
                 search.getPageRequest(),
-                products.map(productMapper::fromProduct).toList(),
+                products.stream().map(productMapper::fromProduct).toList(),
                 total
         );
 
