@@ -5,6 +5,7 @@ import com.lavacorp.beautefly.webstore.product.dto.ProductSearchResultDTO;
 import com.lavacorp.beautefly.webstore.product.dto.ProductSearchDTO;
 import com.lavacorp.beautefly.webstore.product.dto.ProductSearchContextDTO;
 import com.lavacorp.beautefly.webstore.product.entity.Product;
+import com.lavacorp.beautefly.webstore.product.dto.ProductPageDTO;
 import com.lavacorp.beautefly.webstore.product.entity.Product_;
 import com.lavacorp.beautefly.webstore.product.mapper.ProductMapper;
 import jakarta.data.page.Page;
@@ -12,6 +13,7 @@ import jakarta.data.page.impl.PageRecord;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceUnit;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.JoinType;
@@ -70,5 +72,18 @@ public class ProductSearchService {
                 PaginatedResult.fromPaginated(page),
                 search
         );
+    }
+
+    public ProductPageDTO getProductDetailsById(int id) {
+        var em = emf.createEntityManager();
+
+        Product product;
+        try {
+            product = em.find(Product.class, id);
+        } catch (NoResultException e) {
+            return null;
+        }
+
+        return productMapper.toProductPageDTO(product);
     }
 }
