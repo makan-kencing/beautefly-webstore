@@ -4,6 +4,7 @@ import com.lavacorp.beautefly.common.Range;
 import com.lavacorp.beautefly.webstore.product.dto.ProductSearchResultDTO;
 import com.lavacorp.beautefly.webstore.product.dto.ProductSearchDTO;
 import com.lavacorp.beautefly.webstore.product.entity.Product;
+import com.lavacorp.beautefly.webstore.product.dto.ProductPageDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
@@ -15,7 +16,7 @@ import java.util.List;
 
 @Mapper(
         componentModel = MappingConstants.ComponentModel.CDI,
-        uses = {CategoryMapper.class, ColorMapper.class}
+        uses = {CategoryMapper.class, ColorMapper.class, RatingMapper.class}
 )
 public interface ProductMapper {
     ProductSearchDTO.ProductSorter DEFAULT_SORT = ProductSearchDTO.ProductSorter.id;
@@ -23,6 +24,8 @@ public interface ProductMapper {
     int DEFAULT_PAGE_SIZE = 50;
 
     ProductSearchResultDTO fromProduct(Product product);
+
+    ProductPageDTO toProductPageDTO(Product product);
 
     default ProductSearchDTO fromReq(HttpServletRequest req) {
         // TODO: do exception handling
