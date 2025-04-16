@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * DTO for {@link Product}
  */
-public record ProductDTO(
+public record ProductPageDTO(
         int id,
         String name,
         String description,
@@ -20,7 +20,9 @@ public record ProductDTO(
         CategoryDTO category,
         ColorDTO color,
         LocalDate releaseDate,
-        BigDecimal unitPrice
+        BigDecimal unitPrice,
+        int stockCount,
+        List<RatingDTO> ratings
 ) implements Serializable {
     public String slug() {
         var slug = Slugify.builder().build();

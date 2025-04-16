@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.URL;
 
 import java.io.Serializable;
@@ -29,7 +30,7 @@ public class Product implements Serializable {
     private String description;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    private Set<@URL String> imageUrls = new HashSet<>();
+    private Set<@URL @Length(max = 512) String> imageUrls = new HashSet<>();
 
     private String brand;
 

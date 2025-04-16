@@ -1,6 +1,9 @@
 package com.lavacorp.beautefly.webstore.product.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -20,7 +23,6 @@ public class Color {
     @NaturalId
     private String name;
 
-    @Embedded
     @NaturalId
     private java.awt.Color color;
 }

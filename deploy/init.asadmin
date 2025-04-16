@@ -1,3 +1,0 @@
-start-domain
-create-jvm-options '--add-opens=java.desktop/java.awt=ALL-UNNAMED'
-stop-domain

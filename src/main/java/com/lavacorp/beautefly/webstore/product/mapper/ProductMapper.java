@@ -1,12 +1,12 @@
 package com.lavacorp.beautefly.webstore.product.mapper;
 
 import com.lavacorp.beautefly.common.Range;
-import com.lavacorp.beautefly.webstore.product.dto.ProductDTO;
+import com.lavacorp.beautefly.webstore.product.dto.ProductSearchResultDTO;
 import com.lavacorp.beautefly.webstore.product.dto.ProductSearchDTO;
 import com.lavacorp.beautefly.webstore.product.entity.Product;
+import com.lavacorp.beautefly.webstore.product.dto.ProductPageDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 
 import java.math.BigDecimal;
@@ -16,13 +16,16 @@ import java.util.List;
 
 @Mapper(
         componentModel = MappingConstants.ComponentModel.CDI,
-        uses = {CategoryMapper.class, ColorMapper.class}
+        uses = {CategoryMapper.class, ColorMapper.class, RatingMapper.class}
 )
 public interface ProductMapper {
+    ProductSearchDTO.ProductSorter DEFAULT_SORT = ProductSearchDTO.ProductSorter.id;
     int DEFAULT_PAGE = 1;
     int DEFAULT_PAGE_SIZE = 50;
 
-    ProductDTO fromProduct(Product product);
+    ProductSearchResultDTO fromProduct(Product product);
+
+    ProductPageDTO toProductPageDTO(Product product);
 
     default ProductSearchDTO fromReq(HttpServletRequest req) {
         // TODO: do exception handling
@@ -69,7 +72,7 @@ public interface ProductMapper {
         if (pageSizeValue != null)
             pageSize = Integer.parseUnsignedInt(pageSizeValue);
 
-        ProductSearchDTO.ProductSorter sort = null;
+        ProductSearchDTO.ProductSorter sort = DEFAULT_SORT;
         var sortValue = req.getParameter("sort");
         if (sortValue != null)
             sort = ProductSearchDTO.ProductSorter.valueOf(sortValue);
