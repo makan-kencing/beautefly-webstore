@@ -19,7 +19,8 @@
     <nav class="flex items-center gap-8 from-blue-300 to-pink-300 px-5 py-3 text-white bg-linear-65">
         <div class="logo"><a href="${pageContext.request.contextPath}/home">Beautéfly</a></div>
 
-        <form class="flex flex-1 items-center rounded-md bg-white">
+        <form action="${pageContext.request.contextPath}/search" method="get"
+              class="flex flex-1 items-center rounded-md bg-white">
             <label for="query"></label>
             <input type="text" name="query" id="query" placeholder="Search for products..."
                    class="w-full p-2 text-gray-700">
