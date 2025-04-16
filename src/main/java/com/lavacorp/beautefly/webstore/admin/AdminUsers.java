@@ -26,7 +26,7 @@ public class AdminUsers extends HttpServlet {
 
         String search = Optional.ofNullable(request.getParameter("search")).orElse("");
         int page = request.getParameter("page") != null ? Integer.parseInt(request.getParameter("page")) : 1;
-        int pageSize = 5;
+        int pageSize = 20;
 
         PageRequest pageRequest = PageRequest.ofPage(page, pageSize, true);
 
