@@ -1,5 +1,6 @@
 package com.lavacorp.beautefly.webstore.product.dto;
 
+import com.github.slugify.Slugify;
 import com.lavacorp.beautefly.webstore.product.entity.Product;
 
 import java.io.Serializable;
@@ -23,4 +24,8 @@ public record ProductPageDTO(
         int stockCount,
         List<RatingDTO> ratings
 ) implements Serializable {
+    public String slug() {
+        var slug = Slugify.builder().build();
+        return slug.slugify(name);
+    }
 }
