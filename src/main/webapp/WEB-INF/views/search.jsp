@@ -15,7 +15,7 @@
 
             <div class="flex flex-col items-stretch *:border-b">
                     <%-- search header --%>
-                <div class="flex flex-col items-center">
+                <div class="flex flex-col items-center p-1">
                     <p>Search for:</p>
                     <h2 class="font-bold text-xl">
                         "${result.search().query()}"
@@ -28,48 +28,48 @@
                 </div>
 
                     <%-- filters --%>
-                <div>
+                <div class="p-1 px-3">
                     <button type="button" class="float-left">
-                        <i class="fa-solid fa-filter"></i>
+                        <i class="fa-solid fa-filter mr-1"></i>
                         Filter
                     </button>
                     <button type="button" popovertarget="sort" class="float-right">
-                        <i class="fa-solid fa-sort"></i>
+                        <i class="fa-solid fa-sort mr-1"></i>
                         Sort
                     </button>
 
-                    <div id="sort" popover role="menu" style="position-area: bottom">
-                        <ul>
+                    <div id="sort" popover role="menu" class="py-2 px-5 w-52 shadow-xl rounded text-xs" style="position-area: bottom span-left">
+                        <ul class="space-y-2">
                             <li>
                                 <input type="radio" name="sort" id="sort-by-id"
                                        value="id" ${result.search().sort() == 'id' ? 'checked' : ''}
-                                       class="peer invisible">
-                                <label for="sort-by-id" class="peer-checked:font-bold">Default</label>
+                                       class="peer hidden">
+                                <label for="sort-by-id" class="peer-checked:font-bold w-full block">Default</label>
                             </li>
                             <li>
                                 <input type="radio" name="sort" id="sort-by-name-asc"
                                        value="name" ${result.search().sort() == 'name' ? 'checked' : ''}
-                                       class="peer invisible">
-                                <label for="sort-by-name-asc" class="peer-checked:font-bold">A-Z</label>
+                                       class="peer hidden">
+                                <label for="sort-by-name-asc" class="peer-checked:font-bold w-full block">A-Z</label>
                             </li>
                             <li>
                                 <input type="radio" name="sort" id="sort-by-name-desc"
                                        value="nameDesc" ${result.search().sort() == 'nameDesc' ? 'checked' : ''}
-                                       class="peer invisible">
-                                <label for="sort-by-name-desc" class="peer-checked:font-bold">Z-A</label>
+                                       class="peer hidden">
+                                <label for="sort-by-name-desc" class="peer-checked:font-bold w-full block">Z-A</label>
                             </li>
                             <li>
                                 <input type="radio" name="sort" id="sort-by-price-desc"
                                        id="priceDesc" ${result.search().sort() == 'priceDesc' ? 'checked' : ''}
-                                       class="peer invisible">
-                                <label for="sort-by-price-desc" class="peer-checked:font-bold">Price: High to
+                                       class="peer hidden">
+                                <label for="sort-by-price-desc" class="peer-checked:font-bold w-full block">Price: High to
                                     Low</label>
                             </li>
                             <li>
                                 <input type="radio" name="sort" id="sort-by-price-asc"
                                        id="price" ${result.search().sort() == 'price' ? 'checked' : ''}
-                                       class="peer invisible">
-                                <label for="sort-by-price-asc" class="peer-checked:font-bold">Price: Low to High</label>
+                                       class="peer hidden">
+                                <label for="sort-by-price-asc" class="peer-checked:font-bold w-full block">Price: Low to High</label>
                             </li>
                         </ul>
                     </div>
@@ -88,7 +88,7 @@
                                 </a>
                             </div>
                                 <%-- product details --%>
-                            <div class="flex flex-col items-center h-[20%]">
+                            <div class="text-center h-[20%]">
                                 <h3>
                                     <a href="${pageContext.request.contextPath}/product/${product.id()}/${product.slug()}">
                                             ${product.name()}
@@ -101,11 +101,11 @@
                     </c:forEach>
                 </div>
 
-                <div>
+                <div class="text-center">
                     Page: ${result.page().page()} of ${result.page().maxPage()}
                 </div>
 
-                <div>
+                <div class="p-1">
                     <c:if test="${result.page().hasPrevious()}">
                         <button type="submit" onsubmit="setPreviousPage()" class="float-left">Previous</button>
                     </c:if>
