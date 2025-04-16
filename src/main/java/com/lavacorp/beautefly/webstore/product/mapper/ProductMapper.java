@@ -19,6 +19,7 @@ import java.util.List;
         uses = {CategoryMapper.class, ColorMapper.class}
 )
 public interface ProductMapper {
+    ProductSearchDTO.ProductSorter DEFAULT_SORT = ProductSearchDTO.ProductSorter.id;
     int DEFAULT_PAGE = 1;
     int DEFAULT_PAGE_SIZE = 50;
 
@@ -69,7 +70,7 @@ public interface ProductMapper {
         if (pageSizeValue != null)
             pageSize = Integer.parseUnsignedInt(pageSizeValue);
 
-        ProductSearchDTO.ProductSorter sort = null;
+        ProductSearchDTO.ProductSorter sort = DEFAULT_SORT;
         var sortValue = req.getParameter("sort");
         if (sortValue != null)
             sort = ProductSearchDTO.ProductSorter.valueOf(sortValue);
