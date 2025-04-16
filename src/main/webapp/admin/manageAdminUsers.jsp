@@ -28,6 +28,25 @@
     </script>
 </c:if>
 
+<!-- Pop Up Successful Delete Message-->
+<c:if test="${param.deleted == '1'}">
+    <div id="toast"
+         class="fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded shadow-lg z-50
+                opacity-100 transition-opacity duration-500 ease-in-out">
+        User(s) deleted successfully!
+    </div>
+
+    <script>
+        setTimeout(() => {
+            const toast = document.getElementById("toast");
+            toast.classList.remove("opacity-100");
+            toast.classList.add("opacity-0");
+            setTimeout(() => toast.remove(), 500);
+        }, 2000);
+    </script>
+</c:if>
+
+
 <my:header />
 <my:adminNavBar />
 
@@ -44,10 +63,17 @@
         <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Apply</button>
     </form>
 
-    <!-- Add New User -->
-    <a href="javascript:void(0)" onclick="openModal()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-        + Add
-    </a>
+    <!-- Add & Delete Buttons -->
+    <div class="flex gap-2">
+        <a href="javascript:void(0)" onclick="openModal()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+            + Add
+        </a>
+
+        <button type="button" onclick="toggleDeleteMode()" id="deleteModeBtn"
+                class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+            🗑️ Delete
+        </button>
+    </div>
 </div>
 
 <!-- User Table -->
@@ -62,8 +88,9 @@
     </thead>
     <tbody>
     <c:forEach var="user" items="${users}">
-        <tr class="border-b">
-            <td class="p-2">
+        <tr class="border-b user-row hidden-checkbox">
+            <td class="p-2 flex items-center gap-2">
+                <input type="checkbox" name="usernames" value="${user.username}" class="delete-checkbox hidden" />
                 <a href="/admin/users/view?username=${user.username}"
                    class="text-blue-600 hover:underline">
                         ${user.username}
@@ -145,6 +172,28 @@
     </div>
 </div>
 
+<!-- Delete Form + Confirm -->
+<form id="deleteForm" action="/admin/users/delete" method="post" class="mt-4 hidden">
+    <button type="button" onclick="confirmDelete()" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+        🗑️ Delete Selected
+    </button>
+</form>
+
+<!-- JavaScript on Delete & Confirm Function-->
+<script>
+    function toggleDeleteMode() {
+        document.querySelectorAll('.delete-checkbox').forEach(cb => cb.classList.toggle('hidden'));
+        document.getElementById('deleteForm').classList.toggle('hidden');
+    }
+
+    function confirmDelete() {
+        if (confirm("Are you sure you want to delete the selected user(s)?")) {
+            document.getElementById('deleteForm').submit();
+        }
+    }
+</script>
+
+<!-- JavaScript on Error Message-->
 <c:if test="${not empty errors}">
     <script>
         window.onload = function () {
