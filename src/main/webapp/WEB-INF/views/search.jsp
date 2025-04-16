@@ -8,7 +8,7 @@
 
 <webstore:base pageTitle="Cart">
     <main>
-        <form action="${pageContext.request.contextPath}/search" method="get">
+        <form action="${pageContext.request.contextPath}/search" method="get" id="search">
             <div class="not-target:hidden" id="filter">
 
             </div>
@@ -113,10 +113,10 @@
 
                 <div class="p-1">
                     <c:if test="${result.page().hasPrevious()}">
-                        <button type="submit" onsubmit="setPreviousPage()" class="float-left">Previous</button>
+                        <button type="submit" class="float-left" id="previous">Previous</button>
                     </c:if>
                     <c:if test="${result.page().hasNext()}">
-                        <button type="submit" onsubmit="setNextPage()" class="float-right">Next</button>
+                        <button type="submit" class="float-right" id="next">Next</button>
                     </c:if>
                 </div>
             </div>
@@ -124,19 +124,16 @@
     </main>
 
     <script>
-        function setPreviousPage() {
-            const form = this.closest("form");
-            const pageField = form.querySelector("input[name='page']");
+        const searchForm = document.querySelector('form#search')
+        searchForm.addEventListener("submit", function (e) {
+            const pageInput = this.querySelector("input[name='page']");
 
-            pageField.value -= 1;
-        }
+            if (e.submitter.id === "previous")
+                pageInput.value = +pageInput.value - 1;
 
-        function setNextPage() {
-            const form = this.closest("form");
-            const pageField = form.querySelector("input[name='page']");
-
-            pageField.value += 1;
-        }
+            if (e.submitter.id === "next")
+                pageInput.value = +pageInput.value + 1;
+        });
     </script>
 </webstore:base>
 
