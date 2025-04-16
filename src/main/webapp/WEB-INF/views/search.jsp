@@ -4,7 +4,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="webstore" tagdir="/WEB-INF/tags/webstore" %>
 
-<jsp:useBean id="result" type="com.lavacorp.beautefly.webstore.product.dto.ProductSearchResultDTO" scope="request"/>
+<jsp:useBean id="result" type="com.lavacorp.beautefly.webstore.product.dto.ProductSearchContextDTO" scope="request"/>
 
 <webstore:base pageTitle="Cart">
     <main>
@@ -13,7 +13,7 @@
 
             </div>
 
-            <div class="flex flex-col items-stretch *:border-b">
+            <div class="flex flex-col items-stretch divide-y divide-gray-500">
                     <%-- search header --%>
                 <div class="flex flex-col items-center p-1">
                     <p>Search for:</p>
@@ -38,7 +38,8 @@
                         Sort
                     </button>
 
-                    <div id="sort" popover role="menu" class="py-2 px-5 w-52 shadow-xl rounded text-xs" style="position-area: bottom span-left">
+                    <div id="sort" popover role="menu" class="py-2 px-5 w-52 shadow-xl rounded text-xs"
+                         style="position-area: bottom span-left">
                         <ul class="space-y-2">
                             <li>
                                 <input type="radio" name="sort" id="sort-by-id"
@@ -62,48 +63,53 @@
                                 <input type="radio" name="sort" id="sort-by-price-desc"
                                        id="priceDesc" ${result.search().sort() == 'priceDesc' ? 'checked' : ''}
                                        class="peer hidden">
-                                <label for="sort-by-price-desc" class="peer-checked:font-bold w-full block">Price: High to
+                                <label for="sort-by-price-desc" class="peer-checked:font-bold w-full block">Price: High
+                                    to
                                     Low</label>
                             </li>
                             <li>
                                 <input type="radio" name="sort" id="sort-by-price-asc"
                                        id="price" ${result.search().sort() == 'price' ? 'checked' : ''}
                                        class="peer hidden">
-                                <label for="sort-by-price-asc" class="peer-checked:font-bold w-full block">Price: Low to High</label>
+                                <label for="sort-by-price-asc" class="peer-checked:font-bold w-full block">Price: Low to
+                                    High</label>
                             </li>
                         </ul>
                     </div>
                 </div>
 
                     <%-- product list --%>
-                <div id="product-list" class="grid grid-cols-[repeat(auto-fill,minmax(28rem,1fr))] auto-rows-[60vh]">
-                    <c:forEach var="product" items="${result.page().content()}">
-                        <jsp:useBean id="product" type="com.lavacorp.beautefly.webstore.product.dto.ProductDTO"/>
-                        <div>
-                                <%-- product image --%>
-                            <div class="h-[80%]">
-                                <a href="${pageContext.request.contextPath}/product/${product.id()}/${product.slug()}">
-                                    <img src="${product.imageUrls()[0]}" alt="${product.name()}"
-                                         class="object-contain h-full w-full m-auto">
-                                </a>
-                            </div>
-                                <%-- product details --%>
-                            <div class="text-center h-[20%]">
-                                <h3>
+                    <div id="product-list"
+                         class="grid grid-cols-[repeat(auto-fill,minmax(28rem,1fr))] auto-rows-[60vh] overflow-hidden">
+                        <c:forEach var="product" items="${result.page().content()}">
+                            <jsp:useBean id="product" type="com.lavacorp.beautefly.webstore.product.dto.ProductSearchResultDTO"/>
+                            <div class="relative
+                                        before:content-[''] before:absolute before:bg-gray-500 before:h-[120vh] before:w-[1px] before:-left-[1px] before:top-0
+                                        after:content-[''] after:absolute after:bg-gray-500 after:w-screen after:h-[1px] after:left-0 after:-top-[1px]">
+                                    <%-- product image --%>
+                                <div class="h-[85%]">
                                     <a href="${pageContext.request.contextPath}/product/${product.id()}/${product.slug()}">
-                                            ${product.name()}
+                                        <img src="${product.imageUrls()[0]}" alt="${product.name()}"
+                                             class="object-contain h-full w-full m-auto">
                                     </a>
-                                </h3>
-                                <p><fmt:formatNumber value="${product.unitPrice()}" type="currency"
-                                                     currencySymbol="RM "/></p>
+                                </div>
+                                    <%-- product details --%>
+                                <div class="text-center h-[15%] space-y-2 py-2">
+                                    <h3>
+                                        <a href="${pageContext.request.contextPath}/product/${product.id()}/${product.slug()}">
+                                                ${product.name()}
+                                        </a>
+                                    </h3>
+                                    <p><fmt:formatNumber value="${product.unitPrice()}" type="currency"
+                                                         currencySymbol="RM "/></p>
+                                </div>
                             </div>
-                        </div>
-                    </c:forEach>
-                </div>
+                        </c:forEach>
+                    </div>
 
-                <div class="text-center">
-                    Page: ${result.page().page()} of ${result.page().maxPage()}
-                </div>
+                    <div class="text-center p-4">
+                        Page: ${result.page().page()} of ${result.page().maxPage()}
+                    </div>
 
                 <div class="p-1">
                     <c:if test="${result.page().hasPrevious()}">
