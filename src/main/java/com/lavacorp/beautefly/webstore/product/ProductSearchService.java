@@ -5,6 +5,7 @@ import com.lavacorp.beautefly.webstore.product.dto.ProductDTO;
 import com.lavacorp.beautefly.webstore.product.dto.ProductSearchDTO;
 import com.lavacorp.beautefly.webstore.product.dto.ProductSearchResultDTO;
 import com.lavacorp.beautefly.webstore.product.entity.Product;
+import com.lavacorp.beautefly.webstore.product.entity.Product_;
 import com.lavacorp.beautefly.webstore.product.mapper.ProductMapper;
 import jakarta.data.page.Page;
 import jakarta.data.page.impl.PageRecord;
@@ -13,12 +14,12 @@ import jakarta.inject.Inject;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceUnit;
 import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Order;
+import jakarta.persistence.criteria.JoinType;
 import jakarta.transaction.Transactional;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.query.SelectionQuery;
 import org.hibernate.query.criteria.CriteriaDefinition;
-import org.hibernate.query.criteria.HibernateCriteriaBuilder;
 
 import java.util.stream.Stream;
 
@@ -32,12 +33,19 @@ public class ProductSearchService {
     private ProductMapper productMapper;
 
     public ProductSearchResultDTO search(ProductSearchDTO search) {
-        var builder = (HibernateCriteriaBuilder) emf.getCriteriaBuilder();
+        // use statelessSession to not cache entities
+        var statelessSession = emf.unwrap(SessionFactory.class)
+                .openStatelessSession();
+
+        var builder = statelessSession.getCriteriaBuilder();
 
         CriteriaQuery<Product> criteria = new CriteriaDefinition<>(emf, Product.class) {{
             var root = from(Product.class);
 
             select(root);
+            root.fetch(Product_.category, JoinType.LEFT);
+            root.fetch(Product_.color, JoinType.LEFT);
+            root.fetch(Product_.imageUrls, JoinType.LEFT);
             where(search.toPredicate(root, this, builder));
         }};
 
