@@ -19,7 +19,7 @@ import jakarta.ws.rs.core.Response;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
 
-@Path("/api/account")
+@Path("/account")
 @ApplicationScoped
 @Transactional
 @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_FORM_URLENCODED})

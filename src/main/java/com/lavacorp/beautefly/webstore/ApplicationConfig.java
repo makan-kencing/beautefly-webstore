@@ -15,6 +15,6 @@ import jakarta.ws.rs.core.Application;
 )
 @DeclareRoles({"USER", "STAFF", "ADMIN"})
 @ApplicationScoped
-@ApplicationPath("/")
+@ApplicationPath("/api")
 public class ApplicationConfig extends Application {
 }
