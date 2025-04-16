@@ -1,12 +1,11 @@
 package com.lavacorp.beautefly.webstore.product.mapper;
 
 import com.lavacorp.beautefly.common.Range;
-import com.lavacorp.beautefly.webstore.product.dto.ProductDTO;
+import com.lavacorp.beautefly.webstore.product.dto.ProductSearchResultDTO;
 import com.lavacorp.beautefly.webstore.product.dto.ProductSearchDTO;
 import com.lavacorp.beautefly.webstore.product.entity.Product;
 import jakarta.servlet.http.HttpServletRequest;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 
 import java.math.BigDecimal;
@@ -23,7 +22,7 @@ public interface ProductMapper {
     int DEFAULT_PAGE = 1;
     int DEFAULT_PAGE_SIZE = 50;
 
-    ProductDTO fromProduct(Product product);
+    ProductSearchResultDTO fromProduct(Product product);
 
     default ProductSearchDTO fromReq(HttpServletRequest req) {
         // TODO: do exception handling

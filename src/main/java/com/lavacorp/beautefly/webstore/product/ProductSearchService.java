@@ -1,9 +1,9 @@
 package com.lavacorp.beautefly.webstore.product;
 
 import com.lavacorp.beautefly.webstore.product.dto.PaginatedResult;
-import com.lavacorp.beautefly.webstore.product.dto.ProductDTO;
-import com.lavacorp.beautefly.webstore.product.dto.ProductSearchDTO;
 import com.lavacorp.beautefly.webstore.product.dto.ProductSearchResultDTO;
+import com.lavacorp.beautefly.webstore.product.dto.ProductSearchDTO;
+import com.lavacorp.beautefly.webstore.product.dto.ProductSearchContextDTO;
 import com.lavacorp.beautefly.webstore.product.entity.Product;
 import com.lavacorp.beautefly.webstore.product.entity.Product_;
 import com.lavacorp.beautefly.webstore.product.mapper.ProductMapper;
@@ -32,7 +32,7 @@ public class ProductSearchService {
     @Inject
     private ProductMapper productMapper;
 
-    public ProductSearchResultDTO search(ProductSearchDTO search) {
+    public ProductSearchContextDTO search(ProductSearchDTO search) {
         // use statelessSession to not cache entities
         var statelessSession = emf.unwrap(SessionFactory.class)
                 .openStatelessSession();
@@ -60,13 +60,13 @@ public class ProductSearchService {
                 .setFirstResult((search.page() - 1) * search.pageSize())
                 .setMaxResults(search.pageSize())
                 .getResultStream();
-        Page<ProductDTO> page = new PageRecord<>(
+        Page<ProductSearchResultDTO> page = new PageRecord<>(
                 search.getPageRequest(),
                 products.map(productMapper::fromProduct).toList(),
                 total
         );
 
-        return new ProductSearchResultDTO(
+        return new ProductSearchContextDTO(
                 PaginatedResult.fromPaginated(page),
                 search
         );
