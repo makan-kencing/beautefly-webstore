@@ -7,19 +7,14 @@ import lombok.extern.log4j.Log4j2;
 import java.awt.*;
 
 @Converter(autoApply = true)
-@Log4j2
 public class ColorConverter implements AttributeConverter<Color, String> {
     @Override
     public String convertToDatabaseColumn(Color attribute) {
-        String hex = "#" + Integer.toHexString(attribute.getRGB()).substring(0,6);
-        log.info("Convert from {} to hex {}", attribute, hex);
-        return hex;
+        return "#" + Integer.toHexString(attribute.getRGB()).substring(0, 6);
     }
 
     @Override
     public Color convertToEntityAttribute(String dbData) {
-        Color color = Color.decode(dbData);
-        log.info("Convert from hex {} to {}", dbData, color);
-        return color;
+        return Color.decode(dbData);
     }
 }
