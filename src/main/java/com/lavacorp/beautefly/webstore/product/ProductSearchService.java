@@ -43,8 +43,9 @@ public class ProductSearchService {
 
         SelectionQuery<Product> query = emf.createEntityManager()
                 .unwrap(Session.class)
-                .createSelectionQuery(criteria)
-                .setOrder(search.sort().getOrder());
+                .createSelectionQuery(criteria);
+        if (search.sort() != null)
+            query = query.setOrder(search.sort().getOrder());
 
         long total = query.getResultCount();
         Stream<Product> products = query
