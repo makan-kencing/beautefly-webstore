@@ -72,6 +72,8 @@ public class FileService {
         }
 
         var file = fileStorage.save(tmpFile, mimeType.getExtension());
+        if (file == null)
+            return null;
 
         emf.unwrap(SessionFactory.class)
                 .openStatelessSession()
