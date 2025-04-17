@@ -33,6 +33,13 @@ public class FileServerStorage implements FileStorage {
 
         outputDir = Path.of(environment.getProperty("Output Media Directory", "filestorage.media-dir"));
         baseHref = URI.create(environment.getProperty("URL Base URI", "filestorage.base-uri"));
+
+        try {
+            Files.createDirectories(outputDir);
+        } catch (IOException e) {
+            log.error("Error creating output directory {}", outputDir, e);
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
