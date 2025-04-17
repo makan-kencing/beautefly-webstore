@@ -1,5 +1,7 @@
 package com.lavacorp.beautefly.webstore.account.entity;
 
+import com.lavacorp.beautefly.webstore.file.entity.File;
+import com.lavacorp.beautefly.webstore.file.entity.File_;
 import com.lavacorp.beautefly.webstore.order.entity.SalesOrder;
 import com.lavacorp.beautefly.webstore.order.entity.SalesOrder_;
 import jakarta.persistence.Column;
@@ -61,6 +63,9 @@ public class UserAccount extends Account implements Serializable {
 
     @OneToMany(mappedBy = SalesOrder_.ACCOUNT, fetch = LAZY)
     private Set<SalesOrder> orders = new HashSet<>();
+
+    @OneToMany(mappedBy = File_.ACCOUNT, fetch = LAZY)
+    private Set<File> uploadedFiles = new HashSet<>();
 
     @ColumnDefault("true")
     private boolean active;
