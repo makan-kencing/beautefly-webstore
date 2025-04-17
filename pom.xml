@@ -33,7 +33,7 @@
         <hibernate-validator.version>8.0.2.Final</hibernate-validator.version>
         <commons-logging.version>1.2</commons-logging.version>
         <log4j-bom.version>2.24.3</log4j-bom.version>
-        <spring-security-bom.version>6.4.3</spring-security-bom.version>
+        <spring-security-bom.version>6.4.4</spring-security-bom.version>
         <jackson-bom.version>2.18.3</jackson-bom.version>
         <org.mapstruct.version>1.6.2</org.mapstruct.version>
         <bouncycastle.version>1.78.1</bouncycastle.version>
