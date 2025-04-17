@@ -10,34 +10,24 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/product/*")
+@WebServlet("/product")
 public class ProductServlet extends HttpServlet {
     @Inject
     private ProductSearchService productService;
 
-    // https://stackoverflow.com/questions/8715474/servlet-and-path-parameters-like-xyz-value-test-how-to-map-in-web-xml
-    public Integer resolveProductId(String path) {
-        // /product
-        if (path == null)
-            return null;
-
-        // /product/{productId}/{slug}
-        String[] parts = path.split("/");
-
-        if (parts.length < 2)
-            return null;
-
-        try {
-            return Integer.parseInt(parts[1]);
-        } catch (NumberFormatException e) {
-            return null;
-        }
-    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        var productId = resolveProductId(req.getPathInfo());
-        if (productId == null) {
+        var productIdParam = req.getParameter("id");
+        if (productIdParam == null) {
+            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+
+        int productId;
+        try {
+            productId = Integer.parseInt(productIdParam);
+        } catch (NumberFormatException exc) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
