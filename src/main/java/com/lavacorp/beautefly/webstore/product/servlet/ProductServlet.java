@@ -18,16 +18,10 @@ public class ProductServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        var productIdParam = req.getParameter("id");
-        if (productIdParam == null) {
-            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
-            return;
-        }
-
         int productId;
         try {
-            productId = Integer.parseInt(productIdParam);
-        } catch (NumberFormatException exc) {
+            productId = Integer.parseInt(req.getParameter("id"));
+        } catch (NullPointerException | NumberFormatException exc) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
