@@ -52,6 +52,4 @@ services:
             - ${BEAUTEFLY_EXT_VOLUME}:/var/log:z
             - ${BEAUTEFLY_EXT_VOLUME}:/data:z
             - ${BEAUTEFLY_EXT_VOLUME}:/config:z
-        ports:
-            - "80:80"
-            - "443:443"
+        network_mode: host
