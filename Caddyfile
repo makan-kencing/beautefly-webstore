@@ -29,7 +29,7 @@
         max_size 100MB
     }
 
-    handle_path {$BEAUTEFLY_MEDIA_FILESERVER_BASE_URI}/* {
+    handle_path {$BEAUTEFLY_FILESERVER_BASE_URI}/* {
         import cors-headers media
 
         root * /var/www/media
