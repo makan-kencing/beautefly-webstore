@@ -41,3 +41,21 @@ services:
         healthcheck:
             test: [ "CMD", "curl", "-f", "http://localhost:8080" ]
             start_period: 30s
+    proxy:
+        image: caddy:2-alpine
+        container_name: ${BEAUTEFLY_PROXY_CONTAINER_NAME:-beautefly-proxy}
+        environment:
+            BEAUTEFLY_SITE_URL: localhost
+            BEAUTEFLY_SERVER: localhost:8080
+            BEAUTEFLY_FILESERVER_BASE_URI: ${BEAUTEFLY_FILESERVER_BASE_URI}
+        volumes:
+            - ./Caddyfile:/etc/caddy/Caddyfile:ro,z
+            - ${BEAUTEFLY_EXT_VOLUME}/media:/var/www/media:z
+            - ${BEAUTEFLY_EXT_VOLUME}:/var/log:z
+            - ${BEAUTEFLY_EXT_VOLUME}:/data:z
+            - ${BEAUTEFLY_EXT_VOLUME}:/config:z
+        ports:
+            - "80:80"
+            - "443:443"
+        depends_on:
+            - web

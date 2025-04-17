@@ -138,6 +138,7 @@
     </ConfigurationWrapper>
     <method v="2">
       <option name="RunConfigurationTask" enabled="true" run_configuration_name="Run Database" run_configuration_type="docker-deploy" />
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="Run Proxy" run_configuration_type="docker-deploy" />
       <option name="Make" enabled="true" />
       <option name="BuildArtifacts" enabled="true">
         <artifact name="beautefly-webstore:war exploded" />
