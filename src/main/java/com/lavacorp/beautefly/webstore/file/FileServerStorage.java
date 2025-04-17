@@ -30,7 +30,7 @@ public class FileServerStorage implements FileStorage {
     static URI baseHref = URI.create("/media");
 
     @Override
-    public @Nullable File save(byte[] data, String extension) {
+    public @Nullable String save(byte[] data, String extension) {
         var hash = DatatypeConverter.printHexBinary(digester.digest());
         var filename = hash + "." + extension;
 
@@ -43,17 +43,12 @@ public class FileServerStorage implements FileStorage {
             return null;
         }
 
-        var file = new File();
-        file.setFilename(filename);
-        // TODO: change so default is not always image. ETA: never
-        file.setType(File.FileType.IMAGE);
-
-        return file;
+        return filename;
     }
 
     @Override
-    public boolean delete(File file) {
-        Path localPath = saveDir.resolve(file.getFilename());
+    public boolean delete(String filename) {
+        Path localPath = saveDir.resolve(filename);
 
         return localPath.toFile().delete();
     }

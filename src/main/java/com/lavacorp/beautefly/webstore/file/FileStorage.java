@@ -1,16 +1,16 @@
 package com.lavacorp.beautefly.webstore.file;
 
-import com.lavacorp.beautefly.webstore.file.entity.File;
 import jakarta.annotation.Nullable;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
 public interface FileStorage {
     @Nullable
-    File save(byte[] data, String extension);
+    String save(byte[] data, String extension);
 
-    default @Nullable File save(java.io.File file, String extension) {
+    default @Nullable String save(File file, String extension) {
         try {
             return save(Files.readAllBytes(file.toPath()), extension);
         } catch (IOException e) {
@@ -18,5 +18,5 @@ public interface FileStorage {
         }
     }
 
-    boolean delete(File file);
+    boolean delete(String filename);
 }
