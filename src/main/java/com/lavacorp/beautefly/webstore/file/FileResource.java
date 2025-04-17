@@ -1,6 +1,6 @@
 package com.lavacorp.beautefly.webstore.file;
 
-import com.lavacorp.beautefly.webstore.account.AccountRepository;
+import com.lavacorp.beautefly.webstore.security.SecurityService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -16,7 +16,7 @@ public class FileResource {
     private FileService fileService;
 
     @Inject
-    private AccountRepository accountRepository;
+    private SecurityService securityService;
 
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -24,8 +24,7 @@ public class FileResource {
     public Response uploadFile(
             @FormParam("file") EntityPart part
     ) {
-        var principal = securityContext.getUserPrincipal();
-        var account = accountRepository.findByEmail(principal.getName());
+        var account = securityService.getUserAccountContext(securityContext);
 
         if (account == null)
             return Response.status(Response.Status.FORBIDDEN).build();
