@@ -19,7 +19,7 @@ services:
             start_period: 80s
     web:
         image: ghcr.io/eclipse-ee4j/glassfish
-        container_name: ${BEAUTEFLY_SERVER_CONTAINER_NAME:-beautefly-server}
+        container_name: ${BEAUTEFLY_WEB_CONTAINER_NAME:-beautefly-server}
         environment:
             GLASSFISH_ADMIN_PASSWORD: ${GLASSFISH_ADMIN_PASSWORD}
 
@@ -27,6 +27,9 @@ services:
             BEAUTEFLY_DB_URL: jdbc:${BEAUTEFLY_DB_ENGINE}://${BEAUTEFLY_DB_CONTAINER_NAME}:5432/${BEAUTEFLY_DB_NAME}
             BEAUTEFLY_DB_USER: ${BEAUTEFLY_DB_USER}
             BEAUTEFLY_DB_PASSWORD: ${BEAUTEFLY_DB_PASSWORD}
+
+            BEAUTEFLY_WEB_MEDIA_DIR: /usr/app/data${BEAUTEFLY_FILESERVER_BASE_URI}
+            BEAUTEFLY_FILESERVER_BASE_URI: ${BEAUTEFLY_FILESERVER_BASE_URI}
         volumes:
             - ./deploy/postgresql-42.7.5.jar:/opt/glassfish7/domains/domain1/lib/
             - ${BEAUTEFLY_EXT_VOLUME}:/usr/app/data:z
