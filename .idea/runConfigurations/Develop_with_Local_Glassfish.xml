@@ -87,7 +87,7 @@
       </EnvironmentVariables>
       <EnvironmentVariables>
         <option name="NAME" value="BEAUTEFLY_WEB_MEDIA_DIR" />
-        <option name="VALUE" value="./media" />
+        <option name="VALUE" value="$PROJECT_DIR$/beautefly-data/media" />
         <option name="IS_PREDEFINED" value="false" />
       </EnvironmentVariables>
     </ConfigurationWrapper>
@@ -132,7 +132,7 @@
       </EnvironmentVariables>
       <EnvironmentVariables>
         <option name="NAME" value="BEAUTEFLY_WEB_MEDIA_DIR" />
-        <option name="VALUE" value="./media" />
+        <option name="VALUE" value="$PROJECT_DIR$/beautefly-data/media" />
         <option name="IS_PREDEFINED" value="false" />
       </EnvironmentVariables>
     </ConfigurationWrapper>

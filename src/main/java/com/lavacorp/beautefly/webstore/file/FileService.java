@@ -22,6 +22,7 @@ import org.hibernate.SessionFactory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URI;
@@ -52,7 +53,9 @@ public class FileService {
 
         MediaType mediaType;
         try {
-            mediaType = mimeRepository.detect(new FileInputStream(tmpFile), new Metadata());
+            var inputStream = new FileInputStream(tmpFile);
+            var bufferedInputStream = new BufferedInputStream(inputStream);
+            mediaType = mimeRepository.detect(bufferedInputStream, new Metadata());
         } catch (IOException e) {
             log.error("Error detecting mimetype", e);
             return null;
