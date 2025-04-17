@@ -14,8 +14,7 @@ import java.io.IOException;
 public class ProductServlet extends HttpServlet {
     @Inject
     private ProductSearchService productService;
-
-
+    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int productId;
