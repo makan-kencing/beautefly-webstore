@@ -1,5 +1,6 @@
 package com.lavacorp.beautefly.webstore.account.dto;
 
+import com.lavacorp.beautefly.webstore.file.dto.FileDTO;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,11 +13,13 @@ import java.time.LocalDate;
 /**
  * DTO for {@link com.lavacorp.beautefly.webstore.account.entity.UserAccount}
  */
-public record UserAccountDTO(int id,
-                             @NotBlank String username,
-                             String phone,
-                             String gender,
-                             @NotNull @Email String email,
-                             @Past LocalDate dob,
-                             @URL String profileImageUrl) implements Serializable {
+public record UserAccountDTO(
+        int id,
+        @NotBlank String username,
+        String phone,
+        String gender,
+        @NotNull @Email String email,
+        @Past LocalDate dob,
+        FileDTO profileImage
+) implements Serializable {
 }

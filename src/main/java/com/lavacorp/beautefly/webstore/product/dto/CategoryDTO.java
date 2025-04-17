@@ -1,6 +1,7 @@
 package com.lavacorp.beautefly.webstore.product.dto;
 
 import com.github.slugify.Slugify;
+import com.lavacorp.beautefly.webstore.file.dto.FileDTO;
 import com.lavacorp.beautefly.webstore.product.entity.Category;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
@@ -16,7 +17,7 @@ public record CategoryDTO(
         int id,
         String name,
         String description,
-        String imageUrl,
+        FileDTO image,
         @Nullable CategoryDTO parent
 ) implements Serializable {
     public String slug() {
