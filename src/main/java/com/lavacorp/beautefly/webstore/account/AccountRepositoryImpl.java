@@ -1,5 +1,6 @@
 package com.lavacorp.beautefly.webstore.account;
 
+import com.lavacorp.beautefly.webstore.account.entity.Account;
 import com.lavacorp.beautefly.webstore.account.entity.GuestAccount;
 import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
 import jakarta.annotation.Nullable;
@@ -33,6 +34,15 @@ public class AccountRepositoryImpl implements AccountRepository {
     public GuestAccount createGuest(GuestAccount account) {
         em.persist(account);
         return account;
+    }
+
+    @Override
+    public @Nullable UserAccount findUserAccount(int id) {
+        try {
+            return em.find(UserAccount.class, id);
+        } catch (NoResultException ignored) {
+            return null;
+        }
     }
 
     @Override
@@ -88,5 +98,10 @@ public class AccountRepositoryImpl implements AccountRepository {
     @Override
     public void delete(UserAccount account) {
         em.remove(account);
+    }
+
+    @Override
+    public void deleteById(int id) {
+        em.remove(em.getReference(Account.class, id));
     }
 }

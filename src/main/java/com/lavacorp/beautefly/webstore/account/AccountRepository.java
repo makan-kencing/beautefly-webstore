@@ -16,6 +16,8 @@ public interface AccountRepository {
 
     GuestAccount createGuest(GuestAccount account);
 
+    @Nullable UserAccount findUserAccount(int id);
+
     List<UserAccount> findByUsername(@NotBlank String username);
 
     @Nullable UserAccount findByEmail(@Email String email);
@@ -27,4 +29,6 @@ public interface AccountRepository {
     void update(UserAccount account);
 
     void delete(UserAccount account);
+
+    void deleteById(int id);
 }
