@@ -9,7 +9,11 @@ import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.core.SecurityContext;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.Nullable;
+
+import java.security.Principal;
 
 @ApplicationScoped
 @Transactional
@@ -30,12 +34,16 @@ public class SecurityService {
         return getGuestContext(req);
     }
 
-    public UserAccount getUserAccountContext(HttpServletRequest req) {
+    public @Nullable UserAccount getUserAccountContext(Principal principal) {
+        return accountRepository.findByEmail(principal.getName());
+    }
+
+    public @Nullable UserAccount getUserAccountContext(HttpServletRequest req) {
         var principal = req.getUserPrincipal();
         if (principal == null)  // no login context
             return null;
 
-        var account = accountRepository.findByEmail(principal.getName());
+        var account = getUserAccountContext(principal);
         if (account != null)
             return account;
 
@@ -46,6 +54,14 @@ public class SecurityService {
             logger.error(exc);
         }
         return null;
+    }
+
+    public @Nullable UserAccount getUserAccountContext(SecurityContext context) {
+        var principal = context.getUserPrincipal();
+        if (principal == null)  // no login context
+            return null;
+
+        return getUserAccountContext(principal);
     }
 
     public GuestAccount getGuestContext(HttpServletRequest req) {
