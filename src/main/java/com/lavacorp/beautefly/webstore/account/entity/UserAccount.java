@@ -4,10 +4,7 @@ import com.lavacorp.beautefly.webstore.file.entity.File;
 import com.lavacorp.beautefly.webstore.file.entity.File_;
 import com.lavacorp.beautefly.webstore.order.entity.SalesOrder;
 import com.lavacorp.beautefly.webstore.order.entity.SalesOrder_;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -17,7 +14,6 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
-import org.hibernate.validator.constraints.URL;
 
 import java.io.Serializable;
 import java.time.Duration;
@@ -25,6 +21,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import static jakarta.persistence.FetchType.EAGER;
 import static jakarta.persistence.FetchType.LAZY;
 
 @Getter
@@ -52,8 +49,8 @@ public class UserAccount extends Account implements Serializable {
     @Past
     private LocalDate dob;
 
-    @URL
-    private String profileImageUrl;
+    @OneToOne(fetch = EAGER)
+    private File profileImage;
 
     @Embedded
     private Credential credential = new Credential();

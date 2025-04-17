@@ -1,11 +1,11 @@
 package com.lavacorp.beautefly.webstore.promotion.entity;
 
+import com.lavacorp.beautefly.webstore.file.entity.File;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.URL;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -26,8 +26,8 @@ public class Promotion implements Serializable {
     @NotBlank
     private String description;
 
-    @ElementCollection
-    private Set<@URL String> imageUrls;
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<File> images = new HashSet<>();
 
     @NotNull
     private LocalDate startDate;
@@ -35,6 +35,6 @@ public class Promotion implements Serializable {
     @NotNull
     private LocalDate endDate;
 
-    @OneToMany(mappedBy = PromotionProduct_.PROMOTION)
+    @OneToMany(mappedBy = PromotionProduct_.PROMOTION, fetch = FetchType.EAGER)
     private Set<PromotionProduct> products = new HashSet<>();
 }

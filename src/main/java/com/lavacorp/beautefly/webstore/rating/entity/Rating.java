@@ -1,6 +1,7 @@
 package com.lavacorp.beautefly.webstore.rating.entity;
 
 import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
+import com.lavacorp.beautefly.webstore.file.entity.File;
 import com.lavacorp.beautefly.webstore.product.entity.Product;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -9,7 +10,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.validator.constraints.Range;
-import org.hibernate.validator.constraints.URL;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -35,8 +35,8 @@ public class Rating implements Serializable {
 
     private String message;
 
-    @ElementCollection
-    private Set<@URL String> imageUrls;
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<File> images;
 
     @CurrentTimestamp
     @PastOrPresent

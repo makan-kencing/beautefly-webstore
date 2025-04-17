@@ -1,13 +1,12 @@
 package com.lavacorp.beautefly.webstore.product.entity;
 
+import com.lavacorp.beautefly.webstore.file.entity.File;
 import com.lavacorp.beautefly.webstore.rating.entity.Rating;
 import com.lavacorp.beautefly.webstore.rating.entity.Rating_;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.URL;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -29,8 +28,8 @@ public class Product implements Serializable {
     @NotNull
     private String description;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private Set<@URL @Length(max = 512) String> imageUrls = new HashSet<>();
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<File> images = new HashSet<>();
 
     private String brand;
 

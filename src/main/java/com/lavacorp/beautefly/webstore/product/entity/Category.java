@@ -1,12 +1,12 @@
 package com.lavacorp.beautefly.webstore.product.entity;
 
+import com.lavacorp.beautefly.webstore.file.entity.File;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
-import org.hibernate.validator.constraints.URL;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -27,9 +27,8 @@ public class Category implements Serializable {
 
     private String description;
 
-    @NotNull
-    @URL
-    private String imageUrl;
+    @OneToOne(fetch = FetchType.EAGER)
+    private File image;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Category parent;
