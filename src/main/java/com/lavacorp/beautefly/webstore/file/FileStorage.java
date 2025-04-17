@@ -20,6 +20,4 @@ public interface FileStorage {
     }
 
     boolean delete(String filename);
-
-    URI resolveRef(String filename);
 }

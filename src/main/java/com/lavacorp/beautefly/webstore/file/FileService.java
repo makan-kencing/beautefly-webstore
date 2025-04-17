@@ -92,10 +92,6 @@ public class FileService {
         return fileMapper.toFileDto(file);
     }
 
-    public URI resolveRef(String filename) {
-        return fileStorage.resolveRef(filename);
-    }
-
     /**
      * Utility methods to save input file into a temp file
      *

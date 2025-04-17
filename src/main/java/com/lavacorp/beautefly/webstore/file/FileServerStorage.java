@@ -66,7 +66,7 @@ public class FileServerStorage implements FileStorage {
         return localPath.toFile().delete();
     }
 
-    public URI resolveRef(String filename) {
+    public static URI resolveRef(String filename) {
         return baseHref.resolve(filename);
     }
 }
