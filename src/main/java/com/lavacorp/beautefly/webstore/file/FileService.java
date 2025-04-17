@@ -1,5 +1,7 @@
 package com.lavacorp.beautefly.webstore.file;
 
+import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
+import com.lavacorp.beautefly.webstore.file.entity.File;
 import com.lavacorp.beautefly.webstore.file.dto.FileDTO;
 import com.lavacorp.beautefly.webstore.file.mapper.FileMapper;
 import com.lavacorp.beautefly.webstore.file.santiizer.DocumentSanitizer;
@@ -20,7 +22,6 @@ import org.hibernate.SessionFactory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -43,8 +44,8 @@ public class FileService {
     @Inject
     private FileStorage fileStorage;
 
-    public FileDTO processFile(@NotNull EntityPart part) {
-        File tmpFile = createTempFile(part);
+    public FileDTO processFile(@NotNull EntityPart part, UserAccount userAccount) {
+        java.io.File tmpFile = createTempFile(part);
         if (tmpFile == null)
             return null;
 
@@ -66,14 +67,19 @@ public class FileService {
 
         boolean isSafe = makeSafe(tmpFile, mediaType);
         if (!isSafe) {
-            log.warn("Detection of an unsafe file upload or cannot santize uploaded document!");
+            log.warn("Detection of an unsafe file upload or cannot sanitize uploaded document!");
             safelyRemoveFile(tmpFile.toPath());
             return null;
         }
 
-        var file = fileStorage.save(tmpFile, mimeType.getExtension());
-        if (file == null)
+        var filename = fileStorage.save(tmpFile, mimeType.getExtension());
+        if (filename == null)
             return null;
+
+        var file = new File();
+        file.setFilename(filename);
+        file.setType(File.FileType.fromMediaType(mediaType));
+        file.setAccount(userAccount);
 
         emf.unwrap(SessionFactory.class)
                 .openStatelessSession()
@@ -87,14 +93,14 @@ public class FileService {
      *
      * @param part the input file multipart
      */
-    private static @Nullable File createTempFile(@NotNull EntityPart part) {
+    private static @Nullable java.io.File createTempFile(@NotNull EntityPart part) {
         var fileStream = part.getContent();
         if (fileStream == null)
             return null;
 
-        File tmpFile;
+        java.io.File tmpFile;
         try {
-            tmpFile = File.createTempFile("uploaded-", null);
+            tmpFile = java.io.File.createTempFile("uploaded-", null);
         } catch (IOException e) {
             log.error("Cannot create temp file", e);
             return null;
@@ -111,7 +117,7 @@ public class FileService {
         return tmpFile;
     }
 
-    private static boolean makeSafe(File file, MediaType mediaType) {
+    private static boolean makeSafe(java.io.File file, MediaType mediaType) {
         DocumentSanitizer documentSanitizer;
         return switch (mediaType.getType()) {
             case "image" -> {
