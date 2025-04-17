@@ -36,8 +36,6 @@ services:
         ports:
             - "8080:8080"
             - "4848:4848"
-        depends_on:
-            - db
         healthcheck:
             test: [ "CMD", "curl", "-f", "http://localhost:8080" ]
             start_period: 30s
@@ -57,5 +55,3 @@ services:
         ports:
             - "80:80"
             - "443:443"
-        depends_on:
-            - web
