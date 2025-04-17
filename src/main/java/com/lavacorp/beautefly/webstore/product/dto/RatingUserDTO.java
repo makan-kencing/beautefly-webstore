@@ -1,6 +1,7 @@
 package com.lavacorp.beautefly.webstore.product.dto;
 
-import java.io.File;
+import com.lavacorp.beautefly.webstore.file.dto.FileDTO;
+
 import java.io.Serializable;
 
 /**
@@ -9,6 +10,6 @@ import java.io.Serializable;
 public record RatingUserDTO(
         int id,
         String username,
-        File profileImage
+        FileDTO profileImage
 ) implements Serializable {
 }
