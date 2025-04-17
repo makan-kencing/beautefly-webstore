@@ -1,7 +1,7 @@
 package com.lavacorp.beautefly.webstore.file;
 
 import com.lavacorp.beautefly.env.ConfigurableEnvironment;
-import com.lavacorp.beautefly.env.env.EnvExpressionEvaluator;
+import com.lavacorp.beautefly.env.el.ELExpressionEvaluator;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.xml.bind.DatatypeConverter;
 import lombok.extern.log4j.Log4j2;
@@ -28,12 +28,13 @@ public class FileServerStorage implements FileStorage {
             throw new RuntimeException(e);
         }
 
-        var evaluator = new EnvExpressionEvaluator();
+        var evaluator = new ELExpressionEvaluator();
         var environment = new ConfigurableEnvironment(evaluator);
 
-        outputDir = Path.of(environment.getProperty("", "BEAUTEFLY_WEB_MEDIA_DIR"));
-        baseHref = URI.create(environment.getProperty("", "BEAUTEFLY_FILESERVER_BASE_URI"));
+        outputDir = Path.of(environment.getProperty("Output Media Directory", "filestorage.media-dir"));
+        baseHref = URI.create(environment.getProperty("URL Base URI", "filestorage.base-uri"));
     }
+
     @Override
     public @Nullable String save(byte[] data, String extension) {
         var hash = DatatypeConverter.printHexBinary(digester.digest());
