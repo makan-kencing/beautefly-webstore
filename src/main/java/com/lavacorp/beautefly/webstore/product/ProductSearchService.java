@@ -43,7 +43,7 @@ public class ProductSearchService {
             select(root);
             root.fetch(Product_.category, JoinType.LEFT);
             root.fetch(Product_.color, JoinType.LEFT);
-            root.fetch(Product_.imageUrls, JoinType.LEFT);
+            root.fetch(Product_.images, JoinType.LEFT);
             where(search.toPredicate(root, this, builder));
         }};
 

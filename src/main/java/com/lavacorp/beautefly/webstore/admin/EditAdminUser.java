@@ -79,7 +79,6 @@ public class EditAdminUser extends HttpServlet {
         user.setLastName(request.getParameter("lastName"));
         user.setPhone(request.getParameter("phone"));
         user.setGender(request.getParameter("gender"));
-        user.setProfileImageUrl(request.getParameter("profileImageUrl"));
         user.setActive(true);
 
         user.getAddressBook().setDefaultAddress(null);

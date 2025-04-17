@@ -90,7 +90,6 @@ public class UserAccountServlet extends HttpServlet {
         user.setEmail(email);
         user.setPhone(phone);
         user.setGender(gender);
-        user.setProfileImageUrl(request.getParameter("profileImageUrl"));
         user.setActive(true);
 
         if (user.getAddressBook() != null) {
