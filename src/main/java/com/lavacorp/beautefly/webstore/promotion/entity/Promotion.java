@@ -1,6 +1,7 @@
 package com.lavacorp.beautefly.webstore.promotion.entity;
 
 import com.lavacorp.beautefly.webstore.file.entity.File;
+import com.lavacorp.beautefly.webstore.file.entity.File_;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -26,7 +27,7 @@ public class Promotion implements Serializable {
     @NotBlank
     private String description;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = File_.PROMOTION, fetch = FetchType.EAGER)
     private Set<File> images = new HashSet<>();
 
     @NotNull

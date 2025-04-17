@@ -1,6 +1,7 @@
 package com.lavacorp.beautefly.webstore.product.entity;
 
 import com.lavacorp.beautefly.webstore.file.entity.File;
+import com.lavacorp.beautefly.webstore.file.entity.File_;
 import com.lavacorp.beautefly.webstore.rating.entity.Rating;
 import com.lavacorp.beautefly.webstore.rating.entity.Rating_;
 import jakarta.persistence.*;
@@ -28,7 +29,7 @@ public class Product implements Serializable {
     @NotNull
     private String description;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = File_.PRODUCT, fetch = FetchType.EAGER)
     private Set<File> images = new HashSet<>();
 
     private String brand;

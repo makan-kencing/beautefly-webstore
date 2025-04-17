@@ -1,6 +1,8 @@
 package com.lavacorp.beautefly.webstore.file.entity;
 
 import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
+import com.lavacorp.beautefly.webstore.product.entity.Product;
+import com.lavacorp.beautefly.webstore.promotion.entity.Promotion;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -32,6 +34,12 @@ public class File {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private UserAccount account;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Product product;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Promotion promotion;
 
     public enum FileType {
         IMAGE;
