@@ -80,6 +80,16 @@
         <option name="VALUE" value="user" />
         <option name="IS_PREDEFINED" value="false" />
       </EnvironmentVariables>
+      <EnvironmentVariables>
+        <option name="NAME" value="BEAUTEFLY_FILESERVER_BASE_URI" />
+        <option name="VALUE" value="/media" />
+        <option name="IS_PREDEFINED" value="false" />
+      </EnvironmentVariables>
+      <EnvironmentVariables>
+        <option name="NAME" value="BEAUTEFLY_WEB_MEDIA_DIR" />
+        <option name="VALUE" value="./media" />
+        <option name="IS_PREDEFINED" value="false" />
+      </EnvironmentVariables>
     </ConfigurationWrapper>
     <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
       <option name="USE_ENV_VARIABLES" value="true" />
@@ -113,6 +123,16 @@
       <EnvironmentVariables>
         <option name="NAME" value="BEAUTEFLY_DB_USER" />
         <option name="VALUE" value="user" />
+        <option name="IS_PREDEFINED" value="false" />
+      </EnvironmentVariables>
+      <EnvironmentVariables>
+        <option name="NAME" value="BEAUTEFLY_FILESERVER_BASE_URI" />
+        <option name="VALUE" value="/media" />
+        <option name="IS_PREDEFINED" value="false" />
+      </EnvironmentVariables>
+      <EnvironmentVariables>
+        <option name="NAME" value="BEAUTEFLY_WEB_MEDIA_DIR" />
+        <option name="VALUE" value="./media" />
         <option name="IS_PREDEFINED" value="false" />
       </EnvironmentVariables>
     </ConfigurationWrapper>
