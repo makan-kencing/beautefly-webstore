@@ -53,7 +53,7 @@ public class FileServerStorage implements FileStorage {
         return localPath.toFile().delete();
     }
 
-    public static URI resolveHyperlink(String filename) {
+    public URI resolveRef(String filename) {
         return baseHref.resolve(filename);
     }
 }

@@ -4,6 +4,7 @@ import jakarta.annotation.Nullable;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.nio.file.Files;
 
 public interface FileStorage {
@@ -19,4 +20,6 @@ public interface FileStorage {
     }
 
     boolean delete(String filename);
+
+    URI resolveRef(String filename);
 }
