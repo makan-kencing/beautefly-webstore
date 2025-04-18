@@ -75,11 +75,7 @@ public class UserAccountServlet extends HttpServlet {
             user.setDob(LocalDate.parse(dobStr));
         }
 
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
         user.setEmail(email);
-        user.setPhone(phone);
-        user.setGender(gender);
         user.setActive(true);
 
         if (user.getAddressBook() != null) {
