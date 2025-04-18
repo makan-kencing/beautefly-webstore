@@ -15,7 +15,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/useraccount")
+@WebServlet("/account")
 public class UserAccountServlet extends HttpServlet {
     @Inject
     private AccountRepository accountRepo;
