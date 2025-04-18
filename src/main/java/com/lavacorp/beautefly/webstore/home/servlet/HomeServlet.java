@@ -11,8 +11,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("")
-public class HomeServlet extends HttpServlet {
+@WebServlet("/home")
+public class MainPageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<MainPromoDTO> promos = List.of(
@@ -25,7 +25,7 @@ public class HomeServlet extends HttpServlet {
         );
 
         req.setAttribute("promos", promos);
-        var view = req.getRequestDispatcher("WEB-INF/views/home.jsp");
+        var view = req.getRequestDispatcher("WEB-INF/views/mainpage.jsp");
         view.forward(req, resp);
     }
 }
