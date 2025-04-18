@@ -11,8 +11,10 @@ public interface FileMapper {
 
     UseFileDTO toUseFileDto(File file);
 
-    File toEntity(UseFileDTO useFileDTO);
-
+    @Mapping(target = "promotion", ignore = true)
+    @Mapping(target = "product", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "account", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    File partialUpdate(UseFileDTO useFileDTO, @MappingTarget File file);
+    File partialUpdate(FileDTO fileDTO, @MappingTarget File file);
 }

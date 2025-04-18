@@ -4,6 +4,8 @@ import com.lavacorp.beautefly.webstore.account.dto.UpdateCredentialDTO;
 import com.lavacorp.beautefly.webstore.account.dto.UpdateUserAccountDTO;
 import com.lavacorp.beautefly.webstore.account.dto.UserAccountDTO;
 import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
+import com.lavacorp.beautefly.webstore.admin.dto.AdminUserAccountDTO;
+import com.lavacorp.beautefly.webstore.admin.dto.UserAccountSummaryDTO;
 import com.lavacorp.beautefly.webstore.file.mapper.FileMapper;
 import com.lavacorp.beautefly.webstore.product.dto.RatingUserDTO;
 import org.mapstruct.*;
@@ -17,6 +19,13 @@ public interface AccountMapper {
 
     @Mapping(target = "addresses", source = "addressBook.addresses")
     UserAccountDTO toUserAccountDTO(UserAccount account);
+
+    @Mapping(target = "roles", source = "credential.roles")
+    UserAccountSummaryDTO toUserAccountSummaryDTO(UserAccount account);
+
+    @Mapping(target = "addresses", source = "addressBook.addresses")
+    @Mapping(target = "roles", expression = "credentials.roles")
+    AdminUserAccountDTO toAdminUserAccountDTO(UserAccount userAccount);
 
     @Mapping(target = "wishlist", ignore = true)
     @Mapping(target = "uploadedFiles", ignore = true)
