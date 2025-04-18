@@ -24,7 +24,7 @@ public interface AccountMapper {
     UserAccountSummaryDTO toUserAccountSummaryDTO(UserAccount account);
 
     @Mapping(target = "addresses", source = "addressBook.addresses")
-    @Mapping(target = "roles", expression = "credentials.roles")
+    @Mapping(target = "roles", source = "credential.roles")
     AdminUserAccountDTO toAdminUserAccountDTO(UserAccount userAccount);
 
     @Mapping(target = "wishlist", ignore = true)
