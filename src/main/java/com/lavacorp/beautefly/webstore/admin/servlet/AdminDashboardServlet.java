@@ -18,9 +18,11 @@ public class AdminDashboardServlet extends HttpServlet {
     private AdminService adminService;
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         DashboardStatsDTO stats = adminService.getDashboardStats();
-        request.setAttribute("stats", stats);
-        request.getRequestDispatcher("/admin/dashboard.jsp").forward(request, response);
+        req.setAttribute("stats", stats);
+
+        var view = req.getRequestDispatcher("/WEB-INF/views/admin/dashboard.jsp");
+        view.forward(req, resp);
     }
 }

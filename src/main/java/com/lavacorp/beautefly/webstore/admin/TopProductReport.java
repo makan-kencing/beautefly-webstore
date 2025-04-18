@@ -15,18 +15,17 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-@WebServlet("/admin/reports")
+@WebServlet("/admin/report")
 public class TopProductReport extends HttpServlet {
 
     @PersistenceContext
     private EntityManager em;
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String fromDate = request.getParameter("from");
-        String toDate = request.getParameter("to");
+        String fromDate = req.getParameter("from");
+        String toDate = req.getParameter("to");
 
         if (fromDate != null && toDate != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -49,11 +48,12 @@ public class TopProductReport extends HttpServlet {
             query.setMaxResults(10);
 
             List<Object[]> topProducts = query.getResultList();
-            request.setAttribute("topProducts", topProducts);
-            request.setAttribute("from", fromDate);
-            request.setAttribute("to", toDate);
+            req.setAttribute("topProducts", topProducts);
+            req.setAttribute("from", fromDate);
+            req.setAttribute("to", toDate);
         }
 
-        request.getRequestDispatcher("/admin/reportTopProducts.jsp").forward(request, response);
+        var view = req.getRequestDispatcher("/WEB-INF/views/admin/reports/top-product.jsp");
+        view.forward(req, resp);
     }
 }

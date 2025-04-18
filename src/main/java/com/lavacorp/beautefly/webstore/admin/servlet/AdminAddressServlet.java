@@ -60,7 +60,7 @@ public class AdminAddressServlet extends HttpServlet {
 
         req.setAttribute("address", addressMapper.toAddressDTO(address));
 
-        var view = req.getRequestDispatcher("/admin/editAddress.jsp");
+        var view = req.getRequestDispatcher("/WEB-INF/views/admin/edit-address.jsp");
         view.forward(req, resp);
     }
 }

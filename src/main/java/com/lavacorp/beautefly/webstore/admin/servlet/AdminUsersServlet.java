@@ -44,7 +44,7 @@ public class AdminUsersServlet extends HttpServlet {
         req.setAttribute("totalUsers", usersPage.totalElements());
         req.setAttribute("pageSize", pageSize);
 
-        var view = req.getRequestDispatcher("/admin/manageAdminUsers.jsp");
+        var view = req.getRequestDispatcher("/WEB-INF/views/admin/users.jsp");
         view.forward(req, resp);
     }
 }
