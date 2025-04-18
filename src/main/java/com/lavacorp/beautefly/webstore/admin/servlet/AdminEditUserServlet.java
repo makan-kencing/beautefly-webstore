@@ -1,7 +1,6 @@
-package com.lavacorp.beautefly.webstore.admin;
+package com.lavacorp.beautefly.webstore.admin.servlet;
 
 import com.lavacorp.beautefly.webstore.account.AccountRepository;
-import com.lavacorp.beautefly.webstore.account.entity.Address;
 import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
@@ -14,33 +13,34 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/admin/users/edit")
+@WebServlet("/admin/user/edit")
 @Transactional
-public class EditAdminUser extends HttpServlet {
+public class AdminEditUserServlet extends HttpServlet {
 
     @Inject
-    private AccountRepository accountRepo;
+    private AccountRepository accountRepository;
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String username = request.getParameter("username");
-        UserAccount user = accountRepo.findByUsername(username).stream().findFirst().orElse(null);
-
-        if (user == null) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int id;
+        try {
+            id = Integer.parseInt(req.getParameter("id"));
+        } catch (NullPointerException | NumberFormatException exc) {
+            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
 
-        request.setAttribute("user", user);
-        request.getRequestDispatcher("/admin/editUserDetails.jsp").forward(request, response);
+        req.setAttribute("account", accountRepository.findUserAccount(id));
+
+        var view = req.getRequestDispatcher("/admin/editUserDetails.jsp");
+        view.forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String username = request.getParameter("username");
-        UserAccount user = accountRepo.findByUsername(username).stream().findFirst().orElse(null);
+        UserAccount user = accountRepository.findByUsername(username).stream().findFirst().orElse(null);
 
         //Error Messages
         List<String> errors = new ArrayList<>();
@@ -83,7 +83,7 @@ public class EditAdminUser extends HttpServlet {
 
         user.getAddressBook().setDefaultAddress(null);
 
-        accountRepo.update(user);
+        accountRepository.update(user);
 
         response.sendRedirect("/admin/users/view?username=" + username + "&updated=1");
     }

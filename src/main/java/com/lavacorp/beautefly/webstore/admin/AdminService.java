@@ -1,18 +1,29 @@
 package com.lavacorp.beautefly.webstore.admin;
 
-import com.lavacorp.beautefly.webstore.admin.model.DashboardStats;
+import com.lavacorp.beautefly.webstore.account.AccountRepository;
+import com.lavacorp.beautefly.webstore.admin.dto.DashboardStatsDTO;
+import jakarta.data.page.PageRequest;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+
+import java.util.List;
 
 @ApplicationScoped
 public class AdminService {
-    private AdminDAO adminDAO;
+    @Inject
+    private AccountRepository accountRepository;
 
-    public AdminService() {
-        adminDAO = new AdminDAO();
-    }
+    public DashboardStatsDTO getDashboardStats() {
+        var page = accountRepository.findByUsernameLike(
+                "",
+                PageRequest.ofPage(1, 1, true),
+                List.of()
+        );
 
-    public DashboardStats getDashboardStats() {
-        DashboardStats stats = new DashboardStats();
-        return stats;
+        return new DashboardStatsDTO(
+                (int) page.totalElements(),
+                0,
+                "OK"
+        );
     }
 }
