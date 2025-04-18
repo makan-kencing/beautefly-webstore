@@ -1,10 +1,10 @@
-package com.lavacorp.beautefly.webstore.product;
+package com.lavacorp.beautefly.webstore.search;
 
 import com.lavacorp.beautefly.webstore.common.dto.PaginatedResult;
 import com.lavacorp.beautefly.webstore.product.dto.ProductPageDTO;
-import com.lavacorp.beautefly.webstore.product.dto.ProductSearchContextDTO;
-import com.lavacorp.beautefly.webstore.product.dto.ProductSearchDTO;
-import com.lavacorp.beautefly.webstore.product.dto.ProductSearchResultDTO;
+import com.lavacorp.beautefly.webstore.search.dto.ProductSearchContextDTO;
+import com.lavacorp.beautefly.webstore.search.dto.ProductSearchDTO;
+import com.lavacorp.beautefly.webstore.search.dto.ProductSearchResultDTO;
 import com.lavacorp.beautefly.webstore.product.entity.Product;
 import com.lavacorp.beautefly.webstore.product.entity.Product_;
 import com.lavacorp.beautefly.webstore.product.mapper.ProductMapper;

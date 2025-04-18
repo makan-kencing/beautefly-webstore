@@ -1,4 +1,4 @@
-package com.lavacorp.beautefly.webstore.product.dto;
+package com.lavacorp.beautefly.webstore.search.dto;
 
 import com.lavacorp.beautefly.webstore.common.dto.PaginatedResult;
 

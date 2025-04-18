@@ -1,7 +1,9 @@
-package com.lavacorp.beautefly.webstore.product.dto;
+package com.lavacorp.beautefly.webstore.search.dto;
 
 import com.github.slugify.Slugify;
 import com.lavacorp.beautefly.webstore.file.dto.FileDTO;
+import com.lavacorp.beautefly.webstore.product.dto.CategoryDTO;
+import com.lavacorp.beautefly.webstore.product.dto.ColorDTO;
 import com.lavacorp.beautefly.webstore.product.entity.Product;
 
 import java.io.Serializable;

@@ -4,7 +4,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="webstore" tagdir="/WEB-INF/tags/webstore" %>
 
-<jsp:useBean id="result" type="com.lavacorp.beautefly.webstore.product.dto.ProductSearchContextDTO" scope="request"/>
+<jsp:useBean id="result" type="com.lavacorp.beautefly.webstore.search.dto.ProductSearchContextDTO" scope="request"/>
 
 <webstore:base pageTitle="Search">
     <main>
@@ -82,7 +82,7 @@
                     <div id="product-list"
                          class="grid grid-cols-[repeat(auto-fill,minmax(28rem,1fr))] auto-rows-[60vh] overflow-hidden">
                         <c:forEach var="product" items="${result.page().content()}">
-                            <jsp:useBean id="product" type="com.lavacorp.beautefly.webstore.product.dto.ProductSearchResultDTO"/>
+                            <jsp:useBean id="product" type="com.lavacorp.beautefly.webstore.search.dto.ProductSearchResultDTO"/>
                             <div class="relative
                                         before:content-[''] before:absolute before:bg-gray-500 before:h-[120vh] before:w-[1px] before:-left-[1px] before:top-0
                                         after:content-[''] after:absolute after:bg-gray-500 after:w-screen after:h-[1px] after:left-0 after:-top-[1px]">

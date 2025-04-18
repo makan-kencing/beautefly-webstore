@@ -1,8 +1,8 @@
 package com.lavacorp.beautefly.webstore.product.mapper;
 
 import com.lavacorp.beautefly.webstore.common.dto.Range;
-import com.lavacorp.beautefly.webstore.product.dto.ProductSearchResultDTO;
-import com.lavacorp.beautefly.webstore.product.dto.ProductSearchDTO;
+import com.lavacorp.beautefly.webstore.search.dto.ProductSearchResultDTO;
+import com.lavacorp.beautefly.webstore.search.dto.ProductSearchDTO;
 import com.lavacorp.beautefly.webstore.product.entity.Product;
 import com.lavacorp.beautefly.webstore.product.dto.ProductPageDTO;
 import com.lavacorp.beautefly.webstore.rating.mapper.RatingMapper;

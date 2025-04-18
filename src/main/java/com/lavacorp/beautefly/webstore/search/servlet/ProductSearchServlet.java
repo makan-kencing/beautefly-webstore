@@ -1,6 +1,6 @@
-package com.lavacorp.beautefly.webstore.product.servlet;
+package com.lavacorp.beautefly.webstore.search.servlet;
 
-import com.lavacorp.beautefly.webstore.product.ProductSearchService;
+import com.lavacorp.beautefly.webstore.search.ProductSearchService;
 import com.lavacorp.beautefly.webstore.product.mapper.ProductMapper;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
