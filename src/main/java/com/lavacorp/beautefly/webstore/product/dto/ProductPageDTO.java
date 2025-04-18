@@ -3,6 +3,7 @@ package com.lavacorp.beautefly.webstore.product.dto;
 import com.github.slugify.Slugify;
 import com.lavacorp.beautefly.webstore.file.dto.FileDTO;
 import com.lavacorp.beautefly.webstore.product.entity.Product;
+import com.lavacorp.beautefly.webstore.rating.dto.RatingDTO;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

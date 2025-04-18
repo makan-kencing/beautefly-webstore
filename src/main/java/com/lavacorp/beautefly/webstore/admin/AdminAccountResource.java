@@ -4,7 +4,7 @@ import com.lavacorp.beautefly.webstore.account.AccountRepository;
 import com.lavacorp.beautefly.webstore.account.dto.CreateUserAccountDTO;
 import com.lavacorp.beautefly.webstore.account.dto.UpdateUserAccountDTO;
 import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
-import com.lavacorp.beautefly.webstore.product.mapper.AccountMapper;
+import com.lavacorp.beautefly.webstore.account.mapper.AccountMapper;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.security.enterprise.identitystore.PasswordHash;

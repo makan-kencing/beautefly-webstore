@@ -1,6 +1,7 @@
-package com.lavacorp.beautefly.webstore.product.mapper;
+package com.lavacorp.beautefly.webstore.rating.mapper;
 
-import com.lavacorp.beautefly.webstore.product.dto.RatingDTO;
+import com.lavacorp.beautefly.webstore.rating.dto.RatingDTO;
+import com.lavacorp.beautefly.webstore.account.mapper.AccountMapper;
 import com.lavacorp.beautefly.webstore.rating.entity.Rating;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;

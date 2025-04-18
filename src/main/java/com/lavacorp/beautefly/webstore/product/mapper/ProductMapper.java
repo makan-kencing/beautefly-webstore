@@ -5,6 +5,7 @@ import com.lavacorp.beautefly.webstore.product.dto.ProductSearchResultDTO;
 import com.lavacorp.beautefly.webstore.product.dto.ProductSearchDTO;
 import com.lavacorp.beautefly.webstore.product.entity.Product;
 import com.lavacorp.beautefly.webstore.product.dto.ProductPageDTO;
+import com.lavacorp.beautefly.webstore.rating.mapper.RatingMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;

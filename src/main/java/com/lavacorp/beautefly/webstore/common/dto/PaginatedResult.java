@@ -1,4 +1,4 @@
-package com.lavacorp.beautefly.webstore.product.dto;
+package com.lavacorp.beautefly.webstore.common.dto;
 
 import jakarta.data.page.Page;
 import org.jetbrains.annotations.NotNull;

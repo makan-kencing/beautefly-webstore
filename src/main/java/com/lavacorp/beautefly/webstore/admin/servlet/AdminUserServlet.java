@@ -1,7 +1,7 @@
 package com.lavacorp.beautefly.webstore.admin.servlet;
 
 import com.lavacorp.beautefly.webstore.account.AccountRepository;
-import com.lavacorp.beautefly.webstore.product.mapper.AccountMapper;
+import com.lavacorp.beautefly.webstore.account.mapper.AccountMapper;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

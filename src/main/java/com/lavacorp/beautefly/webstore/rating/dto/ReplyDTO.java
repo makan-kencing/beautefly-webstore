@@ -1,4 +1,4 @@
-package com.lavacorp.beautefly.webstore.product.dto;
+package com.lavacorp.beautefly.webstore.rating.dto;
 
 import java.io.Serializable;
 import java.time.Instant;

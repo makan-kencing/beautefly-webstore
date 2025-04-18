@@ -1,5 +1,6 @@
 package com.lavacorp.beautefly.webstore.product;
 
+import com.lavacorp.beautefly.webstore.common.dto.PaginatedResult;
 import com.lavacorp.beautefly.webstore.product.dto.*;
 import com.lavacorp.beautefly.webstore.product.entity.Product;
 import com.lavacorp.beautefly.webstore.product.entity.Product_;
