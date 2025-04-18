@@ -36,15 +36,13 @@ public class UserAccount extends Account implements Serializable {
     @NotBlank
     private String username;
 
-    private String firstName;
-    private String lastName;
-    private String phone;
-    private String gender;
-
     @NotNull
     @Email
     @Column(unique = true)
     private String email;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender = Gender.PREFER_NOT_TO_SAY;
 
     @Past
     private LocalDate dob;
@@ -69,5 +67,9 @@ public class UserAccount extends Account implements Serializable {
 
     public int getAge() {
         return (int) (Duration.between(LocalDate.now(), dob).toDays() / 365);
+    }
+
+    public enum Gender {
+        MALE, FEMALE, PREFER_NOT_TO_SAY;
     }
 }
