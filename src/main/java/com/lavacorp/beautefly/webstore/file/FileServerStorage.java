@@ -44,7 +44,7 @@ public class FileServerStorage implements FileStorage {
 
     @Override
     public @Nullable String save(byte[] data, String extension) {
-        var hash = DatatypeConverter.printHexBinary(digester.digest());
+        var hash = DatatypeConverter.printHexBinary(digester.digest(data));
         var filename = hash + extension;
 
         Path filepath = outputDir.resolve(filename);
