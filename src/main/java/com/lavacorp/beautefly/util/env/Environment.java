@@ -1,4 +1,4 @@
-package com.lavacorp.beautefly.env;
+package com.lavacorp.beautefly.util.env;
 
 // https://github.com/mpuening/learn-jakartaee/blob/master/learn-jakartaee-env/src/main/java/io/github/learnjakartaee/env/Environment.java
 /**

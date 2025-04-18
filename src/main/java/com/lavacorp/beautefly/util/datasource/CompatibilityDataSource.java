@@ -1,4 +1,4 @@
-package com.lavacorp.beautefly.datasource;
+package com.lavacorp.beautefly.util.datasource;
 
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.log4j.Log4j2;

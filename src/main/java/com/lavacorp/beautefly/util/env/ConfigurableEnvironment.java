@@ -1,4 +1,4 @@
-package com.lavacorp.beautefly.env;
+package com.lavacorp.beautefly.util.env;
 
 import lombok.extern.log4j.Log4j2;
 

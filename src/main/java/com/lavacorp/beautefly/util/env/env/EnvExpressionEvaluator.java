@@ -1,6 +1,6 @@
-package com.lavacorp.beautefly.env.env;
+package com.lavacorp.beautefly.util.env.env;
 
-import com.lavacorp.beautefly.env.ExpressionEvaluator;
+import com.lavacorp.beautefly.util.env.ExpressionEvaluator;
 
 public class EnvExpressionEvaluator implements ExpressionEvaluator {
     @Override

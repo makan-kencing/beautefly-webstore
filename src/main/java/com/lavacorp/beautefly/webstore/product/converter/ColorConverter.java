@@ -1,4 +1,4 @@
-package com.lavacorp.beautefly.util.converter;
+package com.lavacorp.beautefly.webstore.product.converter;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;

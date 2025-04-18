@@ -1,4 +1,4 @@
-package com.lavacorp.beautefly.datasource;
+package com.lavacorp.beautefly.util.datasource;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

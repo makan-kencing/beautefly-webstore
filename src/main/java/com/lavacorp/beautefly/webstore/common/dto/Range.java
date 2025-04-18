@@ -1,4 +1,4 @@
-package com.lavacorp.beautefly.common;
+package com.lavacorp.beautefly.webstore.common.dto;
 
 import jakarta.validation.constraints.NotNull;
 

@@ -1,6 +1,6 @@
 package com.lavacorp.beautefly.webstore.product.dto;
 
-import com.lavacorp.beautefly.common.Range;
+import com.lavacorp.beautefly.webstore.common.dto.Range;
 import com.lavacorp.beautefly.webstore.product.entity.*;
 import jakarta.annotation.Nullable;
 import jakarta.data.page.PageRequest;

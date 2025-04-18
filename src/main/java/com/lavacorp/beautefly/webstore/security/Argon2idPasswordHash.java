@@ -1,4 +1,4 @@
-package com.lavacorp.beautefly.security;
+package com.lavacorp.beautefly.webstore.security;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Named;

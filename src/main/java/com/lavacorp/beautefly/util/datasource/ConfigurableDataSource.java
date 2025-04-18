@@ -1,7 +1,7 @@
-package com.lavacorp.beautefly.datasource;
+package com.lavacorp.beautefly.util.datasource;
 
-import com.lavacorp.beautefly.env.Environment;
-import com.lavacorp.beautefly.env.ExpressionEvaluator;
+import com.lavacorp.beautefly.util.env.Environment;
+import com.lavacorp.beautefly.util.env.ExpressionEvaluator;
 
 /**
  * This is a compatibility DataSource extension that is capable of looking up

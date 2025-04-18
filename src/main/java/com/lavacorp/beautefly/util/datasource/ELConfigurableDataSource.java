@@ -1,7 +1,7 @@
-package com.lavacorp.beautefly.datasource;
+package com.lavacorp.beautefly.util.datasource;
 
-import com.lavacorp.beautefly.env.ConfigurableEnvironment;
-import com.lavacorp.beautefly.env.el.ELExpressionEvaluator;
+import com.lavacorp.beautefly.util.env.ConfigurableEnvironment;
+import com.lavacorp.beautefly.util.env.el.ELExpressionEvaluator;
 
 /**
  * This is a configurable DataSource that is capable of looking up database
