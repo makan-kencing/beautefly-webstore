@@ -1,6 +1,6 @@
 package com.lavacorp.beautefly.webstore.product.entity;
 
-import com.lavacorp.beautefly.webstore.file.entity.File;
+import com.lavacorp.beautefly.webstore.file.entity.FileUpload;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -28,7 +28,7 @@ public class Category implements Serializable {
     private String description;
 
     @OneToOne(fetch = FetchType.EAGER)
-    private File image;
+    private FileUpload image;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Category parent;

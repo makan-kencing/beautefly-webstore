@@ -1,7 +1,7 @@
 package com.lavacorp.beautefly.webstore.rating.entity;
 
 import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
-import com.lavacorp.beautefly.webstore.file.entity.File;
+import com.lavacorp.beautefly.webstore.file.entity.FileUpload;
 import com.lavacorp.beautefly.webstore.product.entity.Product;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -36,7 +36,7 @@ public class Rating implements Serializable {
     private String message;
 
     @OneToMany(fetch = FetchType.EAGER)
-    private Set<File> images;
+    private Set<FileUpload> images;
 
     @CurrentTimestamp
     @PastOrPresent

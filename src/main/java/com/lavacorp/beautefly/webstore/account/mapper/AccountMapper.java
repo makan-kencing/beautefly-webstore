@@ -6,13 +6,13 @@ import com.lavacorp.beautefly.webstore.account.dto.UserAccountDetailsDTO;
 import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
 import com.lavacorp.beautefly.webstore.admin.dto.AdminUserAccountDTO;
 import com.lavacorp.beautefly.webstore.admin.dto.UserAccountSummaryDTO;
-import com.lavacorp.beautefly.webstore.file.mapper.FileMapper;
+import com.lavacorp.beautefly.webstore.file.mapper.FileUploadMapper;
 import com.lavacorp.beautefly.webstore.rating.dto.RatingUserDTO;
 import org.mapstruct.*;
 
 @Mapper(
         componentModel = MappingConstants.ComponentModel.CDI,
-        uses = {FileMapper.class}
+        uses = {FileUploadMapper.class}
 )
 public interface AccountMapper {
     RatingUserDTO toRatingUserDTO(UserAccount account);

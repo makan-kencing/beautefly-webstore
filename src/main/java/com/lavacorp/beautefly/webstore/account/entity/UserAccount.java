@@ -1,6 +1,6 @@
 package com.lavacorp.beautefly.webstore.account.entity;
 
-import com.lavacorp.beautefly.webstore.file.entity.File;
+import com.lavacorp.beautefly.webstore.file.entity.FileUpload;
 import com.lavacorp.beautefly.webstore.file.entity.File_;
 import com.lavacorp.beautefly.webstore.order.entity.SalesOrder;
 import com.lavacorp.beautefly.webstore.order.entity.SalesOrder_;
@@ -48,7 +48,7 @@ public class UserAccount extends Account implements Serializable {
     private LocalDate dob;
 
     @OneToOne(fetch = EAGER)
-    private File profileImage;
+    private FileUpload profileImage;
 
     @Embedded
     private Credential credential = new Credential();
@@ -60,7 +60,7 @@ public class UserAccount extends Account implements Serializable {
     private Set<SalesOrder> orders = new HashSet<>();
 
     @OneToMany(mappedBy = File_.ACCOUNT, fetch = LAZY)
-    private Set<File> uploadedFiles = new HashSet<>();
+    private Set<FileUpload> uploadedFiles = new HashSet<>();
 
     @ColumnDefault("true")
     private boolean active;

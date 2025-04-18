@@ -16,7 +16,7 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-public class File {
+public class FileUpload {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

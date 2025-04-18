@@ -1,20 +1,20 @@
 package com.lavacorp.beautefly.webstore.file.mapper;
 
 import com.lavacorp.beautefly.webstore.file.dto.UseFileDTO;
-import com.lavacorp.beautefly.webstore.file.entity.File;
+import com.lavacorp.beautefly.webstore.file.entity.FileUpload;
 import com.lavacorp.beautefly.webstore.file.dto.FileDTO;
 import org.mapstruct.*;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.CDI)
-public interface FileMapper {
-    FileDTO toFileDto(File file);
+public interface FileUploadMapper {
+    FileDTO toFileUploadDTO(FileUpload file);
 
-    UseFileDTO toUseFileDto(File file);
+    UseFileDTO toUseFileDto(FileUpload file);
 
     @Mapping(target = "promotion", ignore = true)
     @Mapping(target = "product", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "account", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    File partialUpdate(FileDTO fileDTO, @MappingTarget File file);
+    FileUpload partialUpdate(FileDTO fileDTO, @MappingTarget FileUpload file);
 }

@@ -1,9 +1,9 @@
 package com.lavacorp.beautefly.webstore.file;
 
 import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
-import com.lavacorp.beautefly.webstore.file.entity.File;
+import com.lavacorp.beautefly.webstore.file.entity.FileUpload;
 import com.lavacorp.beautefly.webstore.file.dto.FileDTO;
-import com.lavacorp.beautefly.webstore.file.mapper.FileMapper;
+import com.lavacorp.beautefly.webstore.file.mapper.FileUploadMapper;
 import com.lavacorp.beautefly.webstore.file.santiizer.DocumentSanitizer;
 import com.lavacorp.beautefly.webstore.file.santiizer.ImageDocumentSanitizer;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -25,7 +25,6 @@ import org.jetbrains.annotations.Nullable;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -41,7 +40,7 @@ public class FileService {
     private EntityManagerFactory emf;
 
     @Inject
-    private FileMapper fileMapper;
+    private FileUploadMapper fileUploadMapper;
 
     @Inject
     private FileStorage fileStorage;
@@ -80,16 +79,16 @@ public class FileService {
         if (filename == null)
             return null;
 
-        var file = new File();
+        var file = new FileUpload();
         file.setFilename(filename);
-        file.setType(File.FileType.fromMediaType(mediaType));
+        file.setType(FileUpload.FileType.fromMediaType(mediaType));
         file.setAccount(userAccount);
 
         emf.unwrap(SessionFactory.class)
                 .openStatelessSession()
                 .insert(file);
 
-        return fileMapper.toFileDto(file);
+        return fileUploadMapper.toFileUploadDTO(file);
     }
 
     /**
