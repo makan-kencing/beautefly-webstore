@@ -6,7 +6,7 @@
 
 <jsp:useBean id="result" type="com.lavacorp.beautefly.webstore.product.dto.ProductSearchContextDTO" scope="request"/>
 
-<webstore:base pageTitle="Cart">
+<webstore:base pageTitle="Search">
     <main>
         <form action="${pageContext.request.contextPath}/search" method="get" id="search">
             <div class="not-target:hidden" id="filter">
