@@ -1,7 +1,10 @@
 package com.lavacorp.beautefly.webstore.product;
 
 import com.lavacorp.beautefly.webstore.common.dto.PaginatedResult;
-import com.lavacorp.beautefly.webstore.product.dto.*;
+import com.lavacorp.beautefly.webstore.product.dto.ProductPageDTO;
+import com.lavacorp.beautefly.webstore.product.dto.ProductSearchContextDTO;
+import com.lavacorp.beautefly.webstore.product.dto.ProductSearchDTO;
+import com.lavacorp.beautefly.webstore.product.dto.ProductSearchResultDTO;
 import com.lavacorp.beautefly.webstore.product.entity.Product;
 import com.lavacorp.beautefly.webstore.product.entity.Product_;
 import com.lavacorp.beautefly.webstore.product.mapper.ProductMapper;
@@ -15,7 +18,6 @@ import jakarta.persistence.PersistenceUnit;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.transaction.Transactional;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.SelectionQuery;
 import org.hibernate.query.criteria.CriteriaDefinition;
@@ -33,28 +35,27 @@ public class ProductSearchService {
 
     public ProductSearchContextDTO search(ProductSearchDTO search) {
         // use statelessSession to not cache entities
-        var statelessSession = emf.unwrap(SessionFactory.class)
-                .openStatelessSession();
+        var sessionFactory = emf.unwrap(SessionFactory.class);
+        var statelessSession = sessionFactory.openStatelessSession();
 
         var builder = statelessSession.getCriteriaBuilder();
 
         CriteriaQuery<Product> criteria = new CriteriaDefinition<>(emf, Product.class) {{
-            var root = from(Product.class);
+            var product = from(Product.class);
 
-            select(root);
-            root.fetch(Product_.category, JoinType.LEFT);
-            root.fetch(Product_.color, JoinType.LEFT);
-            root.fetch(Product_.images, JoinType.LEFT);
-            where(search.toPredicate(root, this, builder));
+            select(product);
+            product.fetch(Product_.category, JoinType.LEFT);
+            product.fetch(Product_.color, JoinType.LEFT);
+            product.fetch(Product_.images, JoinType.LEFT);
+            where(search.toPredicate(product, this, builder));
         }};
 
-        SelectionQuery<Product> query = emf.createEntityManager()
-                .unwrap(Session.class)
-                .createSelectionQuery(criteria);
+        SelectionQuery<Product> query = statelessSession.createSelectionQuery(criteria);
         if (search.sort() != null)
             query = query.setOrder(search.sort().getOrder());
 
         long total = query.getResultCount();
+
         List<Product> products = query
                 .setFirstResult((search.page() - 1) * search.pageSize())
                 .setMaxResults(search.pageSize())
