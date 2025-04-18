@@ -9,7 +9,7 @@ import javax.sql.DataSource;
 
 @DataSourceDefinition(
         name = "java:app/jdbc/beauteflyds",
-        className = "com.lavacorp.beautefly.datasource.ELConfigurableDataSource",
+        className = "com.lavacorp.beautefly.util.datasource.ELConfigurableDataSource",
         url = "ENV(db.url)",
         user = "ENV(db.user)",
         password = "ENV(db.password)",
