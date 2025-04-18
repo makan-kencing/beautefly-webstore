@@ -11,6 +11,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
@@ -71,5 +72,11 @@ public class UserAccount extends Account implements Serializable {
 
     public enum Gender {
         MALE, FEMALE, PREFER_NOT_TO_SAY;
+
+        public String pretty() {
+            return StringUtils.capitalize(
+                    name().replace('_', ' ')
+            );
+        }
     }
 }
