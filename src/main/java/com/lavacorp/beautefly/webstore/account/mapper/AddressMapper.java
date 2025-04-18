@@ -6,12 +6,12 @@ import org.mapstruct.*;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.CDI)
 public interface AddressMapper {
-    @Mapping(target = "account", source = "")
+    @Mapping(target = "account", ignore = true)
     Address toAddress(AddressDTO addressDTO);
 
     AddressDTO toAddressDTO(Address address);
 
-    @Mapping(target = "account", source = "")
+    @Mapping(target = "account", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Address partialUpdate(AddressDTO addressDTO, @MappingTarget Address address);
 }
