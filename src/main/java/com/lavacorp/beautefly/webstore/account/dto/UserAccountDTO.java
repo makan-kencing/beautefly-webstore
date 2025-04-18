@@ -9,17 +9,19 @@ import org.hibernate.validator.constraints.URL;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * DTO for {@link com.lavacorp.beautefly.webstore.account.entity.UserAccount}
  */
 public record UserAccountDTO(
         int id,
-        @NotBlank String username,
-        String phone,
+        String username,
         String gender,
-        @NotNull @Email String email,
-        @Past LocalDate dob,
-        FileDTO profileImage
+        String email,
+        LocalDate dob,
+        FileDTO profileImage,
+        boolean active,
+        List<AddressDTO> addresses
 ) implements Serializable {
 }
