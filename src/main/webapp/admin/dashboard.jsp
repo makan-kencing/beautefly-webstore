@@ -19,15 +19,15 @@
 <div class="grid grid-cols-3 gap-6">
     <div class="border rounded p-4 bg-white shadow">
         <h3 class="text-lg font-semibold">Total Users</h3>
-        <p class="text-xl mt-2">${stats.totalUsers}</p>
+        <p class="text-xl mt-2">${stats.totalUsers()}</p>
     </div>
     <div class="border rounded p-4 bg-white shadow">
         <h3 class="text-lg font-semibold">Total Sales</h3>
-        <p class="text-xl mt-2">$${stats.totalSales}</p>
+        <p class="text-xl mt-2">$${stats.totalSales()}</p>
     </div>
     <div class="border rounded p-4 bg-white shadow">
         <h3 class="text-lg font-semibold">System Status</h3>
-        <p class="text-xl mt-2">${stats.systemStatus}</p>
+        <p class="text-xl mt-2">${stats.systemStatus()}</p>
     </div>
 </div>
 </body>
