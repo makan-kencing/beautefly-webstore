@@ -2,6 +2,7 @@ package com.lavacorp.beautefly.webstore.account.servlet;
 
 import com.lavacorp.beautefly.webstore.account.AccountRepository;
 import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
+import com.lavacorp.beautefly.webstore.security.SecurityService;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -19,26 +20,17 @@ public class UserAccountServlet extends HttpServlet {
     @Inject
     private AccountRepository accountRepo;
 
+    @Inject
+    private SecurityService securityService;
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        var username = request.getParameter("username");
+        var user = securityService.getUserAccountContext(request);
 
-        if (username == null || username.trim().isEmpty()) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND);
-            return;
-        }
-
-        UserAccount user = accountRepo.findByUsername(username).stream().findFirst().orElse(null);
         if (user == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
-        }
-
-        // 检查是否有 updated 成功提示
-        String updated = request.getParameter("updated");
-        if ("1".equals(updated)) {
-            request.setAttribute("success", "User updated successfully.");
         }
 
         request.setAttribute("user", user);
@@ -56,7 +48,6 @@ public class UserAccountServlet extends HttpServlet {
             return;
         }
 
-        // 表单校验
         List<String> errors = new ArrayList<>();
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
@@ -79,7 +70,6 @@ public class UserAccountServlet extends HttpServlet {
             return;
         }
 
-        // 更新字段
         String dobStr = request.getParameter("dob");
         if (dobStr != null && !dobStr.isEmpty()) {
             user.setDob(LocalDate.parse(dobStr));
@@ -93,7 +83,7 @@ public class UserAccountServlet extends HttpServlet {
         user.setActive(true);
 
         if (user.getAddressBook() != null) {
-            user.getAddressBook().setDefaultAddress(null); // 防止空指针
+            user.getAddressBook().setDefaultAddress(null);
         }
 
         accountRepo.update(user);
