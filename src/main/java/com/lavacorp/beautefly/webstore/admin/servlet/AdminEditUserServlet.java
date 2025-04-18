@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/admin/user/edit")
+@WebServlet("/admin/account/edit")
 @Transactional
 public class AdminEditUserServlet extends HttpServlet {
 

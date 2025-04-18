@@ -19,7 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@WebServlet("/admin/users")
+@WebServlet("/admin/accounts")
 public class AdminUsersServlet extends HttpServlet {
     @Inject
     private AccountRepository accountRepository;

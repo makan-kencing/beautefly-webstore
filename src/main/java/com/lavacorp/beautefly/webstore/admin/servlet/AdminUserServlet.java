@@ -9,7 +9,7 @@ import jakarta.servlet.http.*;
 
 import java.io.IOException;
 
-@WebServlet("/admin/user")
+@WebServlet("/admin/account")
 public class AdminUserServlet extends HttpServlet {
     @Inject
     private AccountRepository accountRepository;
