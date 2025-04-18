@@ -17,7 +17,7 @@
 
 <header>
     <nav class="flex items-center gap-8 from-blue-300 to-pink-300 px-5 py-3 text-white bg-linear-65">
-        <div class="logo"><a href="${pageContext.request.contextPath}/home">Beautéfly</a></div>
+        <div class="logo"><a href="${pageContext.request.contextPath}/">Beautéfly</a></div>
 
         <form action="${pageContext.request.contextPath}/search" method="get"
               class="flex flex-1 items-center rounded-md bg-white">
