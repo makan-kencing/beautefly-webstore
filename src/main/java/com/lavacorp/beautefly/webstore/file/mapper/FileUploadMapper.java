@@ -1,6 +1,5 @@
 package com.lavacorp.beautefly.webstore.file.mapper;
 
-import com.lavacorp.beautefly.webstore.file.dto.UseFileDTO;
 import com.lavacorp.beautefly.webstore.file.entity.FileUpload;
 import com.lavacorp.beautefly.webstore.file.dto.FileDTO;
 import org.mapstruct.*;
@@ -8,8 +7,6 @@ import org.mapstruct.*;
 @Mapper(componentModel = MappingConstants.ComponentModel.CDI)
 public interface FileUploadMapper {
     FileDTO toFileUploadDTO(FileUpload file);
-
-    UseFileDTO toUseFileDto(FileUpload file);
 
     @Mapping(target = "promotion", ignore = true)
     @Mapping(target = "product", ignore = true)

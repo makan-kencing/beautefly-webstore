@@ -1,10 +1,6 @@
 package com.lavacorp.beautefly.webstore.account.dto;
 
-import com.lavacorp.beautefly.webstore.file.dto.UseFileDTO;
 import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -18,7 +14,7 @@ public record UpdateUserAccountDTO(
         @Nullable String gender,
         @Nullable String email,
         @Nullable LocalDate dob,
-        @Nullable UseFileDTO profileImage,
+        @Nullable Integer profileImageFileId,
         @Nullable Boolean active,
         @Nullable String password
 ) implements Serializable {

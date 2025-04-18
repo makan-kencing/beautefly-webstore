@@ -1,12 +1,8 @@
 package com.lavacorp.beautefly.webstore.account.dto;
 
 import com.lavacorp.beautefly.webstore.account.entity.Credential;
-import com.lavacorp.beautefly.webstore.file.dto.UseFileDTO;
 import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -23,6 +19,6 @@ public record CreateUserAccountDTO(
         List<Credential.Role> roles,
         @Nullable String gender,
         @Nullable LocalDate dob,
-        @Nullable UseFileDTO profileImage
+        @Nullable Integer profileImageFileId
 ) implements Serializable {
 }

@@ -26,6 +26,7 @@ public interface AccountMapper {
     @Mapping(target = "roles", source = "credential.roles")
     AdminUserAccountDTO toAdminUserAccountDTO(UserAccount userAccount);
 
+    @Mapping(target = "profileImage", ignore = true)
     @Mapping(target = "wishlist", ignore = true)
     @Mapping(target = "uploadedFiles", ignore = true)
     @Mapping(target = "orders", ignore = true)
