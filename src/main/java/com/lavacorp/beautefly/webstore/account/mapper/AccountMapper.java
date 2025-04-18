@@ -2,7 +2,7 @@ package com.lavacorp.beautefly.webstore.account.mapper;
 
 import com.lavacorp.beautefly.webstore.account.dto.UpdateCredentialDTO;
 import com.lavacorp.beautefly.webstore.account.dto.UpdateUserAccountDTO;
-import com.lavacorp.beautefly.webstore.account.dto.UserAccountDTO;
+import com.lavacorp.beautefly.webstore.account.dto.UserAccountDetailsDTO;
 import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
 import com.lavacorp.beautefly.webstore.admin.dto.AdminUserAccountDTO;
 import com.lavacorp.beautefly.webstore.admin.dto.UserAccountSummaryDTO;
@@ -17,8 +17,7 @@ import org.mapstruct.*;
 public interface AccountMapper {
     RatingUserDTO toRatingUserDTO(UserAccount account);
 
-    @Mapping(target = "addresses", source = "addressBook.addresses")
-    UserAccountDTO toUserAccountDTO(UserAccount account);
+    UserAccountDetailsDTO toUserAccountDetailsDTO(UserAccount account);
 
     @Mapping(target = "roles", source = "credential.roles")
     UserAccountSummaryDTO toUserAccountSummaryDTO(UserAccount account);
