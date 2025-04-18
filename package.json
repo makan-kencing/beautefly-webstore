@@ -16,5 +16,8 @@
         "tailwindcss": "^4.0.14",
         "@tailwindcss/cli": "^4.0.14"
     },
+    "dependencies": {
+        "cropperjs": "^1.6.2"
+    },
     "private": true
 }
