@@ -44,7 +44,7 @@ public class AdminAccountResource {
         try {
             var created = accountRepository.register(account);
 
-            return Response.ok(accountMapper.toUserAccountDTO(created)).build();
+            return Response.ok(accountMapper.toUserAccountDetailsDTO(created)).build();
         } catch (ConstraintViolationException e) {
             return Response.status(Response.Status.CONFLICT).build();
         }
@@ -67,7 +67,7 @@ public class AdminAccountResource {
 
         try {
             accountRepository.update(account);
-            return Response.ok(accountMapper.toUserAccountDTO(account)).build();
+            return Response.ok(accountMapper.toUserAccountDetailsDTO(account)).build();
         } catch (ConstraintViolationException e) {
             return Response.status(Response.Status.CONFLICT).build();
         }
