@@ -8,6 +8,7 @@ import com.lavacorp.beautefly.webstore.product.mapper.AccountMapper;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.security.enterprise.identitystore.PasswordHash;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -16,6 +17,7 @@ import org.hibernate.exception.ConstraintViolationException;
 import java.util.HashSet;
 
 @Path("/admin/account")
+@Transactional
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AdminAccountResource {
@@ -54,7 +56,7 @@ public class AdminAccountResource {
         return Response.ok().build();
     }
 
-    @POST
+    @PUT
     @Path("/{id}")
     public Response updateAccount(@PathParam("id") int id, UpdateUserAccountDTO dto) {
         var account = accountRepository.findUserAccount(id);
