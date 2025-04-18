@@ -24,36 +24,31 @@ public class UserAccountServlet extends HttpServlet {
     private SecurityService securityService;
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        var user = securityService.getUserAccountContext(request);
-
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        var user = securityService.getUserAccountContext(req);
         if (user == null) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
 
-        request.setAttribute("user", user);
-        request.getRequestDispatcher("/WEB-INF/views/useraccount.jsp").forward(request, response);
+        req.setAttribute("user", user);
+        req.getRequestDispatcher("/WEB-INF/views/useraccount.jsp").forward(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        var username = request.getParameter("username");
-        UserAccount user = accountRepo.findByUsername(username).stream().findFirst().orElse(null);
-
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        var user = securityService.getUserAccountContext(req);
         if (user == null) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
 
         List<String> errors = new ArrayList<>();
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
-        String email = request.getParameter("email");
-        String phone = request.getParameter("phone");
-        String gender = request.getParameter("gender");
+        String firstName = req.getParameter("firstName");
+        String lastName = req.getParameter("lastName");
+        String email = req.getParameter("email");
+        String phone = req.getParameter("phone");
+        String gender = req.getParameter("gender");
 
         if (firstName == null || firstName.trim().isEmpty()) errors.add("First name is required.");
         if (lastName == null || lastName.trim().isEmpty()) errors.add("Last name is required.");
@@ -64,13 +59,13 @@ public class UserAccountServlet extends HttpServlet {
         }
 
         if (!errors.isEmpty()) {
-            request.setAttribute("errors", errors);
-            request.setAttribute("user", user);
-            request.getRequestDispatcher("/WEB-INF/views/useraccount.jsp").forward(request, response);
+            req.setAttribute("errors", errors);
+            req.setAttribute("user", user);
+            req.getRequestDispatcher("/WEB-INF/views/useraccount.jsp").forward(req, resp);
             return;
         }
 
-        String dobStr = request.getParameter("dob");
+        String dobStr = req.getParameter("dob");
         if (dobStr != null && !dobStr.isEmpty()) {
             user.setDob(LocalDate.parse(dobStr));
         }
@@ -84,8 +79,8 @@ public class UserAccountServlet extends HttpServlet {
 
         accountRepo.update(user);
 
-        request.setAttribute("user", user);
-        request.setAttribute("success", "User updated successfully.");
-        request.getRequestDispatcher("/WEB-INF/views/useraccount.jsp").forward(request, response);
+        req.setAttribute("user", user);
+        req.setAttribute("success", "User updated successfully.");
+        req.getRequestDispatcher("/WEB-INF/views/useraccount.jsp").forward(req, resp);
     }
 }
