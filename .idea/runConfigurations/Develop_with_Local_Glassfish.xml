@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Develop with Local Glassfish" type="GlassfishConfiguration" factoryName="Local" APPLICATION_SERVER_NAME="GlassFish 7.0.22" ALTERNATIVE_JRE_ENABLED="false">
     <option name="OPEN_IN_BROWSER" value="false" />
-    <option name="UPDATING_POLICY" value="update-resources" />
+    <option name="UPDATE_ON_FRAME_DEACTIVATION" value="true" />
     <deployment>
       <artifact name="beautefly-webstore:war exploded">
         <settings>
@@ -17,7 +17,7 @@
       <option name="USERNAME" value="admin" />
       <option name="CREDENTIAL_ALIAS" />
     </server-settings>
-    <predefined_log_file id="GlassFish" />
+    <predefined_log_file enabled="true" id="GlassFish" />
     <extension name="net.ashald.envfile">
       <option name="IS_ENABLED" value="false" />
       <option name="IS_SUBST" value="false" />
