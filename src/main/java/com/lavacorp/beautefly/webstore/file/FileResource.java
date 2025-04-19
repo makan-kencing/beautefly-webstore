@@ -1,22 +1,22 @@
 package com.lavacorp.beautefly.webstore.file;
 
-import com.lavacorp.beautefly.webstore.security.SecurityService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.EntityPart;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 @RolesAllowed({"USER"})
 @Path("/file/upload")
 public class FileResource {
     @Context
-    private SecurityContext securityContext;
+    private HttpServletRequest req;
 
     @Inject
     private FileService fileService;
-
-    @Inject
-    private SecurityService securityService;
 
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -24,12 +24,7 @@ public class FileResource {
     public Response uploadFile(
             @FormParam("file") EntityPart part
     ) {
-        var account = securityService.getUserAccountContext(securityContext);
-
-        if (account == null)
-            return Response.status(Response.Status.FORBIDDEN).build();
-
-        var file = fileService.processFile(part, account);
+        var file = fileService.uploadFile(part, req);
         if (file == null)
             return Response.status(Response.Status.BAD_REQUEST).build();
 
