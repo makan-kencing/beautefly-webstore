@@ -4,6 +4,7 @@ import com.lavacorp.beautefly.webstore.account.dto.UpdateCredentialDTO;
 import com.lavacorp.beautefly.webstore.account.dto.UpdateUserAccountDTO;
 import com.lavacorp.beautefly.webstore.account.dto.UserAccountDetailsDTO;
 import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
+import com.lavacorp.beautefly.webstore.admin.dto.AdminContextDTO;
 import com.lavacorp.beautefly.webstore.admin.dto.AdminUserAccountDTO;
 import com.lavacorp.beautefly.webstore.admin.dto.UserAccountSummaryDTO;
 import com.lavacorp.beautefly.webstore.file.mapper.FileUploadMapper;
@@ -51,4 +52,7 @@ public interface AccountMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(source = "credentialPassword", target = "credential.password")
     UserAccount partialUpdateCredential(UpdateCredentialDTO updateCredentialDTO, @MappingTarget UserAccount userAccount);
+
+    @Mapping(target = "roles", source = "credential.roles")
+    AdminContextDTO toAdminContextDTO(UserAccount userAccount);
 }

@@ -1,17 +1,30 @@
 package com.lavacorp.beautefly.webstore.admin;
 
 import com.lavacorp.beautefly.webstore.account.AccountRepository;
+import com.lavacorp.beautefly.webstore.account.mapper.AccountMapper;
+import com.lavacorp.beautefly.webstore.admin.dto.AdminContextDTO;
 import com.lavacorp.beautefly.webstore.admin.dto.DashboardStatsDTO;
+import com.lavacorp.beautefly.webstore.security.SecurityService;
+import jakarta.annotation.Nullable;
 import jakarta.data.page.PageRequest;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
+@Transactional
 @ApplicationScoped
 public class AdminService {
     @Inject
     private AccountRepository accountRepository;
+
+    @Inject
+    private SecurityService securityService;
+
+    @Inject
+    private AccountMapper accountMapper;
 
     public DashboardStatsDTO getDashboardStats() {
         var page = accountRepository.findByUsernameLike(
@@ -25,5 +38,13 @@ public class AdminService {
                 0,
                 "OK"
         );
+    }
+
+    public @Nullable AdminContextDTO getAdminContext(HttpServletRequest req) {
+        var account = securityService.getUserAccountContext(req);
+        if (account == null)
+            return null;
+
+        return accountMapper.toAdminContextDTO(account);
     }
 }
