@@ -9,8 +9,11 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.tika.mime.MediaType;
+import org.hibernate.Length;
 import org.hibernate.annotations.CurrentTimestamp;
+import org.hibernate.validator.constraints.URL;
 
+import java.net.URI;
 import java.time.Instant;
 
 @Getter
@@ -24,6 +27,10 @@ public class FileUpload {
     @NotNull
     @NotBlank
     private String filename;
+
+    @NotNull
+    @Column(length = Length.LONG)
+    private URI url;
 
     @NotNull
     @Enumerated(EnumType.STRING)
