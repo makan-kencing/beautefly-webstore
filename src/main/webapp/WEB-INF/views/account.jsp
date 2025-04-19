@@ -172,7 +172,7 @@
             <form method="dialog">
                 <img src="" alt="" class="max-w-full max-h-72 mb-4">
                 <button type="reset">Cancel</button>
-                <button type="button" id="cropConfirmBtn" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Confirm</button>
+                <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Confirm</button>
             </form>
         </dialog>
 
@@ -245,8 +245,11 @@
                 reader.readAsDataURL(file);
             });
 
-            document.getElementById("cropConfirmBtn").addEventListener("click", function () {
+            cropForm.addEventListener("submit", function (e) {
+                e.preventDefault();
+
                 const canvas = cropper.getCroppedCanvas({ width: 160, height: 160 });
+
                 canvas.toBlob(blob => {
                     const formData = new FormData(updateImageForm);
                     formData.set("file", blob, "avatar.jpg");
@@ -260,7 +263,6 @@
                             if (data) {
                                 displayImage.src = data.href;
                                 imageIdInput.value = data.id;
-                                cropModal.close(); // 关闭 dialog
                             }
                         })
                         .catch(err => {
@@ -269,7 +271,6 @@
 
                 }, "image/jpeg");
             });
-
 
 
             //password logic
