@@ -43,6 +43,8 @@
                             </div>
                         </form>
 
+
+
                         <form id="update-details" action="${pageContext.request.contextPath}/account" method="post" class="space-y-4">
                             <input type="hidden" name="profileImageFileId" value="${account.profileImage().id()}">
 
@@ -170,7 +172,7 @@
             <form method="dialog">
                 <img src="" alt="" class="max-w-full max-h-72 mb-4">
                 <button type="reset">Cancel</button>
-                <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Confirm</button>
+                <button type="button" id="cropConfirmBtn" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Confirm</button>
             </form>
         </dialog>
 
@@ -232,19 +234,19 @@
 
                 const reader = new FileReader();
                 reader.onload = function (e) {
+                    cropPreview.onload = function () {
+                        if (cropper) cropper.destroy();
+                        cropper = new Cropper(cropPreview, { aspectRatio: 1, viewMode: 1 });
+                        cropModal.showModal();
+                    };
                     cropPreview.src = e.target.result;
-                    cropModal.showModal();
-                    if (cropper) cropper.destroy();
-                    cropper = new Cropper(cropPreview, { aspectRatio: 1, viewMode: 1 });
                 };
+
                 reader.readAsDataURL(file);
             });
 
-            cropForm.addEventListener("submit", function (e) {
-                e.preventDefault();
-
+            document.getElementById("cropConfirmBtn").addEventListener("click", function () {
                 const canvas = cropper.getCroppedCanvas({ width: 160, height: 160 });
-
                 canvas.toBlob(blob => {
                     const formData = new FormData(updateImageForm);
                     formData.set("file", blob, "avatar.jpg");
@@ -258,6 +260,7 @@
                             if (data) {
                                 displayImage.src = data.href;
                                 imageIdInput.value = data.id;
+                                cropModal.close(); // 关闭 dialog
                             }
                         })
                         .catch(err => {
@@ -266,6 +269,7 @@
 
                 }, "image/jpeg");
             });
+
 
 
             //password logic
