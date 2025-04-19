@@ -31,42 +31,57 @@
                     <!-- Account Details -->
                     <h1 class="text-2xl font-semibold mb-4">Account Details</h1>
                     <div class="bg-white border border-gray-300 p-6 rounded-lg shadow-sm space-y-6">
-                        <!-- Avatar Upload -->
+
+                        <!--images-->
                         <form id="update-image" action="${pageContext.request.contextPath}/api/file/upload" method="post" enctype="multipart/form-data" class="flex items-center gap-6">
                             <div class="w-20 h-20 rounded-full overflow-hidden border-2 border-gray-300">
                                 <img src="${account.profileImage().href()}" alt="" class="w-full h-full object-cover">
                             </div>
-                            <div>
-                                <label for="file" class="bg-gray-200 px-4 py-2 rounded cursor-pointer">Upload Image</label>
+                            <div class="peer-inert:hidden">
+                                <label id="uploadImageBtn" for="file" class="bg-gray-200 px-4 py-2 rounded cursor-pointer hidden">Upload Image</label>
                                 <input type="file" name="file" id="file" accept="image/*" class="hidden">
                             </div>
                         </form>
 
-                        <!-- Account Details -->
                         <form id="update-details" action="${pageContext.request.contextPath}/account" method="post" class="space-y-4">
                             <input type="hidden" name="profileImageFileId" value="${account.profileImage().id()}">
 
                             <fieldset class="peer space-y-4 *:space-y-1 inert:opacity-90" inert>
+                                <!--username-->
                                 <div>
                                     <label for="username" class="block font-medium">Username</label>
                                     <input type="text" name="username" id="username" value="${account.username()}" class="w-full border border-gray-300 p-2 rounded">
                                 </div>
+                                <!--email-->
                                 <div>
                                     <label for="email" class="block font-medium">Email</label>
                                     <input type="email" name="email" id="email" value="${account.email()}" class="w-full border border-gray-300 p-2 rounded">
                                 </div>
+                                <!--gender-->
                                 <div>
                                     <label class="block font-medium">Gender</label>
-                                    <div class="flex gap-4">
+                                    <div class="edit-mode hidden flex gap-4">
                                         <label><input type="radio" name="gender" value="MALE" ${account.gender() == "MALE" ? "checked" : ""}> Male</label>
                                         <label><input type="radio" name="gender" value="FEMALE" ${account.gender() == "FEMALE" ? "checked" : ""}> Female</label>
                                         <label><input type="radio" name="gender" value="PREFER_NOT_TO_SAY" ${account.gender() == "PREFER_NOT_TO_SAY" ? "checked" : ""}> Prefer not to say</label>
                                     </div>
+                                    <div class="view-mode">
+                                        <p class="w-full border border-gray-300 p-2 rounded">
+                                            <c:choose>
+                                                <c:when test="${account.gender() == 'MALE'}">Male</c:when>
+                                                <c:when test="${account.gender() == 'FEMALE'}">Female</c:when>
+                                                <c:otherwise>Prefer not to say</c:otherwise>
+                                            </c:choose>
+                                        </p>
+                                    </div>
                                 </div>
+                                <!--birthday-->
                                 <div>
                                     <label for="dob" class="block font-medium">Date of Birth</label>
-                                    <input type="date" name="dob" id="dob" value="${account.dob()}" class="w-full border border-gray-300 p-2 rounded">
+                                    <input type="date" name="dob" id="dob" value="${account.dob()}" class="edit-mode hidden w-full border border-gray-300 p-2 rounded">
+                                    <p class="view-mode w-full border border-gray-300 p-2 rounded">${account.dob()}</p>
                                 </div>
+
                             </fieldset>
 
                             <div class="not-peer-inert:hidden">
@@ -161,12 +176,6 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js"></script>
         <script>
-            function toggleFormInert() {
-                const form = this.closest("form");
-                const fieldset = form.querySelector("fieldset");
-                fieldset.toggleAttribute("inert");
-            }
-
             // sidebar
             const menuItems = document.querySelectorAll('.menu-item');
             const pages = document.querySelectorAll('.page');
@@ -182,7 +191,32 @@
                 });
             });
 
-            // 图像上传与裁剪逻辑
+            function toggleFormInert() {
+                const form = this.closest("form");
+                const fieldset = form.querySelector("fieldset");
+                const uploadBtn = document.getElementById("uploadImageBtn");
+                const isInert = fieldset.hasAttribute("inert");
+
+                const editElems = form.querySelectorAll(".edit-mode");
+                const viewElems = form.querySelectorAll(".view-mode");
+
+                if (isInert) {
+                    fieldset.removeAttribute("inert");
+                    uploadBtn?.classList.remove("hidden");
+                    editElems.forEach(e => e.classList.remove("hidden"));
+                    viewElems.forEach(e => e.classList.add("hidden"));
+                } else {
+                    fieldset.setAttribute("inert", "");
+                    uploadBtn?.classList.add("hidden");
+                    editElems.forEach(e => e.classList.add("hidden"));
+                    viewElems.forEach(e => e.classList.remove("hidden"));
+                }
+            }
+
+            document.querySelectorAll(".edit-mode").forEach(e => e.classList.add("hidden"));
+            document.getElementById("uploadImageBtn").classList.add("hidden");
+
+
             const updateImageForm = document.querySelector("#update-image");
             const displayImage = updateImageForm.querySelector("img");
             const imageInput = updateImageForm.querySelector("input[name='file']");
