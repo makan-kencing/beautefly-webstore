@@ -25,6 +25,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -89,6 +90,10 @@ public class FileService {
                 .insert(file);
 
         return fileUploadMapper.toFileUploadDTO(file);
+    }
+
+    public URI resolveHref(String contextPath, String filename) {
+        return URI.create(contextPath).resolve(fileStorage.resolveHref(filename));
     }
 
     /**

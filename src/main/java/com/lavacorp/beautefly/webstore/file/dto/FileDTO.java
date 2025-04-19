@@ -12,9 +12,7 @@ import java.net.URI;
 public record FileDTO(
         int id,
         String filename,
-        FileUpload.FileType type
+        FileUpload.FileType type,
+        URI href
 ) implements Serializable {
-    public URI href() {
-        return FileServerStorage.resolveRef(filename);
-    }
 }

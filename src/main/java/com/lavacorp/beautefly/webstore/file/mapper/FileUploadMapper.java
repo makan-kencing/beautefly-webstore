@@ -4,9 +4,11 @@ import com.lavacorp.beautefly.webstore.file.entity.FileUpload;
 import com.lavacorp.beautefly.webstore.file.dto.FileDTO;
 import org.mapstruct.*;
 
+import java.net.URI;
+
 @Mapper(componentModel = MappingConstants.ComponentModel.CDI)
 public interface FileUploadMapper {
-    FileDTO toFileUploadDTO(FileUpload file);
+    FileDTO toFileUploadDTO(FileUpload file, URI href);
 
     @Mapping(target = "promotion", ignore = true)
     @Mapping(target = "product", ignore = true)
