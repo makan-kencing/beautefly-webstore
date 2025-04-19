@@ -9,8 +9,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
 
     <div class="swiper-container w-full h-[calc(100vh-4.35rem)] overflow-x-hidden">
+
         <div class="swiper-wrapper">
-            <!--skincare-->
+
             <c:forEach var="item" items="${promos}">
                 <div class="swiper-slide bg-cover" style="background-image: url(${item.imageUrl()})">
                     <div class="backdrop-blur-xs flex flex-col items-center justify-center w-full h-full gap-5">
