@@ -27,316 +27,310 @@ AS
 $BODY$
 BEGIN
     WITH category_id AS (
-        INSERT INTO category (name, description, image_url)
-            VALUES ('Skincare', '',
-                    'https://cdn.shopify.com/s/files/1/0070/7032/files/how-to-start-a-skincare-line-glow-oasis.jpg?v=1666895341')
+        INSERT INTO category (name, description)
+            VALUES ('Skincare', '')
             ON CONFLICT DO NOTHING
             RETURNING id),
          sub1_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Cleansing', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Cleansing', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id),
          sub2_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Toning', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Toning', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id),
          sub3_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Moisturizing', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Moisturizing', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id),
          sub4_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Serum & Treatments', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Serum & Treatments', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id),
          sub5_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Eye Care', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Eye Care', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id),
          sub6_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Sun Protection', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Sun Protection', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id),
          sub7_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Special Treatments', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Special Treatments', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id),
          sub8_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Repair & Recovery', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Repair & Recovery', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id)
     INSERT
-    INTO category(name, description, image_url, parent_id)
-    VALUES ('Facial Cleanser', '', '', (SELECT id FROM sub1_id)),
-           ('Cleansing Oil', '', '', (SELECT id FROM sub1_id)),
-           ('Micellar Water', '', '', (SELECT id FROM sub1_id)),
-           ('Cleansing Foam', '', '', (SELECT id FROM sub1_id)),
-           ('Toner', '', '', (SELECT id FROM sub2_id)),
-           ('Facial Mist', '', '', (SELECT id FROM sub2_id)),
-           ('Essence Water', '', '', (SELECT id FROM sub2_id)),
-           ('Lotion', '', '', (SELECT id FROM sub3_id)),
-           ('Face Cream', '', '', (SELECT id FROM sub3_id)),
-           ('Gel', '', '', (SELECT id FROM sub3_id)),
-           ('Brightening Serum', '', '', (SELECT id FROM sub4_id)),
-           ('Anti-aging Serum', '', '', (SELECT id FROM sub4_id)),
-           ('Repairing Serum', '', '', (SELECT id FROM sub4_id)),
-           ('Eye Cream', '', '', (SELECT id FROM sub5_id)),
-           ('Eye Serum', '', '', (SELECT id FROM sub5_id)),
-           ('Sunscreen', '', '', (SELECT id FROM sub6_id)),
-           ('Sunblock Spray', '', '', (SELECT id FROM sub6_id)),
-           ('Acne Treatment', '', '', (SELECT id FROM sub7_id)),
-           ('Exfoliators', '', '', (SELECT id FROM sub7_id)),
-           ('Sheet Masks', '', '', (SELECT id FROM sub7_id)),
-           ('Clay Masks', '', '', (SELECT id FROM sub7_id)),
-           ('Peel-off Masks', '', '', (SELECT id FROM sub7_id)),
-           ('After-Sun Repair', '', '', (SELECT id FROM sub8_id)),
-           ('Sensitive Skin Repair', '', '', (SELECT id FROM sub8_id))
+    INTO category(name, description, parent_id)
+    VALUES ('Facial Cleanser', '', (SELECT id FROM sub1_id)),
+           ('Cleansing Oil', '', (SELECT id FROM sub1_id)),
+           ('Micellar Water', '', (SELECT id FROM sub1_id)),
+           ('Cleansing Foam', '', (SELECT id FROM sub1_id)),
+           ('Toner', '', (SELECT id FROM sub2_id)),
+           ('Facial Mist', '', (SELECT id FROM sub2_id)),
+           ('Essence Water', '', (SELECT id FROM sub2_id)),
+           ('Lotion', '', (SELECT id FROM sub3_id)),
+           ('Face Cream', '', (SELECT id FROM sub3_id)),
+           ('Gel', '', (SELECT id FROM sub3_id)),
+           ('Brightening Serum', '', (SELECT id FROM sub4_id)),
+           ('Anti-aging Serum', '', (SELECT id FROM sub4_id)),
+           ('Repairing Serum', '', (SELECT id FROM sub4_id)),
+           ('Eye Cream', '', (SELECT id FROM sub5_id)),
+           ('Eye Serum', '', (SELECT id FROM sub5_id)),
+           ('Sunscreen', '', (SELECT id FROM sub6_id)),
+           ('Sunblock Spray', '', (SELECT id FROM sub6_id)),
+           ('Acne Treatment', '', (SELECT id FROM sub7_id)),
+           ('Exfoliators', '', (SELECT id FROM sub7_id)),
+           ('Sheet Masks', '', (SELECT id FROM sub7_id)),
+           ('Clay Masks', '', (SELECT id FROM sub7_id)),
+           ('Peel-off Masks', '', (SELECT id FROM sub7_id)),
+           ('After-Sun Repair', '', (SELECT id FROM sub8_id)),
+           ('Sensitive Skin Repair', '', (SELECT id FROM sub8_id))
     ON CONFLICT DO NOTHING;
 
     WITH category_id AS (
-        INSERT INTO category (name, description, image_url)
-            VALUES ('Makeup', '',
-                    'https://t4.ftcdn.net/jpg/02/73/55/33/360_F_273553300_sBBxIPpLSn5iC5vC8FwzFh6BJDKvUeaC.jpg')
+        INSERT INTO category (name, description)
+            VALUES ('Makeup', '')
             ON CONFLICT DO NOTHING
             RETURNING id),
          sub1_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Base Makeup', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Base Makeup', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id),
          sub2_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Eye Makeup', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Eye Makeup', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id),
          sub3_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Lip Makeup', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Lip Makeup', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id),
          sub4_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Blush & Contourin', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Blush & Contourin', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id),
          sub5_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Setting Makeup', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Setting Makeup', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id)
     INSERT
-    INTO category(name, description, image_url, parent_id)
-    VALUES ('Foundation', '', '', (SELECT id FROM sub1_id)),
-           ('BB Cream', '', '', (SELECT id FROM sub1_id)),
-           ('Cushion Compact', '', '', (SELECT id FROM sub1_id)),
-           ('Concealer', '', '', (SELECT id FROM sub1_id)),
-           ('Setting Powder', '', '', (SELECT id FROM sub1_id)),
-           ('Eyeshadow', '', '', (SELECT id FROM sub2_id)),
-           ('Eyeliner', '', '', (SELECT id FROM sub2_id)),
-           ('Mascara', '', '', (SELECT id FROM sub2_id)),
-           ('Eyebrow Pencil', '', '', (SELECT id FROM sub2_id)),
-           ('Lipstick', '', '', (SELECT id FROM sub3_id)),
-           ('Lip Gloss', '', '', (SELECT id FROM sub3_id)),
-           ('Lip Balm', '', '', (SELECT id FROM sub3_id)),
-           ('Lip Liner', '', '', (SELECT id FROM sub3_id)),
-           ('Blush', '', '', (SELECT id FROM sub4_id)),
-           ('Contour Powder', '', '', (SELECT id FROM sub4_id)),
-           ('Highlighter', '', '', (SELECT id FROM sub4_id)),
-           ('Nose Shadow', '', '', (SELECT id FROM sub4_id)),
-           ('Setting Spray', '', '', (SELECT id FROM sub5_id)),
-           ('Oil-Control Powder', '', '', (SELECT id FROM sub5_id))
+    INTO category(name, description, parent_id)
+    VALUES ('Foundation', '', (SELECT id FROM sub1_id)),
+           ('BB Cream', '', (SELECT id FROM sub1_id)),
+           ('Cushion Compact', '', (SELECT id FROM sub1_id)),
+           ('Concealer', '', (SELECT id FROM sub1_id)),
+           ('Setting Powder', '', (SELECT id FROM sub1_id)),
+           ('Eyeshadow', '', (SELECT id FROM sub2_id)),
+           ('Eyeliner', '', (SELECT id FROM sub2_id)),
+           ('Mascara', '', (SELECT id FROM sub2_id)),
+           ('Eyebrow Pencil', '', (SELECT id FROM sub2_id)),
+           ('Lipstick', '', (SELECT id FROM sub3_id)),
+           ('Lip Gloss', '', (SELECT id FROM sub3_id)),
+           ('Lip Balm', '', (SELECT id FROM sub3_id)),
+           ('Lip Liner', '', (SELECT id FROM sub3_id)),
+           ('Blush', '', (SELECT id FROM sub4_id)),
+           ('Contour Powder', '', (SELECT id FROM sub4_id)),
+           ('Highlighter', '', (SELECT id FROM sub4_id)),
+           ('Nose Shadow', '', (SELECT id FROM sub4_id)),
+           ('Setting Spray', '', (SELECT id FROM sub5_id)),
+           ('Oil-Control Powder', '', (SELECT id FROM sub5_id))
     ON CONFLICT DO NOTHING;
 
     WITH category_id AS (
-        INSERT INTO category (name, description, image_url)
-            VALUES ('Body Care', '',
-                    'https://www.everkindnz.com/cdn/shop/files/everkind-bodycare-that-is-caring-by-nature-mobile-hero-home-page-white-roses-double-compressed-1024px_1600x.jpg?v=1711690743')
+        INSERT INTO category (name, description)
+            VALUES ('Body Care', '')
             ON CONFLICT DO NOTHING
             RETURNING id),
          sub1_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Body Cleansing', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Body Cleansing', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id),
          sub2_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Moisturizing', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Moisturizing', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id),
          sub3_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Fragrance', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Fragrance', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id),
          sub4_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Hair Removal', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Hair Removal', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id),
          sub5_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Whitening & Acne Treatment', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Whitening & Acne Treatment', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id)
     INSERT
-    INTO category(name, description, image_url, parent_id)
-    VALUES ('Body Wash', '', '', (SELECT id FROM sub1_id)),
-           ('Soap', '', '', (SELECT id FROM sub1_id)),
-           ('Body Scrub', '', '', (SELECT id FROM sub1_id)),
-           ('Body Lotion', '', '', (SELECT id FROM sub2_id)),
-           ('Hand Cream', '', '', (SELECT id FROM sub2_id)),
-           ('Body Oil', '', '', (SELECT id FROM sub2_id)),
-           ('Perfume', '', '', (SELECT id FROM sub3_id)),
-           ('Body Mist', '', '', (SELECT id FROM sub3_id)),
-           ('Hair Removal Cream', '', '', (SELECT id FROM sub4_id)),
-           ('Razor', '', '', (SELECT id FROM sub4_id)),
-           ('Body Whitening Lotion', '', '', (SELECT id FROM sub5_id)),
-           ('Back Acne Spray', '', '', (SELECT id FROM sub5_id))
+    INTO category(name, description, parent_id)
+    VALUES ('Body Wash', '', (SELECT id FROM sub1_id)),
+           ('Soap', '', (SELECT id FROM sub1_id)),
+           ('Body Scrub', '', (SELECT id FROM sub1_id)),
+           ('Body Lotion', '', (SELECT id FROM sub2_id)),
+           ('Hand Cream', '', (SELECT id FROM sub2_id)),
+           ('Body Oil', '', (SELECT id FROM sub2_id)),
+           ('Perfume', '', (SELECT id FROM sub3_id)),
+           ('Body Mist', '', (SELECT id FROM sub3_id)),
+           ('Hair Removal Cream', '', (SELECT id FROM sub4_id)),
+           ('Razor', '', (SELECT id FROM sub4_id)),
+           ('Body Whitening Lotion', '', (SELECT id FROM sub5_id)),
+           ('Back Acne Spray', '', (SELECT id FROM sub5_id))
     ON CONFLICT DO NOTHING;
 
     WITH category_id AS (
-        INSERT INTO category (name, description, image_url)
-            VALUES ('Hair Care', '',
-                    'https://hourshaircare.com/cdn/shop/files/find_your_ritual_img.jpg?v=1712143676')
+        INSERT INTO category (name, description)
+            VALUES ('Hair Care', '')
             ON CONFLICT DO NOTHING
             RETURNING id),
          sub1_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Shampoo & Conditioner', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Shampoo & Conditioner', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id),
          sub2_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Hair Treatment', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Hair Treatment', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id),
          sub3_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Styling', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Styling', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id),
          sub4_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Hair Coloring', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Hair Coloring', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id)
     INSERT
-    INTO category(name, description, image_url, parent_id)
-    VALUES ('Shampoo', '', '', (SELECT id FROM sub1_id)),
-           ('Conditioner', '', '', (SELECT id FROM sub1_id)),
-           ('Hair Mask', '', '', (SELECT id FROM sub2_id)),
-           ('Hair Oil', '', '', (SELECT id FROM sub2_id)),
-           ('Scalp Care Serum', '', '', (SELECT id FROM sub2_id)),
-           ('Hair Spray', '', '', (SELECT id FROM sub3_id)),
-           ('Hair Wax', '', '', (SELECT id FROM sub3_id)),
-           ('Curling Mousse', '', '', (SELECT id FROM sub3_id)),
-           ('Hair Straightening Cream', '', '', (SELECT id FROM sub3_id)),
-           ('Hair Dye', '', '', (SELECT id FROM sub4_id)),
-           ('Bleach', '', '', (SELECT id FROM sub4_id))
+    INTO category(name, description, parent_id)
+    VALUES ('Shampoo', '', (SELECT id FROM sub1_id)),
+           ('Conditioner', '', (SELECT id FROM sub1_id)),
+           ('Hair Mask', '', (SELECT id FROM sub2_id)),
+           ('Hair Oil', '', (SELECT id FROM sub2_id)),
+           ('Scalp Care Serum', '', (SELECT id FROM sub2_id)),
+           ('Hair Spray', '', (SELECT id FROM sub3_id)),
+           ('Hair Wax', '', (SELECT id FROM sub3_id)),
+           ('Curling Mousse', '', (SELECT id FROM sub3_id)),
+           ('Hair Straightening Cream', '', (SELECT id FROM sub3_id)),
+           ('Hair Dye', '', (SELECT id FROM sub4_id)),
+           ('Bleach', '', (SELECT id FROM sub4_id))
     ON CONFLICT DO NOTHING;
 
 
     WITH category_id AS (
-        INSERT INTO category (name, description, image_url)
-            VALUES ('Beauty Tools & Devices', '',
-                    'https://img.freepik.com/free-photo/top-view-still-life-assortment-nail-care-products_23-2148974551.jpg')
+        INSERT INTO category (name, description)
+            VALUES ('Beauty Tools & Devices', '')
             ON CONFLICT DO NOTHING
             RETURNING id),
          sub1_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Makeup Tools', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Makeup Tools', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id),
          sub2_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Skincare Devices', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Skincare Devices', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id),
          sub3_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Hair Removal Devices', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Hair Removal Devices', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id),
          sub4_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Massage Tools', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Massage Tools', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id),
          sub5_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Nail Care Tools', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Nail Care Tools', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id)
     INSERT
-    INTO category(name, description, image_url, parent_id)
-    VALUES ('Makeup Brushes', '', '', (SELECT id FROM sub1_id)),
-           ('Beauty Sponge', '', '', (SELECT id FROM sub1_id)),
-           ('Powder Puff', '', '', (SELECT id FROM sub1_id)),
-           ('Eyelash Curler', '', '', (SELECT id FROM sub1_id)),
-           ('Facial Cleansing Brush', '', '', (SELECT id FROM sub2_id)),
-           ('Facial Steamer', '', '', (SELECT id FROM sub2_id)),
-           ('LED Beauty Device', '', '', (SELECT id FROM sub2_id)),
-           ('Home-use Hair Removal Device', '', '', (SELECT id FROM sub3_id)),
-           ('Razor', '', '', (SELECT id FROM sub3_id)),
-           ('Face Slimming Device', '', '', (SELECT id FROM sub4_id)),
-           ('Roller Massager', '', '', (SELECT id FROM sub4_id)),
-           ('Gua Sha Tool', '', '', (SELECT id FROM sub4_id)),
-           ('Nail Polish', '', '', (SELECT id FROM sub5_id)),
-           ('Nail Lamp', '', '', (SELECT id FROM sub5_id)),
-           ('Manicure Set', '', '', (SELECT id FROM sub5_id))
+    INTO category(name, description, parent_id)
+    VALUES ('Makeup Brushes', '', (SELECT id FROM sub1_id)),
+           ('Beauty Sponge', '', (SELECT id FROM sub1_id)),
+           ('Powder Puff', '', (SELECT id FROM sub1_id)),
+           ('Eyelash Curler', '', (SELECT id FROM sub1_id)),
+           ('Facial Cleansing Brush', '', (SELECT id FROM sub2_id)),
+           ('Facial Steamer', '', (SELECT id FROM sub2_id)),
+           ('LED Beauty Device', '', (SELECT id FROM sub2_id)),
+           ('Home-use Hair Removal Device', '', (SELECT id FROM sub3_id)),
+           ('Razor', '', (SELECT id FROM sub3_id)),
+           ('Face Slimming Device', '', (SELECT id FROM sub4_id)),
+           ('Roller Massager', '', (SELECT id FROM sub4_id)),
+           ('Gua Sha Tool', '', (SELECT id FROM sub4_id)),
+           ('Nail Polish', '', (SELECT id FROM sub5_id)),
+           ('Nail Lamp', '', (SELECT id FROM sub5_id)),
+           ('Manicure Set', '', (SELECT id FROM sub5_id))
     ON CONFLICT DO NOTHING;
 
 
     WITH category_id AS (
-        INSERT INTO category (name, description, image_url)
-            VALUES ('Special Treatment', '',
-                    'https://cdn.prod.website-files.com/63ee8aa635ba278b3ee2d76a/66b0d9d9b17b539efeca321f_66b0d98d0bd07e791ead732b_3.jpeg')
+        INSERT INTO category (name, description)
+            VALUES ('Special Treatment', '')
             ON CONFLICT DO NOTHING
             RETURNING id),
          sub1_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Acne Treatment', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Acne Treatment', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id),
          sub2_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Anti-Aging', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Anti-Aging', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id),
          sub3_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Whitening', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Whitening', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id),
          sub4_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Sensitive Skin Repair', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Sensitive Skin Repair', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id),
          sub5_id AS (
-             INSERT INTO category (name, description, image_url, parent_id)
-                 VALUES ('Dark Circle Treatment', '', '', (SELECT id FROM category_id))
+             INSERT INTO category (name, description, parent_id)
+                 VALUES ('Dark Circle Treatment', '', (SELECT id FROM category_id))
                  ON CONFLICT DO NOTHING
                  RETURNING id)
     INSERT
-    INTO category(name, description, image_url, parent_id)
-    VALUES ('Acne Gel', '', '', (SELECT id FROM sub1_id)),
-           ('Pimple Patch', '', '', (SELECT id FROM sub1_id)),
-           ('Anti-wrinkle Serum', '', '', (SELECT id FROM sub2_id)),
-           ('Firming Cream', '', '', (SELECT id FROM sub2_id)),
-           ('Brightening Serum', '', '', (SELECT id FROM sub3_id)),
-           ('Dark Spot Corrector', '', '', (SELECT id FROM sub3_id)),
-           ('Soothing Repair Cream', '', '', (SELECT id FROM sub4_id)),
-           ('Sensitive Skin Protection Cream', '', '', (SELECT id FROM sub4_id)),
-           ('Eye Mask', '', '', (SELECT id FROM sub5_id)),
-           ('Eye Serum', '', '', (SELECT id FROM sub5_id))
+    INTO category(name, description, parent_id)
+    VALUES ('Acne Gel', '', (SELECT id FROM sub1_id)),
+           ('Pimple Patch', '', (SELECT id FROM sub1_id)),
+           ('Anti-wrinkle Serum', '', (SELECT id FROM sub2_id)),
+           ('Firming Cream', '', (SELECT id FROM sub2_id)),
+           ('Brightening Serum', '', (SELECT id FROM sub3_id)),
+           ('Dark Spot Corrector', '', (SELECT id FROM sub3_id)),
+           ('Soothing Repair Cream', '', (SELECT id FROM sub4_id)),
+           ('Sensitive Skin Protection Cream', '', (SELECT id FROM sub4_id)),
+           ('Eye Mask', '', (SELECT id FROM sub5_id)),
+           ('Eye Serum', '', (SELECT id FROM sub5_id))
     ON CONFLICT DO NOTHING;
 END;
 $BODY$
@@ -803,88 +797,6 @@ BEGIN
             ('Sunday Riley Auto Correct Brightening Eye Cream', 'Brightening & de-puffing eye serum.', 'Sunday Riley', '52.99', '36.62', '2023-12-20', (SELECT id FROM category WHERE name = 'Eye Serum'), random(1, 20)),
             ('Tatcha The Silk Peony Melting Eye Cream', 'Anti-aging & ultra-nourishing eye treatment.', 'Tatcha', '60.00', '31.33', '2024-02-08', (SELECT id FROM category WHERE name = 'Eye Serum'), random(1, 20))
     ON CONFLICT DO NOTHING;
-
-    INSERT INTO product_image_urls(product_id, image_urls)
-    VALUES ((SELECT id FROM product WHERE name = 'CeraVe Hydrating Facial Cleanser' AND release_date = '2023-05-10'), 'https://threebs.co/cdn/shop/products/cerave-hydrating-facial-cleanser-562ml-IMG1-20220509.jpg?v=1660118122'),
-            ((SELECT id FROM product WHERE name = 'La Roche-Posay Toleriane Purifying Foaming Cleanser' AND release_date = '2023-07-18'), 'https://www.laroche-posay.com.my/-/media/project/loreal/brand-sites/lrp/apac/my/products/toleriane/caring-wash/la-roche-posay-productpage-sensitive-allergic-toleriane-caring-wash-400ml-3337875545778-front.png?cx=0&amp;ch=600&amp;cy=0&amp;cw=600&hash=3342295D7647E9CBC13AE59681C05688'),
-            ((SELECT id FROM product WHERE name = 'Fresh Soy Face Cleanser' AND release_date = '2023-09-02'), 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPfex0l05PS7tQlQbFya0IaMOVuRSBhRU6EQ&s'),
-            ((SELECT id FROM product WHERE name = 'Kiehl’s Ultra Facial Cleanser' AND release_date = '2023-10-25'), 'https://www.kiehls.com.my/dw/image/v2/BFZM_PRD/on/demandware.static/-/Sites-kiehls-master-catalog/default/dw9ab9a786/nextgen/skin-care/face-cleansers/ultra-facial/ultra-facial-cleanser/kiehls-face-cleanser-ultra-facial-cleanser-150ml-000-3605970024192-front.jpg?sw=320&sh=320&sm=cut&sfrm=png&q=70'),
-            ((SELECT id FROM product WHERE name = 'Shiseido Perfect Whip Cleansing Foam' AND release_date = '2023-12-08'), 'https://shop.shiseido.com.my/cdn/shop/files/14529_S_2_1000x.jpg?v=1735660887'),
-            ((SELECT id FROM product WHERE name = 'DHC Deep Cleansing Oil' AND release_date = '2023-06-05'), 'https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcTtATnnxVXeSqFbVS6BWiY-ua9UdLnEnscGdToyj38PyPFyTe8tbAfcvpo5bNQGgnQvXffcV8B3jgZ7285IP72HDUBEESQPlnYCdlmtUE9pFGk61HbgO5hi&usqp=CAE'),
-            ((SELECT id FROM product WHERE name = 'Shu Uemura Ultime8∞ Sublime Beauty Cleansing Oil' AND release_date = '2023-08-15'), 'https://www.shuuemura.com.my/www/product-content/botanicoil-indulging-plant-based-cleansing-oil/images/co-pd6.png?v=2'),
-            ((SELECT id FROM product WHERE name = 'Kose Softymo Speedy Cleansing Oil' AND release_date = '2023-09-30'), 'https://m.media-amazon.com/images/I/61SwtLoqMSL.jpg'),
-            ((SELECT id FROM product WHERE name = 'Tatcha Pure One Step Camellia Cleansing Oil' AND release_date = '2023-11-12'), 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSndf97XePHBohkhoxTBgjg2-wunDi9BW2doQ&s'),
-            ((SELECT id FROM product WHERE name = 'Hada Labo Gokujyun Cleansing Oil' AND release_date = '2024-01-05'), 'https://hadalabo.com.my/img/2ab67433-0e27-49c1-bae4-ae833fe37f17/hydrating-oil-lg.png?fm=png&q=80&fit=max&crop=1855%2C2334%2C0%2C0'),
-            ((SELECT id FROM product WHERE name = 'Bioderma Sensibio H2O Micellar Water' AND release_date = '2023-05-22'), 'https://medias.watsons.com.my/publishing/WTCMY-75573-side-zoom.jpg?version=1718365981'),
-            ((SELECT id FROM product WHERE name = 'Garnier SkinActive Micellar Cleansing Water' AND release_date = '2023-07-10'), 'https://i5.walmartimages.com/seo/Garnier-SkinActive-Micellar-Cleansing-Water-All-in-1-Makeup-Remover-Adult-3-4-fl-oz_03c5f896-f38b-4507-81b8-8066c381e6ff.e54b775e6fc5486f63d965d7021ae3c1.png'),
-            ((SELECT id FROM product WHERE name = 'Simple Kind to Skin Micellar Cleansing Water' AND release_date = '2023-09-05'), 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4dVWM7COpjJo_EXZ1BFgQXToRo_Z7n8ZnfQ&s'),
-            ((SELECT id FROM product WHERE name = 'La Roche-Posay Micellar Cleansing Water' AND release_date = '2023-10-20'), 'https://www.laroche-posay.us/dw/image/v2/AANG_PRD/on/demandware.static/-/Sites-acd-laroche-posay-master-catalog/default/dw3508f26e/img/micellarwaterultra/toleriane/Toleriane-Micellar-Water_400ml_Front_1500x1500.jpg'),
-            ((SELECT id FROM product WHERE name = 'Caudalie Vinoclean Micellar Cleansing Water' AND release_date = '2023-12-02'), 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQO0UjOYlFS0N5AGjAfjOwQbsB0ih6RSdZRlw&s'),
-            ((SELECT id FROM product WHERE name = 'Innisfree Jeju Volcanic Pore Cleansing Foam' AND release_date = '2023-06-12'), 'https://www.innisfree.my/media/catalog/product/1/3/131174441_volcanic_bha_pore_cleansing_foam_bm.jpg'),
-            ((SELECT id FROM product WHERE name = 'Etude House Baking Powder Pore Cleansing Foam' AND release_date = '2023-08-22'), 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWwhi4A03AkijbM40k0aq_3WwWwHTU2WYpUQ&s'),
-            ((SELECT id FROM product WHERE name = 'Sulwhasoo Gentle Cleansing Foam' AND release_date = '2023-09-28'), 'https://my.sulwhasoo.com/cdn/shop/files/Sws_Thumbnail_Gentle-Cleansing-Foam-200ml.jpg?v=1693547619'),
-            ((SELECT id FROM product WHERE name = 'Dr. Jart+ Dermaclear Micro Foam' AND release_date = '2023-11-18'), 'https://m.media-amazon.com/images/I/51v-dr9HggL.jpg'),
-            ((SELECT id FROM product WHERE name = 'AmorePacific Treatment Cleansing Foam' AND release_date = '2024-01-10'), 'https://m.media-amazon.com/images/I/51yi0T3cdYL.jpg'),
-            ((SELECT id FROM product WHERE name = 'Thayers Witch Hazel Toner' AND release_date = '2023-05-15'), 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzArrYT5g91rhbcw1CgaEFBCqwpK6ZumY09g&s'),
-            ((SELECT id FROM product WHERE name = 'Kiehl’s Calendula Herbal Extract Toner' AND release_date = '2023-07-03'), 'https://www.kiehls.com.my/dw/image/v2/BFZM_PRD/on/demandware.static/-/Sites-kiehls-master-catalog/default/dw1ec19660/nextgen/skin-care/face-toners/calendula/calendula-herbal-extract-alcohol-free-toner/kiehls-toner-calendula-herbal-extract-toner-alcohol-free-125ml-000-3700194700324-front.png'),
-            ((SELECT id FROM product WHERE name = 'SK-II Facial Treatment Clear Lotion' AND release_date = '2023-08-21'), 'https://www.sogo.com.my/cdn/shop/files/SK-IIFacialTreatmentClearLotion160ml.jpg?v=1727247037'),
-            ((SELECT id FROM product WHERE name = 'La Roche-Posay Effaclar Clarifying Solution' AND release_date = '2023-10-07'), 'https://down-my.img.susercontent.com/file/9db5556f3acc5c0992ed9988fc0a2fac'),
-            ((SELECT id FROM product WHERE name = 'Pixi Glow Tonic' AND release_date = '2023-12-01'), 'https://www.pixibeauty.com/cdn/shop/products/GlowTonic-250ml-MAY19_5.jpg?v=1701458044&width=1200'),
-            ((SELECT id FROM product WHERE name = 'Evian Facial Spray' AND release_date = '2023-05-28'), 'https://medias.watsons.com.my/publishing/WTCMY-71363-side-zoom.jpg?version=1718382695'),
-            ((SELECT id FROM product WHERE name = 'Caudalie Grape Water Mist' AND release_date = '2023-07-12'), 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ73kBhOGQAUFSNiF4535SAQvj9m4UnxM8gOA&s'),
-            ((SELECT id FROM product WHERE name = 'Heritage Store Rosewater & Glycerin Spray' AND release_date = '2023-09-10'), 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVNHKmfCnSj9VyB_5UvwbehBu-K8aht6E36Q&s'),
-            ((SELECT id FROM product WHERE name = 'Mario Badescu Facial Spray' AND release_date = '2023-10-29'), 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQi3Fz5_XMRRnh19vUPn-hg7s724__VY5Kxig&s'),
-            ((SELECT id FROM product WHERE name = 'Tatcha Luminous Dewy Skin Mist' AND release_date = '2023-12-15'), 'https://m.media-amazon.com/images/I/41RrWLchujL._SL1500_.jpg'),
-            ((SELECT id FROM product WHERE name = 'SK-II Facial Treatment Essence' AND release_date = '2023-06-10'), 'https://www.sogo.com.my/cdn/shop/files/SK-IIFacialTreatmentEssence160ml.jpg?v=1727247195'),
-            ((SELECT id FROM product WHERE name = 'Missha Time Revolution First Treatment Essence' AND release_date = '2023-08-05'), 'https://my.althea.kr/cdn/shop/products/TimeRevolutionTheFirstTreatmentEssenceRx_150ml_Renewal.jpg?v=1682148006'),
-            ((SELECT id FROM product WHERE name = 'IOPE Bio Essence Intensive Conditioning' AND release_date = '2023-09-22'), 'https://www.iope.com/int/en/products/__icsFiles/afieldfile/2020/09/08/bio-thum1.png'),
-            ((SELECT id FROM product WHERE name = 'Sulwhasoo First Care Activating Serum' AND release_date = '2023-11-10'), 'https://my.sulwhasoo.com/cdn/shop/files/First_Care_Activating_Serum_VI_90ml.jpg?v=1740760356'),
-            ((SELECT id FROM product WHERE name = 'Laneige Water Bank Hydro Essence' AND release_date = '2024-01-05'), 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKfXhVybexpdtPHdwDIp0PQlaxLclgdLI5_Q&s'),
-            ((SELECT id FROM product WHERE name = 'CeraVe Daily Moisturizing Lotion' AND release_date = '2023-05-20'), 'https://www.cerave.com/-/media/project/loreal/brand-sites/cerave/americas/us/products-v3/daily-moisturizing-lotion/700x875/cerave_daily_moisturizing_lotion_12oz_front-700x875-v2.jpg?rev=c1f482b619984b46bd02512590f52dfc&w=900&hash=1CE688C6849CD2E3CA7FEFB78E0AE598'),
-            ((SELECT id FROM product WHERE name = 'Aveeno Daily Moisturizing Lotion' AND release_date = '2023-07-08'), 'https://images.ctfassets.net/mgaihfszrtka/6GjNQY9eM192bralFU0IS2/33278f6def11d747e2d5281550a632de/ave_381370038443_us_daily_moisturizing_lotion_18oz_00000_0-en-us'),
-            ((SELECT id FROM product WHERE name = 'Eucerin Advanced Repair Lotion' AND release_date = '2023-09-02'), 'https://down-my.img.susercontent.com/file/6f722cb087e395f4a95492c9efae6a08'),
-            ((SELECT id FROM product WHERE name = 'NIVEA Essentially Enriched Lotion' AND release_date = '2023-10-18'), 'https://m.media-amazon.com/images/I/61qouR91jpL._AC_UF1000,1000_QL80_.jpg'),
-            ((SELECT id FROM product WHERE name = 'Vaseline Intensive Care Lotion' AND release_date = '2023-12-10'), 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlM8_Q7vTD4wPXF-PXQjm21mKPtb692wWL2Q&s'),
-            ((SELECT id FROM product WHERE name = 'Kiehl’s Ultra Facial Cream' AND release_date = '2023-05-30'), 'https://www.kiehls.com.my/dw/image/v2/BFZM_PRD/on/demandware.static/-/Sites-kiehls-master-catalog/en_MY/dw478f7e21/new-packshot/622-3605970360757-50ml-IMAGE1.jpg?sw=320&sh=320&sm=cut&sfrm=png&q=70'),
-            ((SELECT id FROM product WHERE name = 'La Mer Crème de la Mer' AND release_date = '2023-07-15'), 'https://m.lamer.com.my/media/images/products/680x680/LM_SKU_332002_26766_680x680_0.png'),
-            ((SELECT id FROM product WHERE name = 'Drunk Elephant Lala Retro Whipped Cream' AND release_date = '2023-09-12'), 'https://drunkelephant.my/cdn/shop/products/Lala-Retro_1024px_72dpi.jpg?v=1604010986'),
-            ((SELECT id FROM product WHERE name = 'Olay Regenerist Micro-Sculpting Cream' AND release_date = '2023-10-25'), 'https://m.media-amazon.com/images/I/71-55TGAWNL.jpg'),
-            ((SELECT id FROM product WHERE name = 'Tatcha The Dewy Skin Cream' AND release_date = '2023-12-18'), 'https://m.media-amazon.com/images/I/51RFfDtchYL._AC_UF1000,1000_QL80_.jpg'),
-            ((SELECT id FROM product WHERE name = 'Neutrogena Hydro Boost Water Gel' AND release_date = '2023-06-10'), 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTV2xp6G_7FhJ6sjmSDtWGFL9IGJsRkCIFzbg&s'),
-            ((SELECT id FROM product WHERE name = 'Belif The True Cream Aqua Bomb' AND release_date = '2023-08-02'), 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXLDkiNpvfTFKSckZ6VwzyKCm-jB_tS0hang&s'),
-            ((SELECT id FROM product WHERE name = 'Clinique Moisture Surge 100H' AND release_date = '2023-09-20'), 'https://m.clinique.com.my/media/export/cms/products/1200x1500/cl_sku_KWW401_1200x1500_0.png'),
-            ((SELECT id FROM product WHERE name = 'Laneige Water Bank Blue Hyaluronic Gel' AND release_date = '2023-11-15'), 'https://www.laneige.com/int/en/skincare/__icsFiles/afieldfile/2023/12/20/20230100_final_INT_WATER-BANK-BLUE-HYALURONIC-GEL-CREAM_thumbnail01_2.jpg'),
-            ((SELECT id FROM product WHERE name = 'Dr.Jart+ Cicapair Tiger Grass Gel Cream' AND release_date = '2024-01-05'), 'https://down-my.img.susercontent.com/file/3d4d90f8da2348e1af8aff11887981e4'),
-            ((SELECT id FROM product WHERE name = 'Ole Henriksen Truth Serum' AND release_date = '2023-05-20'), 'https://down-my.img.susercontent.com/file/my-11134207-7rasc-m176fcp9t9pdf1'),
-            ((SELECT id FROM product WHERE name = 'Skinceuticals C E Ferulic' AND release_date = '2023-07-08'), 'https://www.skinceuticals.co.uk/dw/image/v2/AAQP_PRD/on/demandware.static/-/Sites-skc-master-catalog/default/dw0ed123c8/Products/635494363210/635494363210_C-E-Ferulic-30ml_SkinCeuticals.jpg'),
-            ((SELECT id FROM product WHERE name = 'Glow Recipe Pineapple-C Bright Serum' AND release_date = '2023-09-02'), 'https://m.media-amazon.com/images/I/51C0VXdzsNL._AC_UF1000,1000_QL80_.jpg'),
-            ((SELECT id FROM product WHERE name = 'Tatcha Violet-C Brightening Serum' AND release_date = '2023-10-12'), 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTu_QWYYn9izDM5ToZs5-KtqioXGKljbF-hkQ&s'),
-            ((SELECT id FROM product WHERE name = 'Drunk Elephant C-Firma Fresh Day Serum' AND release_date = '2023-11-25'), 'https://drunkelephant.my/cdn/shop/products/C-Firma_Fresh_30ml_Standards_01_1080px_72dpi_1024x1024.jpg?v=1641834349'),
-            ((SELECT id FROM product WHERE name = 'Estée Lauder Advanced Night Repair' AND release_date = '2023-05-30'), 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSi_9D33pEzCDEEL-WX3HbchaCzMx8KruiyuQ&s'),
-            ((SELECT id FROM product WHERE name = 'Lancôme Génifique Youth Activating Serum' AND release_date = '2023-07-15'), 'https://www.lancome.com.my/dw/image/v2/BFZM_PRD/on/demandware.static/-/Sites-lancome-ng-master-catalog/en_MY/dw63f35018/images/PACKSHOTS/SKINCARE/Genifique/00997-LAC_genifique-ultimate-serum/3614274142365_genifique-ultimate-serum_30ml_main.jpg'),
-            ((SELECT id FROM product WHERE name = 'Drunk Elephant A-Passioni Retinol Cream' AND release_date = '2023-09-12'), 'https://drunkelephant.my/cdn/shop/products/1_A-Passioni_PDPAsset_Standard_1024x1024.jpg?v=1679496262'),
-            ((SELECT id FROM product WHERE name = 'Sunday Riley Luna Retinol Sleeping Night Oil' AND release_date = '2023-10-20'), 'https://sundayriley.com/cdn/shop/files/FINAL_luna_ingredients_037_2000x2000_b9c39952-7563-4671-92a0-7f10efcfb514.jpg?v=1613719688&width=1500'),
-            ((SELECT id FROM product WHERE name = 'Murad Retinol Youth Renewal Serum' AND release_date = '2023-12-01'), 'https://www.murad.com.my/cdn/shop/files/RYRS_Carousel_1_MURAD.webp?v=1728871623'),
-            ((SELECT id FROM product WHERE name = 'Kiehl''s Midnight Recovery Concentrate' AND release_date = '2023-06-10'), 'https://www.kiehls.com.my/dw/image/v2/BFZM_PRD/on/demandware.static/-/Sites-kiehls-master-catalog/default/dwc94fd6fb/nextgen/skin-care/face-serums-and-oils/midnight-recovery/midnight-recovery-concentrate/kiehls-face-serum-midnight-recovery-concentrate-15ml-000-3605970926137-front.png'),
-            ((SELECT id FROM product WHERE name = 'La Roche-Posay Cicaplast B5 Serum' AND release_date = '2023-08-02'), 'https://www.laroche-posay.com.my/-/media/project/loreal/brand-sites/lrp/apac/my/products/cicaplast/cicaplast-b5-serum/lrpcicaplastbaumeb530ml3337875837804front-2.png'),
-            ((SELECT id FROM product WHERE name = 'Clarins Double Serum' AND release_date = '2023-09-20'), 'https://my.ozcosmetics.com/syimages/201709/214956.jpg'),
-            ((SELECT id FROM product WHERE name = 'The Ordinary Buffet + Copper Peptides 1%' AND release_date = '2023-10-15'), 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkBCZ1timgD__njCWf8LcRsU5fIJwLgpzDjg&s'),
-            ((SELECT id FROM product WHERE name = 'First Aid Beauty Ultra Repair Hydrating Serum' AND release_date = '2023-11-30'), 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKfuXHIXzW7RvFly2rQx_IhRKyFrmiJHTeFw&s'),
-            ((SELECT id FROM product WHERE name = 'Kiehl''s Creamy Eye Treatment with Avocado' AND release_date = '2023-06-15'), 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZMXdLjWl7gE-a98fN-e0pxEFmhvamNNIlWA&s'),
-            ((SELECT id FROM product WHERE name = 'Estée Lauder Advanced Night Repair Eye Supercharged Gel-Creme' AND release_date = '2023-08-05'), 'https://m.esteelauder.com.my/media/export/cms/products/420x578/el_sku_PYL501_420x578_0.jpg'),
-            ((SELECT id FROM product WHERE name = 'CeraVe Eye Repair Cream' AND release_date = '2023-09-10'), 'https://www.cerave.com/-/media/project/loreal/brand-sites/cerave/americas/us/products-v3/eye-repair-cream/700x875/cerave_eye_repair_cream_05oz_front-700x875-v2.jpg?rev=c9bbdf22506e4bf99cdff6c39465081c'),
-            ((SELECT id FROM product WHERE name = 'La Mer The Eye Concentrate' AND release_date = '2023-10-22'), 'https://media-neo.dfsglobal.cn/spu/SPU_1498322940054347776_1_en_50.jpeg'),
-            ((SELECT id FROM product WHERE name = 'Clinique All About Eyes' AND release_date = '2023-11-30'), 'https://m.clinique.com.my/media/export/cms/products/1200x1500/cl_sku_61EP01_1200x1500_0.png'),
-            ((SELECT id FROM product WHERE name = 'Shiseido Ultimune Eye Power Infusing Eye Concentrate' AND release_date = '2023-07-01'), 'https://www.shiseido.com.my/on/demandware.static/-/Sites-itemmaster_shiseido/default/dw68a7981c/images/products/17289/17289_S_01.jpg'),
-            ((SELECT id FROM product WHERE name = 'Lancôme Advanced Génifique Yeux Light-Pearl Eye Serum' AND release_date = '2023-08-20'), 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPMhzETopB1BkdjfxQaAMYzDGe2ZSQAE75Tw&s'),
-            ((SELECT id FROM product WHERE name = 'The Ordinary Caffeine Solution 5% + EGCG' AND release_date = '2023-09-15'), 'https://theordinary.com/dw/image/v2/BFKJ_PRD/on/demandware.static/-/Sites-deciem-master/default/dwd2b40942/Images/products/The%20Ordinary/rdn-caffeine-solution-5pct-egcg-30ml.png?sw=900&sh=900&sm=fit'),
-            ((SELECT id FROM product WHERE name = 'Tatcha The Silk Peony Melting Eye Cream' AND release_date = '2023-10-28'), 'https://media.ulta.com/i/ulta/2634181?w=1600&h=1600&fmt=auto'),
-            ((SELECT id FROM product WHERE name = 'Drunk Elephant Shaba Complex Firming Eye Serum' AND release_date = '2023-12-05'), 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLkiZrl9wvVeC-6ZP_On8YQxlsoteF52hwKg&s'),
-            ((SELECT id FROM product WHERE name = 'SunShield Ultra Sunscreen SPF 50' AND release_date = '2023-05-10'), 'https://m.media-amazon.com/images/I/61OCZdrIjWL.jpg'),
-            ((SELECT id FROM product WHERE name = 'Mamaearth Vitamin C Daily Glow Sunscreen for Sun Protection & Glow' AND release_date = '2023-06-15'), 'https://www.mamaearth.my/cdn/shop/files/80g_b1a1c0b7-4116-4aa5-8bff-b4c9960d1c95.jpg?v=1721034900'),
-            ((SELECT id FROM product WHERE name = 'AquaGlow Moisturizing Sunscreen SPF 55' AND release_date = '2023-07-05'), 'https://images.mamaearth.in/catalog/product/1/_/1_white_bg_57.jpg?format=auto&height=600'),
-            ((SELECT id FROM product WHERE name = 'DermaCare Advanced Sunscreen SPF 60' AND release_date = '2023-08-12'), 'https://images.thedermaco.com/promotional/faq-image/Ultra%20Matte%20Sunscreen%20Gel.jpg'),
-            ((SELECT id FROM product WHERE name = 'Neutrogena® Purescreen+™ Mineral UV Tint Face Liquid Sunscreen' AND release_date = '2023-09-20'), 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGkNVY9HG9GPvezTCjIqM8MgOB-2Tywonp3A&s');
 END;
 $BODY$
     LANGUAGE plpgsql;
