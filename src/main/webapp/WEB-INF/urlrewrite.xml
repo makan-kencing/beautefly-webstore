@@ -7,8 +7,8 @@
 -->
 <urlrewrite>>
     <rule>
-        <from>/product/([0-9]+)/?[a-zA-Z-]*</from>
-        <to>/product?id=$1</to>
+        <from>/product/([0-9]+)/?([a-zA-Z-]+)?</from>
+        <to>/product?id=$1&amp;slug=$2</to>
     </rule>
     <rule>
         <from>/admin/account/([0-9]+)</from>

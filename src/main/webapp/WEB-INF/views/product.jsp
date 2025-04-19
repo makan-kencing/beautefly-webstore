@@ -4,8 +4,11 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="webstore" tagdir="/WEB-INF/tags/webstore" %>
 
-
 <jsp:useBean id="product" type="com.lavacorp.beautefly.webstore.product.dto.ProductPageDTO" scope="request"/>
+
+<c:if test="${param.get('slug')}">
+    <c:redirect url="/product/${product.id()}/${product.slug()}"/>
+</c:if>
 
 <webstore:base pageTitle="${product.name()}">
     <body class="font-sans flex flex-col gap-10">
