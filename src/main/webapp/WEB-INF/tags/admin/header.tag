@@ -48,17 +48,19 @@
         <div id="settings" popover role="menu" style="position-area: bottom span-left"
              class="mt-2 p-1 border-gray-500 shadow w-60">
             <h3 class="py-1 px-2 text-sm">Settings</h3>
-            <ul class="*:hover:bg-gray-200 *:transition *:py-1 *:px-4">
+            <ul class="*:hover:bg-gray-200 *:transition **:[a]:py-1 **:[a]:px-4">
                 <li>
-                    <i class="fa-solid fa-user-gear mr-1"></i>
-                    <a href="<c:url value='/admin/settings' />">Account Settings</a>
+                    <a href="<c:url value='/admin/settings' />">
+                        <i class="fa-solid fa-user-gear mr-1"></i> Account Settings
+                    </a>
                 </li>
                 <li class="px-1! hover:bg-transparent!">
                     <hr class="text-gray-300">
                 </li>
                 <li>
-                    <i class="fa-solid fa-right-from-bracket mr-1"></i>
-                    <a href="<c:url value='/logout' />">Logout</a>
+                    <a href="<c:url value='/logout' />">
+                        <i class="fa-solid fa-right-from-bracket mr-1"></i> Logout
+                    </a>
                 </li>
             </ul>
         </div>
