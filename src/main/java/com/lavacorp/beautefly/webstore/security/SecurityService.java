@@ -10,19 +10,17 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.core.SecurityContext;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.jetbrains.annotations.Nullable;
 
 import java.security.Principal;
 
-@ApplicationScoped
+@Log4j2
 @Transactional
+@ApplicationScoped
 public class SecurityService {
     @Inject
     private AccountRepository accountRepository;
-
-    @Inject
-    private Logger logger;
 
     public Account getAccountContext(HttpServletRequest req) {
         var account = getUserAccountContext(req);
@@ -51,7 +49,7 @@ public class SecurityService {
         try {
             req.logout();
         } catch (ServletException exc) {
-            logger.error(exc);
+            log.error(exc);
         }
         return null;
     }

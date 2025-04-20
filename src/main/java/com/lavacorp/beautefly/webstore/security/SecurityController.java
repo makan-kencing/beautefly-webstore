@@ -16,18 +16,16 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.hibernate.exception.ConstraintViolationException;
 
-@Path("/account")
-@ApplicationScoped
+@Log4j2
 @Transactional
+@ApplicationScoped
+@Path("/account")
 @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_FORM_URLENCODED})
 @Produces(MediaType.APPLICATION_JSON)
 public class SecurityController {
-    @Inject
-    private Logger logger;
-
     @Inject
     private AccountRepository accountRepository;
 
@@ -44,7 +42,7 @@ public class SecurityController {
         try {
             req.login(loginAccount.email(), loginAccount.password());
         } catch (ServletException exc) {
-            logger.error(exc);
+            log.error(exc);
             return Response.status(Response.Status.FORBIDDEN).build();
         }
         return Response.ok().build();
@@ -56,7 +54,7 @@ public class SecurityController {
         try {
             req.logout();
         } catch (ServletException exc) {
-            logger.error(exc);
+            log.error(exc);
         }
         return Response.ok().build();
     }
@@ -75,7 +73,7 @@ public class SecurityController {
 
             return Response.status(Response.Status.CREATED).build();
         } catch (ConstraintViolationException exc) {
-            logger.warn(exc);
+            log.warn(exc);
             return Response.status(Response.Status.CONFLICT).build();
         }
     }
