@@ -1,12 +1,13 @@
 package com.lavacorp.beautefly.webstore.account.dto;
 
+import com.lavacorp.beautefly.webstore.account.entity.Account;
 import jakarta.annotation.Nullable;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
- * DTO for {@link com.lavacorp.beautefly.webstore.account.entity.UserAccount}
+ * DTO for {@link Account}
  */
 public record UpdateUserAccountDTO(
         int id,

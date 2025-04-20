@@ -1,6 +1,6 @@
 package com.lavacorp.beautefly.webstore.file;
 
-import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
+import com.lavacorp.beautefly.webstore.account.entity.Account;
 import com.lavacorp.beautefly.webstore.file.converter.MimeTypeConverter;
 import com.lavacorp.beautefly.webstore.file.dto.FileUploadDTO;
 import com.lavacorp.beautefly.webstore.file.entity.FileUpload;
@@ -48,7 +48,7 @@ public class FileService {
     @Inject
     private FileStorage fileStorage;
 
-    public FileUpload save(@NotNull EntityPart part, @Nullable UserAccount account) throws IOException, UnsupportedFileFormatException {
+    public FileUpload save(@NotNull EntityPart part, @Nullable Account account) throws IOException, UnsupportedFileFormatException {
         File tmpFile = saveAsTempFile(part);
 
         // MimeRepository.detect requires InputStream with markSupported()
@@ -81,7 +81,7 @@ public class FileService {
     }
 
     public FileUploadDTO uploadFile(@NotNull EntityPart part, HttpServletRequest req) throws IOException, UnsupportedFileFormatException {
-        var account = securityService.getUserAccountContext(req);
+        var account = securityService.getAccountContext(req);
         var file = save(part, account);
 
         var session = emf.unwrap(SessionFactory.class)

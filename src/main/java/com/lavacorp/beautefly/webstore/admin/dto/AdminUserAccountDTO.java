@@ -2,7 +2,7 @@ package com.lavacorp.beautefly.webstore.admin.dto;
 
 import com.lavacorp.beautefly.webstore.account.dto.AddressDTO;
 import com.lavacorp.beautefly.webstore.account.entity.Credential;
-import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
+import com.lavacorp.beautefly.webstore.account.entity.Account;
 import com.lavacorp.beautefly.webstore.file.dto.FileUploadDTO;
 
 import java.io.Serializable;
@@ -11,14 +11,14 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * DTO for {@link com.lavacorp.beautefly.webstore.account.entity.UserAccount}
+ * DTO for {@link Account}
  */
 public record AdminUserAccountDTO(
         int id,
         Instant createdAt,
         String username,
         String email,
-        UserAccount.Gender gender,
+        Account.Gender gender,
         LocalDate dob,
         FileUploadDTO profileImage,
         List<Credential.Role> roles,

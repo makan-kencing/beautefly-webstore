@@ -1,7 +1,6 @@
 package com.lavacorp.beautefly.webstore.admin.servlet;
 
 import com.lavacorp.beautefly.webstore.account.AccountRepository;
-import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -9,9 +8,6 @@ import jakarta.servlet.http.*;
 import jakarta.transaction.Transactional;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @WebServlet("/admin/account/edit")
 @Transactional

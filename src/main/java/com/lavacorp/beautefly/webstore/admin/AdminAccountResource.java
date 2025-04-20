@@ -3,7 +3,7 @@ package com.lavacorp.beautefly.webstore.admin;
 import com.lavacorp.beautefly.webstore.account.AccountRepository;
 import com.lavacorp.beautefly.webstore.account.dto.CreateUserAccountDTO;
 import com.lavacorp.beautefly.webstore.account.dto.UpdateUserAccountDTO;
-import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
+import com.lavacorp.beautefly.webstore.account.entity.Account;
 import com.lavacorp.beautefly.webstore.account.mapper.AccountMapper;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -33,7 +33,7 @@ public class AdminAccountResource {
 
     @POST
     public Response createAccount(CreateUserAccountDTO dto) {
-        var account = new UserAccount();
+        var account = new Account();
         account.setUsername(dto.username());
         account.setEmail(dto.email());
 
@@ -42,9 +42,9 @@ public class AdminAccountResource {
         credential.setRoles(new HashSet<>(dto.roles()));
 
         try {
-            var created = accountRepository.register(account);
+            accountRepository.register(account);
 
-            return Response.ok(accountMapper.toUserAccountDetailsDTO(created)).build();
+            return Response.ok(accountMapper.toUserAccountDetailsDTO(account)).build();
         } catch (ConstraintViolationException e) {
             return Response.status(Response.Status.CONFLICT).build();
         }

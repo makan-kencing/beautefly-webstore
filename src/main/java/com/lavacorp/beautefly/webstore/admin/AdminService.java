@@ -41,7 +41,7 @@ public class AdminService {
     }
 
     public @Nullable AdminContextDTO getAdminContext(HttpServletRequest req) {
-        var account = securityService.getUserAccountContext(req);
+        var account = securityService.getAccountContext(req);
         if (account == null)
             return null;
 

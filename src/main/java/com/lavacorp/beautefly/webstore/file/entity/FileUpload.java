@@ -1,6 +1,6 @@
 package com.lavacorp.beautefly.webstore.file.entity;
 
-import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
+import com.lavacorp.beautefly.webstore.account.entity.Account;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -42,5 +42,5 @@ public class FileUpload {
     private Instant createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private UserAccount createdBy;
+    private Account createdBy;
 }

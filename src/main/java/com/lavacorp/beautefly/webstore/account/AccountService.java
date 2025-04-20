@@ -18,7 +18,7 @@ public class AccountService {
     private AccountMapper accountMapper;
 
     public UserAccountDetailsDTO getUserAccountDetails(HttpServletRequest req) {
-        var account = securityService.getUserAccountContext(req);
+        var account = securityService.getAccountContext(req);
         if (account == null)
             return null;
 

@@ -1,6 +1,6 @@
 package com.lavacorp.beautefly.webstore.rating.entity;
 
-import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
+import com.lavacorp.beautefly.webstore.account.entity.Account;
 import com.lavacorp.beautefly.webstore.file.entity.FileUpload;
 import com.lavacorp.beautefly.webstore.product.entity.Product;
 import jakarta.persistence.*;
@@ -24,7 +24,7 @@ public class Rating implements Serializable {
     private int id;
 
     @ManyToOne
-    private UserAccount account;
+    private Account account;
 
     @ManyToOne
     private Product product;

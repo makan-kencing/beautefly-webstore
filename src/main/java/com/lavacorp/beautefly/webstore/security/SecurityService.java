@@ -2,8 +2,6 @@ package com.lavacorp.beautefly.webstore.security;
 
 import com.lavacorp.beautefly.webstore.account.AccountRepository;
 import com.lavacorp.beautefly.webstore.account.entity.Account;
-import com.lavacorp.beautefly.webstore.account.entity.GuestAccount;
-import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
@@ -22,26 +20,16 @@ public class SecurityService {
     @Inject
     private AccountRepository accountRepository;
 
-    public Account getAccountContext(HttpServletRequest req) {
-        var account = getUserAccountContext(req);
-
-        if (account != null)
-            return account;
-
-        // treat as guest
-        return getGuestContext(req);
-    }
-
-    public @Nullable UserAccount getUserAccountContext(Principal principal) {
+    public @Nullable Account getAccountContext(Principal principal) {
         return accountRepository.findByEmail(principal.getName());
     }
 
-    public @Nullable UserAccount getUserAccountContext(HttpServletRequest req) {
+    public @Nullable Account getAccountContext(HttpServletRequest req) {
         var principal = req.getUserPrincipal();
         if (principal == null)  // no login context
             return null;
 
-        var account = getUserAccountContext(principal);
+        var account = getAccountContext(principal);
         if (account != null)
             return account;
 
@@ -54,23 +42,11 @@ public class SecurityService {
         return null;
     }
 
-    public @Nullable UserAccount getUserAccountContext(SecurityContext context) {
+    public @Nullable Account getAccountContext(SecurityContext context) {
         var principal = context.getUserPrincipal();
         if (principal == null)  // no login context
             return null;
 
-        return getUserAccountContext(principal);
-    }
-
-    public GuestAccount getGuestContext(HttpServletRequest req) {
-        var session = req.getSession();
-
-        var guest = accountRepository.findBySessionId(session.getId());
-        if (guest != null)
-            return guest;
-
-        guest = new GuestAccount();
-        guest.setSessionId(session.getId());
-        return accountRepository.createGuest(guest);
+        return getAccountContext(principal);
     }
 }
