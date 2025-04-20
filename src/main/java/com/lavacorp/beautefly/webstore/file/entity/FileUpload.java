@@ -32,7 +32,6 @@ public class FileUpload {
     private URI url;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
     private MimeType type;
 
     @CurrentTimestamp
