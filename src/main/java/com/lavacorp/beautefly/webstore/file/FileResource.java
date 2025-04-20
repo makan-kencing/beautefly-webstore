@@ -14,7 +14,7 @@ import jakarta.ws.rs.core.Response;
 
 import java.io.IOException;
 
-@RolesAllowed({"USER"})
+@RolesAllowed({"USER", "STAFF", "ADMIN"})
 @Path("/file/upload")
 public class FileResource {
     @Context
@@ -32,7 +32,11 @@ public class FileResource {
         try {
             return fileService.uploadFile(part, req);
         } catch (UnsupportedFileFormatException e) {
-            throw new UnprocessableEntityException(e.getMimeType().getName() + " is not supported");
+            var format = "File format";
+            if (e.getMimeType() != null)
+                format = e.getMimeType().getName();
+
+            throw new UnprocessableEntityException(format + " is not supported.");
         } catch (IOException e) {
             throw new ServerErrorException("Error while creating file", Response.Status.INTERNAL_SERVER_ERROR);
         }
