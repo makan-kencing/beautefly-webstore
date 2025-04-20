@@ -6,7 +6,7 @@
 
     <context-param>
         <param-name>company.name</param-name>
-        <param-value>Beautefly</param-value>
+        <param-value>Beautéfly</param-value>
     </context-param>
     <context-param>
         <param-name>company.email</param-name>
@@ -14,7 +14,7 @@
     </context-param>
     <context-param>
         <param-name>company.copyright</param-name>
-        <param-value>Beautefly(TM) 2025-2025</param-value>
+        <param-value>Copyright© 2025-2025 Beautéfly</param-value>
     </context-param>
 
     <security-role>
@@ -57,6 +57,10 @@
     <filter>
         <filter-name>UrlRewriteFilter</filter-name>
         <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+        <init-param>
+            <param-name>logLevel</param-name>
+            <param-value>LOG4J</param-value>
+        </init-param>
     </filter>
     <filter-mapping>
         <filter-name>UrlRewriteFilter</filter-name>

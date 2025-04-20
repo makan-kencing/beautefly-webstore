@@ -9,7 +9,7 @@
 <header>
     <nav>
         <div class="bg-gray-900 text-white p-5 flex items-center">
-            <h1 class="text-xl font-bold mr-auto">Beautefly Admin Panel</h1>
+            <h1 class="text-xl font-bold mr-auto">${initParam["company.name"]} Admin Panel</h1>
 
             <div>
                 <button type="button" popovertarget="settings">

@@ -1,8 +1,8 @@
 <%@tag description="webstorefooter.tag" pageEncoding="UTF-8" %>
 
 <footer class="bg-linear-65 from-blue-300 to-pink-300 flex flex-col items-center p-5 text-white gap-2 font-bold">
-    <p>Copyright &copy; 2025 Beautéfly</p>
-    <p>Contact Us: <a href="mailto:info@beautefly.com">info@beautefly.com</a></p>
+    <p>${initParam["company.copyright"]}</p>
+    <p>Contact Us: <a href="mailto:${initParam['company.email']}">${initParam["company.email"]}</a></p>
 
     <div>
         <span>Follow Us：</span>

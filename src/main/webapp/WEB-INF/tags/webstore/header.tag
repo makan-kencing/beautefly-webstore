@@ -1,4 +1,6 @@
-<%@tag description="Webstore header" pageEncoding="UTF-8" %>
+<%@ tag description="Webstore header" pageEncoding="UTF-8" %>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <style>
     .fancy-li {
@@ -17,9 +19,11 @@
 
 <header>
     <nav class="flex items-center gap-8 from-blue-300 to-pink-300 px-5 py-3 text-white bg-linear-65">
-        <div class="logo"><a href="${pageContext.request.contextPath}/">Beautéfly</a></div>
+        <div class="logo">
+            <a href="<c:url value='/' />">${initParam["company.name"]}</a>
+        </div>
 
-        <form action="${pageContext.request.contextPath}/search" method="get"
+        <form action="<c:url value='/search' />" method="get"
               class="flex flex-1 items-center rounded-md bg-white">
             <label for="query"></label>
             <input type="text" name="query" id="query" placeholder="Search for products..."
@@ -29,13 +33,13 @@
         </form>
 
         <div class="nav-links text-2xl *:cursor-pointer">
-            <a href="${pageContext.request.contextPath}/cart">
+            <a href="<c:url value='/cart' />">
                 <i class="fa-solid fa-cart-shopping"></i>
             </a>
             <a href="">
                 <i class="fa-solid fa-bell"></i>
             </a>
-            <a href="${pageContext.request.contextPath}/account">
+            <a href="<c:url value='/account' />">
                 <i class="fa-solid fa-user"></i>
             </a>
 
@@ -69,7 +73,7 @@
             <div class="">
                 <div id="sub-skin-care" class="not-target:hidden">
                     <ul>
-                        <li class="fancy-li"><a href="${pageContext.request.contextPath}../../views/SkinCare/Cleansing.jsp">Cleansing</a></li>
+                        <li class="fancy-li"><a href="">Cleansing</a></li>
                         <li class="fancy-li"><a href="">Toning</a></li>
                         <li class="fancy-li"><a href="">Moisturizing</a></li>
                         <li class="fancy-li"><a href="">Serums & Treatments</a></li>
