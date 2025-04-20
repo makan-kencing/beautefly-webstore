@@ -12,8 +12,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@ServletSecurity(@HttpConstraint(rolesAllowed = {"USER", "STAFF", "ADMIN"}))
 @WebServlet("/account")
+@ServletSecurity(@HttpConstraint(rolesAllowed = {"*"}))
 public class UserAccountServlet extends HttpServlet {
     @Inject
     private AccountService accountService;

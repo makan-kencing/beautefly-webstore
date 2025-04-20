@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.net.URI;
 
 @WebServlet("/login")
-@ServletSecurity(@HttpConstraint(rolesAllowed = {"USER", "STAFF" , "ADMIN"}))
+@ServletSecurity(@HttpConstraint(rolesAllowed = {"*"}))
 public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
