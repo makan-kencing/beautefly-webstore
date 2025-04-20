@@ -1,6 +1,6 @@
-package com.lavacorp.beautefly.util.response.exception;
+package com.lavacorp.beautefly.util.jaxrs.exception;
 
-import com.lavacorp.beautefly.util.response.ResponseStatus;
+import com.lavacorp.beautefly.util.jaxrs.ResponseStatus;
 import jakarta.ws.rs.WebApplicationException;
 
 public class UnprocessableEntityException extends WebApplicationException {

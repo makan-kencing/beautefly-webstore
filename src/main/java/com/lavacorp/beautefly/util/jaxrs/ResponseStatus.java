@@ -1,4 +1,4 @@
-package com.lavacorp.beautefly.util.response;
+package com.lavacorp.beautefly.util.jaxrs;
 
 import static jakarta.ws.rs.core.Response.Status.Family.CLIENT_ERROR;
 import static jakarta.ws.rs.core.Response.Status.Family.INFORMATIONAL;

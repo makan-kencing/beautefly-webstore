@@ -1,6 +1,7 @@
-package com.lavacorp.beautefly.util.response;
+package com.lavacorp.beautefly.util.jaxrs.mapper;
 
-import com.lavacorp.beautefly.util.response.dto.ValidationError;
+import com.lavacorp.beautefly.util.jaxrs.ResponseStatus;
+import com.lavacorp.beautefly.util.jaxrs.dto.ValidationError;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.core.MediaType;

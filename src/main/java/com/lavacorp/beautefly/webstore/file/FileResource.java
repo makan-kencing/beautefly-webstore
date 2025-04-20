@@ -1,6 +1,6 @@
 package com.lavacorp.beautefly.webstore.file;
 
-import com.lavacorp.beautefly.util.response.exception.UnprocessableEntityException;
+import com.lavacorp.beautefly.util.jaxrs.exception.UnprocessableEntityException;
 import com.lavacorp.beautefly.webstore.file.dto.FileUploadDTO;
 import com.lavacorp.beautefly.webstore.file.exception.UnsupportedFileFormatException;
 import jakarta.annotation.security.RolesAllowed;

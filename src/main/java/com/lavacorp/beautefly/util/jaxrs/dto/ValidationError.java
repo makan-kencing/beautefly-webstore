@@ -1,4 +1,4 @@
-package com.lavacorp.beautefly.util.response.dto;
+package com.lavacorp.beautefly.util.jaxrs.dto;
 
 import java.io.Serializable;
 
