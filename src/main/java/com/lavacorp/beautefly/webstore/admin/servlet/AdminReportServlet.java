@@ -1,4 +1,4 @@
-package com.lavacorp.beautefly.webstore.admin;
+package com.lavacorp.beautefly.webstore.admin.servlet;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @WebServlet("/admin/report")
-public class TopProductReport extends HttpServlet {
+public class AdminReportServlet extends HttpServlet {
 
     @PersistenceContext
     private EntityManager em;
@@ -53,7 +53,7 @@ public class TopProductReport extends HttpServlet {
             req.setAttribute("to", toDate);
         }
 
-        var view = req.getRequestDispatcher("/WEB-INF/views/admin/reports/top-product.jsp");
+        var view = req.getRequestDispatcher("/WEB-INF/views/admin/reports.jsp");
         view.forward(req, resp);
     }
 }
