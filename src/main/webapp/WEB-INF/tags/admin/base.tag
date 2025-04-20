@@ -7,18 +7,18 @@
 
 <t:base pageTitle="${pageTitle}">
     <jsp:attribute name="header">
-        <admin:header />
+        <admin:header pageTitle="${pageTitle}"/>
     </jsp:attribute>
 
     <jsp:attribute name="footer">
-        <admin:footer />
+        <admin:footer/>
     </jsp:attribute>
 
     <jsp:attribute name="includeHead">
-        <jsp:invoke fragment="includeHead" />
+        <jsp:invoke fragment="includeHead"/>
     </jsp:attribute>
 
     <jsp:body>
-        <jsp:doBody />
+        <jsp:doBody/>
     </jsp:body>
 </t:base>

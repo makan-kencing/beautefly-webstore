@@ -1,17 +1,66 @@
 <%@ tag description="Admin Header" pageEncoding="UTF-8" %>
+<%@ attribute name="pageTitle" required="false" type="java.lang.String" %>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
+<jsp:useBean id="admin" type="com.lavacorp.beautefly.webstore.admin.dto.AdminContextDTO" scope="request"/>
 
 <header>
-    <div class="bg-gray-900 text-white p-4">
-        <h1 class="text-xl font-bold">Beautefly Admin Panel</h1>
-    </div>
     <nav>
-        <ul class="flex gap-6 text-sm px-4 py-3 bg-gray-100 *:hover:underline">
-            <li><a href="${pageContext.request.contextPath}/admin">Dashboard</a></li>
-            <li><a href="${pageContext.request.contextPath}/admin/accounts">Accounts</a></li>
-            <li><a href="${pageContext.request.contextPath}/admin/products">Products</a></li>
-            <li><a href="${pageContext.request.contextPath}/admin/logs">View Logs</a></li>
-            <li><a href="${pageContext.request.contextPath}/admin/report">Reports</a></li>
-            <li><a href="${pageContext.request.contextPath}/admin/settings">Settings</a></li>
-        </ul>
+        <div class="bg-gray-900 text-white p-5 flex items-center">
+            <h1 class="text-xl font-bold mr-auto">Beautefly Admin Panel</h1>
+
+            <div>
+                <button type="button" popovertarget="settings">
+                    ${admin.username()}
+                    <i class="fa-solid fa-chevron-down ml-1"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="px-4 py-2 bg-gray-100">
+            <ul class="flex text-sm
+                **:[a]:block **:[a]:px-3 **:[a]:py-2 *:border-b-2 *:border-gray-300 *:hover:bg-gray-200
+                *:data-selected:bg-blue-200 *:data-selected:border-blue-300">
+                <li ${pageTitle == "Dashboard" ? "data-selected" : ""}>
+                    <a href="<c:url value='/admin' />">Dashboard</a>
+                </li>
+                <li ${pageTitle == "Accounts" ? "data-selected" : ""}>
+                    <a href="<c:url value='/admin/accounts' />">Accounts</a>
+                </li>
+                <li ${pageTitle == "Products" ? "data-selected" : ""}>
+                    <a href="<c:url value='/admin/products' />">Products</a>
+                </li>
+                <li ${pageTitle == "Orders" ? "data-selected" : ""}>
+                    <a href="<c:url value='/admin/orders' />">Orders</a>
+                </li>
+                <li ${pageTitle == "View Logs" ? "data-selected" : ""}>
+                    <a href="<c:url value='/admin/logs' />">View Logs</a>
+                </li>
+                <li ${pageTitle == "Reports" ? "data-selected" : ""}>
+                    <a href="<c:url value='/admin/report' />">Reports</a>
+                </li>
+            </ul>
+        </div>
+
+        <%-- settings popup --%>
+        <div id="settings" popover role="menu" style="position-area: bottom span-left"
+             class="mt-2 p-1 border-gray-500 shadow w-60">
+            <h3 class="py-1 px-2 text-sm">Settings</h3>
+            <ul class="*:hover:bg-gray-200 *:transition *:py-1 *:px-4">
+                <li>
+                    <i class="fa-solid fa-user-gear mr-1"></i>
+                    <a href="<c:url value='/admin/settings' />">Account Settings</a>
+                </li>
+                <li class="px-1! hover:bg-transparent!">
+                    <hr class="text-gray-300">
+                </li>
+                <li>
+                    <i class="fa-solid fa-right-from-bracket mr-1"></i>
+                    <a href="<c:url value='/logout' />">Logout</a>
+                </li>
+            </ul>
+        </div>
     </nav>
 </header>
