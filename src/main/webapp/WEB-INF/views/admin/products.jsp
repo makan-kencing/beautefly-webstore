@@ -8,7 +8,7 @@
         <c:if test="${param.created == '1'}">
             <div id="toast"
                  class="fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50 opacity-100 transition-opacity duration-500 ease-in-out">
-                User created successfully!!
+                Product created successfully!!
             </div>
             <script>
                 setTimeout(() => {
@@ -24,7 +24,7 @@
         <c:if test="${param.deleted == '1'}">
             <div id="toast"
                  class="fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded shadow-lg z-50 opacity-100 transition-opacity duration-500 ease-in-out">
-                User(s) deleted successfully!
+                Product deleted successfully!
             </div>
             <script>
                 setTimeout(() => {
