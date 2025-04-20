@@ -7,7 +7,7 @@ import static jakarta.ws.rs.core.Response.Status.Family.REDIRECTION;
 import static jakarta.ws.rs.core.Response.Status.Family.SERVER_ERROR;
 import static jakarta.ws.rs.core.Response.Status.Family.SUCCESSFUL;
 
-import jakarta.ws.rs.core.Response.Status.Family;
+import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.StatusType;
 
 
@@ -68,7 +68,7 @@ public enum ResponseStatus implements StatusType {
     }
 
     @Override
-    public final Family getFamily() {
+    public final Response.Status.Family getFamily() {
         return switch (this.statusCode / 100) {
             case 1 -> INFORMATIONAL;
             case 2 -> SUCCESSFUL;
