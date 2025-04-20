@@ -1,36 +1,11 @@
 package com.lavacorp.beautefly.webstore.cart.entity;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import org.jetbrains.annotations.NotNull;
+import jakarta.persistence.Entity;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
-import static jakarta.persistence.FetchType.LAZY;
-
-@Getter
-@Setter
-@Embeddable
-public class Cart implements Serializable, Iterable<CartProduct> {
-    @OneToMany(mappedBy = CartProduct_.ACCOUNT, fetch = LAZY)
-    private Set<CartProduct> products = new HashSet<>();
-
-    @Override
-    public @NotNull Iterator<CartProduct> iterator() {
-        return products.iterator();
-    }
-
-    public Stream<CartProduct> stream() {
-        return StreamSupport.stream(this.spliterator(), false);
-    }
-
+@Entity
+public class Cart extends CartLike<CartProduct> {
     public void addProduct(CartProduct product) {
         var cartProduct = products.stream().filter(product::equals).findAny();
         if (cartProduct.isPresent())
