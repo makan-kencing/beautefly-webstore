@@ -5,9 +5,10 @@ import org.apache.tika.mime.MimeType;
 
 @Getter
 public class UnsupportedFileFormatException extends IllegalArgumentException {
-    private MimeType mimeType;
+    private final MimeType mimeType;
 
     public UnsupportedFileFormatException(String message, MimeType mimeType) {
         super(message);
+        this.mimeType = mimeType;
     }
 }
