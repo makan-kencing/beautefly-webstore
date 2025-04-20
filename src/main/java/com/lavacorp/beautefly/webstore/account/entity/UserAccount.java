@@ -60,7 +60,7 @@ public class UserAccount extends Account implements Serializable {
     @OneToMany(mappedBy = SalesOrder_.ACCOUNT, fetch = LAZY)
     private Set<SalesOrder> orders = new HashSet<>();
 
-    @OneToMany(mappedBy = FileUpload_.ACCOUNT, fetch = LAZY)
+    @OneToMany(mappedBy = FileUpload_.CREATED_BY, fetch = LAZY)
     private Set<FileUpload> uploadedFiles = new HashSet<>();
 
     @ColumnDefault("true")

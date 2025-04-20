@@ -11,6 +11,9 @@ import lombok.Setter;
 import org.apache.tika.mime.MimeType;
 import org.hibernate.Length;
 import org.hibernate.annotations.CurrentTimestamp;
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
+import org.hibernate.annotations.NaturalId;
 
 import java.net.URI;
 import java.time.Instant;
@@ -18,10 +21,18 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "FileUpload.findByHash", query = "from FileUpload where hash = :hash")
+})
 public class FileUpload {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @NotNull
+    @NotBlank
+    @NaturalId
+    private String hash;
 
     @NotNull
     @NotBlank
@@ -37,12 +48,6 @@ public class FileUpload {
     @CurrentTimestamp
     private Instant createdAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private UserAccount account;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Product product;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Promotion promotion;
+    @OneToOne(fetch = FetchType.LAZY)
+    private UserAccount createdBy;
 }
