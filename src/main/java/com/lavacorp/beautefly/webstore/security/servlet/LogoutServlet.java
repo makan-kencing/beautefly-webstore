@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.net.URI;
 
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
@@ -16,8 +17,9 @@ public class LogoutServlet extends HttpServlet {
         req.logout();
 
         var session = req.getSession();
-        var url = PageVisitTracker.getLastUrl(session);
+        var url = PageVisitTracker.getFirst(session)
+                .orElse(URI.create("/"));
 
-        resp.sendRedirect(url != null ? url.toString() : "/");
+        resp.sendRedirect(url.toString());
     }
 }

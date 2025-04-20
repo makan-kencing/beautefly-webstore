@@ -82,14 +82,17 @@ public class PageVisitTracker implements Filter {
         return null;
     }
 
-    public static @Nullable URI getLastUrl(HttpSession session) {
+    public static Optional<URI> getFirst(HttpSession session, Predicate<URI> predicate) {
         var urls = getQueue(session);
         if (urls == null)
-            return null;
+            return Optional.empty();
 
         return urls.stream()
-                .skip(1)
-                .findFirst()
-                .orElse(null);
+                .filter(predicate)
+                .findFirst();
+    }
+
+    public static Optional<URI> getFirst(HttpSession session) {
+        return getFirst(session, ignored -> true);
     }
 }
