@@ -8,10 +8,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.tika.mime.MediaType;
+import org.apache.tika.mime.MimeType;
 import org.hibernate.Length;
 import org.hibernate.annotations.CurrentTimestamp;
-import org.hibernate.validator.constraints.URL;
 
 import java.net.URI;
 import java.time.Instant;
@@ -34,7 +33,7 @@ public class FileUpload {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private FileType type;
+    private MimeType type;
 
     @CurrentTimestamp
     private Instant createdAt;
@@ -47,15 +46,4 @@ public class FileUpload {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Promotion promotion;
-
-    public enum FileType {
-        IMAGE;
-
-        public static FileType fromMediaType(MediaType mediaType) {
-            return switch (mediaType.getType()) {
-                case "image" -> IMAGE;
-                default -> null;
-            };
-        }
-    }
 }
