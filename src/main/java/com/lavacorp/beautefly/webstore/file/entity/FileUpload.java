@@ -9,8 +9,6 @@ import lombok.Setter;
 import org.apache.tika.mime.MimeType;
 import org.hibernate.Length;
 import org.hibernate.annotations.CurrentTimestamp;
-import org.hibernate.annotations.NamedQueries;
-import org.hibernate.annotations.NamedQuery;
 import org.hibernate.annotations.NaturalId;
 
 import java.net.URI;
