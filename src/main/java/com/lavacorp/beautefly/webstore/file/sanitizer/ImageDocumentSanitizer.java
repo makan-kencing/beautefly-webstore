@@ -1,4 +1,4 @@
-package com.lavacorp.beautefly.webstore.file.santiizer;
+package com.lavacorp.beautefly.webstore.file.sanitizer;
 
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.imaging.AbstractImageParser;
@@ -31,7 +31,7 @@ public class ImageDocumentSanitizer implements DocumentSanitizer {
     /**
      * {@inheritDoc}
      *
-     * @see com.lavacorp.beautefly.webstore.file.santiizer.DocumentSanitizer#madeSafe(java.io.File)
+     * @see com.lavacorp.beautefly.webstore.file.sanitizer.DocumentSanitizer#madeSafe(java.io.File)
      */
     @Override
     public boolean madeSafe(File f) {

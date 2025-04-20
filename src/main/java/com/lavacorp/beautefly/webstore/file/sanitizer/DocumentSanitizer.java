@@ -1,4 +1,4 @@
-package com.lavacorp.beautefly.webstore.file.santiizer;
+package com.lavacorp.beautefly.webstore.file.sanitizer;
 
 
 import java.io.File;
