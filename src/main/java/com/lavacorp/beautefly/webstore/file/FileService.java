@@ -21,6 +21,7 @@ import org.apache.tika.mime.MediaType;
 import org.apache.tika.mime.MimeType;
 import org.apache.tika.mime.MimeTypeException;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -45,7 +46,9 @@ public class FileService {
     public FileUpload save(@NotNull EntityPart part, @Nullable UserAccount account) throws IOException, UnsupportedFileFormatException {
         File tmpFile = saveAsTempFile(part);
 
-        MediaType mediaType = MimeTypeConverter.inferMediaType(Files.newInputStream(tmpFile.toPath()));
+        // MimeRepository.detect requires InputStream with markSupported()
+        var stream = new BufferedInputStream(Files.newInputStream(tmpFile.toPath()));
+        MediaType mediaType = MimeTypeConverter.inferMediaType(stream);
         MimeType mimeType;
         try {
             mimeType = MimeTypeConverter.toMimeType(mediaType);
