@@ -12,7 +12,7 @@ import java.util.Queue;
 
 public class PageVisitTracker implements Filter {
     public static String SESSION_ATTRIBUTE_NAME = "last-visits";
-    public static int LAST_N_VISIT = 2;
+    public static int LAST_N_VISIT = 3;
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
@@ -25,12 +25,14 @@ public class PageVisitTracker implements Filter {
             session.setAttribute(SESSION_ATTRIBUTE_NAME, queue);
         }
 
-        String uri = httpReq.getRequestURI();
+        String uriString = httpReq.getRequestURI();
         String queryString = httpReq.getQueryString();
         if (queryString != null)
-            uri += queryString;
+            uriString += queryString;
 
-        queue.add(URI.create(uri));
+        URI uri = URI.create(uriString);
+        if (!uri.equals(queue.peek()))
+            queue.add(uri);
 
         chain.doFilter(req, resp);
     }
