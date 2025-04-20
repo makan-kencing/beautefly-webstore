@@ -82,7 +82,7 @@
       </EnvironmentVariables>
       <EnvironmentVariables>
         <option name="NAME" value="BEAUTEFLY_FILESERVER_BASE_URI" />
-        <option name="VALUE" value="/media" />
+        <option name="VALUE" value="/media/" />
         <option name="IS_PREDEFINED" value="false" />
       </EnvironmentVariables>
       <EnvironmentVariables>
@@ -127,7 +127,7 @@
       </EnvironmentVariables>
       <EnvironmentVariables>
         <option name="NAME" value="BEAUTEFLY_FILESERVER_BASE_URI" />
-        <option name="VALUE" value="/media" />
+        <option name="VALUE" value="/media/" />
         <option name="IS_PREDEFINED" value="false" />
       </EnvironmentVariables>
       <EnvironmentVariables>
