@@ -4,6 +4,40 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
 
+    <context-param>
+        <param-name>company.name</param-name>
+        <param-value>Beautefly</param-value>
+    </context-param>
+    <context-param>
+        <param-name>company.email</param-name>
+        <param-value>contact@beautefly.com</param-value>
+    </context-param>
+    <context-param>
+        <param-name>company.copyright</param-name>
+        <param-value>Beautefly(TM) 2025-2025</param-value>
+    </context-param>
+
+    <security-role>
+        <role-name>ADMIN</role-name>
+    </security-role>
+    <security-role>
+        <role-name>USER</role-name>
+    </security-role>
+    <security-role>
+        <role-name>STAFF</role-name>
+    </security-role>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Admin</web-resource-name>
+            <url-pattern>/admin/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <!--suppress WebProperties -->
+            <role-name>*</role-name>
+        </auth-constraint>
+    </security-constraint>
+
     <jsp-config>
         <jsp-property-group>
             <url-pattern>*.jsp</url-pattern>
