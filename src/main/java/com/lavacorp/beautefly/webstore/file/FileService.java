@@ -71,6 +71,7 @@ public class FileService {
         var filename = fileStorage.save(tmpFile, mimeType.getExtension());
 
         var file = new FileUpload();
+        file.setHash(filename);
         file.setFilename(part.getFileName().orElse(filename));
         file.setUrl(fileStorage.resolveUrl(filename));
         file.setType(mimeType);
@@ -81,25 +82,20 @@ public class FileService {
 
     public FileUploadDTO uploadFile(@NotNull EntityPart part, HttpServletRequest req) throws IOException, UnsupportedFileFormatException {
         var account = securityService.getUserAccountContext(req);
-
         var file = save(part, account);
 
         var session = emf.unwrap(SessionFactory.class)
                 .openStatelessSession();
-
-        var existingFile = session.createNamedSelectionQuery("FileUpload.findByHash", FileUpload.class)
+        var existingFile = session.createSelectionQuery("from FileUpload where hash = :hash", FileUpload.class)
                 .setParameter("hash", file.getHash())
                 .getSingleResultOrNull();
-        if (existingFile != null) {
-            existingFile.setFilename(file.getFilename());
-            existingFile.setType(file.getType());
-            existingFile.setUrl(file.getUrl());
-            existingFile.setCreatedBy(file.getCreatedBy());
-            existingFile.setCreatedAt(file.getCreatedAt());
-            session.update(existingFile);
-            file = existingFile;
-        } else
-            file = (FileUpload) session.insert(file);
+
+        if (existingFile == null)
+            session.insert(file);
+        else {
+            file = fileUploadMapper.updateMetadata(file, existingFile);
+            session.update(file);
+        }
 
         return fileUploadMapper.toFileUploadDTO(file);
     }
