@@ -9,7 +9,7 @@ import jakarta.ws.rs.core.Application;
 
 @FormAuthenticationMechanismDefinition(
         loginToContinue = @LoginToContinue(
-                loginPage = "/login",
+                loginPage = "/WEB-INF/views/login.jsp",
                 errorPage = "/login?error"
         )
 )
