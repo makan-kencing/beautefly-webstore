@@ -2,6 +2,7 @@ package com.lavacorp.beautefly.webstore.order.entity;
 
 import com.lavacorp.beautefly.webstore.product.entity.Product;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
@@ -15,23 +16,29 @@ import java.time.Instant;
 @Setter
 @Entity
 public class SalesOrderProduct implements Serializable {
-    @Id
-    @ManyToOne
+    @EmbeddedId
+    private SalesOrderProductId id;
+
+    @MapsId(SalesOrderProductId_.ORDER_ID)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private SalesOrder order;
 
-    @Id
-    @ManyToOne
+    @MapsId(SalesOrderProductId_.PRODUCT_ID)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Product product;
 
+    @NotNull
     @Positive
     private int quantity;
 
     @Enumerated(EnumType.STRING)
     private OrderProductStatus status = OrderProductStatus.ORDERED;
 
+    @NotNull
     @Positive
     private BigDecimal unitPrice;
 
+    @NotNull
     @Positive
     private BigDecimal unitCost;
 

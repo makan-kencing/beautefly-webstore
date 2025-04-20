@@ -24,10 +24,10 @@ public class SalesOrder implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Account account;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Address shippingAddress;
 
     @Enumerated(EnumType.STRING)
@@ -50,7 +50,7 @@ public class SalesOrder implements Serializable {
     @PositiveOrZero
     private BigDecimal discountAmount;
 
-    @OneToMany(mappedBy = SalesOrderProduct_.ORDER)
+    @OneToMany(mappedBy = SalesOrderProduct_.ORDER, fetch = FetchType.EAGER)
     private Set<SalesOrderProduct> products = new HashSet<>();
 
     public BigDecimal getGrossAmount() {

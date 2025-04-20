@@ -1,9 +1,7 @@
 package com.lavacorp.beautefly.webstore.promotion.entity;
 
 import com.lavacorp.beautefly.webstore.product.entity.Product;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,12 +13,15 @@ import java.math.BigDecimal;
 @Setter
 @Entity
 public class PromotionProduct implements Serializable {
-    @Id
-    @ManyToOne
+    @EmbeddedId
+    private PromotionProductId id;
+
+    @MapsId(PromotionProductId_.PROMOTION_ID)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Promotion promotion;
 
-    @Id
-    @ManyToOne
+    @MapsId(PromotionProductId_.PRODUCT_ID)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Product product;
 
     @NotNull
