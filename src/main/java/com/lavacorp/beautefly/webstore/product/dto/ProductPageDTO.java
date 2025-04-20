@@ -1,7 +1,7 @@
 package com.lavacorp.beautefly.webstore.product.dto;
 
 import com.github.slugify.Slugify;
-import com.lavacorp.beautefly.webstore.file.dto.FileDTO;
+import com.lavacorp.beautefly.webstore.file.dto.FileUploadDTO;
 import com.lavacorp.beautefly.webstore.product.entity.Product;
 import com.lavacorp.beautefly.webstore.rating.dto.RatingDTO;
 
@@ -17,7 +17,7 @@ public record ProductPageDTO(
         int id,
         String name,
         String description,
-        List<FileDTO> images,
+        List<FileUploadDTO> images,
         String brand,
         CategoryDTO category,
         ColorDTO color,

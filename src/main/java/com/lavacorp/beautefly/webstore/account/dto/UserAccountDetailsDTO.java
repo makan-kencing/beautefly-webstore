@@ -1,7 +1,7 @@
 package com.lavacorp.beautefly.webstore.account.dto;
 
 import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
-import com.lavacorp.beautefly.webstore.file.dto.FileDTO;
+import com.lavacorp.beautefly.webstore.file.dto.FileUploadDTO;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -15,6 +15,6 @@ public record UserAccountDetailsDTO(
         UserAccount.Gender gender,
         String email,
         LocalDate dob,
-        FileDTO profileImage
+        FileUploadDTO profileImage
 ) implements Serializable {
 }

@@ -1,7 +1,7 @@
 package com.lavacorp.beautefly.webstore.admin.dto;
 
 import com.lavacorp.beautefly.webstore.account.entity.Credential;
-import com.lavacorp.beautefly.webstore.file.dto.FileDTO;
+import com.lavacorp.beautefly.webstore.file.dto.FileUploadDTO;
 
 import java.io.Serializable;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
 public record AdminContextDTO(
         int id,
         String username,
-        FileDTO profileImage,
+        FileUploadDTO profileImage,
         List<Credential.Role> roles
 ) implements Serializable {
 }

@@ -1,6 +1,6 @@
 package com.lavacorp.beautefly.webstore.rating.dto;
 
-import com.lavacorp.beautefly.webstore.file.dto.FileDTO;
+import com.lavacorp.beautefly.webstore.file.dto.FileUploadDTO;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -14,7 +14,7 @@ public record RatingDTO(
         RatingUserDTO account,
         int rating,
         String message,
-        List<FileDTO> images,
+        List<FileUploadDTO> images,
         Instant ratedOn,
         List<ReplyDTO> replies
 ) implements Serializable {
