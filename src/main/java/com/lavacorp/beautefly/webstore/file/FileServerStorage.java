@@ -5,7 +5,6 @@ import com.lavacorp.beautefly.util.env.el.ELExpressionEvaluator;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.xml.bind.DatatypeConverter;
 import lombok.extern.log4j.Log4j2;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.net.URI;
@@ -43,18 +42,12 @@ public class FileServerStorage implements FileStorage {
     }
 
     @Override
-    public @Nullable String save(byte[] data, String extension) {
+    public String save(byte[] data, String extension) throws IOException {
         var hash = DatatypeConverter.printHexBinary(digester.digest(data));
         var filename = hash + extension;
-
         Path filepath = outputDir.resolve(filename);
 
-        try {
-            Files.write(filepath, data);
-        } catch (IOException e) {
-            log.error("Error saving file to {}", filepath, e);
-            return null;
-        }
+        Files.write(filepath, data);
 
         return filename;
     }
@@ -66,7 +59,7 @@ public class FileServerStorage implements FileStorage {
         return localPath.toFile().delete();
     }
 
-    public URI resolveHref(String filename) {
+    public URI resolveUrl(String filename) {
         return baseHref.resolve(filename);
     }
 }

@@ -1,7 +1,9 @@
 package com.lavacorp.beautefly.webstore.file;
 
+import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
+import com.lavacorp.beautefly.webstore.file.dto.FileUploadDTO;
 import com.lavacorp.beautefly.webstore.file.entity.FileUpload;
-import com.lavacorp.beautefly.webstore.file.dto.FileDTO;
+import com.lavacorp.beautefly.webstore.file.exception.UnsupportedFileFormatException;
 import com.lavacorp.beautefly.webstore.file.mapper.FileUploadMapper;
 import com.lavacorp.beautefly.webstore.file.santiizer.DocumentSanitizer;
 import com.lavacorp.beautefly.webstore.file.santiizer.ImageDocumentSanitizer;
@@ -9,8 +11,6 @@ import com.lavacorp.beautefly.webstore.security.SecurityService;
 import jakarta.annotation.Nullable;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.PersistenceUnit;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
@@ -22,13 +22,9 @@ import org.apache.tika.mime.MediaType;
 import org.apache.tika.mime.MimeType;
 import org.apache.tika.mime.MimeTypeException;
 import org.apache.tika.mime.MimeTypes;
-import org.hibernate.SessionFactory;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -41,9 +37,6 @@ public class FileService {
     private final static TikaConfig tikaConfig = TikaConfig.getDefaultConfig();
     private final static MimeTypes mimeRepository = tikaConfig.getMimeRepository();
 
-    @PersistenceUnit
-    private EntityManagerFactory emf;
-
     @Inject
     private SecurityService securityService;
 
@@ -53,50 +46,35 @@ public class FileService {
     @Inject
     private FileStorage fileStorage;
 
-    public FileDTO uploadFile(
-            @NotNull EntityPart part,
-            HttpServletRequest req
-    ) {
-        var account = securityService.getUserAccountContext(req.getUserPrincipal());
+    public FileUpload save(@NotNull EntityPart part, @Nullable UserAccount account) throws IOException, UnsupportedFileFormatException {
+        File tmpFile = saveAsTempFile(part);
 
-        File tmpFile = createTempFile(part);
-        if (tmpFile == null)
-            return null;
-
-        MediaType mediaType = inferMediaType(tmpFile);
-        if (mediaType == null)
-            return null;
-
+        MediaType mediaType = inferMediaType(tmpFile.toPath());
         MimeType mimeType = convertToMimeType(mediaType);
-        if (mimeType == null)
-            return null;
 
-        boolean isSafe = makeSafe(tmpFile, mediaType);
+        boolean isSafe = makeSafe(tmpFile, mimeType);
         if (!isSafe) {
-            log.warn("Detection of an unsafe file upload or cannot sanitize uploaded document!");
             safelyRemoveFile(tmpFile.toPath());
-            return null;
+            throw new UnsupportedFileFormatException("Detection of an unsafe file upload or cannot sanitize uploaded document!", mimeType);
         }
 
         var filename = fileStorage.save(tmpFile, mimeType.getExtension());
-        if (filename == null)
-            return null;
 
         var file = new FileUpload();
-        file.setFilename(filename);
-        file.setType(FileUpload.FileType.fromMediaType(mediaType));
+        file.setFilename(part.getFileName().orElse(filename));
+        file.setUrl(fileStorage.resolveUrl(filename));
+        file.setType(mimeType);
         file.setAccount(account);
 
-        emf.unwrap(SessionFactory.class)
-                .openStatelessSession()
-                .insert(file);
-
-        var href = resolveHref(req.getContextPath(), file.getFilename());
-        return fileUploadMapper.toFileUploadDTO(file, href);
+        return file;
     }
 
-    public URI resolveHref(String contextPath, String filename) {
-        return URI.create(contextPath).resolve(fileStorage.resolveHref(filename));
+    public FileUploadDTO uploadFile(@NotNull EntityPart part, HttpServletRequest req) throws IOException, UnsupportedFileFormatException {
+        var account = securityService.getUserAccountContext(req);
+
+        var file = save(part, account);
+
+        return fileUploadMapper.toFileUploadDTO(file);
     }
 
     /**
@@ -104,33 +82,23 @@ public class FileService {
      *
      * @param part the input file multipart
      */
-    private static @Nullable File createTempFile(@NotNull EntityPart part) {
-        var fileStream = part.getContent();
-        if (fileStream == null)
-            return null;
-
-        File tmpFile;
-        try {
-            tmpFile = File.createTempFile("uploaded-", null);
-        } catch (IOException e) {
-            log.error("Cannot create temp file", e);
-            return null;
-        }
+    private static File saveAsTempFile(@NotNull EntityPart part) throws IOException {
+        var tmpFile = File.createTempFile("uploaded-", null);
 
         try {
-            Files.copy(fileStream, tmpFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(part.getContent(), tmpFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
-            log.error("Failed to copy bytes", e);
             safelyRemoveFile(tmpFile.toPath());
-            return null;
+            throw e;
         }
 
         return tmpFile;
     }
 
-    private static boolean makeSafe(File file, MediaType mediaType) {
+    @SuppressWarnings("SwitchStatementWithTooFewBranches")
+    private static boolean makeSafe(File file, MimeType mimeType) {
         DocumentSanitizer documentSanitizer;
-        return switch (mediaType.getType()) {
+        return switch (mimeType.getType().getType()) {
             case "image" -> {
                 documentSanitizer = new ImageDocumentSanitizer();
                 yield documentSanitizer.madeSafe(file);
@@ -144,34 +112,26 @@ public class FileService {
      *
      * @param p file to remove
      */
-    private static void safelyRemoveFile(@NotNull Path p) {
+    private static void safelyRemoveFile(@NotNull Path p) throws IOException {
         try {
             // Remove temporary file
-            if (!Files.deleteIfExists(p))
-                // If remove fail then overwrite content to sanitize it
-                Files.writeString(p, "-", StandardOpenOption.CREATE);
-        } catch (Exception e) {
-            log.warn("Cannot safely remove file !", e);
-        }
-    }
-
-    private static MediaType inferMediaType(File file) {
-        try {
-            var inputStream = new FileInputStream(file);
-            var bufferedInputStream = new BufferedInputStream(inputStream);
-            return mimeRepository.detect(bufferedInputStream, new Metadata());
+            Files.deleteIfExists(p);
         } catch (IOException e) {
-            log.error("Error detecting mimetype", e);
-            return null;
+            // If remove fail then overwrite content to sanitize it
+            Files.writeString(p, "-", StandardOpenOption.CREATE);
         }
     }
 
-    private static MimeType convertToMimeType(MediaType mediaType) {
+    private static MediaType inferMediaType(@NotNull Path p) throws IOException {
+        return mimeRepository.detect(Files.newInputStream(p), new Metadata());
+    }
+
+    private static MimeType convertToMimeType(@NotNull MediaType mediaType) {
         try {
             return mimeRepository.forName(mediaType.toString());
         } catch (MimeTypeException e) {
-            log.error(e);
-            return null;
+            // this should not happen
+            throw new RuntimeException(e);
         }
     }
 }
