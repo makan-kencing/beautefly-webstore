@@ -12,6 +12,8 @@ import com.lavacorp.beautefly.webstore.security.SecurityService;
 import jakarta.annotation.Nullable;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.PersistenceUnit;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
@@ -20,6 +22,7 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.tika.mime.MediaType;
 import org.apache.tika.mime.MimeType;
 import org.apache.tika.mime.MimeTypeException;
+import org.hibernate.SessionFactory;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -33,6 +36,8 @@ import java.nio.file.StandardOpenOption;
 @Transactional
 @ApplicationScoped
 public class FileService {
+    @PersistenceUnit
+    private EntityManagerFactory emf;
 
     @Inject
     private SecurityService securityService;
@@ -69,7 +74,7 @@ public class FileService {
         file.setFilename(part.getFileName().orElse(filename));
         file.setUrl(fileStorage.resolveUrl(filename));
         file.setType(mimeType);
-        file.setAccount(account);
+        file.setCreatedBy(account);
 
         return file;
     }
@@ -78,6 +83,23 @@ public class FileService {
         var account = securityService.getUserAccountContext(req);
 
         var file = save(part, account);
+
+        var session = emf.unwrap(SessionFactory.class)
+                .openStatelessSession();
+
+        var existingFile = session.createNamedSelectionQuery("FileUpload.findByHash", FileUpload.class)
+                .setParameter("hash", file.getHash())
+                .getSingleResultOrNull();
+        if (existingFile != null) {
+            existingFile.setFilename(file.getFilename());
+            existingFile.setType(file.getType());
+            existingFile.setUrl(file.getUrl());
+            existingFile.setCreatedBy(file.getCreatedBy());
+            existingFile.setCreatedAt(file.getCreatedAt());
+            session.update(existingFile);
+            file = existingFile;
+        } else
+            file = (FileUpload) session.insert(file);
 
         return fileUploadMapper.toFileUploadDTO(file);
     }
