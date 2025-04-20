@@ -1,8 +1,6 @@
 package com.lavacorp.beautefly.webstore.file.entity;
 
 import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
-import com.lavacorp.beautefly.webstore.product.entity.Product;
-import com.lavacorp.beautefly.webstore.promotion.entity.Promotion;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -21,9 +19,6 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@NamedQueries({
-        @NamedQuery(name = "FileUpload.findByHash", query = "from FileUpload where hash = :hash")
-})
 public class FileUpload {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,6 +43,6 @@ public class FileUpload {
     @CurrentTimestamp
     private Instant createdAt;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private UserAccount createdBy;
 }
