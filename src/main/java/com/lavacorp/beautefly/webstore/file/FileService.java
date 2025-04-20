@@ -1,6 +1,7 @@
 package com.lavacorp.beautefly.webstore.file;
 
 import com.lavacorp.beautefly.webstore.account.entity.UserAccount;
+import com.lavacorp.beautefly.webstore.file.converter.MimeTypeConverter;
 import com.lavacorp.beautefly.webstore.file.dto.FileUploadDTO;
 import com.lavacorp.beautefly.webstore.file.entity.FileUpload;
 import com.lavacorp.beautefly.webstore.file.exception.UnsupportedFileFormatException;
@@ -16,12 +17,9 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.core.EntityPart;
 import lombok.extern.log4j.Log4j2;
-import org.apache.tika.config.TikaConfig;
-import org.apache.tika.metadata.Metadata;
 import org.apache.tika.mime.MediaType;
 import org.apache.tika.mime.MimeType;
 import org.apache.tika.mime.MimeTypeException;
-import org.apache.tika.mime.MimeTypes;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,8 +32,6 @@ import java.nio.file.StandardOpenOption;
 @Transactional
 @ApplicationScoped
 public class FileService {
-    private final static TikaConfig tikaConfig = TikaConfig.getDefaultConfig();
-    private final static MimeTypes mimeRepository = tikaConfig.getMimeRepository();
 
     @Inject
     private SecurityService securityService;
@@ -49,8 +45,14 @@ public class FileService {
     public FileUpload save(@NotNull EntityPart part, @Nullable UserAccount account) throws IOException, UnsupportedFileFormatException {
         File tmpFile = saveAsTempFile(part);
 
-        MediaType mediaType = inferMediaType(tmpFile.toPath());
-        MimeType mimeType = convertToMimeType(mediaType);
+        MediaType mediaType = MimeTypeConverter.inferMediaType(Files.newInputStream(tmpFile.toPath()));
+        MimeType mimeType;
+        try {
+            mimeType = MimeTypeConverter.toMimeType(mediaType);
+        } catch (MimeTypeException e) {
+            safelyRemoveFile(tmpFile.toPath());
+            throw new UnsupportedFileFormatException("Could not detect the file format of the uploaded document.");
+        }
 
         boolean isSafe = makeSafe(tmpFile, mimeType);
         if (!isSafe) {
@@ -119,19 +121,6 @@ public class FileService {
         } catch (IOException e) {
             // If remove fail then overwrite content to sanitize it
             Files.writeString(p, "-", StandardOpenOption.CREATE);
-        }
-    }
-
-    private static MediaType inferMediaType(@NotNull Path p) throws IOException {
-        return mimeRepository.detect(Files.newInputStream(p), new Metadata());
-    }
-
-    private static MimeType convertToMimeType(@NotNull MediaType mediaType) {
-        try {
-            return mimeRepository.forName(mediaType.toString());
-        } catch (MimeTypeException e) {
-            // this should not happen
-            throw new RuntimeException(e);
         }
     }
 }
