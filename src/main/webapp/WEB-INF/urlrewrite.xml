@@ -2,7 +2,8 @@
     Configuration file for UrlRewriteFilter
     http://www.tuckey.org/urlrewrite/
 -->
-<!DOCTYPE urlrewrite SYSTEM "http://www.tuckey.org/urlrewrite/dtds/urlrewrite5.1.dtd">
+<!DOCTYPE urlrewrite  PUBLIC "-//tuckey.org//DTD UrlRewrite 5.1//EN"
+        "http://tuckey.org/res/dtds/urlrewrite5.1.dtd">
 <urlrewrite>
     <rule>
         <from>/product/([0-9]+)/?([a-zA-Z-]+)?</from>
