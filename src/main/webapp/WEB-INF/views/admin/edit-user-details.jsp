@@ -5,7 +5,7 @@
 
 <jsp:useBean id="account" type="com.lavacorp.beautefly.webstore.admin.dto.AdminUserAccountDTO" scope="request"/>
 
-<admin:base pageTitle="Edit User Details">
+<admin:base pageTitle="Edit Account Details">
     <h2 class="text-2xl font-bold mb-6">Edit User Details</h2>
 
     <form action="/admin/users/edit" method="post" class="w-full max-w-4xl bg-white p-6 rounded shadow">

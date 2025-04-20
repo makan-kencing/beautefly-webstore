@@ -5,7 +5,7 @@
 
 <jsp:useBean id="account" type="com.lavacorp.beautefly.webstore.admin.dto.AdminUserAccountDTO" scope="request"/>
 
-<admin:base pageTitle="User Details">
+<admin:base pageTitle="Account Details">
     <main>
         <!-- Page Header + Edit Btn -->
         <div class="flex justify-between items-center mb-6">

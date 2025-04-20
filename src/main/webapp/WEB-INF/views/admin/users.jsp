@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="admin" tagdir="/WEB-INF/tags/admin" %>
 
-<admin:base pageTitle="Users">
+<admin:base pageTitle="Accounts">
     <!-- Pop Up Successful Message-->
     <c:if test="${param.created == '1'}">
         <div id="toast"
