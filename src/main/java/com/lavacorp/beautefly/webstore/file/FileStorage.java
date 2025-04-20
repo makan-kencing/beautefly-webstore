@@ -14,5 +14,5 @@ public interface FileStorage {
 
     boolean delete(String filename);
 
-    public URI resolveUrl(String filename);
+    URI resolveUrl(String filename);
 }
