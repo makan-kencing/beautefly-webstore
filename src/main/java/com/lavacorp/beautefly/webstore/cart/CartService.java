@@ -94,10 +94,18 @@ public class CartService {
     private @NotNull Cart getCart(HttpServletRequest req) {
         var account = securityService.getAccountContext(req);
 
-        if (account != null)
-            return account.getCart();
+        if (account == null)
+            return getGuestCart(req.getSession());
 
-        return getGuestCart(req.getSession());
+        var cart = account.getCart();
+
+        if (cart == null) {
+            cart = new Cart();
+            cart.setAccount(account);
+            em.persist(cart);
+        }
+
+        return cart;
     }
 
     private @NotNull Cart mergeCart(@NotNull Cart src, @NotNull Cart dest) {
