@@ -11,6 +11,16 @@
     </rule>
 
     <rule>
+        <from>/order/([0-9]+)</from>
+        <to>/order?id=$1</to>
+    </rule>
+
+    <rule>
+        <from>/address/([0-9]+)</from>
+        <to>/address?id=$1</to>
+    </rule>
+
+    <rule>
         <from>/admin/account/([0-9]+)</from>
         <to>/admin/account?id=$1</to>
     </rule>
