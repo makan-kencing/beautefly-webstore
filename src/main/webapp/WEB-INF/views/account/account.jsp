@@ -12,7 +12,7 @@
     <main class="flex min-h-screen bg-white text-black">
         <account:sidebar pageTitle="${pageTitle}"/>
 
-        <div id="account" class="page">
+        <div class="p-5 flex-1">
             <!-- Account Details -->
             <h1 class="text-2xl font-semibold mb-4">Account Details</h1>
             <div class="bg-white border border-gray-300 p-6 rounded-lg shadow-sm space-y-6">

@@ -10,7 +10,7 @@
     <main class="flex min-h-screen bg-white text-black">
         <account:sidebar pageTitle="${pageTitle}"/>
 
-        <div>
+        <div class="p-5 flex-1">
             <h1 class="text-2xl font-semibold mb-4">Password</h1>
             <div class="bg-white border border-gray-300 p-6 rounded-lg shadow-sm space-y-6">
                 <form onsubmit="return handleSubmit()" class="text-left">
