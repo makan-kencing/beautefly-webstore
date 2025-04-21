@@ -10,9 +10,9 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/account/change-password")
+@WebServlet("/account/password")
 @ServletSecurity(@HttpConstraint(rolesAllowed = {"*"}))
-public class ChangePasswordServlet extends HttpServlet {
+public class PasswordServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         var view = req.getRequestDispatcher("/WEB-INF/views/account/change-password.jsp");
