@@ -1,5 +1,6 @@
 package com.lavacorp.beautefly.webstore.cart;
 
+import com.lavacorp.beautefly.webstore.account.entity.Account;
 import com.lavacorp.beautefly.webstore.cart.dto.CartDTO;
 import com.lavacorp.beautefly.webstore.cart.dto.CartItemDTO;
 import com.lavacorp.beautefly.webstore.cart.dto.SetCartProductDTO;
@@ -80,40 +81,55 @@ public class CartService {
     private @NotNull Cart getGuestCart(HttpSession session) {
         var cartId = session.getAttribute(SESSION_CART_ATTRIBUTE_NAME);
 
-        Cart cart;
-        if (cartId == null) {
-            cart = new Cart();
-            em.persist(cart);
+        // guest cart already created
+        if (cartId != null)
+            return em.find(Cart.class, cartId);
 
-            session.setAttribute(SESSION_CART_ATTRIBUTE_NAME, cart.getId());
-        } else
-            cart = em.find(Cart.class, cartId);
+        // create new guest cart
+        var cart = new Cart();
+        em.persist(cart);
+
+        session.setAttribute(SESSION_CART_ATTRIBUTE_NAME, cart.getId());
+
+        return cart;
+    }
+
+    private @NotNull Cart getUserCart(Account account) {
+        var cart = account.getCart();
+
+        // user has a cart
+        if (cart != null)
+            return cart;
+
+        // create new user cart
+        cart = new Cart();
+        cart.setAccount(account);
+        em.persist(cart);
+
         return cart;
     }
 
     private @NotNull Cart getCart(HttpServletRequest req) {
         var account = securityService.getAccountContext(req);
+        var session = req.getSession();
 
         if (account == null)
-            return getGuestCart(req.getSession());
+            return getGuestCart(session);
 
-        var cart = account.getCart();
+        var userCart = getUserCart(account);
 
-        if (cart == null) {
-            cart = new Cart();
-            cart.setAccount(account);
-            em.persist(cart);
+        if (session.getAttribute(SESSION_CART_ATTRIBUTE_NAME) != null) { // has guest cart
+            var guestCart = getGuestCart(session);
+            mergeCart(guestCart, userCart);
         }
 
-        return cart;
+        return userCart;
     }
 
-    private @NotNull Cart mergeCart(@NotNull Cart src, @NotNull Cart dest) {
+    private void mergeCart(@NotNull Cart src, @NotNull Cart dest) {
         for (var item : src)
             src.addProduct(item);
 
         em.remove(src);
-
-        return dest;
     }
 }
