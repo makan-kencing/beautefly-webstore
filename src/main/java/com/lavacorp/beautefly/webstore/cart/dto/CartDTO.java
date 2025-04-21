@@ -7,7 +7,7 @@ public record CartDTO(
         List<CartItemDTO> items,
         BigDecimal subtotal,
         BigDecimal shippingCost,
-        boolean shippingDiscounted,
-        BigDecimal taxCost,
+        boolean isShippingDiscounted,
+        BigDecimal estimatedTax,
         BigDecimal total) {
 }
