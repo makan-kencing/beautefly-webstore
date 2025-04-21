@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -37,5 +38,15 @@ public class CartLike<T extends CartProductLike<?>> implements Serializable, Ite
 
     public Stream<T> stream() {
         return StreamSupport.stream(this.spliterator(), false);
+    }
+
+    public void clear() {
+        products.clear();
+    }
+
+    public Optional<T> getCartItem(int productId) {
+        return products.stream()
+                .filter(p -> p.getId().getCartId() == productId)
+                .findAny();
     }
 }
