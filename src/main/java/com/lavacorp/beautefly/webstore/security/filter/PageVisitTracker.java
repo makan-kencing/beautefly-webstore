@@ -59,7 +59,7 @@ public class PageVisitTracker implements Filter {
 
         String queryString = req.getQueryString();
         if (queryString != null)
-            uri += queryString;
+            uri += "?" + queryString;
 
         if (queue.peek() != null)
             if (uri.equals(queue.peek().toString()))
