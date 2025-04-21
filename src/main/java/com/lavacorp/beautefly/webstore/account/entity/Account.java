@@ -88,7 +88,7 @@ public class Account extends UserCreated {
 
         public String pretty() {
             return StringUtils.capitalize(
-                    name().replace('_', ' ')
+                    name().replace('_', ' ').toLowerCase()
             );
         }
     }
