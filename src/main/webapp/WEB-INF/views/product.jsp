@@ -17,7 +17,7 @@
         <div class="flex gap-10">
             <!--Left-->
             <div class="flex-1">
-                <img class="w-full max-w-md border border-gray-300" src="${product.imageUrls()[0]}" alt="Product Image">
+                <img class="w-full max-w-md border border-gray-300" src="${product.images()[0].url()}" alt="Product Image">
                 <button class="cursor-pointer mt-6 px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">Review</button>
             </div>
 
