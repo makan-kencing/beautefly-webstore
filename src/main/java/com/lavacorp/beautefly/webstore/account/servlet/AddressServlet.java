@@ -15,7 +15,7 @@ import java.io.IOException;
 public class AddressServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        var view = req.getRequestDispatcher("/WEB-INF/views/address-details.jsp");
+        var view = req.getRequestDispatcher("/WEB-INF/views/account/address-details.jsp");
         view.forward(req, resp);
     }
 }

@@ -28,7 +28,7 @@ public class UserAccountServlet extends HttpServlet {
 
         req.setAttribute("account", account);
 
-        var view = req.getRequestDispatcher("/WEB-INF/views/account.jsp");
+        var view = req.getRequestDispatcher("/WEB-INF/views/account/account.jsp");
         view.forward(req, resp);
     }
 }

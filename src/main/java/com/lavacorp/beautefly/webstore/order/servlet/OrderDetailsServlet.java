@@ -12,7 +12,7 @@ import java.io.IOException;
 public class OrderDetailsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        var view = req.getRequestDispatcher("/WEB-INF/views/order-details.jsp");
+        var view = req.getRequestDispatcher("/WEB-INF/views/account/order-details.jsp");
         view.forward(req, resp);
     }
 }
