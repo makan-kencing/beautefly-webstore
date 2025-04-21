@@ -7,14 +7,6 @@
 
 <jsp:useBean id="product" type="com.lavacorp.beautefly.webstore.product.dto.ProductPageDTO" scope="request"/>
 
-<c:if test="${param.get('slug')}">
-    <c:redirect url="/product/${product.id()}/${product.slug()}"/>
-</c:if>
-
-<c:if test="${param.get('slug')}">
-    <c:redirect url="/rating/${rating.id()}/${rating.slug()}"/>
-</c:if>
-
 <webstore:base pageTitle="${product.name()}">
     <body class="font-sans flex flex-col gap-10">
 

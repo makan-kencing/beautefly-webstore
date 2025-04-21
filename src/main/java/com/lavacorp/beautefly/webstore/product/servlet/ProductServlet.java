@@ -31,6 +31,13 @@ public class ProductServlet extends HttpServlet {
             return;
         }
 
+        var slug = req.getParameter("slug");
+        if (!product.slug().equals(slug)) {
+            resp.sendRedirect("/product/" + product.id() + "/" +product.slug());
+            return;
+        }
+
+
         req.setAttribute("product", product);
 
         var view = req.getRequestDispatcher("/WEB-INF/views/product.jsp");
