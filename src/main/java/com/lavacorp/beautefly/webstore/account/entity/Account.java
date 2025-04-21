@@ -32,9 +32,9 @@ import static jakarta.persistence.FetchType.LAZY;
 @Setter
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "UserAccount.findByEmail", query = "from Account where email = :email"),
-        @NamedQuery(name = "UserAccount.findByUsername", query = "from Account where username = :username"),
-        @NamedQuery(name = "UserAccount.findByUsernameLike", query = "from Account where username ilike concat('%', :username, '%')"),
+        @NamedQuery(name = "Account.findByEmail", query = "from Account where email = :email"),
+        @NamedQuery(name = "Account.findByUsername", query = "from Account where username = :username"),
+        @NamedQuery(name = "Account.findByUsernameLike", query = "from Account where username ilike concat('%', :username, '%')"),
 })
 public class Account extends UserCreated {
     @Id
@@ -65,16 +65,16 @@ public class Account extends UserCreated {
     @Embedded
     private AddressBook addressBook = new AddressBook();
 
-    @OneToOne(mappedBy = Cart_.ACCOUNT)
+    @OneToOne(mappedBy = Cart_.ACCOUNT, cascade = CascadeType.ALL)
     private Cart cart = new Cart();
 
-    @OneToOne(mappedBy = Wishlist_.ACCOUNT)
+    @OneToOne(mappedBy = Wishlist_.ACCOUNT, cascade = CascadeType.ALL)
     private Wishlist wishlist = new Wishlist();
 
-    @OneToMany(mappedBy = SalesOrder_.ACCOUNT, fetch = LAZY)
+    @OneToMany(mappedBy = SalesOrder_.ACCOUNT, fetch = LAZY, cascade = CascadeType.ALL)
     private Set<SalesOrder> orders = new HashSet<>();
 
-    @OneToMany(mappedBy = FileUpload_.CREATED_BY, fetch = LAZY)
+    @OneToMany(mappedBy = FileUpload_.CREATED_BY, fetch = LAZY, cascade = CascadeType.ALL)
     private Set<FileUpload> uploadedFiles = new HashSet<>();
 
     private boolean active = true;

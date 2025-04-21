@@ -39,7 +39,7 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public List<Account> findByUsername(String username) {
-        return em.createNamedQuery("UserAccount.findByUsername", Account.class)
+        return em.createNamedQuery("Account.findByUsername", Account.class)
                 .setParameter("username", username)
                 .getResultList();
     }
@@ -47,7 +47,7 @@ public class AccountRepositoryImpl implements AccountRepository {
     @Override
     public Page<Account> findByUsernameLike(String username, PageRequest page, List<Order<? super Account>> orderBy) {
         SelectionQuery<Account> query = em.unwrap(Session.class)
-                .createNamedSelectionQuery("UserAccount.findByUsernameLike", Account.class)
+                .createNamedSelectionQuery("Account.findByUsernameLike", Account.class)
                 .setParameter("username", username);
 
         List<Account> accounts = query
@@ -63,7 +63,7 @@ public class AccountRepositoryImpl implements AccountRepository {
     @Override
     public @Nullable Account findByEmail(String email) {
         try {
-            return em.createNamedQuery("UserAccount.findByEmail", Account.class)
+            return em.createNamedQuery("Account.findByEmail", Account.class)
                     .setParameter("email", email)
                     .getSingleResult();
         } catch (NoResultException ignored) {
