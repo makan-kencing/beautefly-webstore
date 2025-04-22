@@ -3,7 +3,7 @@
   <component name="JpaBuddyIdeaProjectConfig">
     <option name="reverseEngineeringLastDbConnectionId" value="696d1b9c-2864-4549-96c0-ba232b0b13be" />
   </component>
-  <component name="JpaPluginProjectSettings">
+  <component name="JpaPluginProjectSettings" dtoClassNamePostfix="DTO">
     <option name="entityNameTemplate" />
     <option name="useLazyOnToOneAssociations" value="true" />
     <option name="scaffoldingLanguage" />
