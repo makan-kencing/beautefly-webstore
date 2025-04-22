@@ -101,12 +101,12 @@
                     <div class="flex items-center gap-4 mt-6">
                         <label for="quantity" class="text-base text-gray-600">Quantity</label>
                         <div class="flex border border-gray-300 rounded overflow-hidden h-8">
-                            <button onclick="changeQty(-1)" class="cursor-pointer w-8 bg-white text-gray-400 text-lg">
+                            <button type="button" onclick="changeQty.call(this, -1)" class="cursor-pointer w-8 bg-white text-gray-400 text-lg">
                                 −
                             </button>
                             <input type="text" name="quantity" id="quantity" value="1" min="1" readonly
                                    class="w-10 text-center text-base text-gray-800 border-none outline-none">
-                            <button onclick="changeQty(1)" class="cursor-pointer w-8 bg-white text-gray-400 text-lg">
+                            <button type="button" onclick="changeQty.call(this, 1)" class="cursor-pointer w-8 bg-white text-gray-400 text-lg">
                                 +
                             </button>
                         </div>
