@@ -26,7 +26,8 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Override
     public List<SalesOrder> findPaged(int offset, int limit) {
-        return em.createQuery("SELECT o FROM SalesOrder o ORDER BY o.orderedAt DESC", SalesOrder.class)
+        return em.createQuery(
+                        "SELECT o FROM SalesOrder o JOIN FETCH o.account ORDER BY o.orderedAt DESC", SalesOrder.class)
                 .setFirstResult(offset)
                 .setMaxResults(limit)
                 .getResultList();

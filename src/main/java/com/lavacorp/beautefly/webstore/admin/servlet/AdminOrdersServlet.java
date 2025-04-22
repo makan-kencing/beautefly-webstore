@@ -21,7 +21,7 @@ public class AdminOrdersServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int pageNumber = 1;
-        int pageSize = 10;
+        int pageSize = 50;
 
         String pageParam = req.getParameter("page");
         if (pageParam != null && pageParam.matches("\\d+")) {
