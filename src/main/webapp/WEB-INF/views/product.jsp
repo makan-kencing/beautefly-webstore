@@ -85,7 +85,7 @@
 
                 <div class="flex gap-10 *:bg-white *:rounded-xl *:shadow-md ">
                         <%-- Left --%>
-                    <div class="p-6 w-xs space-y-6">
+                    <div class="p-6 w-sm space-y-6">
                         <div class="space-y-2">
                             <h2 class="text-xl font-semibold">Customer ratings</h2>
 
@@ -97,34 +97,44 @@
                             <div data-raty data-star-type="i" data-read-only="true"
                                  data-half-show="true" data-score="4.6"
                                  class="text-orange-400"></div>
-                            
+
                             <p>{total} ratings</p>
 
                             <table class="whitespace-nowrap text-right border-separate border-spacing-x-2 border-spacing-y-3
                             **:[td]:even:w-full **:[td]:even:*:h-full **:[td]:even:border **:[td]:even:rounded-lg">
                                 <tr>
                                     <td>5 star</td>
-                                    <td><div></div></td>
+                                    <td>
+                                        <div></div>
+                                    </td>
                                     <td>312</td>
                                 </tr>
                                 <tr>
                                     <td>4 star</td>
-                                    <td><div></div></td>
+                                    <td>
+                                        <div></div>
+                                    </td>
                                     <td>11</td>
                                 </tr>
                                 <tr>
                                     <td>3 star</td>
-                                    <td><div></div></td>
+                                    <td>
+                                        <div></div>
+                                    </td>
                                     <td>30</td>
                                 </tr>
                                 <tr>
                                     <td>2 star</td>
-                                    <td><div></div></td>
+                                    <td>
+                                        <div></div>
+                                    </td>
                                     <td>1</td>
                                 </tr>
                                 <tr>
                                     <td>1 star</td>
-                                    <td><div></div></td>
+                                    <td>
+                                        <div></div>
+                                    </td>
                                     <td>1</td>
                                 </tr>
                             </table>
@@ -144,24 +154,30 @@
                     </div>
 
                         <%-- Right --%>
-                    <div class="p-6 space-y-6">
-                        <div>
+                    <div class="p-6 space-y-2 flex-1">
+                        <h2 class="text-xl font-semibold">Reviews</h2>
+
+                        <div class="space-y-6">
                             <div>
-                                <img src="" alt="">
-                                <span>Name</span>
+                                <div>
+                                    <img src="" alt="">
+                                    <span>Name</span>
+                                </div>
+
+                                <div>
+                                    <span data-raty data-star-type="i" data-read-only="true" data-score="4"
+                                          class="text-orange-400 text-[0.5rem]"></span>
+                                    <span class="font-bold">Title</span>
+                                </div>
+
+                                <div>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. A atque dignissimos est
+                                    hic, iste itaque libero quo vel voluptatum. Quisquam?
+                                </div>
                             </div>
 
-                            <div>
-                                <span data-raty data-star-type="i" data-read-only="true" data-score="4" class="text-orange-400 text-[0.5rem]"></span>
-                                <span class="font-bold">Title</span>
-                            </div>
 
-                            <div>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. A atque dignissimos est hic, iste itaque libero quo vel voluptatum. Quisquam?
-                            </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
