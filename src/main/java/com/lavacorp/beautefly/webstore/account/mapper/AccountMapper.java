@@ -43,6 +43,6 @@ public interface AccountMapper {
     @Mapping(target = "roles", source = "credential.roles")
     AccountContextDTO toAccountContextDTO(Account account);
 
-    @Mapping(target = "roles", expression = "credential.roles")
+    @Mapping(target = "roles", source = "credential.roles")
     AccountSearchResultDTO toAccountSearchResultDTO(Account account);
 }
