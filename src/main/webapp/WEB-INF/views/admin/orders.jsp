@@ -1,9 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="my" tagdir="/WEB-INF/tags/admin" %>
-<script src="https://cdn.tailwindcss.com"></script>
 
-<my:base pageTitle="Order List">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="admin" tagdir="/WEB-INF/tags/admin" %>
+
+<admin:base pageTitle="Orders">
     <h2 class="text-2xl font-bold mb-6">Order List</h2>
 
     <table class="min-w-full border text-sm bg-white">
@@ -28,10 +28,10 @@
                 <td class="p-2 border">${order.paymentMethod}</td>
                 <td class="p-2 border">RM ${order.netAmount}</td>
                 <td class="p-2 border">
-                    <a href="/admin/orders/view?id=${order.id}" class="text-blue-600 hover:underline">View</a>
+                    <a href="<c:url value='/admin/order/${order.id}' />" class="text-blue-600 hover:underline">View</a>
                 </td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
-</my:base>
+</admin:base>
