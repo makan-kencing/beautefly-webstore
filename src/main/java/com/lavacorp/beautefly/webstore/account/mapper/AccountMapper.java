@@ -1,5 +1,6 @@
 package com.lavacorp.beautefly.webstore.account.mapper;
 
+import com.lavacorp.beautefly.webstore.search.dto.AccountSearchResultDTO;
 import com.lavacorp.beautefly.webstore.account.dto.UpdateUserAccountDTO;
 import com.lavacorp.beautefly.webstore.account.dto.UserAccountDetailsDTO;
 import com.lavacorp.beautefly.webstore.account.entity.Account;
@@ -41,4 +42,7 @@ public interface AccountMapper {
 
     @Mapping(target = "roles", source = "credential.roles")
     AccountContextDTO toAccountContextDTO(Account account);
+
+    @Mapping(target = "roles", expression = "credential.roles")
+    AccountSearchResultDTO toAccountSearchResultDTO(Account account);
 }
