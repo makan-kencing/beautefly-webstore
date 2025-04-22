@@ -5,6 +5,10 @@ import com.lavacorp.beautefly.webstore.account.dto.CreateUserAccountDTO;
 import com.lavacorp.beautefly.webstore.account.dto.UpdateUserAccountDTO;
 import com.lavacorp.beautefly.webstore.account.entity.Account;
 import com.lavacorp.beautefly.webstore.account.mapper.AccountMapper;
+import com.lavacorp.beautefly.webstore.common.dto.PaginatedResult;
+import com.lavacorp.beautefly.webstore.search.AccountSearchService;
+import com.lavacorp.beautefly.webstore.search.dto.AccountSearchParametersDTO;
+import com.lavacorp.beautefly.webstore.search.dto.AccountSearchResultDTO;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.security.enterprise.identitystore.PasswordHash;
@@ -23,6 +27,9 @@ import java.util.HashSet;
 public class AdminAccountResource {
     @Inject
     private AccountRepository accountRepository;
+
+    @Inject
+    private AccountSearchService accountSearchService;
 
     @Inject
     private AccountMapper accountMapper;
@@ -52,8 +59,8 @@ public class AdminAccountResource {
 
     @GET
     @Path("/search")
-    public Response searchAccount() {
-        return Response.ok().build();
+    public PaginatedResult<AccountSearchResultDTO> searchAccount(AccountSearchParametersDTO search) {
+        return accountSearchService.search(search);
     }
 
     @PUT
