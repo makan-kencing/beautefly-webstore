@@ -1,52 +1,42 @@
 package com.lavacorp.beautefly.webstore.security;
 
-import com.lavacorp.beautefly.webstore.account.AccountRepository;
 import com.lavacorp.beautefly.webstore.account.entity.Account;
-import jakarta.annotation.Nullable;
+import com.lavacorp.beautefly.webstore.security.dto.AccountRegisterDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.inject.Named;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.PersistenceUnit;
+import jakarta.security.enterprise.identitystore.PasswordHash;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.core.SecurityContext;
 import lombok.extern.log4j.Log4j2;
-
-import java.security.Principal;
+import org.hibernate.SessionFactory;
+import org.hibernate.exception.ConstraintViolationException;
 
 @Log4j2
 @Transactional
 @ApplicationScoped
 public class SecurityService {
+    @PersistenceUnit
+    private EntityManagerFactory emf;
+
     @Inject
-    private AccountRepository accountRepository;
+    @Named("Argon2idPasswordHash")
+    private PasswordHash passwordHash;
 
-    public @Nullable Account getAccountContext(Principal principal) {
-        return accountRepository.findByEmail(principal.getName());
-    }
+    public void register(AccountRegisterDTO registration) throws ConstraintViolationException {
+        var session = emf.unwrap(SessionFactory.class)
+                .openStatelessSession();
 
-    public @Nullable Account getAccountContext(HttpServletRequest req) {
-        var principal = req.getUserPrincipal();
-        if (principal == null)  // no login context
-            return null;
+        var account = new Account();
 
-        var account = getAccountContext(principal);
-        if (account != null)
-            return account;
+        account.setUsername(registration.username());
+        account.setEmail(registration.email());
 
-        // principal probably wrong, invalidate context
-        try {
-            req.logout();
-        } catch (ServletException exc) {
-            log.error(exc);
-        }
-        return null;
-    }
+        var credential = account.getCredential();
+        credential.setPassword(passwordHash.generate(registration.password().toCharArray()));
 
-    public @Nullable Account getAccountContext(SecurityContext context) {
-        var principal = context.getUserPrincipal();
-        if (principal == null)  // no login context
-            return null;
-
-        return getAccountContext(principal);
+        session.insert(credential);
+        session.insert(account);
     }
 }
