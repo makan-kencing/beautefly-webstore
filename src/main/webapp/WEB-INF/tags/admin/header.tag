@@ -13,7 +13,7 @@
 
             <div>
                 <button type="button" popovertarget="settings">
-                    ${admin.username()}
+                    ${user.username()}
                     <i class="fa-solid fa-chevron-down ml-1"></i>
                 </button>
             </div>
@@ -24,22 +24,40 @@
                 **:[a]:block **:[a]:px-3 **:[a]:py-2 *:border-b-2 *:border-gray-300 *:hover:bg-gray-200
                 *:data-selected:bg-blue-200 *:data-selected:border-blue-300">
                 <li ${pageTitle == "Dashboard" ? "data-selected" : ""}>
-                    <a href="<c:url value='/admin' />">Dashboard</a>
+                    <a href="<c:url value='/admin' />">
+                        <i class="fa-solid fa-gauge-high mr-2"></i>
+                        Dashboard
+                    </a>
                 </li>
                 <li ${pageTitle == "Accounts" ? "data-selected" : ""}>
-                    <a href="<c:url value='/admin/accounts' />">Accounts</a>
+                    <a href="<c:url value='/admin/accounts' />">
+                        <i class="fa-solid fa-users mr-2"></i>
+                        Accounts
+                    </a>
                 </li>
                 <li ${pageTitle == "Products" ? "data-selected" : ""}>
-                    <a href="<c:url value='/admin/products' />">Products</a>
+                    <a href="<c:url value='/admin/products' />">
+                        <i class="fa-solid fa-boxes-stacked mr-2"></i>
+                        Products
+                    </a>
                 </li>
                 <li ${pageTitle == "Orders" ? "data-selected" : ""}>
-                    <a href="<c:url value='/admin/orders' />">Orders</a>
+                    <a href="<c:url value='/admin/orders' />">
+                        <i class="fa-solid fa-truck mr-2"></i>
+                        Orders
+                    </a>
                 </li>
                 <li ${pageTitle == "View Logs" ? "data-selected" : ""}>
-                    <a href="<c:url value='/admin/logs' />">View Logs</a>
+                    <a href="<c:url value='/admin/logs' />">
+                        <i class="fa-solid fa-book mr-2"></i>
+                        View Logs
+                    </a>
                 </li>
                 <li ${pageTitle == "Reports" ? "data-selected" : ""}>
-                    <a href="<c:url value='/admin/report' />">Reports</a>
+                    <a href="<c:url value='/admin/report' />">
+                        <i class="fa-solid fa-clipboard mr-2"></i>
+                        Reports
+                    </a>
                 </li>
             </ul>
         </div>
