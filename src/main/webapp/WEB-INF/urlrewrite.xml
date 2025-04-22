@@ -11,6 +11,16 @@
     </rule>
 
     <rule>
+        <from>/review/product/([0-9]+)</from>
+        <to>/rating?productId=$1</to>
+    </rule>
+
+    <rule>
+        <from>/review/([0-9]+)/reply</from>
+        <to>/reply?ratingId=$1</to>
+    </rule>
+
+    <rule>
         <from>/order/([0-9]+)</from>
         <to>/order?id=$1</to>
     </rule>
