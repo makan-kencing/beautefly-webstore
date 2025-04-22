@@ -33,6 +33,8 @@ public class Rating implements Serializable {
     @Range(min = 0, max = 5)
     private int rating;
 
+    private String title;
+
     private String message;
 
     @OneToMany(fetch = FetchType.EAGER)

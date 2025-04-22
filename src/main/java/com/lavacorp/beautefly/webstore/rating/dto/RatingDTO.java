@@ -13,6 +13,7 @@ public record RatingDTO(
         int id,
         RatingUserDTO account,
         int rating,
+        String title,
         String message,
         List<FileUploadDTO> images,
         Instant ratedOn,
