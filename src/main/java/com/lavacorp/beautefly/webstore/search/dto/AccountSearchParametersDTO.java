@@ -8,23 +8,27 @@ import jakarta.annotation.Nullable;
 import jakarta.data.page.PageRequest;
 import jakarta.persistence.criteria.*;
 import jakarta.validation.constraints.Email;
+import jakarta.ws.rs.DefaultValue;
+import jakarta.ws.rs.QueryParam;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import org.hibernate.query.Order;
 import org.hibernate.query.criteria.HibernateCriteriaBuilder;
 
 import java.util.List;
 
-public record AccountSearchParametersDTO(
-        @Nullable String query,  // both username and email
-        @Nullable String username,
-        @Nullable @Email String email,
-        @Nullable List<Credential.Role> roles,
-        @Nullable Boolean active,
-        int page,
-        int pageSize,
-        AccountSorter sort
-) {
+@Data
+public class AccountSearchParametersDTO {
+    @QueryParam("query") @Nullable String query;  // both username and email
+    @QueryParam("username") @Nullable String username;
+    @QueryParam("email") @Nullable @Email String email;
+    @QueryParam("roles") @Nullable List<Credential.Role> roles;
+    @QueryParam("active") @Nullable Boolean active;
+    @QueryParam("page") @DefaultValue("1") int page;
+    @QueryParam("pageSize") @DefaultValue("50") int pageSize;
+    @QueryParam("sort") AccountSorter sort;
+
     @Getter
     @AllArgsConstructor
     public enum AccountSorter {

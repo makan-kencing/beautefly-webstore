@@ -16,6 +16,7 @@ import jakarta.persistence.PersistenceUnit;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.BeanParam;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.SelectionQuery;
 import org.hibernate.query.criteria.CriteriaDefinition;
@@ -31,7 +32,7 @@ public class AccountSearchService {
     @Inject
     private AccountMapper accountMapper;
 
-    public PaginatedResult<AccountSearchResultDTO> search(AccountSearchParametersDTO search) {
+    public PaginatedResult<AccountSearchResultDTO> search(@BeanParam AccountSearchParametersDTO search) {
         var sf = emf.unwrap(SessionFactory.class);
         var statelessSession = sf.openStatelessSession();
 
@@ -47,14 +48,14 @@ public class AccountSearchService {
         }};
 
         SelectionQuery<Account> query = statelessSession.createSelectionQuery(criteria);
-        if (search.sort() != null)
-            query = query.setOrder(search.sort().getOrder());
+        if (search.getSort() != null)
+            query = query.setOrder(search.getSort().getOrder());
 
         long total = query.getResultCount();
 
         List<Account> accounts = query
-                .setFirstResult((search.page() - 1) * search.pageSize())
-                .setMaxResults(search.pageSize())
+                .setFirstResult((search.getPage() - 1) * search.getPageSize())
+                .setMaxResults(search.getPageSize())
                 .getResultList();
         Page<AccountSearchResultDTO> page = new PageRecord<>(
                 search.getPageRequest(),
