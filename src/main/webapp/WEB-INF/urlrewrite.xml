@@ -29,6 +29,14 @@
         <from>/address/([0-9]+)</from>
         <to>/address?id=$1</to>
     </rule>
+    <rule>
+        <from>/address/([0-9]+)/delete</from>
+        <to>/address/delete?id=$1</to>
+    </rule>
+    <rule>
+        <from>/address/([0-9]+)/default</from>
+        <to>/address/default?id=$1</to>
+    </rule>
 
     <rule>
         <from>/admin/account/([0-9]+)</from>
