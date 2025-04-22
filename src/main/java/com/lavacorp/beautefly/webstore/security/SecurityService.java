@@ -2,6 +2,7 @@ package com.lavacorp.beautefly.webstore.security;
 
 import com.lavacorp.beautefly.webstore.account.AccountRepository;
 import com.lavacorp.beautefly.webstore.account.entity.Account;
+import jakarta.annotation.Nullable;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
@@ -9,7 +10,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.core.SecurityContext;
 import lombok.extern.log4j.Log4j2;
-import org.jetbrains.annotations.Nullable;
 
 import java.security.Principal;
 

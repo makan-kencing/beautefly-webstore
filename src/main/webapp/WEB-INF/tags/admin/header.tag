@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
-<jsp:useBean id="admin" type="com.lavacorp.beautefly.webstore.admin.dto.AdminContextDTO" scope="request"/>
+<jsp:useBean id="user" type="com.lavacorp.beautefly.webstore.security.dto.AccountContextDTO" scope="request"/>
 
 <header>
     <nav>

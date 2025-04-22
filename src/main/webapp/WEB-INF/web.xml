@@ -90,12 +90,12 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
     <filter>
-        <filter-name>AdminFilter</filter-name>
-        <filter-class>com.lavacorp.beautefly.webstore.admin.filter.AdminFilter</filter-class>
+        <filter-name>UserContextFilter</filter-name>
+        <filter-class>com.lavacorp.beautefly.webstore.security.filter.UserContextFilter</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>AdminFilter</filter-name>
-        <url-pattern>/admin/*</url-pattern>
+        <filter-name>UserContextFilter</filter-name>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
 
 <!--    <welcome-file-list>-->

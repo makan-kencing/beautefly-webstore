@@ -1,4 +1,4 @@
-package com.lavacorp.beautefly.webstore.admin.dto;
+package com.lavacorp.beautefly.webstore.security.dto;
 
 import com.lavacorp.beautefly.webstore.account.entity.Account;
 import com.lavacorp.beautefly.webstore.account.entity.Credential;
@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * DTO for {@link Account}
  */
-public record AdminContextDTO(
+public record AccountContextDTO(
         int id,
         String username,
         FileUploadDTO profileImage,

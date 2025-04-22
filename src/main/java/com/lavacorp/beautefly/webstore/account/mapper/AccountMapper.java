@@ -3,7 +3,7 @@ package com.lavacorp.beautefly.webstore.account.mapper;
 import com.lavacorp.beautefly.webstore.account.dto.UpdateUserAccountDTO;
 import com.lavacorp.beautefly.webstore.account.dto.UserAccountDetailsDTO;
 import com.lavacorp.beautefly.webstore.account.entity.Account;
-import com.lavacorp.beautefly.webstore.admin.dto.AdminContextDTO;
+import com.lavacorp.beautefly.webstore.security.dto.AccountContextDTO;
 import com.lavacorp.beautefly.webstore.admin.dto.AdminUserAccountDTO;
 import com.lavacorp.beautefly.webstore.admin.dto.UserAccountSummaryDTO;
 import com.lavacorp.beautefly.webstore.file.mapper.FileUploadMapper;
@@ -40,5 +40,5 @@ public interface AccountMapper {
     Account partialUpdate(UpdateUserAccountDTO updateUserAccountDTO, @MappingTarget Account account);
 
     @Mapping(target = "roles", source = "credential.roles")
-    AdminContextDTO toAdminContextDTO(Account account);
+    AccountContextDTO toAccountContextDTO(Account account);
 }
