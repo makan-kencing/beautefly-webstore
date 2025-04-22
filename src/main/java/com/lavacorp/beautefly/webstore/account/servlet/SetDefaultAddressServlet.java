@@ -10,17 +10,11 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/address/new")
+@WebServlet("/address/default")
 @ServletSecurity(@HttpConstraint(rolesAllowed = {"*"}))
-public class NewAddressServlet extends HttpServlet {
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        var view = req.getRequestDispatcher("/WEB-INF/views/account/address-details.jsp");
-        view.forward(req, resp);
-    }
-
+public class SetDefaultAddressServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        resp.sendRedirect("/addresses");
     }
 }
