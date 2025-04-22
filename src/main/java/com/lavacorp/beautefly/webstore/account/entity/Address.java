@@ -29,6 +29,9 @@ public class Address implements Serializable {
     private String address3;
 
     @NotBlank
+    private String city;
+
+    @NotBlank
     private String postcode;
 
     @NotBlank

@@ -15,6 +15,7 @@ public record AddressDTO(
         @NotNull String address1,
         @Nullable String address2,
         @Nullable String address3,
+        @NotNull String city,
         @NotNull String postcode,
         @NotNull String state,
         @NotNull String country
