@@ -80,7 +80,8 @@
 
                     <%-- product list --%>
                     <div id="product-list"
-                         class="grid grid-cols-[repeat(auto-fill,minmax(28rem,1fr))] auto-rows-[60vh] overflow-hidden">
+                         class="grid auto-rows-[60vh] overflow-hidden"
+                         style="grid-template-columns: repeat(auto-fill, minmax(28rem, 1fr))">
                         <c:forEach var="product" items="${result.page().content()}">
                             <jsp:useBean id="product" type="com.lavacorp.beautefly.webstore.search.dto.ProductSearchResultDTO"/>
                             <div class="relative
