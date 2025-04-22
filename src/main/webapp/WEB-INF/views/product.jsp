@@ -14,36 +14,38 @@
     </jsp:attribute>
 
     <jsp:body>
-        <main class="font-sans px-10 py-4">
-            <div class="flex gap-10 mb-5 *:flex-1">
-                <div>
-                    <img class="w-full max-w-md border border-gray-300" src="${product.images()[0].url()}"
-                         alt="Product Image">
+        <main class="font-sans px-10 py-4 space-y-5">
+            <div class="flex min-h-[80vh]">
+                <div class="w-[60vw]">
+                    <img class="w-full max-w-md" src="${product.images()[0].url()}"
+                         alt="">
                 </div>
 
-                <form action="<c:url value='/cart/add' />" method="post">
+                <form action="<c:url value='/cart/add' />" method="post"
+                      class="gap-10 flex flex-col items-center justify-center w-[40vw]">
                     <input type="hidden" name="productId" value="${product.id()}">
 
-                    <h2 class="text-2xl font-semibold">${product.name()}</h2>
+                    <div class="flex flex-col items-center gap-2">
+                        <h2 class="text-2xl font-semibold">${product.name()}</h2>
 
-                    <div class="text-yellow-500 text-sm mt-1">★★★★☆ 4.9 (2.1k Ratings)</div>
+                        <div class="flex items-center gap-1 text-sm">
+                            4.6
+                            <span data-raty data-star-type="i" data-read-only="true"
+                                  data-half-show="true" data-score="4.6" class="text-orange-400 text-[0.5rem]"></span>
+                            (100)
+                        </div>
 
-                    <div class="text-red-600 text-2xl font-bold mt-2">
-                    <span class="text-red-500 text-xl">
-                        <fmt:formatNumber value="${product.unitPrice()}" type="currency" currencySymbol="RM "/>
-                    </span>
+                        <div class="text-red-600 text-2xl font-bold">
+                            <span class="text-red-500 text-xl">
+                                <fmt:formatNumber value="${product.unitPrice()}" type="currency" currencySymbol="RM "/>
+                            </span>
+                        </div>
                     </div>
 
-                    <div class="mt-2 space-x-2 text-xs">
-                        <span class="bg-pink-300 px-2 py-1 inline-block">RM3 OFF</span>
-                        <span class="bg-pink-300 px-2 py-1 inline-block">RM5 OFF</span>
-                        <span class="bg-pink-300 px-2 py-1 inline-block">95% Coins Cashback</span>
-                    </div>
-
-                    <p class="mt-4 text-gray-700">${product.description()}</p>
+                    <p class="text-gray-700">${product.description()}</p>
 
                     <!-- Quantity -->
-                    <div class="flex items-center gap-4 mt-6">
+                    <div class="flex items-center gap-4">
                         <label for="quantity" class="text-base text-gray-600">Quantity</label>
                         <div class="flex border border-gray-300 rounded overflow-hidden h-8">
                             <button type="button" onclick="changeQty.call(this, -1)"
@@ -60,7 +62,7 @@
                     </div>
 
                     <button type="submit"
-                            class="cursor-pointer mt-6 px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+                            class="cursor-pointer px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
                         Add to Cart
                     </button>
                 </form>
@@ -80,104 +82,100 @@
             </div>
 
 
-            <div class="">
+            <div class="flex gap-10 *:bg-white *:rounded-xl *:shadow-md">
+                    <%-- Left --%>
+                <div class="p-6 w-sm space-y-6">
+                    <div class="space-y-2">
+                        <h2 class="text-xl font-semibold">Customer ratings</h2>
 
-
-                <div class="flex gap-10 *:bg-white *:rounded-xl *:shadow-md ">
-                        <%-- Left --%>
-                    <div class="p-6 w-sm space-y-6">
-                        <div class="space-y-2">
-                            <h2 class="text-xl font-semibold">Customer ratings</h2>
-
-                            <div class="text-orange-400 text-4xl font-bold mb-1">
-                                4.9
-                                <span class="text-base font-normal">out of 5</span>
-                            </div>
-
-                            <div data-raty data-star-type="i" data-read-only="true"
-                                 data-half-show="true" data-score="4.6"
-                                 class="text-orange-400"></div>
-
-                            <p>{total} ratings</p>
-
-                            <table class="whitespace-nowrap text-right border-separate border-spacing-x-2 border-spacing-y-3
-                            **:[td]:even:w-full **:[td]:even:*:h-full **:[td]:even:border **:[td]:even:rounded-lg">
-                                <tr>
-                                    <td>5 star</td>
-                                    <td>
-                                        <div></div>
-                                    </td>
-                                    <td>312</td>
-                                </tr>
-                                <tr>
-                                    <td>4 star</td>
-                                    <td>
-                                        <div></div>
-                                    </td>
-                                    <td>11</td>
-                                </tr>
-                                <tr>
-                                    <td>3 star</td>
-                                    <td>
-                                        <div></div>
-                                    </td>
-                                    <td>30</td>
-                                </tr>
-                                <tr>
-                                    <td>2 star</td>
-                                    <td>
-                                        <div></div>
-                                    </td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td>1 star</td>
-                                    <td>
-                                        <div></div>
-                                    </td>
-                                    <td>1</td>
-                                </tr>
-                            </table>
+                        <div class="text-orange-400 text-4xl font-bold mb-1">
+                            4.9
+                            <span class="text-base font-normal">out of 5</span>
                         </div>
 
-                        <c:if test="${true}">
-                            <hr class="text-gray-300">
+                        <div data-raty data-star-type="i" data-read-only="true"
+                             data-half-show="true" data-score="4.6"
+                             class="text-orange-400"></div>
 
-                            <div class="space-y-2">
-                                <h2 class="text-xl font-semibold">Review this product</h2>
-                                <a href="<c:url value='/review/product/${product.id()}' />"
-                                   class="font-bold text-center block cursor-pointer w-full px-6 py-2 bg-blue-300 text-white rounded-xl hover:bg-blue-400 transition">
-                                    Write a review
-                                </a>
-                            </div>
-                        </c:if>
+                        <p>{total} ratings</p>
+
+                        <table class="whitespace-nowrap text-right border-separate border-spacing-x-2 border-spacing-y-3
+                            **:[td]:even:w-full **:[td]:even:*:h-full **:[td]:even:border **:[td]:even:rounded-lg">
+                            <tr>
+                                <td>5 star</td>
+                                <td>
+                                    <div></div>
+                                </td>
+                                <td>312</td>
+                            </tr>
+                            <tr>
+                                <td>4 star</td>
+                                <td>
+                                    <div></div>
+                                </td>
+                                <td>11</td>
+                            </tr>
+                            <tr>
+                                <td>3 star</td>
+                                <td>
+                                    <div></div>
+                                </td>
+                                <td>30</td>
+                            </tr>
+                            <tr>
+                                <td>2 star</td>
+                                <td>
+                                    <div></div>
+                                </td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>1 star</td>
+                                <td>
+                                    <div></div>
+                                </td>
+                                <td>1</td>
+                            </tr>
+                        </table>
                     </div>
 
-                        <%-- Right --%>
-                    <div class="p-6 space-y-2 flex-1">
-                        <h2 class="text-xl font-semibold">Reviews</h2>
+                    <c:if test="${true}">
+                        <hr class="text-gray-300">
 
-                        <div class="space-y-6">
+                        <div class="space-y-2">
+                            <h2 class="text-xl font-semibold">Review this product</h2>
+                            <a href="<c:url value='/review/product/${product.id()}' />"
+                               class="font-bold text-center block cursor-pointer w-full px-6 py-2 bg-blue-300 text-white rounded-xl hover:bg-blue-400 transition">
+                                Write a review
+                            </a>
+                        </div>
+                    </c:if>
+                </div>
+
+                    <%-- Right --%>
+                <div class="p-6 space-y-2 flex-1">
+                    <h2 class="text-xl font-semibold">Reviews</h2>
+
+                    <div class="space-y-6">
+                        <div>
                             <div>
-                                <div>
-                                    <img src="" alt="">
-                                    <span>Name</span>
-                                </div>
-
-                                <div>
-                                    <span data-raty data-star-type="i" data-read-only="true" data-score="4"
-                                          class="text-orange-400 text-[0.5rem]"></span>
-                                    <span class="font-bold">Title</span>
-                                </div>
-
-                                <div>
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. A atque dignissimos est
-                                    hic, iste itaque libero quo vel voluptatum. Quisquam?
-                                </div>
+                                <img src="" alt="">
+                                <span>Name</span>
                             </div>
 
+                            <div>
+                                    <span data-raty data-star-type="i" data-read-only="true" data-score="4"
+                                          class="text-orange-400 text-[0.5rem]"></span>
+                                <span class="font-bold">Title</span>
+                            </div>
 
+                            <div>
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. A atque dignissimos est
+                                hic, iste itaque libero quo vel voluptatum. Quisquam?
+                            </div>
                         </div>
+
+
                     </div>
                 </div>
             </div>
