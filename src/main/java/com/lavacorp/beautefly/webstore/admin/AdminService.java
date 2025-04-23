@@ -28,7 +28,7 @@ public class AdminService {
         var accounts = accountSearchService.search(search);
 
         return new DashboardStatsDTO(
-                accounts.total(),
+                accounts.filteredTotal(),
                 0,
                 "OK"
         );
