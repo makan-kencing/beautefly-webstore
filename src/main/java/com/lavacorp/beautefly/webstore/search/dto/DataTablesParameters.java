@@ -33,8 +33,5 @@ public record DataTablesParameters(
             Direction dir,
             String name
     ) {
-        public enum Direction {
-            asc, desc
-        }
     }
 }
