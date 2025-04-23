@@ -11,6 +11,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.QueryParam;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import org.hibernate.query.Order;
@@ -19,14 +20,15 @@ import org.hibernate.query.criteria.HibernateCriteriaBuilder;
 import java.util.List;
 
 @Data
+@Builder
 public class AccountSearchParametersDTO {
     @QueryParam("query") @Nullable String query;  // both username and email
     @QueryParam("username") @Nullable String username;
     @QueryParam("email") @Nullable @Email String email;
     @QueryParam("roles") @Nullable List<Credential.Role> roles;
     @QueryParam("active") @Nullable Boolean active;
-    @QueryParam("page") int page = 1;
-    @QueryParam("pageSize") int pageSize = 50;
+    @QueryParam("page") @DefaultValue("1") int page = 1;
+    @QueryParam("pageSize") @DefaultValue("50") int pageSize = 50;
     @QueryParam("sort") AccountSorter sort;
 
     @Getter
@@ -70,11 +72,12 @@ public class AccountSearchParametersDTO {
                     builder.ilike(root.get(Account_.email), "%" + this.email + "%")
             );
 
-        if (this.roles != null) {
+        if (this.roles != null && !this.roles.isEmpty()) {
             Join<Account, Credential> credential = root.join(Account_.credential);
+            Join<Credential, Credential.Role> roles = credential.join(Credential_.roles);
             where = builder.and(
                     where,
-                    builder.in(credential.get(Credential_.roles), this.roles)
+                    roles.in(this.roles)
             );
         }
 
