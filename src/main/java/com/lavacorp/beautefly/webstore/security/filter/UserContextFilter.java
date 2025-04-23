@@ -30,7 +30,14 @@ public class UserContextFilter implements Filter {
         var principal = ((HttpServletRequest) req).getUserPrincipal();
 
         if (principal != null) {
-            var account = session.createSelectionQuery("from Account where email = :email", Account.class)
+            var account = session.createSelectionQuery("""
+                            from Account a
+                                left join fetch a.profileImage
+                                left join fetch a.cart
+                                left join fetch a.wishlist
+                                join fetch a.credential.roles
+                            where a.email = :email
+                            """, Account.class)
                     .setParameter("email", principal.getName())
                     .getSingleResultOrNull();
 
