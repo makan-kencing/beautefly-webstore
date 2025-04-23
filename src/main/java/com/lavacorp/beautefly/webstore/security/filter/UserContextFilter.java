@@ -1,35 +1,43 @@
 package com.lavacorp.beautefly.webstore.security.filter;
 
-import com.lavacorp.beautefly.webstore.account.AccountRepository;
+import com.lavacorp.beautefly.webstore.account.entity.Account;
 import com.lavacorp.beautefly.webstore.account.mapper.AccountMapper;
 import com.lavacorp.beautefly.webstore.security.dto.AccountContextDTO;
 import jakarta.annotation.Nullable;
 import jakarta.inject.Inject;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.PersistenceUnit;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
+import org.hibernate.SessionFactory;
 
 import java.io.IOException;
 
 public class UserContextFilter implements Filter {
     public static final String ATTRIBUTE_NAME = "user";
 
-    @Inject
-    private AccountRepository accountRepository;
+    @PersistenceUnit
+    private EntityManagerFactory emf;
 
     @Inject
     private AccountMapper accountMapper;
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
+        var session = emf.unwrap(SessionFactory.class)
+                .openStatelessSession();
+
         var principal = ((HttpServletRequest) req).getUserPrincipal();
 
         if (principal != null) {
-            var account = accountRepository.findByEmail(principal.getName());
+            var account = session.createSelectionQuery("from Account where email = :email", Account.class)
+                    .setParameter("email", principal.getName())
+                    .getSingleResultOrNull();
 
-            if (account.isPresent())
+            if (account != null)
                 req.setAttribute(
                         ATTRIBUTE_NAME,
-                        accountMapper.toAccountContextDTO(account.get())
+                        accountMapper.toAccountContextDTO(account)
                 );
             else
                 ((HttpServletRequest) req).logout();

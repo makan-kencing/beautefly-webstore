@@ -1,15 +1,11 @@
 package com.lavacorp.beautefly.webstore.admin;
 
-import com.lavacorp.beautefly.webstore.account.AccountRepository;
 import com.lavacorp.beautefly.webstore.admin.dto.DashboardStatsDTO;
 import com.lavacorp.beautefly.webstore.search.AccountSearchService;
 import com.lavacorp.beautefly.webstore.search.dto.AccountSearchParametersDTO;
-import jakarta.data.page.PageRequest;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-
-import java.util.List;
 
 @Transactional
 @ApplicationScoped

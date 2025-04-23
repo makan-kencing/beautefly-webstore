@@ -1,13 +1,18 @@
 package com.lavacorp.beautefly.webstore.admin.servlet;
 
-import com.lavacorp.beautefly.webstore.account.AccountRepository;
+import com.lavacorp.beautefly.webstore.account.entity.Account;
 import com.lavacorp.beautefly.webstore.account.entity.Address;
 import com.lavacorp.beautefly.webstore.account.mapper.AddressMapper;
 import jakarta.inject.Inject;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.PersistenceUnit;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
+import org.hibernate.SessionFactory;
 
 import java.io.IOException;
 import java.util.NoSuchElementException;
@@ -15,8 +20,8 @@ import java.util.NoSuchElementException;
 @WebServlet("/admin/account/address")
 @Transactional
 public class AdminAddressServlet extends HttpServlet {
-    @Inject
-    private AccountRepository accountRepository;
+    @PersistenceUnit
+    private EntityManagerFactory emf;
 
     @Inject
     private AddressMapper addressMapper;
@@ -39,7 +44,10 @@ public class AdminAddressServlet extends HttpServlet {
             return;
         }
 
-        var account = accountRepository.findUserAccount(accountId);
+        var session = emf.unwrap(SessionFactory.class)
+                .openStatelessSession();
+
+        var account = session.get(Account.class, accountId);
         if (account == null) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;

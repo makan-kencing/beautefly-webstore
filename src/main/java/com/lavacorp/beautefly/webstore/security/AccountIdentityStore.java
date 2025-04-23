@@ -1,8 +1,6 @@
 package com.lavacorp.beautefly.webstore.security;
 
-import com.lavacorp.beautefly.webstore.account.AccountRepository;
 import com.lavacorp.beautefly.webstore.account.entity.Account;
-import com.lavacorp.beautefly.webstore.account.entity.Credential;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
