@@ -19,7 +19,7 @@
                     <p>Search for:</p>
                     <h2 class="font-bold text-xl">
                         "${result.search().query()}"
-                        (${result.page().total()})
+                        (${result.page().filteredTotal()})
                     </h2>
 
                     <input type="hidden" name="query" value="${result.search().query()}">
@@ -82,7 +82,7 @@
                     <div id="product-list"
                          class="grid auto-rows-[60vh] overflow-hidden"
                          style="grid-template-columns: repeat(auto-fill, minmax(28rem, 1fr))">
-                        <c:forEach var="product" items="${result.page().content()}">
+                        <c:forEach var="product" items="${result.page().data()}">
                             <jsp:useBean id="product" type="com.lavacorp.beautefly.webstore.search.dto.ProductSearchResultDTO"/>
                             <div class="relative
                                         before:content-[''] before:absolute before:bg-gray-500 before:h-[120vh] before:w-[1px] before:-left-[1px] before:top-0
