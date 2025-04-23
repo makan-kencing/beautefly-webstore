@@ -66,10 +66,10 @@ public class Account extends UserCreated {
     @Embedded
     private AddressBook addressBook = new AddressBook();
 
-    @OneToOne(mappedBy = Cart_.ACCOUNT, cascade = CascadeType.ALL, optional = false)
+    @OneToOne(mappedBy = Cart_.ACCOUNT, cascade = CascadeType.ALL)
     private Cart cart;
 
-    @OneToOne(mappedBy = Wishlist_.ACCOUNT, cascade = CascadeType.ALL, optional = false)
+    @OneToOne(mappedBy = Wishlist_.ACCOUNT, cascade = CascadeType.ALL)
     private Wishlist wishlist;
 
     @OneToMany(mappedBy = SalesOrder_.ACCOUNT, fetch = LAZY, cascade = CascadeType.ALL)
