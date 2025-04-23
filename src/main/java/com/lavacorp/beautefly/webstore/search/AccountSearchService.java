@@ -34,9 +34,9 @@ public class AccountSearchService {
 
     public PaginatedResult<AccountSearchResultDTO> search(@BeanParam AccountSearchParametersDTO search) {
         var sf = emf.unwrap(SessionFactory.class);
-        var statelessSession = sf.openStatelessSession();
+        var session = sf.openStatelessSession();
 
-        var builder = statelessSession.getCriteriaBuilder();
+        var builder = session.getCriteriaBuilder();
 
         CriteriaQuery<Account> criteria = new CriteriaDefinition<>(emf, Account.class) {{
             var account = from(Account.class);
@@ -47,10 +47,13 @@ public class AccountSearchService {
             where(search.toPredicate(account, this, builder));
         }};
 
-        SelectionQuery<Account> query = statelessSession.createSelectionQuery(criteria);
+        long total = session.createSelectionQuery("from Account", Account.class)
+                .getResultCount();
+
+        SelectionQuery<Account> query = session.createSelectionQuery(criteria);
             query = query.setOrder(search.getOrders());
 
-        long total = query.getResultCount();
+        long filteredTotal = query.getResultCount();
 
         List<Account> accounts = query
                 .setFirstResult((search.page() - 1) * search.pageSize())
@@ -59,9 +62,9 @@ public class AccountSearchService {
         Page<AccountSearchResultDTO> page = new PageRecord<>(
                 search.getPageRequest(),
                 accounts.stream().map(accountMapper::toAccountSearchResultDTO).toList(),
-                total
+                filteredTotal
         );
 
-        return PaginatedResult.fromPaginated(page);
+        return PaginatedResult.fromPaginated(page, (int) total);
     }
 }

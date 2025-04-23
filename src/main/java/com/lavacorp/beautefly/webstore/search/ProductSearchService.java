@@ -35,26 +35,30 @@ public class ProductSearchService {
 
     public ProductSearchContextDTO search(ProductSearchDTO search) {
         // use statelessSession to not cache entities
-        var sessionFactory = emf.unwrap(SessionFactory.class);
-        var statelessSession = sessionFactory.openStatelessSession();
+        var sf = emf.unwrap(SessionFactory.class);
+        var session = sf.openStatelessSession();
 
-        var builder = statelessSession.getCriteriaBuilder();
+        var builder = session.getCriteriaBuilder();
 
-        CriteriaQuery<Product> criteria = new CriteriaDefinition<>(emf, Product.class) {{
+        CriteriaQuery<Product> criteria = new CriteriaDefinition<>(sf, Product.class) {{
             var product = from(Product.class);
 
             select(product);
             product.fetch(Product_.category, JoinType.LEFT);
             product.fetch(Product_.color, JoinType.LEFT);
             product.fetch(Product_.images, JoinType.LEFT);
+
             where(search.toPredicate(product, this, builder));
         }};
 
-        SelectionQuery<Product> query = statelessSession.createSelectionQuery(criteria);
+        long total = session.createSelectionQuery("from Product", Product.class)
+                .getResultCount();
+
+        SelectionQuery<Product> query = session.createSelectionQuery(criteria);
         if (search.sort() != null)
             query = query.setOrder(search.sort().getOrder());
 
-        long total = query.getResultCount();
+        long filteredTotal = query.getResultCount();
 
         List<Product> products = query
                 .setFirstResult((search.page() - 1) * search.pageSize())
@@ -63,11 +67,11 @@ public class ProductSearchService {
         Page<ProductSearchResultDTO> page = new PageRecord<>(
                 search.getPageRequest(),
                 products.stream().map(productMapper::fromProduct).toList(),
-                total
+                filteredTotal
         );
 
         return new ProductSearchContextDTO(
-                PaginatedResult.fromPaginated(page),
+                PaginatedResult.fromPaginated(page, (int) total),
                 search
         );
     }
