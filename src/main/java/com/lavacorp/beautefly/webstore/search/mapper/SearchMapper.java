@@ -42,18 +42,20 @@ public interface SearchMapper {
                     case Account_.ACTIVE -> active = Account_.ACTIVE.equals(column.search().value());
                 }
 
-        List<AccountSearchParametersDTO.Sorter> sort = query.order().stream()
-                .map(order -> {
-                    try {
-                        var attribute = AccountSearchParametersDTO.Sorter.Attribute
-                                .valueOf(order.name());
-                        return new AccountSearchParametersDTO.Sorter(attribute, order.dir());
-                    } catch (IllegalArgumentException ignored) {
-                        return null;
-                    }
-                }).filter(Objects::nonNull)
-                .toList();
+        List<AccountSearchParametersDTO.Sorter> sort = null;
 
+        if (query.order() != null)
+            sort = query.order().stream()
+                    .map(order -> {
+                        try {
+                            var attribute = AccountSearchParametersDTO.Sorter.Attribute
+                                    .valueOf(order.name());
+                            return new AccountSearchParametersDTO.Sorter(attribute, order.dir());
+                        } catch (IllegalArgumentException ignored) {
+                            return null;
+                        }
+                    }).filter(Objects::nonNull)
+                    .toList();
 
         return new AccountSearchParametersDTO(
                 query.search().value(),
@@ -61,7 +63,7 @@ public interface SearchMapper {
                 email,
                 roles,
                 active,
-                query.start() / query.length(),
+                query.start() / query.length() + 1,
                 query.length(),
                 sort
         );
