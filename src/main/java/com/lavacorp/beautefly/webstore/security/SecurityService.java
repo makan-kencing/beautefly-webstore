@@ -36,7 +36,6 @@ public class SecurityService {
         var credential = account.getCredential();
         credential.setPassword(passwordHash.generate(registration.password().toCharArray()));
 
-        session.insert(credential);
         session.insert(account);
     }
 }
