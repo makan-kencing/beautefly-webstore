@@ -5,8 +5,14 @@ import java.io.Serializable;
 /**
  * DTO for {@link com.lavacorp.beautefly.webstore.cart.entity.CartProduct}
  */
-public record SetCartProductDTO(
+public record UpdateCartProductDTO(
         int productId,
-        int quantity
+        int quantity,
+        Action action
 ) implements Serializable {
+    public enum Action {
+        INCREMENT,
+        SET,
+        DECREMENT
+    }
 }

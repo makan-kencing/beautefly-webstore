@@ -3,18 +3,17 @@ package com.lavacorp.beautefly.webstore.cart;
 import com.lavacorp.beautefly.webstore.account.entity.Account;
 import com.lavacorp.beautefly.webstore.cart.dto.CartDTO;
 import com.lavacorp.beautefly.webstore.cart.dto.CartItemDTO;
-import com.lavacorp.beautefly.webstore.cart.dto.SetCartProductDTO;
+import com.lavacorp.beautefly.webstore.cart.dto.UpdateCartProductDTO;
 import com.lavacorp.beautefly.webstore.cart.entity.Cart;
 import com.lavacorp.beautefly.webstore.cart.entity.CartProduct;
 import com.lavacorp.beautefly.webstore.cart.mapper.CartMapper;
-import com.lavacorp.beautefly.webstore.product.ProductStatelessRepository;
 import com.lavacorp.beautefly.webstore.product.entity.Product;
-import com.lavacorp.beautefly.webstore.security.SecurityService;
+import com.lavacorp.beautefly.webstore.security.dto.AccountContextDTO;
+import jakarta.annotation.Nullable;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
@@ -28,53 +27,27 @@ public class CartService {
     private EntityManager em;
 
     @Inject
-    private ProductStatelessRepository productRepository;
-
-    @Inject
-    private SecurityService securityService;
-
-    @Inject
     private CartMapper cartMapper;
 
     @SuppressWarnings("UnusedReturnValue")
-    public CartItemDTO setCartProductQuantity(HttpServletRequest req, SetCartProductDTO dto) {
-        var cart = getCart(req);
+    public CartItemDTO updateCartProductQuantity(HttpSession session, AccountContextDTO user, UpdateCartProductDTO dto) {
+        var cart = getCart(session, user);
 
         var cartItem = new CartProduct();
         cartItem.setProduct(em.getReference(Product.class, dto.productId()));
         cartItem.setQuantity(dto.quantity());
 
-        cartItem = cart.setProduct(cartItem);
+        cartItem = switch (dto.action()) {
+            case INCREMENT -> cart.addProduct(cartItem);
+            case SET -> cart.setProduct(cartItem);
+            case DECREMENT -> cart.removeProduct(cartItem);
+        };
+
         return cartMapper.toCartItemDTO(cartItem);
     }
 
-    @SuppressWarnings("UnusedReturnValue")
-    public CartItemDTO addCartProductQuantity(HttpServletRequest req, SetCartProductDTO dto) {
-        var cart = getCart(req);
-
-        var cartItem = new CartProduct();
-        cartItem.setProduct(em.getReference(Product.class, dto.productId()));
-        cartItem.setQuantity(dto.quantity());
-
-        cartItem = cart.addProduct(cartItem);
-        return cartMapper.toCartItemDTO(cartItem);
-    }
-
-    @SuppressWarnings("UnusedReturnValue")
-    public CartItemDTO removeCartProductQuantity(HttpServletRequest req, SetCartProductDTO dto) {
-        var cart = getCart(req);
-
-        var cartItem = new CartProduct();
-        cartItem.setProduct(em.getReference(Product.class, dto.productId()));
-        cartItem.setQuantity(dto.quantity());
-
-        cartItem = cart.removeProduct(cartItem);
-        return cartMapper.toCartItemDTO(cartItem);
-    }
-
-
-    public CartDTO getCartDetails(HttpServletRequest req) {
-        var cart = getCart(req);
+    public CartDTO getCartDetails(HttpSession session, AccountContextDTO user) {
+        var cart = getCart(session, user);
         return cartMapper.toCartDTO(cart);
     }
 
@@ -94,7 +67,11 @@ public class CartService {
         return cart;
     }
 
-    private @NotNull Cart getUserCart(Account account) {
+    private @Nullable Cart getUserCart(AccountContextDTO user) {
+        var account = em.find(Account.class, user.id());
+        if (account == null)
+            return null;
+
         var cart = account.getCart();
 
         // user has a cart
@@ -109,26 +86,26 @@ public class CartService {
         return cart;
     }
 
-    private @NotNull Cart getCart(HttpServletRequest req) {
-        var account = securityService.getAccountContext(req);
-        var session = req.getSession();
-
-        if (account == null)
+    private @NotNull Cart getCart(HttpSession session, @Nullable AccountContextDTO user) {
+        if (user == null)
             return getGuestCart(session);
 
-        var userCart = getUserCart(account);
+        var cart = getUserCart(user);
+
+        if (cart == null)
+            return getGuestCart(session);
 
         if (session.getAttribute(SESSION_CART_ATTRIBUTE_NAME) != null) { // has guest cart
             var guestCart = getGuestCart(session);
-            mergeCart(guestCart, userCart);
+            mergeCart(guestCart, cart);
         }
 
-        return userCart;
+        return cart;
     }
 
     private void mergeCart(@NotNull Cart src, @NotNull Cart dest) {
         for (var item : src)
-            src.addProduct(item);
+            dest.addProduct(item);
 
         em.remove(src);
     }
