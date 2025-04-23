@@ -48,14 +48,13 @@ public class AccountSearchService {
         }};
 
         SelectionQuery<Account> query = statelessSession.createSelectionQuery(criteria);
-        if (search.getSort() != null)
-            query = query.setOrder(search.getSort().getOrder());
+            query = query.setOrder(search.getOrders());
 
         long total = query.getResultCount();
 
         List<Account> accounts = query
-                .setFirstResult((search.getPage() - 1) * search.getPageSize())
-                .setMaxResults(search.getPageSize())
+                .setFirstResult((search.page() - 1) * search.pageSize())
+                .setMaxResults(search.pageSize())
                 .getResultList();
         Page<AccountSearchResultDTO> page = new PageRecord<>(
                 search.getPageRequest(),

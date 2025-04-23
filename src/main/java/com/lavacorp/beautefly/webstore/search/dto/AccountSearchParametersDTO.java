@@ -7,42 +7,46 @@ import com.lavacorp.beautefly.webstore.account.entity.Credential_;
 import jakarta.annotation.Nullable;
 import jakarta.data.page.PageRequest;
 import jakarta.persistence.criteria.*;
+import jakarta.persistence.metamodel.SingularAttribute;
 import jakarta.validation.constraints.Email;
-import jakarta.ws.rs.DefaultValue;
-import jakarta.ws.rs.QueryParam;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import org.hibernate.query.Order;
 import org.hibernate.query.criteria.HibernateCriteriaBuilder;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Data
-public class AccountSearchParametersDTO {
-    @QueryParam("query") @Nullable String query;  // both username and email
-    @QueryParam("username") @Nullable String username;
-    @QueryParam("email") @Nullable @Email String email;
-    @QueryParam("roles") @Nullable List<Credential.Role> roles;
-    @QueryParam("active") @Nullable Boolean active;
-    @QueryParam("page") @DefaultValue("1") int page = 1;
-    @QueryParam("pageSize") @DefaultValue("50") int pageSize = 50;
-    @QueryParam("sort") AccountSorter sort;
+public record AccountSearchParametersDTO(
+        @Nullable String query,  // both username and email
+        @Nullable String username,
+        @Nullable @Email String email,
+        @Nullable List<Credential.Role> roles,
+        @Nullable Boolean active,
+        int page,
+        int pageSize,
+        @Nullable List<Sorter> sort
+) {
+    public record Sorter(
+            Attribute by,
+            Direction direction
+    ) {
+        @Getter
+        @AllArgsConstructor
+        public enum Attribute {
+            id(Account_.id),
+            username(Account_.username),
+            email(Account_.email),
+            active(Account_.active);
 
-    @Getter
-    @AllArgsConstructor
-    public enum AccountSorter {
-        id(Order.asc(Account_.id)),
-        idDesc(Order.desc(Account_.id)),
-        username(Order.asc(Account_.username)),
-        usernameDesc(Order.desc(Account_.username)),
-        email(Order.asc(Account_.email)),
-        emailDesc(Order.desc(Account_.email)),
-        active(Order.asc(Account_.active)),
-        activeDesc(Order.desc(Account_.active));
+            private final SingularAttribute<Account, ?> attribute;
+        }
 
-        private final Order<Account> order;
+        public Order<? super Account> getOrder() {
+            if (direction == Direction.asc)
+                return Order.asc(by.getAttribute());
+            return Order.desc(by.getAttribute());
+        }
     }
 
     public Predicate toPredicate(Root<Account> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
@@ -87,6 +91,15 @@ public class AccountSearchParametersDTO {
             );
 
         return where;
+    }
+
+    public List<Order<? super Account>> getOrders() {
+        if (sort == null)
+            return List.of();
+
+        return sort.stream()
+                .map(Sorter::getOrder)
+                .collect(Collectors.toList());
     }
 
     public PageRequest getPageRequest() {
