@@ -25,8 +25,8 @@ public class AccountSearchParametersDTO {
     @QueryParam("email") @Nullable @Email String email;
     @QueryParam("roles") @Nullable List<Credential.Role> roles;
     @QueryParam("active") @Nullable Boolean active;
-    @QueryParam("page") @DefaultValue("1") int page;
-    @QueryParam("pageSize") @DefaultValue("50") int pageSize;
+    @QueryParam("page") int page = 1;
+    @QueryParam("pageSize") int pageSize = 50;
     @QueryParam("sort") AccountSorter sort;
 
     @Getter
