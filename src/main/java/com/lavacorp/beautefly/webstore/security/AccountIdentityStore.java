@@ -1,14 +1,19 @@
 package com.lavacorp.beautefly.webstore.security;
 
 import com.lavacorp.beautefly.webstore.account.AccountRepository;
+import com.lavacorp.beautefly.webstore.account.entity.Account;
+import com.lavacorp.beautefly.webstore.account.entity.Credential;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.PersistenceUnit;
 import jakarta.security.enterprise.credential.UsernamePasswordCredential;
 import jakarta.security.enterprise.identitystore.CredentialValidationResult;
 import jakarta.security.enterprise.identitystore.IdentityStore;
 import jakarta.security.enterprise.identitystore.PasswordHash;
 import jakarta.transaction.Transactional;
+import org.hibernate.SessionFactory;
 
 import java.util.Set;
 
@@ -16,8 +21,8 @@ import static jakarta.security.enterprise.identitystore.CredentialValidationResu
 
 @ApplicationScoped
 public class AccountIdentityStore implements IdentityStore {
-    @Inject
-    private AccountRepository accountRepository;
+    @PersistenceUnit
+    private EntityManagerFactory emf;
 
     @Inject
     @Named("Argon2idPasswordHash")
@@ -26,8 +31,12 @@ public class AccountIdentityStore implements IdentityStore {
     @SuppressWarnings("unused")
     @Transactional
     public CredentialValidationResult validate(UsernamePasswordCredential credential) {
-        // TODO: redo logic to prevent timing attacks
-        var account = accountRepository.findByEmail(credential.getCaller());
+        var session = emf.unwrap(SessionFactory.class)
+                .openStatelessSession();
+
+        var account = session.createSelectionQuery("from Account where email = :email", Account.class)
+                .setParameter("email", credential.getCaller())
+                .getSingleResultOrNull();
 
         if (account == null)
             return INVALID_RESULT;
@@ -47,11 +56,15 @@ public class AccountIdentityStore implements IdentityStore {
     @Override
     @Transactional
     public Set<String> getCallerGroups(CredentialValidationResult validationResult) {
-        var account = accountRepository.findByEmail(validationResult.getCallerPrincipal().getName());
+        var session = emf.unwrap(SessionFactory.class)
+                .openStatelessSession();
+
+        var account = session.createSelectionQuery("from Account where email = :email", Account.class)
+                .setParameter("email", validationResult.getCallerPrincipal().getName())
+                .getSingleResultOrNull();
 
         if (account == null)
             return null;
-
         return account.getCredential().getRolesAsString();
     }
 }
