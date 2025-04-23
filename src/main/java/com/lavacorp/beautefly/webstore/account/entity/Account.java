@@ -19,6 +19,7 @@ import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
+import org.hibernate.annotations.NaturalId;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -47,7 +48,7 @@ public class Account extends UserCreated {
 
     @NotNull
     @Email
-    @Column(unique = true)
+    @NaturalId
     private String email;
 
     @OneToOne(fetch = EAGER)
