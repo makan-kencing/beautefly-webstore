@@ -2,6 +2,8 @@ package com.lavacorp.beautefly.webstore.admin;
 
 import com.lavacorp.beautefly.webstore.account.AccountRepository;
 import com.lavacorp.beautefly.webstore.admin.dto.DashboardStatsDTO;
+import com.lavacorp.beautefly.webstore.search.AccountSearchService;
+import com.lavacorp.beautefly.webstore.search.dto.AccountSearchParametersDTO;
 import jakarta.data.page.PageRequest;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -13,17 +15,17 @@ import java.util.List;
 @ApplicationScoped
 public class AdminService {
     @Inject
-    private AccountRepository accountRepository;
+    private AccountSearchService accountSearchService;
 
     public DashboardStatsDTO getDashboardStats() {
-        var page = accountRepository.findByUsernameLike(
-                "",
-                PageRequest.ofPage(1, 1, true),
-                List.of()
-        );
+        var search = new AccountSearchParametersDTO();
+        search.setPage(1);
+        search.setPageSize(1);
+
+        var accounts = accountSearchService.search(search);
 
         return new DashboardStatsDTO(
-                (int) page.totalElements(),
+                accounts.total(),
                 0,
                 "OK"
         );
