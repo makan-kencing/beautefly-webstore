@@ -28,7 +28,7 @@ CREATE OR REPLACE PROCEDURE initCategory()
 AS
 $BODY$
 BEGIN
-    insert into category (id, description, name, image_url, parent_id)
+    insert into category (id, description, name, image_id, parent_id)
     values  (2, '', 'Skincare', null, null),
             (1, '', 'Cleansing', null, 2),
             (3, '', 'Facial Cleanser', null, 1),
@@ -625,4 +625,3 @@ BEGIN
 END;
 $BODY$
     LANGUAGE plpgsql;
-
