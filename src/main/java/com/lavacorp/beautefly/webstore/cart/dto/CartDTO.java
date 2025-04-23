@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public record CartDTO(
+        int id,
         List<CartItemDTO> items,
         BigDecimal subtotal,
         BigDecimal shippingCost,

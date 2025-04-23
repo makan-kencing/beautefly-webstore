@@ -18,6 +18,7 @@ import org.mapstruct.MappingConstants;
 public interface CartMapper {
     CartItemDTO toCartItemDTO(CartProduct cartItems);
 
+    @Mapping(target = "id", source = "id")
     @Mapping(target = "total", source = "total")
     @Mapping(target = "subtotal", source = "subtotal")
     @Mapping(target = "shippingCost", source = "shippingCost")
