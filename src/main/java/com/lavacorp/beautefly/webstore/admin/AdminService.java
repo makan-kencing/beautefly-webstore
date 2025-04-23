@@ -14,9 +14,16 @@ public class AdminService {
     private AccountSearchService accountSearchService;
 
     public DashboardStatsDTO getDashboardStats() {
-        var search = new AccountSearchParametersDTO();
-        search.setPage(1);
-        search.setPageSize(1);
+        var search = new AccountSearchParametersDTO(
+                null,
+                null,
+                null,
+                null,
+                null,
+                1,
+                1,
+                null
+        );
 
         var accounts = accountSearchService.search(search);
 
