@@ -28,7 +28,7 @@ public class CartLike<T extends CartProductLike<?>> implements Serializable, Ite
     @OneToOne(fetch = LAZY)
     protected Account account;
 
-    @OneToMany(mappedBy = CartProductLike_.CART, fetch = EAGER)
+    @OneToMany(mappedBy = CartProductLike_.CART, fetch = LAZY)
     protected Set<T> products = new HashSet<>();
 
     @Override
