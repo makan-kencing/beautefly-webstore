@@ -8,13 +8,11 @@ import com.lavacorp.beautefly.webstore.file.exception.UnsupportedFileFormatExcep
 import com.lavacorp.beautefly.webstore.file.mapper.FileUploadMapper;
 import com.lavacorp.beautefly.webstore.file.sanitizer.DocumentSanitizer;
 import com.lavacorp.beautefly.webstore.file.sanitizer.ImageDocumentSanitizer;
-import com.lavacorp.beautefly.webstore.security.SecurityService;
-import jakarta.annotation.Nullable;
+import com.lavacorp.beautefly.webstore.security.dto.AccountContextDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceUnit;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.core.EntityPart;
@@ -40,15 +38,12 @@ public class FileService {
     private EntityManagerFactory emf;
 
     @Inject
-    private SecurityService securityService;
-
-    @Inject
     private FileUploadMapper fileUploadMapper;
 
     @Inject
     private FileStorage fileStorage;
 
-    public FileUpload save(@NotNull EntityPart part, @Nullable Account account) throws IOException, UnsupportedFileFormatException {
+    public FileUpload save(@NotNull EntityPart part) throws IOException, UnsupportedFileFormatException {
         File tmpFile = saveAsTempFile(part);
 
         // MimeRepository.detect requires InputStream with markSupported()
@@ -75,17 +70,21 @@ public class FileService {
         file.setFilename(part.getFileName().orElse(filename));
         file.setUrl(fileStorage.resolveUrl(filename));
         file.setType(mimeType);
-        file.setCreatedBy(account);
 
         return file;
     }
 
-    public FileUploadDTO uploadFile(@NotNull EntityPart part, HttpServletRequest req) throws IOException, UnsupportedFileFormatException {
-        var account = securityService.getAccountContext(req);
-        var file = save(part, account);
+    public FileUploadDTO uploadFile(@NotNull EntityPart part, AccountContextDTO user) throws IOException, UnsupportedFileFormatException {
+        var file = save(part);
+
+        var account = new Account();
+        account.setId(user.id());
+
+        file.setCreatedBy(account);
 
         var session = emf.unwrap(SessionFactory.class)
                 .openStatelessSession();
+
         var existingFile = session.createSelectionQuery("from FileUpload where hash = :hash", FileUpload.class)
                 .setParameter("hash", file.getHash())
                 .getSingleResultOrNull();

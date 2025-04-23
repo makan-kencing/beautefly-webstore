@@ -3,6 +3,7 @@ package com.lavacorp.beautefly.webstore.file;
 import com.lavacorp.beautefly.util.jaxrs.exception.UnprocessableEntityException;
 import com.lavacorp.beautefly.webstore.file.dto.FileUploadDTO;
 import com.lavacorp.beautefly.webstore.file.exception.UnsupportedFileFormatException;
+import com.lavacorp.beautefly.webstore.security.filter.UserContextFilter;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,7 +15,7 @@ import jakarta.ws.rs.core.Response;
 
 import java.io.IOException;
 
-@RolesAllowed({"USER", "STAFF", "ADMIN"})
+@RolesAllowed({"*"})
 @Path("/file/upload")
 public class FileResource {
     @Context
@@ -29,8 +30,12 @@ public class FileResource {
     public FileUploadDTO uploadFile(
             @FormParam("file") EntityPart part
     ) {
+        var user = UserContextFilter.getUserContext(req);
+        if (user == null)
+            throw new ForbiddenException();
+
         try {
-            return fileService.uploadFile(part, req);
+            return fileService.uploadFile(part, user);
         } catch (UnsupportedFileFormatException e) {
             var format = "File format";
             if (e.getMimeType() != null)

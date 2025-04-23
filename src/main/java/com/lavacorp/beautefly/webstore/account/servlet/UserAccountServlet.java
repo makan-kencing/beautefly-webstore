@@ -1,6 +1,7 @@
 package com.lavacorp.beautefly.webstore.account.servlet;
 
 import com.lavacorp.beautefly.webstore.account.AccountService;
+import com.lavacorp.beautefly.webstore.security.filter.UserContextFilter;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.HttpConstraint;
@@ -20,7 +21,13 @@ public class UserAccountServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        var account = accountService.getUserAccountDetails(req);
+        var user = UserContextFilter.getUserContext(req);
+        if (user == null) {
+            req.authenticate(resp);
+            return;
+        }
+
+        var account = accountService.getUserAccountDetails(user);
         if (account == null) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;

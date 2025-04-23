@@ -1,7 +1,9 @@
 package com.lavacorp.beautefly.webstore.cart.servlet;
 
 import com.lavacorp.beautefly.webstore.cart.CartService;
+import com.lavacorp.beautefly.webstore.cart.dto.UpdateCartProductDTO;
 import com.lavacorp.beautefly.webstore.cart.mapper.CartMapper;
+import com.lavacorp.beautefly.webstore.security.filter.UserContextFilter;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -23,9 +25,10 @@ public class CartRemoveServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        var item = cartMapper.toSetCartProductDTO(req);
+        var user = UserContextFilter.getUserContext(req);
+        var updateDTO = cartMapper.toUpdateCartProductDTO(req.getParameterMap(), UpdateCartProductDTO.Action.DECREMENT);
 
-        cartService.removeCartProductQuantity(req, item);
+        cartService.updateCartProductQuantity(req.getSession(), user, updateDTO);
 
         resp.sendRedirect("/cart");
     }
