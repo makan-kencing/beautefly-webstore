@@ -20,7 +20,6 @@ import org.hibernate.query.criteria.HibernateCriteriaBuilder;
 import java.util.List;
 
 @Data
-@Builder
 public class AccountSearchParametersDTO {
     @QueryParam("query") @Nullable String query;  // both username and email
     @QueryParam("username") @Nullable String username;
