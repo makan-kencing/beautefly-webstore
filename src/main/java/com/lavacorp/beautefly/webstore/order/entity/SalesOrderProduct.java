@@ -45,6 +45,10 @@ public class SalesOrderProduct implements Serializable {
     @PastOrPresent
     private Instant deliveredAt;
 
+    public BigDecimal getTotal() {
+        return unitPrice.multiply(BigDecimal.valueOf(quantity));
+    }
+
     public enum OrderProductStatus {
         ORDERED, SHIPPED, OUT_FOR_DELIVERY, DELIVERED
     }

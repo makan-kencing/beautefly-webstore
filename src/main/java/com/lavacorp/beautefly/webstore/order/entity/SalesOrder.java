@@ -55,13 +55,16 @@ public class SalesOrder implements Serializable {
 
     public BigDecimal getGrossAmount() {
         return products.stream()
-                .map(SalesOrderProduct::getUnitPrice)
+                .map(SalesOrderProduct::getTotal)
                 .reduce(BigDecimal::add)
                 .orElse(BigDecimal.valueOf(0));
     }
 
     public BigDecimal getNetAmount() {
-        return getGrossAmount().subtract(taxAmount).subtract(shippingAmount).add(discountAmount);
+        return getGrossAmount()
+                .subtract(taxAmount)
+                .subtract(shippingAmount)
+                .add(discountAmount);
     }
 
     public enum OrderStatus {
@@ -69,6 +72,6 @@ public class SalesOrder implements Serializable {
     }
 
     public enum PaymentMethod {
-        DEBIT, CREDIT, CASH_ON_DELIVERY, BANK_TRANSFER
+        DEBIT, CREDIT, BANK_TRANSFER
     }
 }
