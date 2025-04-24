@@ -52,7 +52,10 @@
 
             <h2 class="text-2xl font-bold mb-4">Manage Users</h2>
 
-            <table id="table">
+            <table id="table" class="
+            **:data-role:px-2 **:data-role:py-1 **:data-role:text-white **:data-role:text-xs **:data-role:rounded-full **:data-role:mr-1
+            **:data-[role=USER]:bg-green-600 **:data-[role=STAFF]:bg-blue-600 **:data-[role=ADMIN]:bg-red-600
+            **:data-active:text-green-600 **:data-inactive:text-red-600">
                 <thead>
                 <tr>
                     <th></th>
@@ -69,7 +72,9 @@
                     searching: true,
                     ordering: true,
                     colReorder: true,
-                    paging: true,
+                    paging: {
+                        length: 50
+                    },
                     select: true,
                     serverSide: true,
                     processing: true,
@@ -88,7 +93,7 @@
                         {data: null, orderable: false, searchable: false, render: DataTable.render.select()},
                         {data: "username" },
                         {data: "email" },
-                        {data: "roles[, ]", orderable: false},
+                        {data: "roles", orderable: false},
                         {data: "active" }
                     ],
                     columnDefs: [
@@ -107,11 +112,32 @@
                         },
                         {
                             targets: 3,
-                            name: "roles"
+                            name: "roles",
+                            render: function (data, type, row, meta) {
+                                if (type === "display") {
+                                    let output = "";
+
+                                    for (const role of data) {
+                                        <%--suppress JSUnusedLocalSymbols --%>
+                                        const pretty = role.charAt(0).toUpperCase() + role.substring(1).toLowerCase()
+                                        output += `<span data-role='\${role}'>\${pretty}</span>`;
+                                    }
+                                    return output;
+                                }
+                                return data;
+                            }
                         },
                         {
                             targets: 4,
-                            name: "active"
+                            name: "active",
+                            render: function (data, type, row, meta) {
+                                if (type === "display") {
+                                    return data
+                                        ? "<span data-active>YES</span"
+                                        : "<span data-inactive>NO</span>"
+                                }
+                                return data;
+                            }
                         }
                     ],
                     order: [[1, 'asc']]
