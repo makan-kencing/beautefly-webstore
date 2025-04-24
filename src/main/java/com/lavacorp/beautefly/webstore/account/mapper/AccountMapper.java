@@ -1,11 +1,11 @@
 package com.lavacorp.beautefly.webstore.account.mapper;
 
+import com.lavacorp.beautefly.webstore.admin.dto.UserAccountDetailsAdminDTO;
 import com.lavacorp.beautefly.webstore.search.dto.AccountSearchResultDTO;
 import com.lavacorp.beautefly.webstore.account.dto.UpdateUserAccountDTO;
 import com.lavacorp.beautefly.webstore.account.dto.UserAccountDetailsDTO;
 import com.lavacorp.beautefly.webstore.account.entity.Account;
 import com.lavacorp.beautefly.webstore.security.dto.AccountContextDTO;
-import com.lavacorp.beautefly.webstore.admin.dto.AdminUserAccountDTO;
 import com.lavacorp.beautefly.webstore.admin.dto.UserAccountSummaryDTO;
 import com.lavacorp.beautefly.webstore.file.mapper.FileUploadMapper;
 import com.lavacorp.beautefly.webstore.rating.dto.RatingUserDTO;
@@ -18,14 +18,12 @@ import org.mapstruct.*;
 public interface AccountMapper {
     RatingUserDTO toRatingUserDTO(Account account);
 
+    @Mapping(target = "addresses", source = "addressBook.addresses")
+    @Mapping(target = "roles", source = "credential.roles")
     UserAccountDetailsDTO toUserAccountDetailsDTO(Account account);
 
     @Mapping(target = "roles", source = "credential.roles")
     UserAccountSummaryDTO toUserAccountSummaryDTO(Account account);
-
-    @Mapping(target = "addresses", source = "addressBook.addresses")
-    @Mapping(target = "roles", source = "credential.roles")
-    AdminUserAccountDTO toAdminUserAccountDTO(Account account);
 
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "createdBy", ignore = true)
