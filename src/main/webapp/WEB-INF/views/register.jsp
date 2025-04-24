@@ -103,125 +103,18 @@
             </div>
         </div>
 
+        <script src="<c:url value='/static/js/password.js' />"></script>
         <script>
-            const options = {
-                translations: zxcvbnts['language-en'].translations,
-                graphs: zxcvbnts['language-common'].adjacencyGraphs,
-                dictionary: {
-                    ...zxcvbnts['language-common'].dictionary,
-                    ...zxcvbnts['language-en'].dictionary,
-                },
-            };
-            zxcvbnts.core.zxcvbnOptions.setOptions(options);
-        </script>
+            $form = $('form');
 
-        <script>
-            $email = $('form input#email');
-            $password = $('form input#password');
-            $confirmPassword = $('form input#confirm-password');
+            new PasswordForm($form[0]);
+            for (const input of document.querySelectorAll("input[type='password']")) {
+                const showPassword = input.parentElement.querySelector(".show-password");
 
-            // this = password rule item
-            function validateRule(password) {
-                switch (this.getAttribute('data-strength-rule')) {
-                    case 'lowercase':
-                        return /[a-z]/.test(password);
-                    case 'uppercase':
-                        return /[A-Z]/.test(password);
-                    case 'min-length':
-                        return password.length >= 8;
-                }
+                new ShowPassword(input, showPassword);
             }
 
-            // this = password rule item
-            function getRuleReason() {
-                switch (this.getAttribute('data-strength-rule')) {
-                    case 'lowercase':
-                        return 'Password must contain at least 1 lowercase.'
-                    case 'uppercase':
-                        return 'Password must contain at least 1 uppercase.';
-                    case 'min-length':
-                        return 'Password must be at least 8 characters long.';
-                }
-            }
-
-            // this = input
-            function validateField() {
-                switch (this.id) {
-                    case 'username':
-                        break;
-                    case 'email':
-                        break;
-                    case 'password':
-                        let password = this.value;
-                        let score = zxcvbnts.core.zxcvbn(password).score;  // 0 - 4
-
-                        let formField = this.closest('.form-field');
-                        let strengthBar = formField.querySelector('.strength-bar');
-
-                        updateStrengthBar.call(strengthBar, score);
-                        updatePasswordRule.call(this);
-
-                        $confirmPassword[0].setCustomValidity('');
-                        if (this.value !== $confirmPassword.val())
-                            $confirmPassword[0].setCustomValidity('Passwords does not match.');
-                        break;
-                    case 'confirm-password':
-                        this.setCustomValidity('');
-                        if (this.value !== $password.val())
-                            this.setCustomValidity('Passwords does not match.');
-                        break;
-                }
-                return this.validity.valid;
-            }
-
-            // this = form
-            function validateForm() {
-                return Array.from(this.querySelectorAll('input'))
-                    .map(input => {
-                        validateField.call(input);
-                        return input.reportValidity();
-                    }).every(Boolean);
-            }
-
-            // this = strength bar
-            function updateStrengthBar(score) {
-                for (let [i, bar] of Array.from(this.children).entries())
-                    if (i < score)
-                        bar.setAttribute('data-passed', '');
-                    else
-                        bar.removeAttribute('data-passed');
-            }
-
-            // this = password input
-            function updatePasswordRule() {
-                let input = this;
-                let rules = this.closest('.form-field').querySelectorAll('[data-strength-rule]');
-                rules.forEach(function (rule) {
-                    if (validateRule.call(rule, input.value)) {
-                        rule.setAttribute('data-passed', '');
-                        input.setCustomValidity('');
-                    } else {
-                        rule.removeAttribute('data-passed');
-                        input.setCustomValidity(getRuleReason.call(rule));
-                    }
-                });
-            }
-
-            $password.on('input', validateField);
-            $confirmPassword.on('input', validateField);
-
-            $('form .show-password').mousedown(function () {
-                $(this).prev().prop('type', 'text');
-                this.setAttribute('data-visible', '');
-            }).mouseup(function () {
-                $(this).prev().prop('type', 'password');
-                this.removeAttribute('data-visible');
-            }).mouseleave(function () {
-                $(this).prev().prop('type', 'password');
-                this.removeAttribute('data-visible');
-            });
-
-            $('form').ajaxForm({
+            $form.ajaxForm({
                 beforeSubmit: (_formData, $form, _options) => {
                     return validateForm.call($form[0]);
                 },
