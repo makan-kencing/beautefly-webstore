@@ -1,1 +1,121 @@
 @import "tailwindcss";
+
+@theme {
+    --color-primary: ;
+    --color-secondary: ;
+
+
+    --color-selected: var(--color-blue-200);
+
+    --color-border: var(--color-gray-300);
+    --color-border-secondary: var(--color-gray-300);
+
+    --color-good: var(--color-green-600);
+    --color-good-hover: var(--color-green-700);
+
+    --color-warn: var(--color-yellow-300);
+    --color-warn-hover: var(--color-yellow-500);
+
+    --color-bad: var(--color-red-600);
+    --color-bad-hover: var(--color-red-700);
+
+    --color-link: var(--color-blue-600);
+    --color-link-hover: var(--color-blue-700);
+
+    --color-user: var(--color-green-600);
+    --color-staff: var(--color-blue-600);
+    --color-admin: var(--color-orange-600);
+}
+
+@utility vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+@utility horizontal {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+@utility button-* {
+    color: var(--color-white);
+    border-radius: 0.5rem;
+    background-color: --value(--color-*);
+    padding: calc(var(--spacing) * 2) calc(var(--spacing) * 4);
+    cursor: pointer;
+
+    &:hover {
+        background-color: --value(--color-*-hover);
+    }
+
+    &:disabled {
+        cursor: default;
+        filter: brightness(70%);
+    }
+}
+
+@utility toast {
+    border-radius: 0.5rem
+}
+
+@layer base {
+    .dt-container .select-info {
+        @apply mx-1;
+
+        &::before {
+            content: "(";
+        }
+
+        &::after {
+            content: ")";
+        }
+    }
+}
+
+@layer components {
+    .dataTable {
+        tbody {
+            td {
+                a {
+                    @apply text-link hover:underline;
+                }
+
+                &.cell {
+                    [data-cell] {
+                        @apply rounded-full text-xs font-semibold px-2 py-1 mr-1;
+                    }
+                }
+
+                &.boolean {
+                    @apply font-bold;
+
+                    [data-boolean="true"] {
+                        @apply text-good
+                    }
+
+                    [data-boolean="false"] {
+                        @apply text-bad
+                    }
+                }
+            }
+        }
+    }
+
+    [data-role] {
+        @apply text-white text-xs;
+    }
+
+    [data-role="ADMIN"] {
+        @apply bg-admin;
+    }
+
+    [data-role="STAFF"] {
+        @apply bg-staff;
+    }
+
+    [data-role="USER"] {
+        @apply bg-user;
+    }
+}
