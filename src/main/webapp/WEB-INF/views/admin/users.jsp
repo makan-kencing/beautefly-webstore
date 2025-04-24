@@ -87,7 +87,19 @@
                                         extend: "selected",
                                         text: "<i class='fa-solid fa-trash mr-1'></i> Delete",
                                         action: function (e, dt, node, config) {
+                                            const formData = new FormData();
+                                            dt.select.cumulative().rows.forEach(
+                                                (id) => formData.append("id", id)
+                                            );
 
+                                            fetch("<c:url value='/admin/account/delete'/>", {
+                                                method: "post",
+                                                body: formData
+                                            }).then((res) => {
+                                                if (!res.ok)
+                                                    console.error(res);
+                                                dt.ajax.reload();
+                                            });
                                         },
                                         className: "button-bad transition"
                                     }
@@ -284,72 +296,8 @@
             </admin:dialog-form>
         </main>
 
-
-        <!-- JavaScript -->
         <script>
-            function toggleDeleteMode() {
-                document.querySelectorAll('.delete-checkbox').forEach(cb => cb.classList.toggle('hidden'));
-                document.getElementById('deleteBtnContainer').classList.toggle('hidden');
-            }
 
-            function toggleAll(source) {
-                document.querySelectorAll(".delete-checkbox:not(.hidden)").forEach(cb => cb.checked = source.checked);
-            }
-
-            function openModal() {
-                document.getElementById("addUserModal").classList.remove("hidden");
-            }
-
-            function closeModal() {
-                document.getElementById("addUserModal").classList.add("hidden");
-            }
-
-            function filterTable() {
-                const input = document.getElementById("searchInput").value.toLowerCase();
-                const rows = document.querySelectorAll("#userTable tbody tr");
-                rows.forEach(row => {
-                    const text = row.textContent.toLowerCase();
-                    row.style.display = text.includes(input) ? "" : "none";
-                });
-            }
-
-            let sortCol = null;
-            let sortAsc = true;
-
-            document.addEventListener("DOMContentLoaded", () => {
-                document.querySelectorAll("#userTable thead th[data-sort]").forEach(th => {
-                    th.addEventListener("click", () => {
-                        const col = th.dataset.sort;
-                        if (col === sortCol) sortAsc = !sortAsc;
-                        else {
-                            sortCol = col;
-                            sortAsc = true;
-                        }
-                        sortTable(col, sortAsc);
-                    });
-                });
-            });
-
-            function sortTable(col, asc = true) {
-                const rows = Array.from(document.querySelectorAll("#userTable tbody tr"));
-                const getCellValue = (row, colName) => {
-                    if (colName === "username") return row.cells[1].innerText.toLowerCase();
-                    if (colName === "email") return row.cells[2].innerText.toLowerCase();
-                    if (colName === "active") return row.cells[4].innerText.trim().toLowerCase();
-                    return "";
-                };
-
-                rows.sort((a, b) => {
-                    const aVal = getCellValue(a, col);
-                    const bVal = getCellValue(b, col);
-                    if (aVal < bVal) return asc ? -1 : 1;
-                    if (aVal > bVal) return asc ? 1 : -1;
-                    return 0;
-                });
-
-                const tbody = document.querySelector("#userTable tbody");
-                rows.forEach(row => tbody.appendChild(row));
-            }
         </script>
     </jsp:body>
 </admin:base>
