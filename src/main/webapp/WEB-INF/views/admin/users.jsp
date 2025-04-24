@@ -76,26 +76,44 @@
                     ajax: {
                         url: "<c:url value='/api/admin/account/search' />",
                         dataSrc: function (json) {
+                            json.DT_RowData = {
+                                id: json.id
+                            };
                             json.recordsFiltered = json.filteredTotal;
                             json.recordsTotal = json.total;
                             return json.data;
                         }
                     },
                     columns: [
-                        {data: null, orderable: false, searchable: false, render: DataTable.render.select() },
+                        {data: null, orderable: false, searchable: false, render: DataTable.render.select()},
                         {data: "username" },
                         {data: "email" },
-                        {data: "roles[, ]", orderable: false },
-                        {data: "active"}
+                        {data: "roles[, ]", orderable: false},
+                        {data: "active" }
                     ],
-                    columnDefs: [{
-                        targets: 1,
-                        render: function(data, type, row, meta) {
-                            if (type === "display")
-                                return `<a href='<c:url value='/admin/account/\${data.id}' />'>\${data}</a>`;
-                            return data;
+                    columnDefs: [
+                        {
+                            targets: 1,
+                            name: "username",
+                            render: function (data, type, row, meta) {
+                                if (type === "display")
+                                    return `<a href='<c:url value='/admin/account/\${row.id}' />'>\${data}</a>`;
+                                return data;
+                            }
+                        },
+                        {
+                            targets: 2,
+                            name: "email"
+                        },
+                        {
+                            targets: 3,
+                            name: "roles"
+                        },
+                        {
+                            targets: 4,
+                            name: "active"
                         }
-                    }],
+                    ],
                     order: [[1, 'asc']]
                 });
             </script>

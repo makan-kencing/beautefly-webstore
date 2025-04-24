@@ -33,10 +33,10 @@ public interface SearchMapper {
 
         for (var column : query.columns())
             if (!column.search().value().isBlank())
-                switch (column.data()) {
+                switch (column.name()) {
                     case Account_.USERNAME -> username = column.search().value();
                     case Account_.EMAIL -> email = column.search().value();
-                    case Credential_.ROLES + "[, ]" -> roles = Arrays.stream(column.search().value().split(","))
+                    case Credential_.ROLES -> roles = Arrays.stream(column.search().value().split(","))
                             .map(Credential.Role::valueOf)
                             .toList();
                     case Account_.ACTIVE -> active = Account_.ACTIVE.equals(column.search().value());
@@ -48,6 +48,7 @@ public interface SearchMapper {
             sort = query.order().stream()
                     .map(order -> {
                         try {
+                            var index = order.column();
                             var attribute = AccountSearchParametersDTO.Sorter.Attribute
                                     .valueOf(order.name());
                             return new AccountSearchParametersDTO.Sorter(attribute, order.dir());
