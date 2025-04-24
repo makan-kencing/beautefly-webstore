@@ -1,14 +1,13 @@
 package com.lavacorp.beautefly.webstore.account.mapper;
 
-import com.lavacorp.beautefly.webstore.admin.dto.UserAccountDetailsAdminDTO;
-import com.lavacorp.beautefly.webstore.search.dto.AccountSearchResultDTO;
 import com.lavacorp.beautefly.webstore.account.dto.UpdateUserAccountDTO;
 import com.lavacorp.beautefly.webstore.account.dto.UserAccountDetailsDTO;
 import com.lavacorp.beautefly.webstore.account.entity.Account;
-import com.lavacorp.beautefly.webstore.security.dto.AccountContextDTO;
 import com.lavacorp.beautefly.webstore.admin.dto.UserAccountSummaryDTO;
 import com.lavacorp.beautefly.webstore.file.mapper.FileUploadMapper;
 import com.lavacorp.beautefly.webstore.rating.dto.RatingUserDTO;
+import com.lavacorp.beautefly.webstore.search.dto.AccountSearchResultDTO;
+import com.lavacorp.beautefly.webstore.security.dto.AccountContextDTO;
 import org.mapstruct.*;
 
 @Mapper(
