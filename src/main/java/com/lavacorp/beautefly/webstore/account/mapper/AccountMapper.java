@@ -17,7 +17,6 @@ import org.mapstruct.*;
 public interface AccountMapper {
     RatingUserDTO toRatingUserDTO(Account account);
 
-    @Mapping(target = "addresses", source = "addressBook.addresses")
     @Mapping(target = "roles", source = "credential.roles")
     UserAccountDetailsDTO toUserAccountDetailsDTO(Account account);
 
