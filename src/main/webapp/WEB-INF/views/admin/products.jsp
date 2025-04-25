@@ -4,171 +4,305 @@
 <%@ taglib prefix="admin" tagdir="/WEB-INF/tags/admin" %>
 
 <admin:base pageTitle="Products">
-    <main class="p-6">
-        <c:if test="${param.created == '1'}">
-            <div id="toast"
-                 class="fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50 opacity-100 transition-opacity duration-500 ease-in-out">
-                Product created successfully!!
-            </div>
-            <script>
-                setTimeout(() => {
-                    const toast = document.getElementById("toast");
-                    toast.classList.remove("opacity-100");
-                    toast.classList.add("opacity-0");
-                    setTimeout(() => toast.remove(), 500);
-                }, 2000);
-            </script>
-        </c:if>
+    <jsp:attribute name="includeHead">
+        <link href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css" rel="stylesheet"/>
+        <link href="https://cdn.datatables.net/colreorder/2.0.4/css/colReorder.dataTables.min.css" rel="stylesheet"/>
 
-        <!-- Pop Up Successful Delete Message-->
-        <c:if test="${param.deleted == '1'}">
-            <div id="toast"
-                 class="fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded shadow-lg z-50 opacity-100 transition-opacity duration-500 ease-in-out">
-                Product deleted successfully!
-            </div>
-            <script>
-                setTimeout(() => {
-                    const toast = document.getElementById("toast");
-                    toast.classList.remove("opacity-100");
-                    toast.classList.add("opacity-0");
-                    setTimeout(() => toast.remove(), 500);
-                }, 2000);
-            </script>
-        </c:if>
+        <script src="https://cdn.datatables.net/2.2.2/js/dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/colreorder/2.0.4/js/dataTables.colReorder.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/3.2.2/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdn.datatables.net/select/3.0.0/js/dataTables.select.min.js"></script>
 
-        <h2 class="text-2xl font-bold mb-4">Manage Products</h2>
+        <script src="https://cdn.jsdelivr.net/npm/@zxcvbn-ts/core@2.0.0/dist/zxcvbn-ts.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@zxcvbn-ts/language-common@2.0.0/dist/zxcvbn-ts.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@zxcvbn-ts/language-en@2.0.0/dist/zxcvbn-ts.js"></script>
+    </jsp:attribute>
 
-        <div class="flex justify-between items-center mb-4">
-            <!-- Search bar (pink box) -->
-            <input id="searchInput"
-                   onkeyup="filterTable()"
-                   type="text"
-                   placeholder="Search products..."
-                   class="border border-gray-300 p-2 rounded w-[50%] shadow-sm"/>
+    <jsp:body>
+        <main class="vertical p-4">
+            <c:if test="${param.created == '1'}">
+                <div id="toast"
+                     class="fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50 opacity-100 transition-opacity duration-500 ease-in-out">
+                    Product created successfully!!
+                </div>
+                <script>
+                    setTimeout(() => {
+                        const toast = document.getElementById("toast");
+                        toast.classList.remove("opacity-100");
+                        toast.classList.add("opacity-0");
+                        setTimeout(() => toast.remove(), 500);
+                    }, 2000);
+                </script>
+            </c:if>
 
-            <!-- Right controls (add & delete buttons) -->
-            <div class="flex items-center gap-4">
-                <!-- Add -->
-                <button onclick="openModal()"
-                        class="text-green-600 text-4xl font-bold hover:scale-125 transition-transform">
-                    +
-                </button>
-                <!-- Delete -->
-                <button onclick="toggleDeleteMode()"
-                        class="text-red-600 text-3xl font-bold hover:scale-125 transition-transform">
-                    –
-                </button>
-            </div>
-        </div>
-        <!-- Product Table -->
-        <form id="deleteForm" method="post" action="/admin/products/delete">
-            <table class="min-w-full border text-sm" id="productTable">
-                <thead class="bg-gray-200 text-left">
-                <tr>
-                    <th class="p-2"><input type="checkbox" onclick="toggleAll(this)"/></th>
-                    <th class="p-2" data-sort="id">Product ID ↕</th>
-                    <th class="p-2" data-sort="name">Product Name ↕</th>
-                    <th class="p-2" data-sort="category">Category ↕</th>
-                    <th class="p-2" data-sort="price">Unit Price ↕</th>
-                    <th class="p-2" data-sort="stock">Stock ↕</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach var="product" items="${products}">
-                    <tr class="border-b">
-                        <td class="p-2">
-                            <input type="checkbox" name="productIds" value="${product.productId}"
-                                   class="delete-checkbox hidden"/>
-                        </td>
-                        <td class="p-2">${product.productId}</td>
-                        <td class="p-2">${product.name}</td>
-                        <td class="p-2">${product.category.name}</td>
-                        <td class="p-2">RM ${product.unitPrice}</td>
-                        <td class="p-2">${product.stock}</td>
+            <!-- Pop Up Successful Delete Message-->
+            <c:if test="${param.deleted == '1'}">
+                <div id="toast"
+                     class="fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded shadow-lg z-50 opacity-100 transition-opacity duration-500 ease-in-out">
+                    Product deleted successfully!
+                </div>
+                <script>
+                    setTimeout(() => {
+                        const toast = document.getElementById("toast");
+                        toast.classList.remove("opacity-100");
+                        toast.classList.add("opacity-0");
+                        setTimeout(() => toast.remove(), 500);
+                    }, 2000);
+                </script>
+            </c:if>
+
+            <div class="border rounded-xl border-border shadow-md p-4">
+
+                <h2 class="text-2xl font-bold">Manage Products</h2>
+
+                <table id="table" class="hover row-border nowrap">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>#</th>
+                        <th>Product</th>
+                        <th>In Stock</th>
+                        <th>Description</th>
+                        <th>Unit Cost (RM)</th>
+                        <th>Unit Price (RM)</th>
+                        <th>Brand</th>
+                        <th>Category</th>
+                        <th>Color</th>
+                        <th>Release Date</th>
                     </tr>
-                </c:forEach>
-                </tbody>
-            </table>
+                    </thead>
+                </table>
 
-            <!-- Delete Selected Button -->
-            <div id="deleteBtnContainer" class="mt-4 hidden">
-                <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
-                    🗑️ Delete Selected
-                </button>
+                <script>
+                    const table = new DataTable("#table", {
+                        layout: {
+                            topStart: {
+                                search: {
+                                    text: "",
+                                    placeholder: "Search products ..."
+                                }
+                            },
+                            topEnd: {
+                                buttons: [
+                                    {
+                                        text: "<i class='fa-solid fa-plus mr-1'></i> Add",
+                                        action: function (e, dt, node, config) {
+                                            document.querySelector("dialog#create-product").showModal();
+                                        },
+                                        className: "button-good transition"
+                                    },
+                                    {
+                                        extend: "selected",
+                                        text: "<i class='fa-solid fa-trash mr-1'></i> Delete",
+                                        action: function (e, dt, node, config) {
+                                            const formData = new FormData();
+                                            dt.select.cumulative().rows.forEach(
+                                                (id) => formData.append("id", id)
+                                            );
+
+                                            fetch("<c:url value='/admin/product/delete'/>", {
+                                                method: "post",
+                                                body: formData
+                                            }).then((res) => {
+                                                if (!res.ok)
+                                                    console.error(res);
+                                                dt.ajax.reload();
+                                            });
+                                        },
+                                        className: "button-bad transition"
+                                    }
+                                ],
+                                pageLength: true
+                            }
+                        },
+                        searching: true,
+                        ordering: true,
+                        colReorder: true,
+                        pageLength: 50,
+                        paging: true,
+                        select: true,
+                        serverSide: true,
+                        processing: true,
+                        scrollX: true,
+                        ajax: {
+                            url: "<c:url value='/api/admin/product/search' />",
+                            dataSrc: function (json) {
+                                for (const data of json.data)
+                                    data.DT_RowId = data.id
+                                json.recordsFiltered = json.filteredTotal;
+                                json.recordsTotal = json.total;
+                                return json.data;
+                            }
+                        },
+                        columns: [
+                            {data: null, orderable: false, searchable: false, render: DataTable.render.select()},
+                            {data: "id"},
+                            {data: "name"},
+                            {data: "stockCount"},
+                            {data: "description", orderable: false, defaultContent: ""},
+                            {data: "unitCost"},
+                            {data: "unitPrice"},
+                            {data: "brand"},
+                            {data: "category", orderable: false},
+                            {data: "color", orderable: false, defaultContent: ""},
+                            {data: "releaseDate"}
+                        ],
+                        columnDefs: [
+                            {
+                                targets: 1,
+                                name: "id",
+                                render: function (data, type, row, meta) {
+                                    if (type === "display")
+                                        return "#" + data;
+                                    return data;
+                                }
+                            },
+                            {
+                                targets: 2,
+                                name: "name",
+                                render: function (data, type, row, meta) {
+                                    if (type === "display")
+                                        return `<a href='<c:url value='/admin/product/\${row.id}' />'>\${data}</a>`;
+                                    return data;
+                                }
+                            },
+                            {
+                                targets: 3,
+                                name: "stockCount",
+                                render: function (data, type, row, meta) {
+                                    if (type === "display")
+                                        if (data <= 0)
+                                            return "<span class='text-bad'>No Stock</span>";
+                                        else if (data < 10)
+                                            return `<span class='text-bad'>\${data}</span>`;
+                                        // else if (data < 20)
+                                        //    return `<span class='text-warn'>\${data}</span>`;
+                                        else
+                                            return `<span class='text-good'>\${data}</span>`;
+                                    return data;
+                                }
+                            },
+                            {
+                                targets: 4,
+                                name: "description",
+                                className: "overflow-ellipsis"
+                            },
+                            {
+                                targets: 5,
+                                name: "unitCost"
+                            },
+                            {
+                                targets: 6,
+                                name: "unitPrice"
+                            },
+                            {
+                                targets: 7,
+                                name: "brand"
+                            },
+                            {
+                                targets: 8,
+                                name: "category",
+                                render: function (data, type, row, meta) {
+                                    if (type === "display") {
+                                        let categories = [];
+
+                                        while (data != null) {
+                                            categories.push(data.name);
+
+                                            data = data.parent;
+                                        }
+
+                                        return categories.toReversed().join("  ▸  ");
+                                    }
+                                    return data;
+                                }
+                            },
+                            {
+                                targets: 9,
+                                name: "color",
+                                render: function (data, type, row, meta) {
+                                    if (type === "display") {
+                                        if (!data)
+                                            return "";
+                                        <%--suppress CssInvalidPropertyValue --%>
+                                        return `<span data-cell style='color: \${data.color}'>\${data.name}</span>`;
+                                    }
+                                    return data;
+                                },
+                                className: "cell"
+                            },
+                            {
+                                targets: 10,
+                                name: "releaseDate"
+                            }
+                        ],
+                        order: [[1, 'asc']]
+                    })
+                </script>
             </div>
-        </form>
 
-        <!-- Add Product Modal -->
-        <div id="addProductModal"
-             class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-            <div class="bg-white rounded-lg shadow-xl w-full max-w-xl overflow-y-auto max-h-[90vh] p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold">Add Product</h2>
-                    <button onclick="closeModal()" class="text-gray-500 hover:text-red-600 text-2xl leading-none">
-                        &times;
-                    </button>
+            <admin:dialog-form dialogid="create-product" action="<c:url value='/admin/account/add' />" method="post"
+                               title="Add Product">
+                <div>
+                    <label for="name" class="block">Product Name *</label>
+                    <input type="text" name="name" id="name" placeholder="" required
+                           class="w-full border border-border py-1 px-2 rounded">
                 </div>
 
-                <form action="/admin/products/add" method="post" class="space-y-4">
-                    <div>
-                        <label class="block font-semibold">Product Name *</label>
-                        <input type="text" name="name" class="w-full border p-2 rounded" required>
-                    </div>
-                    <div>
-                        <label class="block font-semibold">Category *</label>
-                        <select name="categoryId" class="w-full border p-2 rounded" required>
-                            <option value="">Select a category</option>
-                            <c:forEach var="cat" items="${categories}">
-                                <option value="${cat.categoryId}">${cat.name}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block font-semibold">Description</label>
-                        <textarea name="description" class="w-full border p-2 rounded" rows="3"></textarea>
-                    </div>
-                    <div>
-                        <label class="block font-semibold">Unit Price *</label>
-                        <input type="number" name="unitPrice" class="w-full border p-2 rounded" step="0.01" required>
-                    </div>
-                    <div>
-                        <label class="block font-semibold">Stock *</label>
-                        <input type="number" name="stock" class="w-full border p-2 rounded" required>
-                    </div>
+                <div>
+                    <label for="category" class="block">Category *</label>
+                    <select name="categoryId" id="category" required
+                            class="w-full border border-border py-1 px-2 rounded">
+                        <option value="">Select a category</option>
+                        <c:forEach var="cat" items="${categories}">
+                            <option value="${cat.categoryId}">${cat.name}</option>
+                        </c:forEach>
+                    </select>
+                </div>
 
-                    <!-- Buttons -->
-                    <div class="flex justify-end gap-2">
-                        <button type="button" onclick="closeModal()"
-                                class="px-4 py-2 border border-gray-300 rounded hover:bg-gray-100">Cancel
-                        </button>
-                        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-                            Submit
-                        </button>
+                <div>
+                    <label for="description" class="block">Description</label>
+                    <div class="grow-wrap after:text-base after:rounded after:border after:border-border">
+                        <textarea name="description" id="description" required
+                                  class="w-full border border-border py-1 px-2 rounded"></textarea>
                     </div>
-                </form>
-            </div>
-        </div>
-    </main>
+                </div>
 
-    <script>
-        function toggleDeleteMode() {
-            const elements = document.querySelectorAll('.delete-mode-toggle');
-            elements.forEach(el => el.classList.toggle('hidden'));
+                <div>
+                    <label for="unitPrice" class="block">Unit Price (RM) *</label>
+                    <input type="number" name="unitPrice" id="unitPrice" step="0.01" required
+                           class="w-full border border-border py-1 px-2 rounded">
+                </div>
 
-            const deleteBtn = document.getElementById('deleteBtn');
-            if (deleteBtn.innerText === 'Delete') {
-                deleteBtn.innerText = 'Cancel';
-            } else {
-                deleteBtn.innerText = 'Delete';
-                // Optional: Uncheck all boxes when cancelling
-                document.querySelectorAll('input[name="deleteIds"]').forEach(cb => cb.checked = false);
-            }
-        }
-        function openModal() {
-            document.getElementById("addProductModal").classList.remove("hidden");
-        }
-        function closeModal() {
-            document.getElementById("addProductModal").classList.add("hidden");
-        }
-    </script>
+                <div>
+                    <label for="stockCount" class="block">Stock *</label>
+                    <input type="number" name="stockCount" id="stockCount" min="0" step="1" required
+                           class="w-full border border-border py-1 px-2 rounded">
+                </div>
+
+                <%-- https://css-tricks.com/the-cleanest-trick-for-autogrowing-textareas/ --%>
+                <style>
+                    .grow-wrap {
+                        display: grid;
+
+                        &::after {
+                            content: attr(data-replicated-value) " ";
+                            white-space: pre-wrap;
+                            visibility: hidden;
+                        }
+
+                        > textarea {
+                            resize: none;
+                            overflow: hidden;
+                        }
+
+                        > textarea,
+                        &::after {
+                            grid-area: 1 / 1 / 2 / 2;
+                        }
+                    }
+                </style>
+            </admin:dialog-form>
+        </main>
+    </jsp:body>
 </admin:base>
