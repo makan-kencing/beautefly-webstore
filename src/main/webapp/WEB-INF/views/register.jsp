@@ -115,16 +115,14 @@
             }
 
             $form.ajaxForm({
-                beforeSubmit: (_formData, $form, _options) => {
-                    return validateForm.call($form[0]);
-                },
                 success: (_response, _statusText, _jqXHR, _$form) => {
                     window.location.replace('${pageContext.request.contextPath}/login');
                 },
                 error: (jqXHR, _statusText, _errorText, _$form) => {
                     if (jqXHR.status === 409) {
-                        $email[0].setCustomValidity('Email is already taken.');
-                        $email[0].reportValidity();
+                        const email = document.querySelector("#email")
+                        email.setCustomValidity('Email is already taken.');
+                        email.reportValidity();
                     }
                 }
             });
