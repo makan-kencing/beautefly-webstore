@@ -41,6 +41,7 @@ public record ProductSearchParametersDTO(
             name(Product_.name),
             unitPrice(Product_.unitPrice),
             unitCost(Product_.unitCost),
+            brand(Product_.brand),
             stockCount(Product_.stockCount),
             releaseDate(Product_.releaseDate);
 
