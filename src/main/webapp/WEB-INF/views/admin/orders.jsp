@@ -25,8 +25,8 @@
                 <table id="table" class="hover row-border nowrap">
                     <thead>
                     <tr>
-                        <th>#</th>
-                        <th class="dt-body-left">Customer</th>
+                        <th class="dt-left">#</th>
+                        <th>Customer</th>
                         <th>Items</th>
                         <th>Shipments</th>
                         <th>Order Status</th>
@@ -101,6 +101,10 @@
                         scrollX: true,
                         order: [[0, 'asc']],
                         columnDefs: [
+                            {
+                                targets: 0,
+                                className: "dt-left"
+                            },
                             {
                                 targets: 3,
                                 orderable: false
