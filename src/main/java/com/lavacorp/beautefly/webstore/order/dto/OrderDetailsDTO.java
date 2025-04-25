@@ -26,6 +26,7 @@ public record OrderDetailsDTO(
         BigDecimal discountAmount,
         BigDecimal grossAmount,
         BigDecimal netAmount,
+        Instant completedAt,
         List<OrderItemDTO> products
 ) implements Serializable {
 }

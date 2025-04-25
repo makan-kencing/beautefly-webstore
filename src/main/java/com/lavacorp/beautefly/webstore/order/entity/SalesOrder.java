@@ -2,6 +2,7 @@ package com.lavacorp.beautefly.webstore.order.entity;
 
 import com.lavacorp.beautefly.webstore.account.entity.Account;
 import com.lavacorp.beautefly.webstore.account.entity.Address;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
@@ -14,6 +15,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -29,9 +31,6 @@ public class SalesOrder implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Address shippingAddress;
-
-    @Enumerated(EnumType.STRING)
-    private OrderStatus status = OrderStatus.ARRIVING;
 
     @Enumerated(EnumType.STRING)
     @NotNull
@@ -60,6 +59,21 @@ public class SalesOrder implements Serializable {
                 .orElse(BigDecimal.valueOf(0));
     }
 
+    public OrderStatus getStatus() {
+        return getCompletedAt() != null
+                ? OrderStatus.COMPLETED
+                : OrderStatus.ARRIVING;
+    }
+    
+    public @Nullable Instant getCompletedAt() {
+        return products.stream()
+                .map(SalesOrderProduct::getDeliveredAt)
+                .filter(Objects::nonNull)
+                .sorted()
+                .reduce((first, second) -> second)
+                .orElse(null);
+    }
+
     public BigDecimal getNetAmount() {
         return getGrossAmount()
                 .add(taxAmount)
@@ -68,7 +82,7 @@ public class SalesOrder implements Serializable {
     }
 
     public enum OrderStatus {
-        ARRIVING, COMPLETED, CANCELLED
+        ARRIVING, COMPLETED
     }
 
     public enum PaymentMethod {
