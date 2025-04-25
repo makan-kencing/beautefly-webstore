@@ -2,12 +2,11 @@ package com.lavacorp.beautefly.webstore.search;
 
 import com.lavacorp.beautefly.webstore.common.dto.PaginatedResult;
 import com.lavacorp.beautefly.webstore.product.dto.ProductPageDTO;
-import com.lavacorp.beautefly.webstore.search.dto.ProductSearchContextDTO;
-import com.lavacorp.beautefly.webstore.search.dto.ProductSearchDTO;
-import com.lavacorp.beautefly.webstore.search.dto.ProductSearchResultDTO;
 import com.lavacorp.beautefly.webstore.product.entity.Product;
 import com.lavacorp.beautefly.webstore.product.entity.Product_;
 import com.lavacorp.beautefly.webstore.product.mapper.ProductMapper;
+import com.lavacorp.beautefly.webstore.search.dto.ProductSearchParametersDTO;
+import com.lavacorp.beautefly.webstore.search.dto.ProductSearchResultDTO;
 import jakarta.data.page.Page;
 import jakarta.data.page.impl.PageRecord;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -33,7 +32,7 @@ public class ProductSearchService {
     @Inject
     private ProductMapper productMapper;
 
-    public ProductSearchContextDTO search(ProductSearchDTO search) {
+    public PaginatedResult<ProductSearchResultDTO> search(ProductSearchParametersDTO search) {
         // use statelessSession to not cache entities
         var sf = emf.unwrap(SessionFactory.class);
         var session = sf.openStatelessSession();
@@ -55,8 +54,7 @@ public class ProductSearchService {
                 .getResultCount();
 
         SelectionQuery<Product> query = session.createSelectionQuery(criteria);
-        if (search.sort() != null)
-            query = query.setOrder(search.sort().getOrder());
+        query = query.setOrder(search.getOrders());
 
         long filteredTotal = query.getResultCount();
 
@@ -70,10 +68,7 @@ public class ProductSearchService {
                 filteredTotal
         );
 
-        return new ProductSearchContextDTO(
-                PaginatedResult.fromPaginated(page, (int) total),
-                search
-        );
+        return PaginatedResult.fromPaginated(page, (int) total);
     }
 
     public ProductPageDTO getProductDetailsById(int id) {

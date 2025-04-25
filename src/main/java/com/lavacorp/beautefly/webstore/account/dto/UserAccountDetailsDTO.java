@@ -1,10 +1,14 @@
 package com.lavacorp.beautefly.webstore.account.dto;
 
 import com.lavacorp.beautefly.webstore.account.entity.Account;
+import com.lavacorp.beautefly.webstore.account.entity.Credential;
 import com.lavacorp.beautefly.webstore.file.dto.FileUploadDTO;
+import com.lavacorp.beautefly.webstore.order.dto.OrderDetailsDTO;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * DTO for {@link Account}
@@ -12,9 +16,12 @@ import java.time.LocalDate;
 public record UserAccountDetailsDTO(
         int id,
         String username,
-        Account.Gender gender,
         String email,
+        Instant createdAt,
+        FileUploadDTO profileImage,
+        Account.Gender gender,
         LocalDate dob,
-        FileUploadDTO profileImage
+        List<Credential.Role> roles,
+        boolean active
 ) implements Serializable {
 }
