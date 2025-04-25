@@ -11,6 +11,4 @@ public interface OrderRepository {
     List<SalesOrder> findPaged(int offset, int limit);
 
     long count();
-
-    void updateStatus(int orderId, SalesOrder.OrderStatus newStatus);
 }
