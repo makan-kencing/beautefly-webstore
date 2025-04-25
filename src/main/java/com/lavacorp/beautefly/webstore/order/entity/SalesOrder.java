@@ -67,6 +67,7 @@ public class SalesOrder implements Serializable {
     
     public @Nullable Instant getCompletedAt() {
         return products.stream()
+                .filter(p -> p.getStatus() == SalesOrderProduct.OrderProductStatus.DELIVERED)
                 .map(SalesOrderProduct::getDeliveredAt)
                 .filter(Objects::nonNull)
                 .sorted()
