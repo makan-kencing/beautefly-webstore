@@ -5,6 +5,8 @@
 <%@ taglib prefix="webstore" tagdir="/WEB-INF/tags/webstore" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+<jsp:useBean id="product" type="com.lavacorp.beautefly.webstore.product.dto.ProductPageDTO" />
+
 <webstore:base pageTitle="Review">
     <jsp:attribute name="includeHead">
         <link href="https://cdn.jsdelivr.net/npm/raty-js@4.3.0/src/raty.min.css" rel="stylesheet">
@@ -61,7 +63,7 @@
 
                     <div class="space-y-2">
                         <label for="comment" class="block font-semibold">Comment</label>
-                        <div class="grow-wrap after:text-base after:rounded-lg after:border after;:border-gray-300">
+                        <div class="grow-wrap after:text-base after:rounded-lg after:border after:border-gray-300">
                             <textarea name="comment" id="comment" placeholder="What should other customers know?"
                                       class="w-full p-2 text-base rounded-lg border border-gray-300"
                                       onInput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
