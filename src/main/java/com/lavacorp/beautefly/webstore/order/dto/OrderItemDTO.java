@@ -1,8 +1,6 @@
 package com.lavacorp.beautefly.webstore.order.dto;
 
 import com.lavacorp.beautefly.webstore.order.entity.SalesOrderProduct;
-import com.lavacorp.beautefly.webstore.product.dto.ProductPageDTO;
-import com.lavacorp.beautefly.webstore.search.dto.ProductSearchDTO;
 import com.lavacorp.beautefly.webstore.search.dto.ProductSearchResultDTO;
 
 import java.io.Serializable;

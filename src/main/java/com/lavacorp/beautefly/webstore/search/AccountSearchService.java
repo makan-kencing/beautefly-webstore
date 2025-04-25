@@ -16,7 +16,6 @@ import jakarta.persistence.PersistenceUnit;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.BeanParam;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.SelectionQuery;
 import org.hibernate.query.criteria.CriteriaDefinition;
@@ -32,7 +31,7 @@ public class AccountSearchService {
     @Inject
     private AccountMapper accountMapper;
 
-    public PaginatedResult<AccountSearchResultDTO> search(@BeanParam AccountSearchParametersDTO search) {
+    public PaginatedResult<AccountSearchResultDTO> search(AccountSearchParametersDTO search) {
         var sf = emf.unwrap(SessionFactory.class);
         var session = sf.openStatelessSession();
 
@@ -51,7 +50,7 @@ public class AccountSearchService {
                 .getResultCount();
 
         SelectionQuery<Account> query = session.createSelectionQuery(criteria);
-            query = query.setOrder(search.getOrders());
+        query = query.setOrder(search.getOrders());
 
         long filteredTotal = query.getResultCount();
 
