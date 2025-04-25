@@ -12,7 +12,7 @@ import org.hibernate.query.Order;
 import org.hibernate.query.criteria.HibernateCriteriaBuilder;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.chrono.ChronoLocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,7 +24,7 @@ public record ProductSearchParametersDTO(
         @Nullable List<String> categories,
         @Nullable List<String> brands,
         @Nullable Range<BigDecimal> price,
-        @Nullable Range<LocalDate> releaseDate,
+        @Nullable Range<ChronoLocalDate> releaseDate,
         @Nullable List<String> colors,
         int page,
         int pageSize,
