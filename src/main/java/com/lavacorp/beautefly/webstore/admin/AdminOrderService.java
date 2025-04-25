@@ -1,6 +1,6 @@
 package com.lavacorp.beautefly.webstore.admin;
 
-import com.lavacorp.beautefly.webstore.order.dto.OrderDetailsDTO;
+import com.lavacorp.beautefly.webstore.order.dto.OrderListingDTO;
 import com.lavacorp.beautefly.webstore.order.entity.SalesOrder;
 import com.lavacorp.beautefly.webstore.order.mapper.OrderMapper;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -21,19 +21,18 @@ public class AdminOrderService {
     @Inject
     private OrderMapper orderMapper;
 
-    public List<OrderDetailsDTO> getOrders() {
+    public List<OrderListingDTO> getOrders() {
         var session = emf.unwrap(SessionFactory.class)
                 .openStatelessSession();
 
         return session.createSelectionQuery("""
                 from SalesOrder so
                     join fetch so.products
-                    join fetch so.shippingAddress
                     join fetch so.account
                     left join fetch so.account.profileImage
             """, SalesOrder.class)
                 .getResultStream()
-                .map(orderMapper::toOrderDetailsDTO)
+                .map(orderMapper::toOrderListingDTO)
                 .toList();
     }
 }
