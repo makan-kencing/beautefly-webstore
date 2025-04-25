@@ -23,7 +23,9 @@ public record ProductSearchResultDTO(
         CategoryDTO category,
         ColorDTO color,
         LocalDate releaseDate,
-        BigDecimal unitPrice
+        BigDecimal unitPrice,
+        BigDecimal unitCost,
+        int stockCount
 ) implements Serializable {
     public String slug() {
         var slug = Slugify.builder().build();
