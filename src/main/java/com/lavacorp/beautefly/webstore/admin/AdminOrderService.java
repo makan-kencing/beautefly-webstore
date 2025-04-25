@@ -30,7 +30,7 @@ public class AdminOrderService {
                     join fetch so.products
                     join fetch so.shippingAddress
                     join fetch so.account
-                    join fetch so.account.profileImage
+                    left join fetch so.account.profileImage
             """, SalesOrder.class)
                 .getResultStream()
                 .map(orderMapper::toOrderDetailsDTO)
