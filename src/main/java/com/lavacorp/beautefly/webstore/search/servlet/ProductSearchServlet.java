@@ -25,7 +25,7 @@ public class ProductSearchServlet extends HttpServlet {
 
         var page = productSearchService.search(search);
 
-        req.setAttribute("page", page);
+        req.setAttribute("result", page);
         req.setAttribute("search", search);
 
         var view = req.getRequestDispatcher("/WEB-INF/views/search.jsp");
