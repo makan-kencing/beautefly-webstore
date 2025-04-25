@@ -155,7 +155,8 @@
                                     if (type === "display")
                                         return "#" + data;
                                     return data;
-                                }
+                                },
+                                className: "dt-body-left"
                             },
                             {
                                 targets: 2,
