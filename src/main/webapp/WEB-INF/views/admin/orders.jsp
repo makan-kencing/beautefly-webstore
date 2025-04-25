@@ -36,32 +36,31 @@
                     </thead>
                     <tbody>
                     <c:forEach var="order" items="${orders}">
-                        <tr data-href="<c:url value='/admin/order/${order.id()}' />" onclick="window.location = this.dataset.href">
+                        <c:set var="totalItems" value="${order.products().size()}" />
+                        <c:set var="totalCompleted"
+                               value="${order.products().stream().filter(p -> p.status() == 'DELIVERED').count()}"/>
+
+                        <tr data-href="<c:url value='/admin/order/${order.id()}' />"
+                            onclick="window.location = this.dataset.href">
                             <td data-order="${order.id()}">#${order.id()}</td>
                             <td data-search="${order.account().username()}">
                                 <img src="<c:url value='${order.account().profileImage().url()}' />" alt="">
                                 <span>${order.account().username()}</span>
                             </td>
                             <td data-order="${order.products().size()}">${order.products().size()}</td>
-                            <td>
-                                <div>
-                                    <p class="text-xs text-center">
-                                            ${order.products().stream().filter(p -> p.status() == "DELIVERED").count()}
-                                        /
-                                            ${order.products().size()}
-                                    </p>
-                                    <div class="rounded-full overflow-hidden flex *:flex-1 h-2">
-                                        <c:forEach var="item" items="${order.products()}">
-                                            <c:choose>
-                                                <c:when test="${item.status() == 'DELIVERED'}">
-                                                    <div class="bg-good -order-1"></div>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <div class="bg-border"></div>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </c:forEach>
-                                    </div>
+                            <td data-order="${totalCompleted / totalItems}">
+                                <p class="text-xs text-center">${totalCompleted}/${totalItems}</p>
+                                <div class="rounded-full overflow-hidden flex *:flex-1 h-2">
+                                    <c:forEach var="item" items="${order.products()}">
+                                        <c:choose>
+                                            <c:when test="${item.status() == 'DELIVERED'}">
+                                                <div class="bg-good -order-1"></div>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <div class="bg-border"></div>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
                                 </div>
                             </td>
                             <td data-search="${order.status()}" data-order="${order.status()}" class="cell">
@@ -71,8 +70,9 @@
                                 </span>
                             </td>
                             <td data-order="${order.orderedAt().toEpochMilli()}">
-                                <fmt:parseDate var="parsedDate" value="${order.orderedAt()}" pattern="yyyy-MM-dd'T'HH:mm" type="both"/>
-                                <fmt:formatDate value="${parsedDate}" pattern="yyyy-MM-dd HH:mm" />
+                                <fmt:parseDate var="parsedDate" value="${order.orderedAt()}"
+                                               pattern="yyyy-MM-dd'T'HH:mm" type="both"/>
+                                <fmt:formatDate value="${parsedDate}" pattern="yyyy-MM-dd HH:mm"/>
                             </td>
                             <td>${order.netAmount()}</td>
                         </tr>
@@ -104,10 +104,6 @@
                             {
                                 targets: 0,
                                 className: "dt-left"
-                            },
-                            {
-                                targets: 3,
-                                orderable: false
                             }
                         ]
                     })
