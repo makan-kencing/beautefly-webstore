@@ -25,11 +25,11 @@
         <div class="swiper-button-prev"></div>
     </div>
 
-    <h2 class="text-center text-teal-600 mt-10 text-[40px] font-black">New Products Arrivals</h2>
+    <h2 class="text-center text-blue-400 text-shadow-lg mt-20 text-[40px] font-black">New Products Arrivals</h2>
 
     <!-- New Products Carousel -->
     <div class="carousel_product relative w-11/12 mx-auto my-8 overflow-hidden">
-        <div class="swiper-wrapper flex transition-transform duration-500" id="carouse-track">
+        <div class="swiper-wrapper flex transition-transform duration-500">
             <!-- Carousel items -->
             <c:forEach var="product" begin="1" end="10">
                 <div class="min-w-[22%] box-border p-2 flex flex-col justify-between">
@@ -48,18 +48,18 @@
         <div class="swiper-button-prev"></div>
     </div>
 
-    <div class="flex justify-center items-center max-w-screen-lg mx-auto my-16 gap-12 px-5">
+    <div class="flex justify-center items-center max-w-screen-lg mx-auto my-16 gap-12 px-5 mt-20">
         <div class="flex-1 pr-10">
-            <h3 class="text-teal-600 text-[40px] mb-4 font-black">Company Introduce</h3>
-            <p class="text-lg leading-relaxed text-justify">
-                At Beautefly, we believe that beauty is not just about appearance—it's about feeling confident, radiant, and empowered every day. As a professional beauty and skincare
+            <h3 class="text-blue-400 text-shadow-lg text-[40px] mb-4 font-black">Company Introduction</h3>
+            <p class="text-lg leading-relaxed text-justify font-times">
+                At Beautéfly, we believe that beauty is not just about appearance it's about feeling confident, radiant, and empowered every day. As a professional beauty and skincare
                 company, we are committed to providing high-quality, effective, and thoughtful products that cater to the diverse needs of our customers. <br><br>
-                From comprehensive skincare solutions including cleansers, serums, moisturizers, and sun protection, to professional-grade makeup essentials and body care must-haves, Beautefly offers a complete beauty experience. Our product lines also extend to hair care,
+                From comprehensive skincare solutions including cleansers, serums, moisturizers, and sun protection, to professional-grade makeup essentials and body care must-haves, Beautéfly offers a complete beauty experience. Our product lines also extend to hair care,
                 beauty tools & devices, and special treatment formulas that address concerns like acne, aging, and sensitive skin. <br><br>
                 Driven by innovation and inspired by the latest beauty trends,
                 we carefully curate and develop our products to ensure safety, efficacy, and satisfaction. Whether you’re looking to elevate your daily routine or
-                pamper yourself with a luxurious treatment, Beautefly is here to help you shine—inside and out.<br><br>
-                Beautefly — Bring out the beauty in you.
+                pamper yourself with a luxurious treatment, Beautéfly is here to help you shine inside and out.<br><br>
+            <p class="text-[20px] font-bold text-shadow-lg text-red-500">Beautéfly — Bring out the beauty in you.</p>
             </p>
         </div>
         <div class="flex-1">
@@ -67,11 +67,11 @@
         </div>
     </div>
 
-    <h2 class="text-center text-teal-600 mt-10 text-[40px] font-black">May 2025 Top Sales</h2>
+    <h2 class="text-center text-blue-400 text-shadow-lg mt-20 mb-5 text-[40px] font-black">May 2025 Top Sales</h2>
 
     <!-- Top Sales Carousel -->
-    <div class="carousel_topsales relative w-[1000px] h-[555px] mx-auto my-12 overflow-hidden bg-gradient-to-r from-blue-300 via-white to-pink-300 box-border">
-        <div class="swiper-wrapper flex transition-transform duration-500" id="carousel-track_car">
+    <div class="carousel_topsales relative w-[1000px] h-[555px] mx-auto mb-10 overflow-hidden bg-gradient-to-r from-blue-300 via-white to-pink-300 box-border">
+        <div class="swiper-wrapper flex transition-transform duration-500">
             <c:forEach var="category" begin="1" end="6">
                 <div class="min-w-full flex justify-center items-center relative">
                     <div class="absolute top-110 w-full text-center text-5xl font-bold text-white z-10">
