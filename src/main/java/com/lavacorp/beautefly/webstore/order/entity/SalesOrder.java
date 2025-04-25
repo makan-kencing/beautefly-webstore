@@ -62,9 +62,9 @@ public class SalesOrder implements Serializable {
 
     public BigDecimal getNetAmount() {
         return getGrossAmount()
-                .subtract(taxAmount)
-                .subtract(shippingAmount)
-                .add(discountAmount);
+                .add(taxAmount)
+                .add(shippingAmount)
+                .subtract(discountAmount);
     }
 
     public enum OrderStatus {
