@@ -2,6 +2,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="admin" tagdir="/WEB-INF/tags/admin" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:useBean id="orders" type="java.util.List<com.lavacorp.beautefly.webstore.order.dto.OrderDetailsDTO>"
              scope="request"/>
@@ -36,24 +37,24 @@
                     <tbody>
                     <c:forEach var="order" items="${orders}">
                         <tr data-href="<c:url value='/admin/order/${order.id()}' />" onclick="window.location = this.dataset.href">
-                            <td>#${order.id()}</td>
-                            <td>
+                            <td data-order="${order.id()}">#${order.id()}</td>
+                            <td data-search="${order.account().username()}">
                                 <img src="<c:url value='${order.account().profileImage().url()}' />" alt="">
                                 <span>${order.account().username()}</span>
                             </td>
-                            <td>${order.products().size()}</td>
+                            <td data-order="${order.products().size()}">${order.products().size()}</td>
                             <td>
                                 <div>
-                                    <p class="text-center">
-                                            ${order.products().stream().filter(p -> p.status == "DELIVERED").count()}
+                                    <p class="text-xs text-center">
+                                            ${order.products().stream().filter(p -> p.status() == "DELIVERED").count()}
                                         /
                                             ${order.products().size()}
                                     </p>
-                                    <div class="rounded-full flex *:flex-1">
+                                    <div class="rounded-full overflow-hidden flex *:flex-1 h-2">
                                         <c:forEach var="item" items="${order.products()}">
                                             <c:choose>
-                                                <c:when test="">
-                                                    <div class="bg-good"></div>
+                                                <c:when test="${item.status() == 'DELIVERED'}">
+                                                    <div class="bg-good -order-1"></div>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <div class="bg-border"></div>
@@ -63,13 +64,16 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="cell">
+                            <td data-search="${order.status()}" data-order="${order.status()}" class="cell">
                                     <%-- reusing role color kek --%>
-                                <span data-role="${order.status() ==  "COMPLETED" ? "USER" : "STAFF"}">
+                                <span data-cell data-role="${order.status() ==  "COMPLETED" ? "USER" : "STAFF"}">
                                         ${order.status()}
                                 </span>
                             </td>
-                            <td>${order.orderedAt()}</td>
+                            <td data-order="${order.orderedAt().toEpochMilli()}">
+                                <fmt:parseDate var="parsedDate" value="${order.orderedAt()}" pattern="yyyy-MM-dd'T'HH:mm" type="both"/>
+                                <fmt:formatDate value="${parsedDate}" pattern="yyyy-MM-dd HH:mm" />
+                            </td>
                             <td>${order.netAmount()}</td>
                         </tr>
                     </c:forEach>
