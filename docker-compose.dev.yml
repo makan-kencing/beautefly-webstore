@@ -18,7 +18,9 @@ services:
             retries: 5
             start_period: 80s
     web:
-        image: ghcr.io/eclipse-ee4j/glassfish
+        build:
+            dockerfile: docker/Dockerfile
+            context: .
         container_name: ${BEAUTEFLY_WEB_CONTAINER_NAME:-beautefly-server}
         environment:
             GLASSFISH_ADMIN_PASSWORD: ${GLASSFISH_ADMIN_PASSWORD}
@@ -36,9 +38,6 @@ services:
         ports:
             - "8080:8080"
             - "4848:4848"
-        healthcheck:
-            test: [ "CMD", "curl", "-f", "http://localhost:8080" ]
-            start_period: 30s
     proxy:
         image: caddy:2-alpine
         container_name: ${BEAUTEFLY_PROXY_CONTAINER_NAME:-beautefly-proxy}
