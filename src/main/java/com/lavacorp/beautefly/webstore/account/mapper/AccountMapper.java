@@ -3,6 +3,7 @@ package com.lavacorp.beautefly.webstore.account.mapper;
 import com.lavacorp.beautefly.webstore.account.dto.UpdateUserAccountDTO;
 import com.lavacorp.beautefly.webstore.account.dto.UserAccountDetailsDTO;
 import com.lavacorp.beautefly.webstore.account.entity.Account;
+import com.lavacorp.beautefly.webstore.admin.dto.AdminUserAccountDTO;
 import com.lavacorp.beautefly.webstore.admin.dto.UserAccountSummaryDTO;
 import com.lavacorp.beautefly.webstore.file.mapper.FileUploadMapper;
 import com.lavacorp.beautefly.webstore.rating.dto.RatingUserDTO;
@@ -41,4 +42,8 @@ public interface AccountMapper {
 
     @Mapping(target = "roles", source = "credential.roles")
     AccountSearchResultDTO toAccountSearchResultDTO(Account account);
+
+    @Mapping(target = "roles", source = "credential.roles")
+    @Mapping(target = "profileImageHash", source = "profileImage.hash")
+    AdminUserAccountDTO toAdminUserAccountDTO(Account account);
 }
