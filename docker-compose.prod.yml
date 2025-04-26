@@ -36,7 +36,7 @@ services:
         depends_on:
             - db
         healthcheck:
-            test: [ "CMD", "curl", "-f", "http://localhost:8080" ]
+            test: [ "CMD", "curl", "-f", "http://localhost:8080/api/ping" ]
             start_period: 30s
     proxy:
         image: caddy:2-alpine
