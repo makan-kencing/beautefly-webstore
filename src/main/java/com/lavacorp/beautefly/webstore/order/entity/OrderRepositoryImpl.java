@@ -38,13 +38,4 @@ public class OrderRepositoryImpl implements OrderRepository {
         return em.createQuery("SELECT COUNT(o) FROM SalesOrder o", Long.class)
                 .getSingleResult();
     }
-
-    @Override
-    public void updateStatus(int orderId, SalesOrder.OrderStatus newStatus) {
-        SalesOrder order = em.find(SalesOrder.class, orderId);
-        if (order != null) {
-            order.setStatus(newStatus);
-            em.merge(order);
-        }
-    }
 }

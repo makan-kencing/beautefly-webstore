@@ -57,6 +57,7 @@
                     <thead>
                     <tr>
                         <th class="p-2"></th>
+                        <th class="dt-left">#</th>
                         <th>Username</th>
                         <th>Email</th>
                         <th>Roles</th>
@@ -127,6 +128,7 @@
                         },
                         columns: [
                             {data: null, orderable: false, searchable: false, render: DataTable.render.select()},
+                            {data: "id"},
                             {data: "username"},
                             {data: "email"},
                             {data: "roles", orderable: false},
@@ -135,6 +137,16 @@
                         columnDefs: [
                             {
                                 targets: 1,
+                                name: "id",
+                                render: function (data, type, row, meta) {
+                                    if (type === "display")
+                                        return "#" + data;
+                                    return data;
+                                },
+                                className: "dt-left"
+                            },
+                            {
+                                targets: 2,
                                 name: "username",
                                 render: function (data, type, row, meta) {
                                     if (type === "display")
@@ -143,11 +155,11 @@
                                 }
                             },
                             {
-                                targets: 2,
+                                targets: 3,
                                 name: "email"
                             },
                             {
-                                targets: 3,
+                                targets: 4,
                                 name: "roles",
                                 render: function (data, type, row, meta) {
                                     if (type === "display")
@@ -159,7 +171,7 @@
                                 className: "cell"
                             },
                             {
-                                targets: 4,
+                                targets: 5,
                                 name: "active",
                                 render: function (data, type, row, meta) {
                                     if (type === "display") {

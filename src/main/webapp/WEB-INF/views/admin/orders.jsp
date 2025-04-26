@@ -1,56 +1,114 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="my" tagdir="/WEB-INF/tags/admin" %>
-<script src="https://cdn.tailwindcss.com"></script>
+<%@ taglib prefix="admin" tagdir="/WEB-INF/tags/admin" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<my:base pageTitle="Order List">
-    <h2 class="text-2xl font-bold mb-6">Order List</h2>
+<jsp:useBean id="orders" type="java.util.List<com.lavacorp.beautefly.webstore.order.dto.OrderListingDTO>"
+             scope="request"/>
 
-    <table class="min-w-full border text-sm bg-white">
-        <thead class="bg-gray-100">
-        <tr>
-            <th class="p-2 border">#</th>
-            <th class="p-2 border">Customer</th>
-            <th class="p-2 border">Date</th>
-            <th class="p-2 border">Status</th>
-            <th class="p-2 border">Payment</th>
-            <th class="p-2 border">Net Amount (RM)</th>
-            <th class="p-2 border">Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach var="order" items="${orders}" varStatus="loop">
-            <tr class="border-b">
-                <td class="p-2 border">${(currentPage - 1) * 50 + loop.index + 1}</td>
-                <td class="p-2 border">${order.account.username}</td>
-                <td class="p-2 border">${order.orderedAt}</td>
-                <td class="p-2 border">${order.status}</td>
-                <td class="p-2 border">${order.paymentMethod}</td>
-                <td class="p-2 border">RM ${order.netAmount}</td>
-                <td class="p-2 border">
-                    <a href="/admin/orders/view?id=${order.id}" class="text-blue-600 hover:underline">View</a>
-                </td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
+<admin:base pageTitle="Orders">
+    <jsp:attribute name="includeHead">
+        <link href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css" rel="stylesheet"/>
+        <link href="https://cdn.datatables.net/colreorder/2.0.4/css/colReorder.dataTables.min.css" rel="stylesheet"/>
 
-    <!-- Pagination -->
-    <div class="mt-6 flex justify-center items-center space-x-2">
-        <c:if test="${currentPage > 1}">
-            <a href="?page=${currentPage - 1}" class="px-3 py-1 border rounded hover:bg-gray-100">&laquo; Prev</a>
-        </c:if>
+        <script src="https://cdn.datatables.net/2.2.2/js/dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/colreorder/2.0.4/js/dataTables.colReorder.min.js"></script>
+    </jsp:attribute>
 
-        <c:forEach begin="1" end="${totalPages}" var="page">
-            <a href="?page=${page}"
-               class="px-3 py-1 border rounded hover:bg-gray-100
-                      ${page == currentPage ? 'bg-blue-500 text-white font-semibold' : ''}">
-                    ${page}
-            </a>
-        </c:forEach>
+    <jsp:body>
+        <main class="vertical p-4">
+            <div class="border rounded-xl border-border shadow-md p-4">
 
-        <c:if test="${currentPage < totalPages}">
-            <a href="?page=${currentPage + 1}" class="px-3 py-1 border rounded hover:bg-gray-100">Next &raquo;</a>
-        </c:if>
-    </div>
-</my:base>
+                <h2 class="text-2xl font-bold">Manage Orders</h2>
+
+                <table id="table" class="hover row-border nowrap">
+                    <thead>
+                    <tr>
+                        <th class="dt-left">#</th>
+                        <th>Customer</th>
+                        <th>Items</th>
+                        <th>Shipments</th>
+                        <th>Order Status</th>
+                        <th>Ordered At</th>
+                        <th>Total Price (RM)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="order" items="${orders}">
+                        <c:set var="totalItems" value="${order.products().size()}" />
+                        <c:set var="totalCompleted"
+                               value="${order.products().stream().filter(p -> p.status() == 'DELIVERED').count()}"/>
+
+                        <tr data-href="<c:url value='/admin/order/${order.id()}' />"
+                            onclick="window.location = this.dataset.href">
+                            <td data-order="${order.id()}">#${order.id()}</td>
+                            <td data-search="${order.account().username()}">
+                                <img src="<c:url value='${order.account().profileImage().url()}' />" alt="">
+                                <span>${order.account().username()}</span>
+                            </td>
+                            <td data-order="${order.products().size()}">${order.products().size()}</td>
+                            <td data-order="${totalCompleted / totalItems}">
+                                <p class="text-xs text-center">${totalCompleted}/${totalItems}</p>
+                                <div class="rounded-full overflow-hidden flex *:flex-1 h-2">
+                                    <c:forEach var="item" items="${order.products()}">
+                                        <c:choose>
+                                            <c:when test="${item.status() == 'DELIVERED'}">
+                                                <div class="bg-good -order-1"></div>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <div class="bg-border"></div>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+                                </div>
+                            </td>
+                            <td data-search="${order.status()}" data-order="${order.status()}" class="cell">
+                                    <%-- reusing role color kek --%>
+                                <span data-cell data-role="${order.status() ==  "COMPLETED" ? "USER" : "STAFF"}">
+                                        ${order.status()}
+                                </span>
+                            </td>
+                            <td data-order="${order.orderedAt().toEpochMilli()}">
+                                <fmt:parseDate var="parsedDate" value="${order.orderedAt()}"
+                                               pattern="yyyy-MM-dd'T'HH:mm" type="both"/>
+                                <fmt:formatDate value="${parsedDate}" pattern="yyyy-MM-dd HH:mm"/>
+                            </td>
+                            <td>${order.netAmount()}</td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+
+                <script>
+                    const table = new DataTable("#table", {
+                        layout: {
+                            topStart: {
+                                search: {
+                                    text: "",
+                                    placeholder: "Search orders..."
+                                }
+                            },
+                            topEnd: {
+                                pageLength: true
+                            }
+                        },
+                        searching: true,
+                        ordering: true,
+                        colReorder: true,
+                        pageLength: 50,
+                        paging: true,
+                        scrollX: true,
+                        order: [[0, 'asc']],
+                        columnDefs: [
+                            {
+                                targets: 0,
+                                className: "dt-left"
+                            }
+                        ]
+                    })
+                </script>
+            </div>
+        </main>
+    </jsp:body>
+</admin:base>
