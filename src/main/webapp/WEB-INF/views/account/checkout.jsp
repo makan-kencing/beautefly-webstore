@@ -6,7 +6,7 @@
 <jsp:useBean id="checkout" type="com.lavacorp.beautefly.webstore.cart.dto.CartDTO" scope="request"/>
 
 
-<webstore:base pageTitle="Cart">
+<webstore:base pageTitle="Checkout">
     <!DOCTYPE html>
     <html>
     <head>
