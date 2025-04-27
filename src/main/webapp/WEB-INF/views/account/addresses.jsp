@@ -69,14 +69,16 @@
                             <dialog class="m-auto rounded-2xl w-md">
                                 <form action="<c:url value='/address/${address.id()}/delete' />" method="post"
                                       class="*:py-4 *:px-6">
-                                    <div class="flex items-center bg-gray-100 py-0! pr-0!">
+                                    <div class="flex items-center py-0! pr-0!">
                                         <h2 class="text-xl font-semibold">Confirm Removal</h2>
 
                                         <button type="button" onclick="this.closest('dialog').close()"
-                                                class="ml-auto w-15 h-15">
+                                                class="ml-auto w-14 h-14">
                                             <i class="fa-solid fa-xmark"></i>
                                         </button>
                                     </div>
+
+                                    <hr class="text-gray-300 p-0!">
 
                                     <div class="space-y-2">
                                         <div class="*:empty:none">
@@ -100,12 +102,12 @@
 
                                     <hr class="text-gray-300 p-0!">
 
-                                    <div class="flex justify-evenly *:rounded-full *:py-1 *:px-10">
+                                    <div class="flex justify-evenly *:rounded-full *:py-2 *:px-10">
                                         <button type="button" onclick="this.closest('dialog').close()"
                                                 class="border hover:bg-gray-100">
                                             No
                                         </button>
-                                        <button type="submit" class="bg-blue-200 hover:bg-blue-300">
+                                        <button type="submit" class="text-white bg-blue-500 hover:bg-blue-600">
                                             Yes
                                         </button>
                                     </div>
