@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @WebServlet("/address/delete")
 @ServletSecurity(@HttpConstraint(rolesAllowed = {"*"}))
-public class DeleteAddressServlet extends HttpServlet {
+public class AddressDeleteServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.sendRedirect("/addresses");

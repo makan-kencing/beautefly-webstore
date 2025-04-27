@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @WebServlet("/address/new")
 @ServletSecurity(@HttpConstraint(rolesAllowed = {"*"}))
-public class NewAddressServlet extends HttpServlet {
+public class AddressNewServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         var view = req.getRequestDispatcher("/WEB-INF/views/account/address-details.jsp");

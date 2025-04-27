@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @WebServlet("/address/default")
 @ServletSecurity(@HttpConstraint(rolesAllowed = {"*"}))
-public class SetDefaultAddressServlet extends HttpServlet {
+public class AddressSetDefaultServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.sendRedirect("/addresses");
