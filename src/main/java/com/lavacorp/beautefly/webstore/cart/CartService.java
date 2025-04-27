@@ -6,6 +6,7 @@ import com.lavacorp.beautefly.webstore.cart.dto.CartItemDTO;
 import com.lavacorp.beautefly.webstore.cart.dto.UpdateCartProductDTO;
 import com.lavacorp.beautefly.webstore.cart.entity.Cart;
 import com.lavacorp.beautefly.webstore.cart.entity.CartProduct;
+import com.lavacorp.beautefly.webstore.cart.entity.CartProductLikeId;
 import com.lavacorp.beautefly.webstore.cart.mapper.CartMapper;
 import com.lavacorp.beautefly.webstore.product.entity.Product;
 import com.lavacorp.beautefly.webstore.security.dto.AccountContextDTO;
@@ -30,23 +31,25 @@ public class CartService {
     private CartMapper cartMapper;
 
     @SuppressWarnings("UnusedReturnValue")
-    public CartItemDTO updateCartProductQuantity(HttpSession session, AccountContextDTO user, UpdateCartProductDTO dto) {
+    public CartItemDTO updateCartProductQuantity(HttpSession session, AccountContextDTO user, UpdateCartProductDTO item) {
         var cart = getCart(session, user);
 
         var cartItem = new CartProduct();
-        cartItem.setProduct(em.getReference(Product.class, dto.productId()));
-        cartItem.setQuantity(dto.quantity());
+        cartItem.setProduct(em.getReference(Product.class, item.productId()));
+        cartItem.setCart(cart);
+        cartItem.setQuantity(item.quantity());
 
-        cartItem = switch (dto.action()) {
+        cartItem = switch (item.action()) {
             case INCREMENT -> cart.addProduct(cartItem);
             case SET -> cart.setProduct(cartItem);
             case DECREMENT -> cart.removeProduct(cartItem);
         };
 
+        em.merge(cartItem);
         return cartMapper.toCartItemDTO(cartItem);
     }
 
-    public CartDTO getCartDetails(HttpSession session, AccountContextDTO user) {
+    public CartDTO getCartDetails(HttpSession session, @Nullable AccountContextDTO user) {
         var cart = getCart(session, user);
         return cartMapper.toCartDTO(cart);
     }
