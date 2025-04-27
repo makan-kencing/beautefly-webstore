@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 @Entity
 public class Cart extends CartLike<CartProduct> {
     public @NotNull CartProduct addProduct(CartProduct product) {
-        var cartProduct = getCartItem(product.getId().getProductId());
+        var cartProduct = getCartItem(product.getProduct().getId());
         if (cartProduct.isPresent()) {
             cartProduct.get().addQuantity(product.getQuantity());
             return cartProduct.get();
@@ -20,7 +20,7 @@ public class Cart extends CartLike<CartProduct> {
     }
 
     public @NotNull CartProduct removeProduct(CartProduct product) {
-        var cartProduct = getCartItem(product.getId().getProductId());
+        var cartProduct = getCartItem(product.getProduct().getId());
         if (cartProduct.isPresent()) {
             if (cartProduct.get().getQuantity() <= product.getQuantity()) // subtraction would result in less than 0
                 products.remove(product);
@@ -35,7 +35,7 @@ public class Cart extends CartLike<CartProduct> {
     }
 
     public @NotNull CartProduct setProduct(CartProduct product) {
-        var cartProduct = getCartItem(product.getId().getProductId());
+        var cartProduct = getCartItem(product.getProduct().getId());
         if (cartProduct.isPresent()) {
             cartProduct.get().setQuantity(product.getQuantity());
             return cartProduct.get();
