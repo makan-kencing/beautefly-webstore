@@ -87,6 +87,26 @@ public class AccountService {
         return addressMapper.toAddressDTO(address);
     }
 
+    public void createNewAddress(AccountContextDTO user, AddressDTO newAddress) {
+        var session = emf.unwrap(SessionFactory.class)
+                .openStatelessSession();
+
+        var account = session.get(Account.class, user.id());
+
+        if (account == null)
+            throw new NoSuchElementException("Account does not exists.");
+
+        var address = addressMapper.toAddress(newAddress);
+        address.setAccount(account);
+
+        session.insert(address);
+
+        if (account.getAddressBook().getDefaultAddress() == null) {
+            account.getAddressBook().setDefaultAddress(address);
+            session.update(account);
+        }
+    }
+
     public void setDefaultAddress(AccountContextDTO user, int addressId) {
         var session = emf.unwrap(SessionFactory.class)
                 .openStatelessSession();
