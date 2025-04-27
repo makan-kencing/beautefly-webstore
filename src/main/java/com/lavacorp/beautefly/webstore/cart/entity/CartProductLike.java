@@ -15,7 +15,7 @@ import java.time.Instant;
 @MappedSuperclass
 public class CartProductLike<T extends CartLike<?>> implements Serializable {
     @EmbeddedId
-    protected CartProductLikeId id;
+    protected CartProductLikeId id = new CartProductLikeId();
 
     @MapsId(CartProductLikeId_.CART_ID)
     @ManyToOne(fetch = FetchType.LAZY)
