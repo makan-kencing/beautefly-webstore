@@ -10,4 +10,5 @@ import lombok.Setter;
 @Embeddable
 public class CartProductLikeId extends ProductItemId {
     private int cartId;
+    private int productId;
 }

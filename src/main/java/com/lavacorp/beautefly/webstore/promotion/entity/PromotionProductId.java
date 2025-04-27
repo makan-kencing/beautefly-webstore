@@ -10,4 +10,5 @@ import lombok.Setter;
 @Embeddable
 public class PromotionProductId extends ProductItemId {
     private int promotionId;
+    private int productId;
 }

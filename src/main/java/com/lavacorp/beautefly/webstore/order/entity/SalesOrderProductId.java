@@ -10,4 +10,5 @@ import lombok.Setter;
 @Embeddable
 public class SalesOrderProductId extends ProductItemId {
     private int orderId;
+    private int productId;
 }
