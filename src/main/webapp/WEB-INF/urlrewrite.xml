@@ -26,8 +26,8 @@
     </rule>
 
     <rule>
-        <from>/address/([0-9]+)</from>
-        <to>/address?id=$1</to>
+        <from>/address/([0-9]+)/edit</from>
+        <to>/address/edit?id=$1</to>
     </rule>
     <rule>
         <from>/address/([0-9]+)/delete</from>
@@ -39,16 +39,16 @@
     </rule>
 
     <rule>
-        <from>/admin/account/([0-9]+)</from>
-        <to>/admin/account?id=$1</to>
-    </rule>
-    <rule>
         <from>/admin/account/([0-9]+)/edit</from>
         <to>/admin/account/edit?id=$1</to>
     </rule>
     <rule>
         <from>/admin/account/([0-9]+)/address/([0-9]+)</from>
         <to>/admin/address?accountId=$1&amp;id=$2</to>
+    </rule>
+    <rule>
+        <from>/admin/account/([0-9]+)</from>
+        <to>/admin/account?id=$1</to>
     </rule>
 
     <rule>
