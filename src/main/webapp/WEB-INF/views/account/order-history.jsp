@@ -104,14 +104,17 @@
 <%--    </div>--%>
 
     <!-- Tabs -->
-    <div class="flex space-x-10 border-b border-gray-300 mb-8">
-      <button id="Orders" class="tab-button py-2 font-medium text-gray-800 border-b-2 border-gray-800" onclick="setActiveTab('Orders')">
+    <div class="flex space-x-10 items-center text-gray-600 font-semibold border-b mb-5">
+      <button id="Orders" class="tab-button flex items-center gap-2 py-3 font-medium text-gray-800 border-b-2 border-gray-800 transition" onclick="setActiveTab('Orders')">
+        <img src="https://img.icons8.com/fluency-systems-filled/20/000000/shopping-cart.png" alt="Orders" />
         Orders
       </button>
-      <button id="Shipping" class="tab-button py-2 font-medium text-gray-500" onclick="setActiveTab('Shipping')">
+      <button id="Shipping" class="tab-button flex items-center gap-2 py-3 font-medium text-gray-500 transition hover:text-gray-800" onclick="setActiveTab('Shipping')">
+        <img src="https://img.icons8.com/fluency-systems-filled/20/000000/delivery.png" alt="Shipping" />
         Shipping
       </button>
-      <button id="Completed" class="tab-button py-2 font-medium text-gray-500" onclick="setActiveTab('Completed')">
+      <button id="Completed" class="tab-button flex items-center gap-2 py-3 font-medium text-gray-500 transition hover:text-gray-800" onclick="setActiveTab('Completed')">
+        <img src="https://img.icons8.com/fluency-systems-filled/20/000000/checked--v1.png" alt="Completed" />
         Completed
       </button>
     </div>
