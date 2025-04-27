@@ -2,7 +2,9 @@ package com.lavacorp.beautefly.webstore.security.filter;
 
 import jakarta.annotation.Nullable;
 import jakarta.servlet.*;
+import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.collections4.queue.CircularFifoQueue;
@@ -16,7 +18,7 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 @Log4j2
-public class PageVisitTracker implements Filter {
+public class PageVisitTracker extends HttpFilter {
     public static String SESSION_ATTRIBUTE_NAME = "visits";
 
     public Pattern[] ignorePatterns = new Pattern[0];
@@ -37,9 +39,8 @@ public class PageVisitTracker implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
-        var httpReq = (HttpServletRequest) req;
-        var session = httpReq.getSession();
+    protected void doFilter(HttpServletRequest req, HttpServletResponse resp, FilterChain chain) throws IOException, ServletException {
+        var session = req.getSession();
 
         var queue = getQueue(session);
         if (queue == null) {
@@ -47,7 +48,7 @@ public class PageVisitTracker implements Filter {
             session.setAttribute(SESSION_ATTRIBUTE_NAME, queue);
         }
 
-        logUrl(queue, httpReq);
+        logUrl(queue, req);
 
         chain.doFilter(req, resp);
     }

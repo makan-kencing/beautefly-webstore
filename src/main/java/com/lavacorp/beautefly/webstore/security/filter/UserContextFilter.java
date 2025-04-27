@@ -9,13 +9,15 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceUnit;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.hibernate.SessionFactory;
 
 import java.io.IOException;
 
 @WebFilter("/*")
-public class UserContextFilter implements Filter {
+public class UserContextFilter extends HttpFilter {
     public static final String ATTRIBUTE_NAME = "user";
 
     @PersistenceUnit
@@ -25,11 +27,11 @@ public class UserContextFilter implements Filter {
     private AccountMapper accountMapper;
 
     @Override
-    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
+    protected void doFilter(HttpServletRequest req, HttpServletResponse resp, FilterChain chain) throws IOException, ServletException {
         var session = emf.unwrap(SessionFactory.class)
                 .openStatelessSession();
 
-        var principal = ((HttpServletRequest) req).getUserPrincipal();
+        var principal = req.getUserPrincipal();
 
         if (principal != null) {
             var account = session.createSelectionQuery("""
@@ -49,7 +51,7 @@ public class UserContextFilter implements Filter {
                         accountMapper.toAccountContextDTO(account)
                 );
             else
-                ((HttpServletRequest) req).logout();
+                req.logout();
         }
 
         chain.doFilter(req, resp);
