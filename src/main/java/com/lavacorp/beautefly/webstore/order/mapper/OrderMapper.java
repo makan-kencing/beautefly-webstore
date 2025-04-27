@@ -1,5 +1,6 @@
 package com.lavacorp.beautefly.webstore.order.mapper;
 
+import com.lavacorp.beautefly.webstore.account.mapper.AccountMapper;
 import com.lavacorp.beautefly.webstore.account.mapper.AddressMapper;
 import com.lavacorp.beautefly.webstore.order.dto.OrderDetailsDTO;
 import com.lavacorp.beautefly.webstore.order.dto.OrderItemDTO;
@@ -12,7 +13,7 @@ import org.mapstruct.*;
 
 @Mapper(
         componentModel = MappingConstants.ComponentModel.CDI,
-        uses = {AddressMapper.class, ProductMapper.class}
+        uses = {AddressMapper.class, ProductMapper.class, AccountMapper.class}
 )
 public interface OrderMapper {
     OrderDetailsDTO toOrderDetailsDTO(SalesOrder order);
