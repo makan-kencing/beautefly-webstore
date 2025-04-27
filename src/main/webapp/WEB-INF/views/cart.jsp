@@ -39,18 +39,18 @@
                                                 <img src="${item.product().images()[0].url()}" alt="">
                                             </td>
                                             <td>
-                                                <a href="<c:url value='/product/${item.product().id}' />">
-                                                        ${item.product().name}
+                                                <a href="<c:url value='/product/${item.product().id()}' />">
+                                                        ${item.product().name()}
                                                 </a>
                                             </td>
                                             <td>
-                                                <fmt:formatNumber value="${item.product().unitPrice}"
+                                                <fmt:formatNumber value="${item.product().unitPrice()}"
                                                                   type="currency"
                                                                   currencySymbol="RM "/>
                                             </td>
                                             <td>
                                                 <form action="<c:url value='/cart' />" method="post">
-                                                    <input type="hidden" name="product" value="${item.product().id}">
+                                                    <input type="hidden" name="product" value="${item.product().id()}">
                                                     <label>
                                                         <input type="number" name="quantity" value="${item.quantity()}"
                                                                min="0">
@@ -115,7 +115,8 @@
                                                           currencySymbol="RM "/>
                                     </td>
                                 </tr>
-                                <c:if test="${cart.shippingDiscounted() == true}">
+                                <%--suppress ELValidationInspection --%>
+                                <c:if test="${cart.isShippingDiscounted() == true}">
                                     <tr>
                                         <td>Shipping Discount</td>
                                         <td>
