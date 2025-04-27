@@ -34,20 +34,16 @@ public class AddressEditServlet extends HttpServlet {
 
         req.setAttribute("address", address);
 
-        var view = req.getRequestDispatcher("/WEB-INF/views/account/address-details.jsp");
+        var view = req.getRequestDispatcher("/WEB-INF/views/account/address-edit.jsp");
         view.forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int id;
-        try {
-            id = Integer.parseInt(req.getParameter("id"));
-        } catch (NullPointerException | NumberFormatException exc) {
-            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
-            return;
-        }
+        var address = addressMapper.toAddressDTO(req.getParameterMap());
 
-        var address = accountService.getAddressDetails(id);
+        accountService.updateAddressDetails(address);
+
+        resp.sendRedirect("/addresses");
     }
 }
