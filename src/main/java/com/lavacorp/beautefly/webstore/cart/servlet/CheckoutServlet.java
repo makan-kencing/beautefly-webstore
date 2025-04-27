@@ -33,7 +33,7 @@ public class CheckoutServlet extends HttpServlet {
         req.setAttribute("cart", cart);
         req.setAttribute("addresses", addresses);
 
-        var view = req.getRequestDispatcher("/WEB-INF/views/account/checkout.jsp");
+        var view = req.getRequestDispatcher("/WEB-INF/views/checkout.jsp");
         view.forward(req, resp);
     }
 }
