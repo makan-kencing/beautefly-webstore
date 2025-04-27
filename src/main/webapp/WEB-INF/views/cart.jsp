@@ -1,7 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="webstore" tagdir="/WEB-INF/tags/webstore" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="webstore" tagdir="/WEB-INF/tags/webstore" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:useBean id="cart" type="com.lavacorp.beautefly.webstore.cart.dto.CartDTO" scope="request"/>
 
@@ -29,21 +30,26 @@
                                     </thead>
                                     <tbody>
                                     <c:forEach var="item" items="${cart.items()}">
+                                        <jsp:useBean id="item"
+                                                     type="com.lavacorp.beautefly.webstore.cart.dto.CartItemDTO"/>
+
                                         <tr>
                                             <td></td>
                                             <td>
-                                                <img src="${item.product().imageUrls[0]}" alt="">
+                                                <img src="${item.product().images()[0].url()}" alt="">
                                             </td>
                                             <td>
-                                                <a href="${pageContext.request.contextPath}/product/${item.product().id}">
+                                                <a href="<c:url value='/product/${item.product().id}' />">
                                                         ${item.product().name}
                                                 </a>
                                             </td>
                                             <td>
-                                                RM ${item.product().unitPrice}
+                                                <fmt:formatNumber value="${item.product().unitPrice}"
+                                                                  type="currency"
+                                                                  currencySymbol="RM "/>
                                             </td>
                                             <td>
-                                                <form action="${pageContext.request.contextPath}/cart" method="post">
+                                                <form action="<c:url value='/cart' />" method="post">
                                                     <input type="hidden" name="product" value="${item.product().id}">
                                                     <label>
                                                         <input type="number" name="quantity" value="${item.quantity()}"
@@ -52,7 +58,9 @@
                                                 </form>
                                             </td>
                                             <td>
-                                                RM ${item.subtotal()}
+                                                <fmt:formatNumber value="${item.subtotal()}"
+                                                                  type="currency"
+                                                                  currencySymbol="RM "/>
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -61,7 +69,9 @@
                                     <tr>
                                         <td colspan="6">
                                             Subtotal (${cart.items().size()} items):
-                                            RM ${cart.subtotal()}
+                                            <fmt:formatNumber value="${cart.subtotal()}"
+                                                              type="currency"
+                                                              currencySymbol="RM "/>
                                         </td>
                                     </tr>
                                     </tfoot>
@@ -74,7 +84,7 @@
 
                                 <p>Once you add something to your cart, it will appear here. Ready to get started?</p>
 
-                                <a href="${pageContext.request.contextPath}/" class="text-blue-500">Get started</a>
+                                <a href="<c:url value='/' />" class="text-blue-500">Get started</a>
                             </div>
                         </c:otherwise>
                     </c:choose>
@@ -84,34 +94,54 @@
             <div class="flex flex-col w-xs">
                 <c:if test="${cart.items().size() > 0}">
                     <div class="rounded border p-4 shadow">
-                        <form action="${pageContext.request.contextPath}/cart/checkout" method="get" class="space-y-2">
+                        <form action="<c:url value='/cart/checkout' />" method="get" class="space-y-2">
                             <h2>Summary</h2>
 
                             <table>
                                 <tbody>
                                 <tr>
                                     <td>Subtotal</td>
-                                    <td>RM ${cart.subtotal()}</td>
+                                    <td>
+                                        <fmt:formatNumber value="${cart.subtotal()}"
+                                                          type="currency"
+                                                          currencySymbol="RM "/>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Shipping & Handling</td>
-                                    <td>RM ${cart.shippingCost()}</td>
+                                    <td>
+                                        <fmt:formatNumber value="${cart.shippingCost()}"
+                                                          type="currency"
+                                                          currencySymbol="RM "/>
+                                    </td>
                                 </tr>
                                 <c:if test="${cart.shippingDiscounted() == true}">
                                     <tr>
                                         <td>Shipping Discount</td>
-                                        <td>RM ${cart.shippingCost()}</td>
+                                        <td>
+                                            - <fmt:formatNumber value="${cart.shippingCost()}"
+                                                              type="currency"
+                                                              currencySymbol="RM "/>
+                                        </td>
                                     </tr>
                                 </c:if>
                                 <tr>
                                     <td>Estimated Tax</td>
-                                    <td>RM ${cart.taxCost()}</td>
+                                    <td>
+                                        <fmt:formatNumber value="${cart.estimatedTax()}"
+                                                          type="currency"
+                                                          currencySymbol="RM "/>
+                                    </td>
                                 </tr>
                                 </tbody>
                                 <tfoot>
                                 <tr>
                                     <td>Total</td>
-                                    <td>RM ${cart.total()}</td>
+                                    <td>
+                                        <fmt:formatNumber value="${cart.total()}"
+                                                          type="currency"
+                                                          currencySymbol="RM "/>
+                                    </td>
                                 </tr>
                                 </tfoot>
                             </table>
