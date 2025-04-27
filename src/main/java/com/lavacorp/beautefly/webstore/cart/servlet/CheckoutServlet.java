@@ -1,6 +1,7 @@
-package com.lavacorp.beautefly.webstore.account.servlet;
+package com.lavacorp.beautefly.webstore.cart.servlet;
 
 import com.lavacorp.beautefly.webstore.account.AccountService;
+import com.lavacorp.beautefly.webstore.cart.CartService;
 import com.lavacorp.beautefly.webstore.security.filter.UserContextFilter;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
@@ -13,22 +14,26 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/addresses")
+@WebServlet("/checkout")
 @ServletSecurity(@HttpConstraint(rolesAllowed = {"*"}))
-public class AddressesServlet extends HttpServlet {
+public class CheckoutServlet extends HttpServlet {
+    @Inject
+    private CartService cartService;
+
     @Inject
     private AccountService accountService;
 
-    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         var user = UserContextFilter.getUserContext(req);
         assert user != null;
 
+        var cart = cartService.getCartDetails(req.getSession(), user);
         var addresses = accountService.getAccountAddressesDetails(user);
 
+        req.setAttribute("cart", cart);
         req.setAttribute("addresses", addresses);
 
-        var view = req.getRequestDispatcher("/WEB-INF/views/account/addresses.jsp");
+        var view = req.getRequestDispatcher("/WEB-INF/views/checkout.jsp");
         view.forward(req, resp);
     }
 }

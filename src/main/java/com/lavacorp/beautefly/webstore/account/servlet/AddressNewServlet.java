@@ -1,6 +1,7 @@
 package com.lavacorp.beautefly.webstore.account.servlet;
 
 import com.lavacorp.beautefly.webstore.account.AccountService;
+import com.lavacorp.beautefly.webstore.account.mapper.AddressMapper;
 import com.lavacorp.beautefly.webstore.security.filter.UserContextFilter;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
@@ -13,22 +14,32 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/addresses")
+@WebServlet("/address/new")
 @ServletSecurity(@HttpConstraint(rolesAllowed = {"*"}))
-public class AddressesServlet extends HttpServlet {
+public class AddressNewServlet extends HttpServlet {
     @Inject
     private AccountService accountService;
 
+    @Inject
+    private AddressMapper addressMapper;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        var view = req.getRequestDispatcher("/WEB-INF/views/account/address-new.jsp");
+        view.forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         var user = UserContextFilter.getUserContext(req);
         assert user != null;
 
-        var addresses = accountService.getAccountAddressesDetails(user);
+        var newAddress = addressMapper.toAddressDTO(req.getParameterMap());
 
-        req.setAttribute("addresses", addresses);
+        var setDefault = req.getParameter("isDefault") != null;
 
-        var view = req.getRequestDispatcher("/WEB-INF/views/account/addresses.jsp");
-        view.forward(req, resp);
+        accountService.createNewAddress(user, newAddress, setDefault);
+
+        resp.sendRedirect("/addresses");
     }
 }

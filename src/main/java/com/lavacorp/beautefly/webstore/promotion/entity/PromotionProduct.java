@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @Entity
 public class PromotionProduct implements Serializable {
     @EmbeddedId
-    private PromotionProductId id;
+    private PromotionProductId id = new PromotionProductId();
 
     @MapsId(PromotionProductId_.PROMOTION_ID)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

@@ -17,7 +17,7 @@ import java.time.Instant;
 @Entity
 public class SalesOrderProduct implements Serializable {
     @EmbeddedId
-    private SalesOrderProductId id;
+    private SalesOrderProductId id = new SalesOrderProductId();
 
     @MapsId(SalesOrderProductId_.ORDER_ID)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
