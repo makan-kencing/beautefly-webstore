@@ -8,11 +8,13 @@ import jakarta.inject.Inject;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceUnit;
 import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import org.hibernate.SessionFactory;
 
 import java.io.IOException;
 
+@WebFilter("/*")
 public class UserContextFilter implements Filter {
     public static final String ATTRIBUTE_NAME = "user";
 
