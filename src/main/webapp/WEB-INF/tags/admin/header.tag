@@ -3,9 +3,6 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
-<jsp:useBean id="user" type="com.lavacorp.beautefly.webstore.security.dto.AccountContextDTO" scope="request"/>
-
 <header>
     <nav>
         <div class="bg-gray-900 text-white p-5 flex items-center">
@@ -13,7 +10,7 @@
 
             <div>
                 <button type="button" popovertarget="settings">
-                    ${user.username()}
+                    ${account.username()}
                     <i class="fa-solid fa-chevron-down ml-1"></i>
                 </button>
             </div>

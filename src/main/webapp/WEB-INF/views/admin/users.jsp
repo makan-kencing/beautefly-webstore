@@ -187,9 +187,12 @@
                 </script>
             </div>
 
-            <admin:dialog-form dialogid="create-account" action="<c:url value='/admin/account/add' />" method="post"
+            <admin:dialog-form dialogid="create-account"
+                               action="${pageContext.request.contextPath}/admin/account/add"
+                               method="post"
                                title="Add New Account">
-                <div>
+
+            <div>
                     <label for="username" class="block">Username</label>
                     <input type="text" name="username" id="username" placeholder="Admin" required
                            class="w-full border border-border py-1 px-2 rounded"/>
@@ -205,7 +208,7 @@
                     <label for="password" class="block">Password</label>
 
                     <div class="flex items-center">
-                        <input type="password" id="password" required
+                        <input type="password" name="password" id="password" required
                                class="w-full border border-border py-1 px-2 rounded">
                         <div class="-ml-7 show-password group">
                             <i class="fa-solid fa-eye-slash group-data-visible:hidden!"></i>
@@ -249,7 +252,7 @@
                     <label for="confirm-password" class="block">Confirm Password</label>
 
                     <div class="flex items-center">
-                        <input type="password" id="confirm-password" required
+                        <input type="password" name="confirm-password" id="confirm-password" required
                                class="w-full border border-border py-1 px-2 rounded">
                         <div class="-ml-7 show-password group">
                             <i class="fa-solid fa-eye-slash group-data-visible:hidden!"></i>

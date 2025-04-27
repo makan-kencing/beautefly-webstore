@@ -10,10 +10,11 @@
         <!-- Page Header + Edit Btn -->
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-2xl font-bold">User Details</h2>
-            <a href="${pageContext.request.contextPath}/admin/account/${account.id()}/edit"
+            <a href="${pageContext.request.contextPath}/admin/account/edit?id=${account.id()}"
                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
                 ✏️ Edit Info
             </a>
+
         </div>
 
         <!-- Detail Table -->
@@ -38,7 +39,7 @@
             <tr>
                 <td class="p-3 font-semibold">Active:</td>
                 <td class="p-3">
-                    <span class="data-active:text-green-600 text-red-600} font-semibold"
+                    <span class="data-active:text-green-600 text-red-600 font-semibold"
                         ${account.active() ? "data-active" : ""}>
                             ${account.active() ? "YES" : "NO"}
                     </span>
@@ -48,11 +49,21 @@
                 <td class="p-3 font-semibold">Roles:</td>
                 <td class="p-3">
                     <c:forEach var="role" items="${account.roles()}">
-                        <span class="inline-block px-2 py-1 text-white text-xs rounded-full
-                                data-role-admin:bg-red-600
-                                data-role-staff:bg-blue-600
-                                data-role-user:bg-green-600"
-                            ${"data-role-" + role.name().toLowerCase()}>
+                        <c:set var="roleClass" value="bg-green-600" /> <!-- Default color -->
+
+                        <c:choose>
+                            <c:when test="${role.name() == 'ADMIN'}">
+                                <c:set var="roleClass" value="bg-red-600" />
+                            </c:when>
+                            <c:when test="${role.name() == 'STAFF'}">
+                                <c:set var="roleClass" value="bg-blue-600" />
+                            </c:when>
+                            <c:when test="${role.name() == 'USER'}">
+                                <c:set var="roleClass" value="bg-green-600" />
+                            </c:when>
+                        </c:choose>
+
+                        <span class="inline-block px-2 py-1 text-white text-xs rounded-full ${roleClass}">
                                 ${role}
                         </span>
                     </c:forEach>
@@ -61,9 +72,17 @@
             <tr>
                 <td class="p-3 font-semibold">Profile Picture:</td>
                 <td class="p-3">
-                    <img src="${pageContext.request.contextPath}${account.profileImage().href()}"
-                         class="w-20 h-20 object-cover rounded-full border"
-                         alt="Profile"/>
+                    <c:if test="${not empty account.profileImageHash()}">
+                        <img src="${pageContext.request.contextPath}/upload/${account.profileImageHash()}"
+                             class="w-20 h-20 object-cover rounded-full border"
+                             alt="Profile"/>
+                    </c:if>
+                    <c:if test="${empty account.profileImageHash()}">
+                        <img src="${pageContext.request.contextPath}/static/default-profile.png"
+                             class="w-20 h-20 object-cover rounded-full border"
+                             alt="Profile"/>
+                    </c:if>
+
                 </td>
             </tr>
             </tbody>

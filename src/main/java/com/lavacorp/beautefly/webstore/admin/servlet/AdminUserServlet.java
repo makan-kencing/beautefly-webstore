@@ -41,7 +41,7 @@ public class AdminUserServlet extends HttpServlet {
             return;
         }
 
-        req.setAttribute("account", accountMapper.toUserAccountDetailsDTO(account));
+        req.setAttribute("account", accountMapper.toAdminUserAccountDTO(account));
 
         var view = req.getRequestDispatcher("/WEB-INF/views/admin/user-details.jsp");
         view.forward(req, resp);
