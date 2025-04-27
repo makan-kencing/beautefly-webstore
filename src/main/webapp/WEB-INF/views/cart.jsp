@@ -58,14 +58,16 @@
                                             </td>
                                             <td class="text-center">
                                                 <form action="<c:url value='/cart/' />" method="post">
-                                                    <input type="hidden" name="productId" value="${item.product().id()}">
+                                                    <input type="hidden" name="productId"
+                                                           value="${item.product().id()}">
                                                     <div class="flex items-center justify-between border border-border rounded h-8">
                                                         <button type="button" onclick="updateQuantity.call(this, -1)"
                                                                 class="cursor-pointer w-8 h-full text-gray-400 border-r border-border">
                                                             <i class="fa-solid fa-minus"></i>
                                                         </button>
                                                         <label>
-                                                            <input type="text" name="quantity" value="${item.quantity()}" min="0" readonly
+                                                            <input type="text" name="quantity"
+                                                                   value="${item.quantity()}" min="0" readonly
                                                                    class="text-center text-gray-800 border-none outline-none w-8">
                                                         </label>
                                                         <button type="button" onclick="updateQuantity.call(this, 1)"
@@ -117,7 +119,7 @@
             <div class="flex flex-col w-xs">
                 <c:if test="${cart.items().size() > 0}">
                     <div class="rounded-xl border border-border px-6 py-4 shadow">
-                        <form action="<c:url value='/checkout' />" method="get" class="space-y-2">
+                        <div class="space-y-2">
                             <h2 class="text-2xl font-bold">Summary</h2>
 
                             <table class="w-full">
@@ -170,11 +172,11 @@
                                 </tfoot>
                             </table>
 
-                            <button type="submit"
-                                    class="w-full p-2 rounded-full font-bold text-white bg-blue-500 hover:bg-blue-600 cursor-pointer">
+                            <a href="<c:url value='/checkout' />"
+                               class="block text-center w-full p-2 rounded-full font-bold text-white bg-blue-500 hover:bg-blue-600 cursor-pointer">
                                 Checkout
-                            </button>
-                        </form>
+                            </a>
+                        </div>
                     </div>
                 </c:if>
             </div>
