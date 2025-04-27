@@ -87,7 +87,7 @@ public class AccountService {
         return addressMapper.toAddressDTO(address);
     }
 
-    public void createNewAddress(AccountContextDTO user, AddressDTO newAddress) {
+    public void createNewAddress(AccountContextDTO user, AddressDTO newAddress, boolean setDefault) {
         var session = emf.unwrap(SessionFactory.class)
                 .openStatelessSession();
 
@@ -101,7 +101,7 @@ public class AccountService {
 
         session.insert(address);
 
-        if (account.getAddressBook().getDefaultAddress() == null) {
+        if (setDefault || account.getAddressBook().getDefaultAddress() == null) {
             account.getAddressBook().setDefaultAddress(address);
             session.update(account);
         }

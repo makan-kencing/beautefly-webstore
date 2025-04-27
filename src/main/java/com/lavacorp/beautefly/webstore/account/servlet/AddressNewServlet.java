@@ -25,7 +25,7 @@ public class AddressNewServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        var view = req.getRequestDispatcher("/WEB-INF/views/account/address-details.jsp");
+        var view = req.getRequestDispatcher("/WEB-INF/views/account/address-new.jsp");
         view.forward(req, resp);
     }
 
@@ -36,7 +36,9 @@ public class AddressNewServlet extends HttpServlet {
 
         var newAddress = addressMapper.toAddressDTO(req.getParameterMap());
 
-        accountService.createNewAddress(user, newAddress);
+        var setDefault = req.getParameter("isDefault") != null;
+
+        accountService.createNewAddress(user, newAddress, setDefault);
 
         resp.sendRedirect("/addresses");
     }
