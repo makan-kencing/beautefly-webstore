@@ -46,7 +46,7 @@ public class CartLike<T extends CartProductLike<?>> implements Serializable, Ite
 
     public Optional<T> getCartItem(int productId) {
         return products.stream()
-                .filter(p -> p.getId().getCartId() == productId)
+                .filter(p -> p.getProduct().getId() == productId)
                 .findAny();
     }
 }
