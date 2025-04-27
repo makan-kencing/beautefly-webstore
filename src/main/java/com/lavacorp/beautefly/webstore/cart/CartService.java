@@ -46,7 +46,7 @@ public class CartService {
         return cartMapper.toCartItemDTO(cartItem);
     }
 
-    public CartDTO getCartDetails(HttpSession session, AccountContextDTO user) {
+    public CartDTO getCartDetails(HttpSession session, @Nullable AccountContextDTO user) {
         var cart = getCart(session, user);
         return cartMapper.toCartDTO(cart);
     }
