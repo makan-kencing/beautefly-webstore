@@ -7,8 +7,7 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
 
-    <!-- Swiper Container -->
-    <div class="swiper-container w-full h-[calc(100vh-4.35rem)] overflow-x-hidden">
+    <div class="swiper-container main-swiper w-full h-[calc(100vh-4.35rem)] overflow-x-hidden">
         <div class="swiper-wrapper">
             <c:forEach var="item" items="${promos}">
                 <div class="swiper-slide bg-cover" style="background-image: url(${item.imageUrl()})">
@@ -20,19 +19,18 @@
             </c:forEach>
         </div>
 
-        <div class="swiper-pagination"></div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination main-swiper-pagination"></div>
+        <div class="swiper-button-next main-swiper-button-next"></div>
+        <div class="swiper-button-prev main-swiper-button-prev"></div>
     </div>
 
     <h2 class="text-center text-blue-400 text-shadow-lg mt-20 text-[40px] font-black">New Products Arrivals</h2>
 
-    <!-- New Products Carousel -->
-    <div class="carousel_product relative w-11/12 mx-auto my-8 overflow-hidden">
+    <!-- 新品轮播 -->
+    <div class="carousel_product swiper-container relative w-11/12 mx-auto my-8 overflow-hidden">
         <div class="swiper-wrapper flex transition-transform duration-500">
-            <!-- Carousel items -->
             <c:forEach var="product" begin="1" end="10">
-                <div class="min-w-[22%] box-border p-2 flex flex-col justify-between">
+                <div class="swiper-slide min-w-[22%] box-border p-2 flex flex-col justify-between">
                     <div class="bg-gradient-to-b from-white to-blue-100 rounded-xl shadow-md text-center p-4 flex flex-col justify-between h-[300px]">
                         <div class="h-[300px] overflow-hidden flex justify-center items-center">
                             <img class="max-h-full w-auto rounded-xl" src="https://hadalabo.com.my/img/2ab67433-0e27-49c1-bae4-ae833fe37f17/hydrating-oil-lg.png?fm=png&q=80&fit=max&crop=1855%2C2334%2C0%2C0" alt="Product ${product}" />
@@ -43,9 +41,9 @@
             </c:forEach>
         </div>
 
-        <div class="swiper-pagination"></div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination swiper-pagination-products"></div>
+        <div class="swiper-button-next swiper-button-next-products"></div>
+        <div class="swiper-button-prev swiper-button-prev-products"></div>
     </div>
 
     <div class="flex justify-center items-center max-w-screen-lg mx-auto my-16 gap-12 px-5 mt-20">
@@ -69,45 +67,47 @@
 
     <h2 class="text-center text-blue-400 text-shadow-lg mt-20 mb-5 text-[40px] font-black">May 2025 Top Sales</h2>
 
-    <!-- Top Sales Carousel -->
-    <div class="carousel_topsales relative w-[1000px] h-[555px] mx-auto mb-10 overflow-hidden bg-gradient-to-r from-blue-300 via-white to-pink-300 box-border">
+    <div class="carousel_topsales swiper-container relative w-[1000px] h-[555px] mx-auto mb-10 overflow-hidden bg-gradient-to-r from-blue-300 via-white to-pink-300 box-border">
         <div class="swiper-wrapper flex transition-transform duration-500">
             <c:forEach var="category" begin="1" end="6">
-                <div class="min-w-full flex justify-center items-center relative">
-                    <div class="absolute top-110 w-full text-center text-5xl font-bold text-white z-10">
+                <div class="swiper-slide min-w-full flex justify-center items-center relative">
+                    <div class="absolute top-[110px] w-full text-center text-5xl font-bold text-white z-10">
                         <p class="text-shadow-lg/40">Skin Care</p>
                     </div>
-                    <div class="absolute top-25 left-1/2 transform -translate-x-1/2 -translate-y-4 w-[300px] h-[300px]">
+                    <div class="absolute top-[25px] left-1/2 transform -translate-x-1/2 -translate-y-4 w-[300px] h-[300px]">
                         <img class="w-full h-full object-cover" src="https://m.media-amazon.com/images/I/71-55TGAWNL.jpg" alt="Category ${category}" />
                     </div>
                 </div>
             </c:forEach>
-            <div class="swiper-pagination"></div>
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
         </div>
+
+        <div class="swiper-pagination swiper-pagination-topsales"></div>
+        <div class="swiper-button-next swiper-button-next-topsales"></div>
+        <div class="swiper-button-prev swiper-button-prev-topsales"></div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Initialize Swiper for the main promo carousel
-            new Swiper('.swiper-container', {
+            new Swiper('.main-swiper', {
                 loop: false,
                 autoplay: false,
                 pagination: {
-                    el: '.swiper-pagination',
+                    el: '.main-swiper-pagination',
                     clickable: true,
                 },
                 navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
+                    nextEl: '.main-swiper-button-next',
+                    prevEl: '.main-swiper-button-prev',
                 },
             });
 
+            // 新品轮播初始化
             new Swiper('.carousel_product', {
                 loop: false,
                 autoplay: false,
+                slidesPerView: 'auto',
+                spaceBetween: 10,
                 pagination: {
                     el: '.swiper-pagination-products',
                     clickable: true,
@@ -131,6 +131,6 @@
                 },
             });
         });
-    </script><!--hi-->
+    </script>
 
 </webstore:base>
