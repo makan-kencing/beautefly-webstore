@@ -74,24 +74,6 @@ public class FileService {
         return file;
     }
 
-    public FileUpload persist(FileUpload file) {
-        var session = emf.unwrap(SessionFactory.class)
-                .openStatelessSession();
-
-        var existingFile = session.createSelectionQuery("from FileUpload where hash = :hash", FileUpload.class)
-                .setParameter("hash", file.getHash())
-                .getSingleResultOrNull();
-
-        if (existingFile == null)
-            session.insert(file);
-        else {
-            file = fileUploadMapper.updateMetadata(file, existingFile);
-            session.update(file);
-        }
-
-        return file;
-    }
-
     public FileUploadDTO uploadFile(@NotNull InputStream stream, String filename, AccountContextDTO user) throws IOException, UnsupportedFileFormatException {
         var file = save(stream, filename);
 
@@ -99,8 +81,11 @@ public class FileService {
         account.setId(user.id());
 
         file.setCreatedBy(account);
-        
-        file = persist(file);
+
+        var session = emf.unwrap(SessionFactory.class)
+                .openStatelessSession();
+
+        session.insert(file);
 
         return fileUploadMapper.toFileUploadDTO(file);
     }

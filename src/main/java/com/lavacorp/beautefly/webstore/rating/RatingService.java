@@ -82,7 +82,7 @@ public class RatingService {
         for (var part : newRating.images()) {
             var file = fileService.save(part.getInputStream(), part.getSubmittedFileName());
             file.setCreatedBy(account);
-            file = fileService.persist(file);
+            session.insert(file);
 
             files.add(file);
         }
