@@ -1,13 +1,17 @@
 package com.lavacorp.beautefly.webstore.rating;
 
 import com.lavacorp.beautefly.webstore.account.entity.Account;
+import com.lavacorp.beautefly.webstore.account.entity.Account_;
 import com.lavacorp.beautefly.webstore.file.FileService;
 import com.lavacorp.beautefly.webstore.file.entity.FileUpload;
 import com.lavacorp.beautefly.webstore.product.entity.Product;
+import com.lavacorp.beautefly.webstore.rating.dto.RatingDTO;
 import com.lavacorp.beautefly.webstore.rating.dto.RatingNewDTO;
 import com.lavacorp.beautefly.webstore.rating.dto.ReplyNewDTO;
 import com.lavacorp.beautefly.webstore.rating.entity.Rating;
+import com.lavacorp.beautefly.webstore.rating.entity.Rating_;
 import com.lavacorp.beautefly.webstore.rating.entity.Reply;
+import com.lavacorp.beautefly.webstore.rating.mapper.RatingMapper;
 import com.lavacorp.beautefly.webstore.security.dto.AccountContextDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -15,11 +19,13 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceUnit;
 import jakarta.transaction.Transactional;
 import org.hibernate.SessionFactory;
+import org.hibernate.graph.GraphSemantic;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Transactional
 @ApplicationScoped
@@ -29,6 +35,41 @@ public class RatingService {
 
     @Inject
     private FileService fileService;
+
+    @Inject
+    private RatingMapper ratingMapper;
+
+    public RatingDTO getRatingDetails(int ratingId) throws NoSuchElementException {
+        var session = emf.unwrap(SessionFactory.class)
+                .openStatelessSession();
+
+        var graph = session.createEntityGraph(Rating.class);
+        graph.addSubgraph(Rating_.account).addSubgraph(Account_.profileImage);
+        graph.addPluralSubgraph(Rating_.images);
+        graph.addPluralSubgraph(Rating_.replies);
+
+        var rating = session.get(graph, GraphSemantic.FETCH, ratingId);
+        if (rating == null)
+            throw new NoSuchElementException("Rating with id " + ratingId + " does not exists.");
+        return ratingMapper.toRatingDTO(rating);
+    }
+
+    public List<RatingDTO> getProductRatings(int productId) throws NoSuchElementException {
+        var session = emf.unwrap(SessionFactory.class)
+                .openStatelessSession();
+
+        var graph = session.createEntityGraph(Rating.class);
+        graph.addSubgraph(Rating_.account).addSubgraph(Account_.profileImage);
+        graph.addPluralSubgraph(Rating_.images);
+        graph.addPluralSubgraph(Rating_.replies);
+
+        return session.createSelectionQuery("from Rating where product.id = :productId", Rating.class)
+                .setEntityGraph(graph, GraphSemantic.FETCH)
+                .setParameter("productId", productId)
+                .getResultStream()
+                .map(ratingMapper::toRatingDTO)
+                .toList();
+    }
 
     public void rate(RatingNewDTO newRating, AccountContextDTO user) throws IOException {
         var session = emf.unwrap(SessionFactory.class)
