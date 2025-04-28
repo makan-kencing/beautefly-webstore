@@ -34,6 +34,7 @@ services:
             BEAUTEFLY_FILESERVER_BASE_URI: ${BEAUTEFLY_FILESERVER_BASE_URI}
         volumes:
             - ./deploy/postgresql-42.7.5.jar:/opt/glassfish7/domains/domain1/lib/
+            - ./deploy/cacerts.jks:/opt/glassfish7/domains/domain1/config/
             - ${BEAUTEFLY_EXT_VOLUME}:/usr/app/data:z
         ports:
             - "8080:8080"
