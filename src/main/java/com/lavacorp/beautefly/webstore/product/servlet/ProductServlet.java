@@ -1,5 +1,6 @@
 package com.lavacorp.beautefly.webstore.product.servlet;
 
+import com.lavacorp.beautefly.webstore.rating.RatingService;
 import com.lavacorp.beautefly.webstore.search.ProductSearchService;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
@@ -14,7 +15,10 @@ import java.io.IOException;
 public class ProductServlet extends HttpServlet {
     @Inject
     private ProductSearchService productService;
-    
+
+    @Inject
+    private RatingService ratingService;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int productId;
@@ -37,8 +41,10 @@ public class ProductServlet extends HttpServlet {
             return;
         }
 
-
         req.setAttribute("product", product);
+
+        var reviews = ratingService.getProductRatings(productId);
+        req.setAttribute("reviews", reviews);
 
         var view = req.getRequestDispatcher("/WEB-INF/views/product.jsp");
         view.forward(req, resp);

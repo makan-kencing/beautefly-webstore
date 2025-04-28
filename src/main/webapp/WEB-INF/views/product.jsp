@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <jsp:useBean id="product" type="com.lavacorp.beautefly.webstore.product.dto.ProductPageDTO" scope="request"/>
+<jsp:useBean id="reviews" type="java.util.List<com.lavacorp.beautefly.webstore.rating.dto.RatingDTO>" scope="request"/>
 
 <webstore:base pageTitle="${product.name()}">
     <jsp:attribute name="includeHead">
@@ -46,11 +47,13 @@
                         <label for="quantity" class="text-base text-gray-600">Quantity</label>
                         <div class="flex border border-gray-300 rounded overflow-hidden h-8">
                             <button type="button" onclick="changeQty.call(this, -1)"
-                                    class="cursor-pointer w-8 bg-white text-gray-400 text-lg">−</button>
+                                    class="cursor-pointer w-8 bg-white text-gray-400 text-lg">−
+                            </button>
                             <input type="text" name="quantity" id="quantity" value="1" min="1" readonly
                                    class="w-10 text-center text-base text-gray-800 border-none outline-none">
                             <button type="button" onclick="changeQty.call(this, 1)"
-                                    class="cursor-pointer w-8 bg-white text-gray-400 text-lg">+</button>
+                                    class="cursor-pointer w-8 bg-white text-gray-400 text-lg">+
+                            </button>
                         </div>
                     </div>
 
@@ -88,11 +91,41 @@
 
                         <table class="whitespace-nowrap text-right border-separate border-spacing-x-2 border-spacing-y-3
                             **:[td]:even:w-full **:[td]:even:*:h-full **:[td]:even:border **:[td]:even:rounded-lg">
-                            <tr><td>5 star</td><td><div></div></td><td>312</td></tr>
-                            <tr><td>4 star</td><td><div></div></td><td>11</td></tr>
-                            <tr><td>3 star</td><td><div></div></td><td>30</td></tr>
-                            <tr><td>2 star</td><td><div></div></td><td>1</td></tr>
-                            <tr><td>1 star</td><td><div></div></td><td>1</td></tr>
+                            <tr>
+                                <td>5 star</td>
+                                <td>
+                                    <div></div>
+                                </td>
+                                <td>312</td>
+                            </tr>
+                            <tr>
+                                <td>4 star</td>
+                                <td>
+                                    <div></div>
+                                </td>
+                                <td>11</td>
+                            </tr>
+                            <tr>
+                                <td>3 star</td>
+                                <td>
+                                    <div></div>
+                                </td>
+                                <td>30</td>
+                            </tr>
+                            <tr>
+                                <td>2 star</td>
+                                <td>
+                                    <div></div>
+                                </td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>1 star</td>
+                                <td>
+                                    <div></div>
+                                </td>
+                                <td>1</td>
+                            </tr>
                         </table>
                     </div>
 
@@ -114,19 +147,30 @@
 
                     <div class="space-y-6 p-6">
                         <div class="comment rounded-lg p-4 shadow-lg bg-white">
-                            <div class="flex items-center space-x-2 mb-2">
-                                <img src="" alt="" class="w-8 h-8 rounded-full">
-                                <span class="font-semibold">Name</span>
-                            </div>
-                            <div class="text-gray-700 text-sm mb-4">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. A atque dignissimos est hic.
-                            </div>
+                            <c:forEach var="review" items="${reviews}">
+                                <div class="flex items-center space-x-2 mb-2">
+                                    <img src="" alt="" class="w-8 h-8 rounded-full">
+                                    <span class="font-semibold">${review.account().username()}</span>
+                                </div>
+                                <div>
+                                    <span data-raty data-star-type="i" data-read-only="true" data-score="${review.rating()}"
+                                          class="text-orange-400 text-[0.5rem]"></span>
+                                </div>
+                                <div class="text-gray-700 text-sm mb-4">
+                                        ${review.message()}
+                                </div>
+                            </c:forEach>
 
-                            <button class="mt-3 text-blue-500 reply-button" onclick="showReplyBox(this)">Reply</button>
+                            <button class="mt-3 text-blue-500 reply-button cursor-pointer" onclick="showReplyBox(this)">
+                                Reply
+                            </button>
 
                             <div class="reply-box hidden mt-3">
-                                <textarea class="w-full p-2 border border-gray-300 rounded-lg" rows="3" placeholder="Write your reply..."></textarea>
-                                <button type="button" class="mt-2 bg-blue-500 text-white py-1 px-4 rounded-lg" onclick="submitReply(this)">Submit Reply</button>
+                                <textarea class="w-full p-2 border border-gray-300 rounded-lg" rows="3"
+                                          placeholder="Write your reply..."></textarea>
+                                <button type="button" class="mt-2 bg-blue-500 text-white py-1 px-4 rounded-lg"
+                                        onclick="submitReply(this)">Submit Reply
+                                </button>
                             </div>
 
                             <!-- reply-->
