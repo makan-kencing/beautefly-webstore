@@ -9,6 +9,10 @@ import com.lavacorp.beautefly.webstore.file.entity.FileUpload;
 import com.lavacorp.beautefly.webstore.file.entity.FileUpload_;
 import com.lavacorp.beautefly.webstore.order.entity.SalesOrder;
 import com.lavacorp.beautefly.webstore.order.entity.SalesOrder_;
+import com.lavacorp.beautefly.webstore.rating.entity.Rating;
+import com.lavacorp.beautefly.webstore.rating.entity.Rating_;
+import com.lavacorp.beautefly.webstore.rating.entity.Reply;
+import com.lavacorp.beautefly.webstore.rating.entity.Reply_;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -77,6 +81,12 @@ public class Account extends UserCreated {
 
     @OneToMany(mappedBy = FileUpload_.CREATED_BY, fetch = LAZY, cascade = CascadeType.ALL)
     private Set<FileUpload> uploadedFiles = new HashSet<>();
+
+    @OneToMany(mappedBy = Rating_.ACCOUNT, fetch = LAZY)
+    private Set<Rating> ratings = new HashSet<>();
+
+    @OneToMany(mappedBy = Reply_.ACCOUNT, fetch = LAZY)
+    private Set<Reply> replies = new HashSet<>();
 
     private boolean active = true;
 
