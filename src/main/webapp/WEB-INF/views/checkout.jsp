@@ -36,18 +36,6 @@
                     </c:forEach>
                 </div>
 
-                <!-- Payment Option -->
-                <div class="horizontal items-center border-b-8">
-                    <div>
-                        <div class="font-bold">Payment Option</div>
-                        <div>Online Banking - Maybank2u</div>
-                    </div>
-                    <button type="button" onclick="document.querySelector('dialog#select-method').showModal()"
-                            class="ml-auto text-link hover:underline">
-                        View All
-                    </button>
-                </div>
-
                 <!-- 商品区块 -->
                 <div class="vertical border-b-8 min-w-4xl">
                     <c:forEach var="item" items="${cart.items()}">
@@ -130,44 +118,6 @@
                     </button>
                 </div>
             </div>
-
-            <dialog id="select-method" class="m-auto rounded-xl p-2">
-                <div class="w-md">
-                    <div class="horizontal items-center">
-                        <button type="button" onclick="this.closest('dialog').close()"
-                            class="w-8 h-10">
-                            <i class="fa-solid fa-left-long mr-auto"></i>
-                        </button>
-
-                        <h2 class="text-xl font-bold">Payment Method</h2>
-                    </div>
-
-                    <div class="vertical py-2 *:p-2 gap-0">
-                        <label class="horizontal items-center peer/card has-checked:bg-blue-50 has-checked:text-blue-800 has-checked:ring-blue-200">
-                            <i class="fa-solid fa-credit-card"></i>
-                            Credit Card
-                            <input type="radio" name="paymentMethod" class="checked:border-blue-500 ml-auto">
-
-                        </label>
-                        <div class="hidden peer-has-checked/card:block">
-                            
-                        </div>
-                        <label class="horizontal items-center has-checked:bg-blue-50 has-checked:text-blue-800 has-checked:ring-blue-200">
-                            <i class="fa-solid fa-building-columns"></i>
-                            Bank Transfer
-                            <input type="radio" name="paymentMethod" class="checked:border-blue-500 ml-auto">
-                        </label>
-
-                    </div>
-
-                    <div class="p-2">
-                        <button type="button" onclick="this.closest('dialog').close()"
-                                class="rounded-lg w-full p-3 font-bold text-md text-white bg-blue-500 hover:bg-blue-600 cursor-pointer">
-                            Next
-                        </button>
-                    </div>
-                </div>
-            </dialog>
         </form>
 
         <!-- Modal -->

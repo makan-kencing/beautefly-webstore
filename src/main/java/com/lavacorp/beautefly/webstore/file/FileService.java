@@ -74,14 +74,7 @@ public class FileService {
         return file;
     }
 
-    public FileUploadDTO uploadFile(@NotNull InputStream stream, String filename, AccountContextDTO user) throws IOException, UnsupportedFileFormatException {
-        var file = save(stream, filename);
-
-        var account = new Account();
-        account.setId(user.id());
-
-        file.setCreatedBy(account);
-
+    public FileUpload persist(FileUpload file) {
         var session = emf.unwrap(SessionFactory.class)
                 .openStatelessSession();
 
@@ -95,6 +88,19 @@ public class FileService {
             file = fileUploadMapper.updateMetadata(file, existingFile);
             session.update(file);
         }
+
+        return file;
+    }
+
+    public FileUploadDTO uploadFile(@NotNull InputStream stream, String filename, AccountContextDTO user) throws IOException, UnsupportedFileFormatException {
+        var file = save(stream, filename);
+
+        var account = new Account();
+        account.setId(user.id());
+
+        file.setCreatedBy(account);
+        
+        file = persist(file);
 
         return fileUploadMapper.toFileUploadDTO(file);
     }

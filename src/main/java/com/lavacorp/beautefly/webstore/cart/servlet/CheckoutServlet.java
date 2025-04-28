@@ -36,4 +36,9 @@ public class CheckoutServlet extends HttpServlet {
         var view = req.getRequestDispatcher("/WEB-INF/views/checkout.jsp");
         view.forward(req, resp);
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.sendRedirect("/checkout/payment");
+    }
 }
