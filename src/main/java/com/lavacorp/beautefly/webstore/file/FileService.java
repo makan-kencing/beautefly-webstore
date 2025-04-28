@@ -63,12 +63,12 @@ public class FileService {
             throw new UnsupportedFileFormatException("Detection of an unsafe file upload or cannot sanitize uploaded document!", mimeType);
         }
 
-        var savedFilename = fileStorage.save(tmpFile, mimeType.getExtension());
+        var filehash = fileStorage.save(tmpFile, mimeType.getExtension());
 
         var file = new FileUpload();
-        file.setHash(filename);
-        file.setFilename(filename != null ? filename : savedFilename);
-        file.setUrl(fileStorage.resolveUrl(filename));
+        file.setHash(filehash);
+        file.setFilename(filename != null ? filename : filehash);
+        file.setUrl(fileStorage.resolveUrl(filehash));
         file.setType(mimeType);
 
         return file;
