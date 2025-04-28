@@ -24,7 +24,8 @@
         "datatables-colreorder": "^1.2.0",
         "datatables-select": "^1.1.0",
         "datatables.net-dt": "^2.2.2",
-        "raty-js": "^4.3.0"
+        "raty-js": "^4.3.0",
+        "stripe": "^18.0.0"
     },
     "private": true
 }
