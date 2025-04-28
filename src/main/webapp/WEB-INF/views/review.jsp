@@ -16,7 +16,8 @@
     <jsp:body>
         <main class="flex flex-col items-center p-6">
 
-            <form action="<c:url value='/review' ><c:param name='productId' value='${product.id()}'/></c:url>"
+            <form id="review"
+                  action="<c:url value='/review' ><c:param name='productId' value='${product.id()}'/></c:url>"
                   method="post"
                   enctype="multipart/form-data"
                   class="w-4xl space-y-5">
@@ -30,7 +31,10 @@
 
                     <div class="space-y-2">
                         <div data-raty data-star-type="i" data-score-name="rating"
-                             class="text-yellow-300 space-x-2">
+                             class="text-yellow-300 space-x-2 peer">
+                        </div>
+                        <div class="text-bad not-peer-data-invalid:hidden">
+                            Choose a rating to continue
                         </div>
                     </div>
 
@@ -101,12 +105,12 @@
             </form>
 
             <script>
-                const ratingStars = document.querySelectorAll('[data-raty]');
-                for (const star of ratingStars) {
-                    let raty = new Raty(star);
+                const ratyContainer = document.querySelector('[data-raty]');
+                const raty = new Raty(ratyContainer, {
+                    click: () => {delete ratyContainer.dataset.invalid}
+                });
 
-                    raty.init();
-                }
+                raty.init();
             </script>
             <script>
                 const reviewFileInput = document.querySelector("input[type='file']");
@@ -132,6 +136,17 @@
 
                     reviewFileInput.value = null;
                 }
+
+                document.querySelector("form#review").addEventListener("submit", function (e) {
+                    e.preventDefault();
+
+                    const score = raty.score();
+
+                    if (score)
+                        this.submit();
+                    else
+                        ratyContainer.dataset.invalid = "";
+                })
             </script>
         </main>
     </jsp:body>
