@@ -33,7 +33,7 @@ public interface RatingMapper {
     default ReplyNewDTO toReplyNewDTO(HttpServletRequest req) {
         return new ReplyNewDTO(
                 req.getParameter("message"),
-                Integer.parseUnsignedInt(req.getParameter("originalId"))
+                Integer.parseUnsignedInt(req.getParameter("ratingId"))
         );
     }
 }
