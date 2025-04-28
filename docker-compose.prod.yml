@@ -30,8 +30,12 @@ services:
 
             BEAUTEFLY_WEB_MEDIA_DIR: /usr/app/data${BEAUTEFLY_FILESERVER_BASE_URI}
             BEAUTEFLY_FILESERVER_BASE_URI: ${BEAUTEFLY_FILESERVER_BASE_URI}
+
+            STRIPE_PUBLISH_KEY: ${STRIPE_PUBLISH_KEY}
+            STRIPE_API_KEY: ${STRIPE_API_KEY}
         volumes:
             - ./deploy/postgresql-42.7.5.jar:/opt/glassfish7/domains/domain1/lib/
+            - ./deploy/cacerts.jks:/opt/glassfish7/domains/domain1/config/
             - ${BEAUTEFLY_EXT_VOLUME}:/usr/app/data:z
         depends_on:
             - db

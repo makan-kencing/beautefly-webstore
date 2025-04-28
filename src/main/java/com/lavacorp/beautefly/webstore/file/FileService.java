@@ -85,16 +85,7 @@ public class FileService {
         var session = emf.unwrap(SessionFactory.class)
                 .openStatelessSession();
 
-        var existingFile = session.createSelectionQuery("from FileUpload where hash = :hash", FileUpload.class)
-                .setParameter("hash", file.getHash())
-                .getSingleResultOrNull();
-
-        if (existingFile == null)
-            session.insert(file);
-        else {
-            file = fileUploadMapper.updateMetadata(file, existingFile);
-            session.update(file);
-        }
+        session.insert(file);
 
         return fileUploadMapper.toFileUploadDTO(file);
     }

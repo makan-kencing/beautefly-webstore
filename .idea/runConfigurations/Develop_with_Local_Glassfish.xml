@@ -90,6 +90,16 @@
         <option name="VALUE" value="$PROJECT_DIR$/beautefly-data/media" />
         <option name="IS_PREDEFINED" value="false" />
       </EnvironmentVariables>
+      <EnvironmentVariables>
+        <option name="NAME" value="STRIPE_API_KEY" />
+        <option name="VALUE" value="" />
+        <option name="IS_PREDEFINED" value="false" />
+      </EnvironmentVariables>
+      <EnvironmentVariables>
+        <option name="NAME" value="STRIPE_PUBLISH_KEY" />
+        <option name="VALUE" value="" />
+        <option name="IS_PREDEFINED" value="false" />
+      </EnvironmentVariables>
     </ConfigurationWrapper>
     <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
       <option name="USE_ENV_VARIABLES" value="true" />
@@ -133,6 +143,16 @@
       <EnvironmentVariables>
         <option name="NAME" value="BEAUTEFLY_WEB_MEDIA_DIR" />
         <option name="VALUE" value="$PROJECT_DIR$/beautefly-data/media" />
+        <option name="IS_PREDEFINED" value="false" />
+      </EnvironmentVariables>
+      <EnvironmentVariables>
+        <option name="NAME" value="STRIPE_API_KEY" />
+        <option name="VALUE" value="" />
+        <option name="IS_PREDEFINED" value="false" />
+      </EnvironmentVariables>
+      <EnvironmentVariables>
+        <option name="NAME" value="STRIPE_PUBLISH_KEY" />
+        <option name="VALUE" value="" />
         <option name="IS_PREDEFINED" value="false" />
       </EnvironmentVariables>
     </ConfigurationWrapper>

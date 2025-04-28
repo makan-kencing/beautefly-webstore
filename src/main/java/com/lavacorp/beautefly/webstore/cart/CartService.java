@@ -54,7 +54,7 @@ public class CartService {
         return cartMapper.toCartDTO(cart);
     }
 
-    private @NotNull Cart getGuestCart(HttpSession session) {
+    public @NotNull Cart getGuestCart(HttpSession session) {
         var cartId = session.getAttribute(SESSION_CART_ATTRIBUTE_NAME);
 
         // guest cart already created
@@ -70,7 +70,7 @@ public class CartService {
         return cart;
     }
 
-    private @Nullable Cart getUserCart(AccountContextDTO user) {
+    public @Nullable Cart getUserCart(AccountContextDTO user) {
         var account = em.find(Account.class, user.id());
         if (account == null)
             return null;
@@ -89,7 +89,7 @@ public class CartService {
         return cart;
     }
 
-    private @NotNull Cart getCart(HttpSession session, @Nullable AccountContextDTO user) {
+    public @NotNull Cart getCart(HttpSession session, @Nullable AccountContextDTO user) {
         if (user == null)
             return getGuestCart(session);
 

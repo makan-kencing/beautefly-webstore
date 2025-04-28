@@ -40,7 +40,6 @@ public class RatingServlet extends HttpServlet {
         }
 
         var product = productService.getProductDetailsById(productId);
-
         req.setAttribute("product", product);
 
         var view = req.getRequestDispatcher("/WEB-INF/views/review.jsp");

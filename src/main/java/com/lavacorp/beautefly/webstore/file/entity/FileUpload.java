@@ -24,7 +24,6 @@ public class FileUpload {
 
     @NotNull
     @NotBlank
-    @NaturalId
     private String hash;
 
     @NotNull

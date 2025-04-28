@@ -36,9 +36,6 @@
             <a href="<c:url value='/cart' />">
                 <i class="fa-solid fa-cart-shopping"></i>
             </a>
-            <a href="">
-                <i class="fa-solid fa-bell"></i>
-            </a>
             <a href="<c:url value='/account' />">
                 <i class="fa-solid fa-user"></i>
             </a>
