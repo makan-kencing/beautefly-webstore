@@ -35,7 +35,7 @@ public class FileResource {
             throw new ForbiddenException();
 
         try {
-            return fileService.uploadFile(part, user);
+            return fileService.uploadFile(part.getContent(), part.getFileName().orElse(null), user);
         } catch (UnsupportedFileFormatException e) {
             var format = "File format";
             if (e.getMimeType() != null)

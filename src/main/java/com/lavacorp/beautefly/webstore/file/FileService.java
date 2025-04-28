@@ -15,7 +15,6 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceUnit;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
-import jakarta.ws.rs.core.EntityPart;
 import lombok.extern.log4j.Log4j2;
 import org.apache.tika.mime.MediaType;
 import org.apache.tika.mime.MimeType;
@@ -25,6 +24,7 @@ import org.hibernate.SessionFactory;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -43,12 +43,12 @@ public class FileService {
     @Inject
     private FileStorage fileStorage;
 
-    public FileUpload save(@NotNull EntityPart part) throws IOException, UnsupportedFileFormatException {
-        File tmpFile = saveAsTempFile(part);
+    public FileUpload save(@NotNull InputStream stream, String filename) throws IOException, UnsupportedFileFormatException {
+        File tmpFile = saveAsTempFile(stream);
 
         // MimeRepository.detect requires InputStream with markSupported()
-        var stream = new BufferedInputStream(Files.newInputStream(tmpFile.toPath()));
-        MediaType mediaType = MimeTypeConverter.inferMediaType(stream);
+        var tmpFileStream = new BufferedInputStream(Files.newInputStream(tmpFile.toPath()));
+        MediaType mediaType = MimeTypeConverter.inferMediaType(tmpFileStream);
         MimeType mimeType;
         try {
             mimeType = MimeTypeConverter.toMimeType(mediaType);
@@ -63,19 +63,19 @@ public class FileService {
             throw new UnsupportedFileFormatException("Detection of an unsafe file upload or cannot sanitize uploaded document!", mimeType);
         }
 
-        var filename = fileStorage.save(tmpFile, mimeType.getExtension());
+        var filehash = fileStorage.save(tmpFile, mimeType.getExtension());
 
         var file = new FileUpload();
-        file.setHash(filename);
-        file.setFilename(part.getFileName().orElse(filename));
-        file.setUrl(fileStorage.resolveUrl(filename));
+        file.setHash(filehash);
+        file.setFilename(filename != null ? filename : filehash);
+        file.setUrl(fileStorage.resolveUrl(filehash));
         file.setType(mimeType);
 
         return file;
     }
 
-    public FileUploadDTO uploadFile(@NotNull EntityPart part, AccountContextDTO user) throws IOException, UnsupportedFileFormatException {
-        var file = save(part);
+    public FileUploadDTO uploadFile(@NotNull InputStream stream, String filename, AccountContextDTO user) throws IOException, UnsupportedFileFormatException {
+        var file = save(stream, filename);
 
         var account = new Account();
         account.setId(user.id());
@@ -101,14 +101,12 @@ public class FileService {
 
     /**
      * Utility methods to save input file into a temp file
-     *
-     * @param part the input file multipart
      */
-    private static File saveAsTempFile(@NotNull EntityPart part) throws IOException {
+    private static File saveAsTempFile(@NotNull InputStream stream) throws IOException {
         var tmpFile = File.createTempFile("uploaded-", null);
 
         try {
-            Files.copy(part.getContent(), tmpFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(stream, tmpFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             safelyRemoveFile(tmpFile.toPath());
             throw e;

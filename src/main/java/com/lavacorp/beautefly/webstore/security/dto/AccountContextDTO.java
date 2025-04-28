@@ -13,6 +13,7 @@ import java.util.List;
 public record AccountContextDTO(
         int id,
         String username,
+        String email,
         FileUploadDTO profileImage,
         List<Credential.Role> roles
 ) implements Serializable {
