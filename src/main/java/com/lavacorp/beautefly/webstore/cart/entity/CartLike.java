@@ -1,6 +1,7 @@
 package com.lavacorp.beautefly.webstore.cart.entity;
 
 import com.lavacorp.beautefly.webstore.account.entity.Account;
+import com.lavacorp.beautefly.webstore.account.entity.Address;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +28,9 @@ public class CartLike<T extends CartProductLike<?>> implements Serializable, Ite
 
     @OneToOne(fetch = LAZY)
     protected Account account;
+
+    @ManyToOne(fetch = LAZY)
+    protected Address shippingAddress;
 
     @OneToMany(mappedBy = CartProductLike_.CART, fetch = LAZY)
     protected Set<T> products = new HashSet<>();
