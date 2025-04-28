@@ -27,7 +27,7 @@ public interface RatingMapper {
                 req.getParameter("title"),
                 req.getParameter("message"),
                 req.getParts().stream()
-                        .filter(p -> "images".equals(p.getName()))
+                        .filter(p -> "images".equals(p.getName()) && !"".equals(p.getSubmittedFileName()))
                         .toList()
         );
     }
