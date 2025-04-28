@@ -26,7 +26,9 @@ public interface RatingMapper {
                 Integer.parseUnsignedInt(req.getParameter("rating")),
                 req.getParameter("title"),
                 req.getParameter("message"),
-                req.getParts()
+                req.getParts().stream()
+                        .filter(p -> "images".equals(p.getName()))
+                        .toList()
         );
     }
 

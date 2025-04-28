@@ -3,7 +3,6 @@ package com.lavacorp.beautefly.webstore.rating.dto;
 import jakarta.servlet.http.Part;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -14,6 +13,6 @@ public record RatingNewDTO(
         int rating,
         String title,
         String message,
-        Collection<Part> images
+        List<Part> images
 ) implements Serializable {
 }

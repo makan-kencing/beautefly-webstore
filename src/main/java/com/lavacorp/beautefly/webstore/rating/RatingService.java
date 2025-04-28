@@ -75,15 +75,17 @@ public class RatingService {
         var session = emf.unwrap(SessionFactory.class)
                 .openStatelessSession();
 
+        var account = new Account();
+        account.setId(user.id());
+
         List<FileUpload> files = new ArrayList<>();
         for (var part : newRating.images()) {
             var file = fileService.save(part.getInputStream(), part.getSubmittedFileName());
+            file.setCreatedBy(account);
             session.insert(file);
 
             files.add(file);
         }
-        var account = new Account();
-        account.setId(user.id());
 
         var product = new Product();
         product.setId(newRating.productId());

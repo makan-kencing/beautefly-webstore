@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @MultipartConfig
-@WebServlet("/rating")
+@WebServlet("/review")
 @ServletSecurity(@HttpConstraint(rolesAllowed = {"*"}))
 public class RatingServlet extends HttpServlet {
     @Inject
@@ -52,18 +52,10 @@ public class RatingServlet extends HttpServlet {
         var user = UserContextFilter.getUserContext(req);
         assert user != null;
 
-        int productId;
-        try {
-            productId = Integer.parseInt(req.getParameter("productId"));
-        } catch (NullPointerException | NumberFormatException exc) {
-            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
-            return;
-        }
-
         var newRating = ratingMapper.toRatingNewDTO(req);
 
         ratingService.rate(newRating, user);
 
-        resp.sendRedirect("/product/" + productId);
+        resp.sendRedirect("/product/" + newRating.productId());
     }
 }
