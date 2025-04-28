@@ -5,7 +5,7 @@
 <%@ taglib prefix="webstore" tagdir="/WEB-INF/tags/webstore" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<jsp:useBean id="product" type="com.lavacorp.beautefly.webstore.product.dto.ProductPageDTO" />
+<jsp:useBean id="product" type="com.lavacorp.beautefly.webstore.product.dto.ProductPageDTO" scope="request" />
 
 <webstore:base pageTitle="Review">
     <jsp:attribute name="includeHead">
@@ -16,13 +16,15 @@
     <jsp:body>
         <main class="flex flex-col items-center p-6">
 
-            <form action="<c:url value='/product/${product.id()}/rating' />" method="post"
+            <form action="<c:url value='/review' ><c:param name='productId' value='${product.id()}'/></c:url>"
+                  method="post"
+                  enctype="multipart/form-data"
                   class="w-4xl space-y-5">
                 <h2 class="text-2xl font-bold">Leave a Review</h2>
 
                 <div class="space-y-3">
-                    <div>
-                        <img src="<c:url value='${product.images()[0].url()}' />" alt="">
+                    <div class="horizontal items-center">
+                        <img src="<c:url value='${product.images()[0].url()}' />" alt="" class="h-10">
                         <h2 class="text-xl font-bold">How was the item?</h2>
                     </div>
 
@@ -62,9 +64,9 @@
                     </style>
 
                     <div class="space-y-2">
-                        <label for="comment" class="block font-semibold">Comment</label>
+                        <label for="message" class="block font-semibold">Message</label>
                         <div class="grow-wrap after:text-base after:rounded-lg after:border after:border-gray-300">
-                            <textarea name="comment" id="comment" placeholder="What should other customers know?"
+                            <textarea name="message" id="message" placeholder="What should other customers know?"
                                       class="w-full p-2 text-base rounded-lg border border-gray-300"
                                       onInput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
                         </div>
@@ -82,10 +84,9 @@
                             <i class="fa-solid fa-camera"></i> Share a video or photo
                         </label>
 
-                        <button type="button" onclick="clearImages()" class="border rounded-lg border-red-400 bg-red-300 py-1 px-4 text-gray-800 peer-empty:hidden">
+                        <button type="button" onclick="clearImages()" class="border rounded-lg border-red-100 button-bad font-bold peer-empty:hidden">
                             <i class="fa-solid fa-trash mr-2"></i> Clear Images
                         </button>
-
 
                         <input type="file" name="images" id="images" multiple accept="image/*" hidden>
                     </div>

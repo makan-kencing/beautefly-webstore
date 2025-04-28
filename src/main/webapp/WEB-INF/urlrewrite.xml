@@ -6,15 +6,6 @@
         "http://tuckey.org/res/dtds/urlrewrite5.1.dtd">
 <urlrewrite>
     <rule>
-        <from>/product/([0-9]+)/review</from>
-        <to>/rating?productId=$1</to>
-    </rule>
-    <rule>
-        <from>/review/([0-9]+)/reply</from>
-        <to>/reply?ratingId=$1</to>
-    </rule>
-
-    <rule>
         <from>/product/([0-9]+)/?([a-zA-Z-]+)?</from>
         <to>/product?id=$1&amp;slug=$2</to>
     </rule>

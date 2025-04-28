@@ -100,7 +100,7 @@
                         <hr class="text-gray-300">
                         <div class="space-y-2">
                             <h2 class="text-xl font-semibold">Review this product</h2>
-                            <a href="<c:url value='/product/${product.id()}/review' />"
+                            <a href="<c:url value='/review' ><c:param name='productId' value='${product.id()}'/></c:url>"
                                class="font-bold text-center block cursor-pointer w-full px-6 py-2 bg-blue-300 text-white rounded-xl hover:bg-blue-400 transition">
                                 Write a review
                             </a>
