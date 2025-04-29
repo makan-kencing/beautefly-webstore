@@ -80,9 +80,9 @@
                                 </span>
                             </td>
                             <td data-order="${order.orderedAt().toEpochMilli()}">
-                                <fmt:parseDate var="parsedDate" value="${order.orderedAt()}"
+                                <fmt:parseDate var="parsedDate" value="${order.orderedAt()}" timeZone="UTC"
                                                pattern="yyyy-MM-dd'T'HH:mm" type="both"/>
-                                <fmt:formatDate value="${parsedDate}" pattern="yyyy-MM-dd HH:mm"/>
+                                <fmt:formatDate value="${parsedDate}" pattern="yyyy-MM-dd HH:mm" />
                                 (${prettyTime.format(order.orderedAt())})
                             </td>
                             <td>${order.netAmount()}</td>
