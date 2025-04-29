@@ -1,30 +1,3 @@
-CREATE OR REPLACE PROCEDURE initAdmin()
-AS
-$BODY$
-DECLARE
-    account_id integer;
-BEGIN
-    INSERT INTO account (id, username, email, password, active, created_at, updated_at)
-    VALUES (1,
-            'admin',
-            'admin@example.com',
-            '$argon2id$v=19$m=66536,t=2,p=1$24Q+2G3xwbAPVZjl6oNMtQ$2NyFDc5R7+g16oYZZxukOP6EMjqcxous5qKbMlGJpmw',
-            true,
-            CURRENT_TIMESTAMP,
-            CURRENT_TIMESTAMP)
-    ON CONFLICT DO NOTHING
-    RETURNING id INTO account_id;
-    -- password is: "Password" (excluding quotes)
-
-    INSERT INTO account_roles(account_id, roles)
-    VALUES (account_id, 'ADMIN')
-    ON CONFLICT DO NOTHING;
-
-    PERFORM setval('account_id_seq', (SELECT max(id) FROM account), true);
-END;
-$BODY$
-    LANGUAGE plpgsql;
-
 CREATE OR REPLACE PROCEDURE initAccount()
 AS
 $BODY$
