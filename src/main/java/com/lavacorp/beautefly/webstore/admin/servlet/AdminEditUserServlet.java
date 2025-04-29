@@ -35,9 +35,7 @@ public class AdminEditUserServlet extends HttpServlet {
             return;
         }
 
-        var session = emf.unwrap(SessionFactory.class)
-                .openStatelessSession();
-
+        var session = emf.unwrap(SessionFactory.class).openStatelessSession();
         Account account = session.get(Account.class, id);
         if (account == null) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -45,7 +43,6 @@ public class AdminEditUserServlet extends HttpServlet {
         }
 
         var dto = accountMapper.toAdminUserAccountDTO(account);
-
         req.setAttribute("account", dto);
 
         var view = req.getRequestDispatcher("/WEB-INF/views/admin/edit-view-popup.jsp");
@@ -62,8 +59,7 @@ public class AdminEditUserServlet extends HttpServlet {
             return;
         }
 
-        var session = emf.unwrap(SessionFactory.class)
-                .openSession();
+        var session = emf.unwrap(SessionFactory.class).openSession();
         var tx = session.beginTransaction();
 
         try {
@@ -80,9 +76,14 @@ public class AdminEditUserServlet extends HttpServlet {
             account.setDob(LocalDate.parse(req.getParameter("dob")));
 
             session.merge(account);
-
             tx.commit();
-            resp.sendRedirect(req.getContextPath() + "/admin/account?id=" + id); // Redirect back to View User Details
+
+            // ✅ Show updated info in popup after save
+            var refreshedAccount = session.get(Account.class, id);
+            var refreshedDto = accountMapper.toAdminUserAccountDTO(refreshedAccount);
+            req.setAttribute("account", refreshedDto);
+            req.getRequestDispatcher("/WEB-INF/views/admin/view-user-popup.jsp").forward(req, resp);
+
         } catch (Exception e) {
             if (tx != null) tx.rollback();
             throw new ServletException("Failed to update user", e);
@@ -90,5 +91,4 @@ public class AdminEditUserServlet extends HttpServlet {
             session.close();
         }
     }
-
 }
