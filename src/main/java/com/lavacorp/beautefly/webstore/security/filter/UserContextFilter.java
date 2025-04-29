@@ -7,14 +7,17 @@ import jakarta.annotation.Nullable;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceUnit;
-import jakarta.servlet.*;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.hibernate.SessionFactory;
 
 import java.io.IOException;
+import java.security.Principal;
 
 @WebFilter("/*")
 public class UserContextFilter extends HttpFilter {
@@ -28,40 +31,54 @@ public class UserContextFilter extends HttpFilter {
 
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse resp, FilterChain chain) throws IOException, ServletException {
-        var session = emf.unwrap(SessionFactory.class)
-                .openStatelessSession();
-
+        var session = req.getSession();
+        var context = getUserContext(session);
         var principal = req.getUserPrincipal();
 
         if (principal != null) {
-            var account = session.createSelectionQuery("""
-                            from Account a
-                                left join fetch a.profileImage
-                                left join fetch a.cart
-                                left join fetch a.wishlist
-                                join fetch a.credential.roles
-                            where a.email = :email
-                            """, Account.class)
-                    .setParameter("email", principal.getName())
-                    .getSingleResultOrNull();
+            if (context == null || !principal.getName().equals(context.email())) {
+                context = getAccountContext(principal);
 
-            if (account != null)
-                req.setAttribute(
-                        ATTRIBUTE_NAME,
-                        accountMapper.toAccountContextDTO(account)
-                );
-            else
-                req.logout();
+                if (context == null)
+                    req.logout();
+                else
+                    session.setAttribute(ATTRIBUTE_NAME, context);
+            }
         }
 
         chain.doFilter(req, resp);
     }
 
-    public static @Nullable AccountContextDTO getUserContext(ServletRequest req) {
-        var value = req.getAttribute(ATTRIBUTE_NAME);
+    public AccountContextDTO getAccountContext(Principal principal) {
+        var session = emf.unwrap(SessionFactory.class)
+                .openStatelessSession();
+
+        return session.createSelectionQuery("""
+                        from Account a
+                            left join fetch a.profileImage
+                            left join fetch a.cart
+                            left join fetch a.wishlist
+                            join fetch a.credential.roles
+                        where a.email = :email
+                        """, Account.class)
+                .setParameter("email", principal.getName())
+                .stream()
+                .map(accountMapper::toAccountContextDTO)
+                .findFirst()
+                .orElseThrow();
+
+    }
+
+    public static @Nullable AccountContextDTO getUserContext(HttpSession session) {
+        var value = session.getAttribute(ATTRIBUTE_NAME);
         if (value == null)
             return null;
 
         return (AccountContextDTO) value;
+    }
+
+
+    public static @Nullable AccountContextDTO getUserContext(HttpServletRequest req) {
+        return getUserContext(req.getSession());
     }
 }
