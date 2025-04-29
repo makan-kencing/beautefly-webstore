@@ -12,7 +12,6 @@ public record OrderListingItemDTO(
         int quantity,
         SalesOrderProduct.OrderProductStatus status,
         BigDecimal unitPrice,
-        BigDecimal total,
-        Instant deliveredAt
+        BigDecimal total
 ) {
 }
