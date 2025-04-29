@@ -14,7 +14,7 @@ public record OrderListingDTO(
         int id,
         AccountContextDTO account,
         SalesOrder.OrderStatus status,
-        SalesOrder.PaymentMethod paymentMethod,
+        String paymentMethod,
         Instant orderedAt,
         BigDecimal taxAmount,
         BigDecimal shippingAmount,
