@@ -44,6 +44,10 @@ public class UserContextFilter extends HttpFilter {
                 else
                     session.setAttribute(ATTRIBUTE_NAME, context);
             }
+
+        } else {
+            if (context != null)
+                session.removeAttribute(ATTRIBUTE_NAME);
         }
 
         chain.doFilter(req, resp);
