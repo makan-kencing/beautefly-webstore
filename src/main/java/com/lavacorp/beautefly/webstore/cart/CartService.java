@@ -1,6 +1,7 @@
 package com.lavacorp.beautefly.webstore.cart;
 
 import com.lavacorp.beautefly.webstore.account.entity.Account;
+import com.lavacorp.beautefly.webstore.account.entity.Address;
 import com.lavacorp.beautefly.webstore.cart.dto.CartDTO;
 import com.lavacorp.beautefly.webstore.cart.dto.CartItemDTO;
 import com.lavacorp.beautefly.webstore.cart.dto.UpdateCartProductDTO;
@@ -52,6 +53,13 @@ public class CartService {
     public CartDTO getCartDetails(HttpSession session, @Nullable AccountContextDTO user) {
         var cart = getCart(session, user);
         return cartMapper.toCartDTO(cart);
+    }
+
+    public void updateSelectedAddress(HttpSession session, AccountContextDTO user, int selectedAddressId) {
+        var cart = getCart(session, user);
+        cart.setShippingAddress(em.getReference(Address.class, selectedAddressId));
+
+        em.merge(cart);
     }
 
     public @NotNull Cart getGuestCart(HttpSession session) {
