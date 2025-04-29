@@ -83,7 +83,7 @@ public class CartService {
 
         return statelessSession.createSelectionQuery("""
                             from Cart c
-                                join fetch c.products
+                                left join fetch c.products
                             where c.account.id = :accountId
                         """, Cart.class)
                 .setParameter("accountId", user.id())
@@ -100,7 +100,7 @@ public class CartService {
 
         return statelessSession.createSelectionQuery("""
                             from Cart c
-                            join fetch c.products
+                                left join fetch c.products
                             where c.id = :cartId
                         """, Cart.class)
                 .setParameter("cartId", cartId)
