@@ -27,13 +27,13 @@ public class OrderRepositoryImpl implements OrderRepository {
     public List<BigDecimal> getDailySales() {
         Instant startDate = LocalDate.now().minusDays(30).atStartOfDay(ZoneId.systemDefault()).toInstant();
         return em.createQuery("""
-        SELECT SUM(p.unitPrice * p.quantity)
-        FROM SalesOrderProduct p
-        JOIN p.order o
-        WHERE o.orderedAt >= :startDate
-        GROUP BY FUNCTION('DATE', o.orderedAt)
-        ORDER BY FUNCTION('DATE', o.orderedAt)
-    """, BigDecimal.class)
+            SELECT SUM(p.unitPrice * p.quantity)
+            FROM SalesOrderProduct p
+            JOIN p.order o
+            WHERE o.orderedAt >= :startDate
+            GROUP BY TO_CHAR(o.orderedAt, 'YYYY-MM-DD')
+            ORDER BY TO_CHAR(o.orderedAt, 'YYYY-MM-DD')
+        """, BigDecimal.class)
                 .setParameter("startDate", startDate)
                 .getResultList();
     }
@@ -42,43 +42,47 @@ public class OrderRepositoryImpl implements OrderRepository {
     public List<String> getDailyLabels() {
         Instant startDate = LocalDate.now().minusDays(30).atStartOfDay(ZoneId.systemDefault()).toInstant();
         return em.createQuery("""
-        SELECT FUNCTION('DATE', o.orderedAt)
-        FROM SalesOrderProduct p
-        JOIN p.order o
-        WHERE o.orderedAt >= :startDate
-        GROUP BY FUNCTION('DATE', o.orderedAt)
-        ORDER BY FUNCTION('DATE', o.orderedAt)
-    """, String.class)
+            SELECT TO_CHAR(o.orderedAt, 'YYYY-MM-DD')
+            FROM SalesOrderProduct p
+            JOIN p.order o
+            WHERE o.orderedAt >= :startDate
+            GROUP BY TO_CHAR(o.orderedAt, 'YYYY-MM-DD')
+            ORDER BY TO_CHAR(o.orderedAt, 'YYYY-MM-DD')
+        """, String.class)
                 .setParameter("startDate", startDate)
                 .getResultList();
     }
 
     @Override
     public List<Integer> getDailyOrderCount() {
-        Instant startDate = LocalDate.now().minusDays(7).atStartOfDay(ZoneId.systemDefault()).toInstant();
+        Instant startDate = LocalDate.now().minusDays(30).atStartOfDay(ZoneId.systemDefault()).toInstant();
         return em.createQuery("""
-            SELECT COUNT(DISTINCT o.id)
-            FROM SalesOrderProduct p
-            JOIN p.order o
-            WHERE o.orderedAt >= :startDate
-            GROUP BY FUNCTION('DATE', o.orderedAt)
-            ORDER BY FUNCTION('DATE', o.orderedAt)
-        """, Integer.class)
+        SELECT COUNT(o)
+        FROM SalesOrderProduct p
+        JOIN p.order o
+        WHERE o.orderedAt >= :startDate
+        GROUP BY TO_CHAR(o.orderedAt, 'YYYY-MM-DD')
+        ORDER BY TO_CHAR(o.orderedAt, 'YYYY-MM-DD')
+    """, Long.class)
                 .setParameter("startDate", startDate)
-                .getResultList();
+                .getResultList()
+                .stream()
+                .map(Long::intValue) // 把Long轉成Integer
+                .toList();
     }
-    
+
+
     @Override
     public List<BigDecimal> getMonthlySales() {
         Instant startDate = LocalDate.now().minusMonths(12).atStartOfDay(ZoneId.systemDefault()).toInstant();
         return em.createQuery("""
-        SELECT SUM(p.unitPrice * p.quantity)
-        FROM SalesOrderProduct p
-        JOIN p.order o
-        WHERE o.orderedAt >= :startDate
-        GROUP BY EXTRACT(YEAR FROM o.orderedAt), EXTRACT(MONTH FROM o.orderedAt)
-        ORDER BY EXTRACT(YEAR FROM o.orderedAt), EXTRACT(MONTH FROM o.orderedAt)
-    """, BigDecimal.class)
+            SELECT SUM(p.unitPrice * p.quantity)
+            FROM SalesOrderProduct p
+            JOIN p.order o
+            WHERE o.orderedAt >= :startDate
+            GROUP BY TO_CHAR(o.orderedAt, 'YYYY-MM')
+            ORDER BY TO_CHAR(o.orderedAt, 'YYYY-MM')
+        """, BigDecimal.class)
                 .setParameter("startDate", startDate)
                 .getResultList();
     }
@@ -87,30 +91,33 @@ public class OrderRepositoryImpl implements OrderRepository {
     public List<String> getMonthlyLabels() {
         Instant startDate = LocalDate.now().minusMonths(12).atStartOfDay(ZoneId.systemDefault()).toInstant();
         return em.createQuery("""
-        SELECT CONCAT(EXTRACT(YEAR FROM o.orderedAt), '-', LPAD(CAST(EXTRACT(MONTH FROM o.orderedAt) AS text), 2, '0'))
-        FROM SalesOrderProduct p
-        JOIN p.order o
-        WHERE o.orderedAt >= :startDate
-        GROUP BY EXTRACT(YEAR FROM o.orderedAt), EXTRACT(MONTH FROM o.orderedAt)
-        ORDER BY EXTRACT(YEAR FROM o.orderedAt), EXTRACT(MONTH FROM o.orderedAt)
-    """, String.class)
+            SELECT TO_CHAR(o.orderedAt, 'YYYY-MM')
+            FROM SalesOrderProduct p
+            JOIN p.order o
+            WHERE o.orderedAt >= :startDate
+            GROUP BY TO_CHAR(o.orderedAt, 'YYYY-MM')
+            ORDER BY TO_CHAR(o.orderedAt, 'YYYY-MM')
+        """, String.class)
                 .setParameter("startDate", startDate)
                 .getResultList();
     }
 
     @Override
     public List<Integer> getMonthlyOrderCount() {
-        Instant startDate = LocalDate.now().minusMonths(6).atStartOfDay(ZoneId.systemDefault()).toInstant();
+        Instant startDate = LocalDate.now().minusMonths(12).atStartOfDay(ZoneId.systemDefault()).toInstant();
         return em.createQuery("""
-            SELECT COUNT(DISTINCT o.id)
-            FROM SalesOrderProduct p
-            JOIN p.order o
-            WHERE o.orderedAt >= :startDate
-            GROUP BY FUNCTION('MONTH', o.orderedAt)
-            ORDER BY FUNCTION('MONTH', o.orderedAt)
-        """, Integer.class)
+        SELECT COUNT(o)
+        FROM SalesOrderProduct p
+        JOIN p.order o
+        WHERE o.orderedAt >= :startDate
+        GROUP BY TO_CHAR(o.orderedAt, 'YYYY-MM')
+        ORDER BY TO_CHAR(o.orderedAt, 'YYYY-MM')
+    """, Long.class)
                 .setParameter("startDate", startDate)
-                .getResultList();
+                .getResultList()
+                .stream()
+                .map(Long::intValue)
+                .toList();
     }
 
     @Override
