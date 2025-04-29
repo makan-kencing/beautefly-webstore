@@ -39,6 +39,19 @@ public class CheckoutServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int addressId;
+        try {
+            addressId = Integer.parseInt(req.getParameter("selectedAddressId"));
+        } catch (NullPointerException | NumberFormatException exc) {
+            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+
+        var user = UserContextFilter.getUserContext(req);
+        assert user != null;
+
+        cartService.updateSelectedAddress(req.getSession(), user, addressId);
+
         resp.sendRedirect("/checkout/payment");
     }
 }
