@@ -54,7 +54,7 @@ public class CheckoutService {
         var user = UserContextFilter.getUserContext(req);
         assert user != null;
 
-        var cart = cartService.getUserCart(user);
+        var cart = cartService.getCart(req.getSession(), user);
         assert cart != null;
 
         var domain = URLUtils.getBaseURL(req.getRequestURL().toString());
