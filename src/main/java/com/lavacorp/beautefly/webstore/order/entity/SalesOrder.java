@@ -32,9 +32,8 @@ public class SalesOrder implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Address shippingAddress;
 
-    @Enumerated(EnumType.STRING)
     @NotNull
-    private PaymentMethod paymentMethod;
+    private String paymentMethod;
 
     @CurrentTimestamp
     @PastOrPresent
@@ -84,9 +83,5 @@ public class SalesOrder implements Serializable {
 
     public enum OrderStatus {
         ARRIVING, COMPLETED
-    }
-
-    public enum PaymentMethod {
-        DEBIT, CREDIT, BANK_TRANSFER
     }
 }
