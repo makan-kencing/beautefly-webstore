@@ -20,6 +20,7 @@ import java.util.Optional;
 public interface CartMapper {
     CartItemDTO toCartItemDTO(CartProduct cartItems);
 
+    @Mapping(target = "selectedAddressId", source = "shippingAddress.id")
     @Mapping(target = "id", source = "id")
     @Mapping(target = "total", source = "total")
     @Mapping(target = "subtotal", source = "subtotal")

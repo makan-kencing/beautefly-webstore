@@ -14,14 +14,14 @@ import org.hibernate.annotations.CurrentTimestamp;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 @Getter
 @Setter
 @Entity
-public class SalesOrder implements Serializable {
+public class SalesOrder implements Serializable, Iterable<SalesOrderProduct> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -32,9 +32,8 @@ public class SalesOrder implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Address shippingAddress;
 
-    @Enumerated(EnumType.STRING)
     @NotNull
-    private PaymentMethod paymentMethod;
+    private String paymentMethod;
 
     @CurrentTimestamp
     @PastOrPresent
@@ -51,6 +50,16 @@ public class SalesOrder implements Serializable {
 
     @OneToMany(mappedBy = SalesOrderProduct_.ORDER, fetch = FetchType.EAGER)
     private Set<SalesOrderProduct> products = new HashSet<>();
+
+    @Override
+    @SuppressWarnings("NullableProblems")
+    public @NotNull Iterator<SalesOrderProduct> iterator() {
+        return products.iterator();
+    }
+
+    public Stream<SalesOrderProduct> stream() {
+        return StreamSupport.stream(this.spliterator(), false);
+    }
 
     public BigDecimal getGrossAmount() {
         return products.stream()
@@ -84,9 +93,5 @@ public class SalesOrder implements Serializable {
 
     public enum OrderStatus {
         ARRIVING, COMPLETED
-    }
-
-    public enum PaymentMethod {
-        DEBIT, CREDIT, BANK_TRANSFER
     }
 }

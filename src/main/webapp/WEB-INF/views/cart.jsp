@@ -57,7 +57,7 @@
                                                                   currencySymbol="RM "/>
                                             </td>
                                             <td class="text-center">
-                                                <form action="<c:url value='/cart/' />" method="post">
+                                                <form action="<c:url value='/cart' />" method="post">
                                                     <input type="hidden" name="productId"
                                                            value="${item.product().id()}">
                                                     <div class="flex items-center justify-between border border-border rounded h-8">
@@ -102,9 +102,9 @@
                                 <script>
                                     function updateQuantity(diff) {
                                         const form = this.closest("form");
-                                        const quantityInput = form.querySelector("input#quantity");
+                                        const quantityInput = form.querySelector("input[name='quantity']");
 
-                                        quantityInput.value += diff;
+                                        quantityInput.value = Number(quantityInput.value) + diff;
                                         quantityInput.value = Math.max(0, quantityInput.value);
 
                                         form.submit();

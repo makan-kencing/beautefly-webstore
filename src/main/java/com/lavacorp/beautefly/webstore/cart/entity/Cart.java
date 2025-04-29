@@ -1,5 +1,6 @@
 package com.lavacorp.beautefly.webstore.cart.entity;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotNull;
 
@@ -7,45 +8,6 @@ import java.math.BigDecimal;
 
 @Entity
 public class Cart extends CartLike<CartProduct> {
-    public @NotNull CartProduct addProduct(CartProduct product) {
-        var cartProduct = getCartItem(product.getProduct().getId());
-        if (cartProduct.isPresent()) {
-            cartProduct.get().addQuantity(product.getQuantity());
-            return cartProduct.get();
-        }
-        else {
-            products.add(product);
-            return product;
-        }
-    }
-
-    public @NotNull CartProduct removeProduct(CartProduct product) {
-        var cartProduct = getCartItem(product.getProduct().getId());
-        if (cartProduct.isPresent()) {
-            if (cartProduct.get().getQuantity() <= product.getQuantity()) // subtraction would result in less than 0
-                products.remove(product);
-            else
-                cartProduct.get().removeQuantity(product.getQuantity());
-            return cartProduct.get();
-        }
-        else {
-            products.add(product);
-            return product;
-        }
-    }
-
-    public @NotNull CartProduct setProduct(CartProduct product) {
-        var cartProduct = getCartItem(product.getProduct().getId());
-        if (cartProduct.isPresent()) {
-            cartProduct.get().setQuantity(product.getQuantity());
-            return cartProduct.get();
-        }
-        else {
-            products.add(product);
-            return product;
-        }
-    }
-
     public BigDecimal getSubtotal() {
         return products.stream()
                 .map(CartProduct::getSubtotal)

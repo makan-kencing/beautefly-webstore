@@ -16,6 +16,8 @@ public record OrderItemDTO(
         SalesOrderProduct.OrderProductStatus status,
         BigDecimal unitPrice,
         BigDecimal total,
+        Instant shippedAt,
+        Instant deliveryStartedAt,
         Instant deliveredAt
 ) implements Serializable {
 }

@@ -5,17 +5,24 @@ import com.lavacorp.beautefly.util.env.el.ELExpressionEvaluator;
 import com.lavacorp.beautefly.webstore.cart.entity.Cart;
 import com.lavacorp.beautefly.webstore.cart.entity.CartProduct;
 import com.lavacorp.beautefly.webstore.common.URLUtils;
+import com.lavacorp.beautefly.webstore.order.entity.SalesOrder;
+import com.lavacorp.beautefly.webstore.order.entity.SalesOrderProduct;
 import com.lavacorp.beautefly.webstore.product.entity.Product;
 import com.lavacorp.beautefly.webstore.security.filter.UserContextFilter;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
+import com.stripe.param.checkout.SessionRetrieveParams;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.PersistenceUnit;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
+import org.hibernate.SessionFactory;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Transactional
@@ -24,9 +31,13 @@ public class CheckoutService {
     @Inject
     private CartService cartService;
 
+    @PersistenceUnit
+    private EntityManagerFactory emf;
+
     private final static String taxId = "txr_1RItpXJrMFBDPmV7Ox7IHug1";
     public static final String publishableKey;
     public static final String apiKey;
+    public static final String endpointSecret;
 
     static {
         var evaluator = new ELExpressionEvaluator();
@@ -34,6 +45,7 @@ public class CheckoutService {
 
         publishableKey = environment.getProperty("Stripe Publishable Key", "stripe.publish-key");
         apiKey = environment.getProperty("Stripe API Key", "stripe.api-key");
+        endpointSecret = environment.getProperty("Stripe Webhook Secrets", "stripe.endpoint-secret");
 
         Stripe.apiKey = apiKey;
     }
@@ -42,7 +54,7 @@ public class CheckoutService {
         var user = UserContextFilter.getUserContext(req);
         assert user != null;
 
-        var cart = cartService.getUserCart(user);
+        var cart = cartService.getCart(req.getSession(), user);
         assert cart != null;
 
         var domain = URLUtils.getBaseURL(req.getRequestURL().toString());
@@ -58,6 +70,63 @@ public class CheckoutService {
                 .build();
 
         return Session.create(params);
+    }
+
+    public void fulfillCheckout(String sessionId) throws StripeException {
+        var params = SessionRetrieveParams.builder()
+                .addExpand("payment_intent")
+                .addExpand("payment_intent.payment_method")
+                .build();
+
+        var checkoutSession = Session.retrieve(sessionId, params, null);
+
+        if ("unpaid".equals(checkoutSession.getPaymentStatus()))
+            return;
+
+        var session = emf.unwrap(SessionFactory.class)
+                .openStatelessSession();
+
+        var cart = session.createSelectionQuery("""
+                            from Cart c
+                                join fetch c.account
+                                join fetch c.shippingAddress
+                                join fetch c.products
+                            where c.account.email = :email
+                        """, Cart.class)
+                .setParameter("email", checkoutSession.getCustomerEmail())
+                .getSingleResultOrNull();
+
+        var order = checkout(cart, checkoutSession);
+
+        session.insert(order);
+        order.forEach(session::insert);
+
+        cart.forEach(session::delete);
+        session.delete(cart);
+    }
+
+    public SalesOrder checkout(Cart cart, Session session) {
+        var order = new SalesOrder();
+        order.setAccount(cart.getAccount());
+        order.setShippingAddress(cart.getShippingAddress());
+        order.setPaymentMethod(session.getPaymentIntentObject().getPaymentMethodObject().getType());
+        order.setTaxAmount(cart.getEstimatedTax());
+        order.setDiscountAmount(BigDecimal.ZERO);
+        if (!cart.getIsShippingDiscounted())
+            order.setShippingAmount(cart.getShippingCost());
+
+        cart.forEach(item -> {
+            var orderItem = new SalesOrderProduct();
+            orderItem.setOrder(order);
+            orderItem.setProduct(item.getProduct());
+            orderItem.setQuantity(item.getQuantity());
+            orderItem.setUnitPrice(item.getProduct().getUnitPrice());
+            orderItem.setUnitCost(item.getProduct().getUnitCost());
+
+            order.getProducts().add(orderItem);
+        });
+
+        return order;
     }
 
     private SessionCreateParams.ShippingOption getShipping(Cart cart) {

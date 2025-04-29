@@ -46,10 +46,27 @@ public class CheckoutResource {
         try {
             var session = Session.retrieve(sessionId);
 
+            if ("complete".equals(session.getStatus()))
+                checkoutService.fulfillCheckout(sessionId);
+
             return new SessionStatusDTO(session.getStatus(), session.getCustomerDetails().getEmail());
         } catch (StripeException e) {
             log.error(e);
             throw new InternalServerErrorException(e);
         }
     }
+
+//    @POST
+//    @Path("/callback")
+//    public void fulfillCheckout(@HeaderParam("Stripe-Signature") String stripeSignature, Session session) {
+//        if (!CheckoutService.endpointSecret.equals(stripeSignature))
+//            throw new ForbiddenException();
+//
+//        try {
+//            checkoutService.fulfillCheckout(session.getId());
+//        } catch (StripeException e) {
+//            log.error(e);
+//            throw new InternalServerErrorException(e);
+//        }
+//    }
 }

@@ -13,5 +13,7 @@ public record CartDTO(
         BigDecimal shippingCost,
         boolean isShippingDiscounted,
         BigDecimal estimatedTax,
-        BigDecimal total) {
+        BigDecimal total,
+        int selectedAddressId
+) {
 }
