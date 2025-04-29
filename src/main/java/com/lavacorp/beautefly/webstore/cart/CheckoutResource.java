@@ -47,7 +47,7 @@ public class CheckoutResource {
             var session = Session.retrieve(sessionId);
 
             if ("complete".equals(session.getStatus()))
-                checkoutService.fulfillCheckout(session);
+                checkoutService.fulfillCheckout(sessionId);
 
             return new SessionStatusDTO(session.getStatus(), session.getCustomerDetails().getEmail());
         } catch (StripeException e) {

@@ -72,7 +72,14 @@ public class CheckoutService {
         return Session.create(params);
     }
 
-    public void fulfillCheckout(Session checkoutSession) throws StripeException {
+    public void fulfillCheckout(String sessionId) throws StripeException {
+        var params = SessionRetrieveParams.builder()
+                .addExpand("payment_intent")
+                .addExpand("payment_intent.payment_method")
+                .build();
+
+        var checkoutSession = Session.retrieve(sessionId, params, null);
+
         if ("unpaid".equals(checkoutSession.getPaymentStatus()))
             return;
 
@@ -89,10 +96,20 @@ public class CheckoutService {
                 .setParameter("email", checkoutSession.getCustomerEmail())
                 .getSingleResultOrNull();
 
+        var order = checkout(cart, checkoutSession);
+
+        session.insert(order);
+        order.forEach(session::insert);
+
+        cart.forEach(session::delete);
+        session.delete(cart);
+    }
+
+    public SalesOrder checkout(Cart cart, Session session) {
         var order = new SalesOrder();
         order.setAccount(cart.getAccount());
         order.setShippingAddress(cart.getShippingAddress());
-        order.setPaymentMethod(checkoutSession.getPaymentIntentObject().getPaymentMethodObject().getType());
+        order.setPaymentMethod(session.getPaymentIntentObject().getPaymentMethodObject().getType());
         order.setTaxAmount(cart.getEstimatedTax());
         order.setDiscountAmount(BigDecimal.ZERO);
         if (!cart.getIsShippingDiscounted())
@@ -106,12 +123,10 @@ public class CheckoutService {
             orderItem.setUnitPrice(item.getProduct().getUnitPrice());
             orderItem.setUnitCost(item.getProduct().getUnitCost());
 
-            session.insert(orderItem);
+            order.getProducts().add(orderItem);
         });
-        session.insert(order);
 
-        cart.forEach(session::delete);
-        session.delete(cart);
+        return order;
     }
 
     private SessionCreateParams.ShippingOption getShipping(Cart cart) {
