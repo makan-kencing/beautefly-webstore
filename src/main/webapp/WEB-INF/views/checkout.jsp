@@ -30,7 +30,7 @@
                             </div>
 
                             <label for="address"></label>
-                            <input type="radio" name="addressId" id="address"
+                            <input type="radio" name="addressId" id="address" value="${address.id()}"
                                 ${address.id() == addresses.defaultAddressId() ? "checked" : ""}>
                         </div>
                     </c:forEach>

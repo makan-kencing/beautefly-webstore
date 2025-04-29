@@ -41,7 +41,7 @@ public class CheckoutServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int addressId;
         try {
-            addressId = Integer.parseInt(req.getParameter("selectedAddressId"));
+            addressId = Integer.parseInt(req.getParameter("addressId"));
         } catch (NullPointerException | NumberFormatException exc) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
