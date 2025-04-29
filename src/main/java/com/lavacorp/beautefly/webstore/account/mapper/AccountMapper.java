@@ -24,6 +24,8 @@ public interface AccountMapper {
     @Mapping(target = "roles", source = "credential.roles")
     UserAccountSummaryDTO toUserAccountSummaryDTO(Account account);
 
+    @Mapping(target = "replies", ignore = true)
+    @Mapping(target = "ratings", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "profileImage", ignore = true)
