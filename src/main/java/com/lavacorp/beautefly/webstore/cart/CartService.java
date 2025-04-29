@@ -106,12 +106,17 @@ public class CartService {
         if (cart == null)
             return getGuestCart(session);
 
-        if (session.getAttribute(SESSION_CART_ATTRIBUTE_NAME) != null) { // has guest cart
-            var guestCart = getGuestCart(session);
-            mergeCart(guestCart, cart);
-        }
+        if (session.getAttribute(SESSION_CART_ATTRIBUTE_NAME) != null) // has guest cart
+            mergeSessionCart(session, cart);
 
         return cart;
+    }
+
+    private void mergeSessionCart(HttpSession session, @NotNull Cart userCart) {
+        var guestCart = getGuestCart(session);
+        mergeCart(guestCart, userCart);
+
+        session.removeAttribute(SESSION_CART_ATTRIBUTE_NAME);
     }
 
     private void mergeCart(@NotNull Cart src, @NotNull Cart dest) {
