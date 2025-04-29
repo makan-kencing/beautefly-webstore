@@ -31,9 +31,6 @@ public class SalesOrderProduct implements Serializable {
     @Positive
     private int quantity;
 
-    @Enumerated(EnumType.STRING)
-    private OrderProductStatus status = OrderProductStatus.ORDERED;
-
     @NotNull
     @Positive
     private BigDecimal unitPrice;
@@ -43,7 +40,26 @@ public class SalesOrderProduct implements Serializable {
     private BigDecimal unitCost;
 
     @PastOrPresent
+    private Instant shippedAt;
+
+    @PastOrPresent
+    private Instant deliveryStartedAt;
+
+    @PastOrPresent
     private Instant deliveredAt;
+
+    public OrderProductStatus getStatus() {
+        if (deliveredAt != null)
+            return OrderProductStatus.DELIVERED;
+
+        if (deliveryStartedAt != null)
+            return OrderProductStatus.OUT_FOR_DELIVERY;
+
+        if (shippedAt != null)
+            return OrderProductStatus.SHIPPED;
+
+        return OrderProductStatus.ORDERED;
+    }
 
     public BigDecimal getTotal() {
         return unitPrice.multiply(BigDecimal.valueOf(quantity));
