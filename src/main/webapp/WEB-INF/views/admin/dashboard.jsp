@@ -75,7 +75,6 @@
                     chartInstance.destroy();
                 }
 
-                // 根據type決定chart類型
                 const chartType = (type === 'total') ? 'bar' : 'line';
 
                 chartInstance = new Chart(ctx, {

@@ -15,7 +15,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-@WebServlet("/admin/report")
+@WebServlet("/admin/reports")
 public class AdminReportServlet extends HttpServlet {
 
     @PersistenceContext

@@ -53,7 +53,7 @@
                     </a>
                 </li>
                 <li ${pageTitle == "Reports" ? "data-selected" : ""}>
-                    <a href="<c:url value='/admin/report' />">
+                    <a href="<c:url value='/admin/reports' />">
                         <i class="fa-solid fa-clipboard mr-2"></i>
                         Reports
                     </a>
