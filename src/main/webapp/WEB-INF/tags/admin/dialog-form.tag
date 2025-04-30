@@ -9,7 +9,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 
-<dialog id="${dialogid}" class="overflow-hidden m-auto backdrop:bg-black/50 w-3xl  ${dialogclass}">
+<dialog id="${dialogid}" class="overflow-hidden m-auto backdrop:bg-black/50 w-4xl  ${dialogclass}">
     <form action="${action}" method="${method}">
         <div class="horizontal items-center px-4 py-6 text-xl">
             <h2 class="font-bold">${title}</h2>
