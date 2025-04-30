@@ -1,4 +1,4 @@
-package com.lavacorp.beautefly.webstore.admin;
+package com.lavacorp.beautefly.webstore.admin.order;
 
 import com.lavacorp.beautefly.webstore.order.dto.OrderListingDTO;
 import com.lavacorp.beautefly.webstore.order.entity.SalesOrder;
