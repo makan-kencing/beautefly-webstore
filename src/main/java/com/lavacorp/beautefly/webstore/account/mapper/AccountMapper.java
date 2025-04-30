@@ -55,7 +55,7 @@ public interface AccountMapper {
     @Mapping(target = "profileImageHash", source = "profileImage.hash")
     AdminUserAccountDTO toAdminUserAccountDTO(Account account);
 
-    default UpdateUserAccountDetailsDTO fromRequest(HttpServletRequest req) {
+    default UpdateUserAccountDetailsDTO toUpdateUserAccountDetailsDTO(HttpServletRequest req) {
         return new UpdateUserAccountDetailsDTO(
                 req.getParameter("username"),
                 req.getParameter("email"),

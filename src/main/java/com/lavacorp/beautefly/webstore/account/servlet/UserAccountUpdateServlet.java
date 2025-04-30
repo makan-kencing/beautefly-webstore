@@ -28,7 +28,7 @@ public class UserAccountUpdateServlet extends HttpServlet {
         var user = UserContextFilter.getUserContext(req);
         assert user != null;
 
-        var updateDTO = accountMapper.fromRequest(req);
+        var updateDTO = accountMapper.toUpdateUserAccountDetailsDTO(req);
 
         accountService.updateUserAccountDetails(user, updateDTO);
 
