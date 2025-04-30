@@ -4,6 +4,7 @@ import com.lavacorp.beautefly.webstore.product.dto.CategoryDTO;
 import com.lavacorp.beautefly.webstore.product.dto.CategoryTreeDTO;
 import com.lavacorp.beautefly.webstore.product.dto.ColorDTO;
 import com.lavacorp.beautefly.webstore.product.entity.Category;
+import com.lavacorp.beautefly.webstore.product.entity.Category_;
 import com.lavacorp.beautefly.webstore.product.entity.Color;
 import com.lavacorp.beautefly.webstore.product.mapper.CategoryMapper;
 import com.lavacorp.beautefly.webstore.product.mapper.ColorMapper;
@@ -13,6 +14,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceUnit;
 import jakarta.transaction.Transactional;
 import org.hibernate.SessionFactory;
+import org.hibernate.graph.GraphSemantic;
 
 import java.util.List;
 
@@ -42,13 +44,13 @@ public class ProductService {
 
     public List<CategoryTreeDTO> getAvailableCategoryTree() {
         var session = emf.unwrap(SessionFactory.class)
-                .openStatelessSession();
+                .openSession();
 
         // how tf u write a recursive fetch
         return session.createSelectionQuery("""     
                         from Category c
-                            left join fetch c.subcategories cc
-                            left join fetch cc.subcategories ccc
+                        left join fetch c.subcategories cc
+                        left join fetch cc.subcategories ccc
                         where c.parent is null
                         """, Category.class)
                 .stream()
