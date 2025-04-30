@@ -99,11 +99,11 @@ class ShowPassword {
 
     show() {
         this.passwordInput.type = "text";
-        delete this.eye.dataset.visible;
+        this.eye.dataset.visible = "";
     }
 
     hide() {
         this.passwordInput.type = "password";
-        this.eye.dataset.visible = "";
+        delete this.eye.dataset.visible;
     }
 }
