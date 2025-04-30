@@ -25,6 +25,6 @@ public class ProductDeleteServlet extends HttpServlet {
 
         adminProductService.deleteProducts(dto);
 
-        resp.sendRedirect("/admin/products");
+        resp.sendRedirect("/admin/products?delete=1");
     }
 }

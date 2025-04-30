@@ -25,6 +25,6 @@ public class ProductCreateServlet extends HttpServlet {
 
         adminProductService.createProduct(dto);
 
-        resp.sendRedirect("/admin/products");
+        resp.sendRedirect("/admin/products?created=1");
     }
 }
