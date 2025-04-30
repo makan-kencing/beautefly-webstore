@@ -9,25 +9,25 @@
     <ul class="space-y-2 **:[a]:px-5 **:[a]:py-3 **:[a]:block *:rounded *:hover:bg-blue-100 *:data-selected:bg-blue-300">
         <li ${pageTitle == "Account Details" ? "data-selected" : ""}>
             <a href="<c:url value='/account' />">
-                <i data-lucide="user" class="w-5 h-5 m-2"></i>
+                <i class="fa-solid fa-user mr-3"></i>
                 Account Details
             </a>
         </li>
         <li ${pageTitle == "Addresses" ? "data-selected" : ""}>
             <a href="<c:url value='/addresses' />">
-                <i data-lucide="map-pin" class="w-5 h-5 m-2"></i>
+                <i class="fa-solid fa-address-book mr-3"></i>
                 Addresses
             </a>
         </li>
         <li ${pageTitle == "Password" ? "data-selected" : ""}>
-            <a href="<c:url value='/account/change-password' />"}>
-                <i data-lucide="key" class="w-5 h-5 m-2"></i>
+            <a href="<c:url value='/account/change-password' />">
+                <i class="fa-solid fa-key mr-3"></i>
                 Password
             </a>
         </li>
         <li ${pageTitle == "My Orders" ? "data-selected" : ""}>
             <a href="<c:url value='/orders' />">
-                <i data-lucide="shopping-bag" class="w-5 h-5 m-2"></i>
+                <i class="fa-solid fa-truck mr-3"></i>
                 My Orders
             </a>
         </li>
