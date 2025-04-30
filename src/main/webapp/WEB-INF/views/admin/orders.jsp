@@ -42,8 +42,7 @@
                         <c:set var="totalCompleted"
                                value="${order.products().stream().filter(p -> p.status() == 'DELIVERED').count()}"/>
 
-                        <tr data-href="<c:url value='/admin/order/${order.id()}' />"
-                            onclick="window.location = this.dataset.href">
+                        <tr data-href="<c:url value='/admin/orders/${order.id()}' />" class="clickable-row">
                             <td data-order="${order.id()}">#${order.id()}</td>
                             <td data-search="${order.account().username()}">
                                 <img src="<c:url value='${order.account().profileImage().url()}' />" alt="">
@@ -54,8 +53,6 @@
                                 <p class="text-xs text-center">${totalCompleted}/${totalItems}</p>
                                 <div class="rounded-full overflow-hidden flex *:flex-1 h-2 gap-0.5">
                                     <c:forEach var="item" items="${order.products()}">
-                                        <jsp:useBean id="item" type="com.lavacorp.beautefly.webstore.order.dto.OrderListingItemDTO"/>
-
                                         <c:choose>
                                             <c:when test="${item.status() == 'SHIPPED'}">
                                                 <div class="bg-admin -order-1" title="${item.status()}"></div>
@@ -74,7 +71,6 @@
                                 </div>
                             </td>
                             <td data-search="${order.status()}" data-order="${order.status()}" class="cell">
-                                    <%-- reusing role color kek --%>
                                 <span data-cell data-role="${order.status() ==  "COMPLETED" ? "USER" : "STAFF"}">
                                         ${order.status()}
                                 </span>
@@ -123,3 +119,15 @@
         </main>
     </jsp:body>
 </admin:base>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".clickable-row").forEach(row => {
+            row.style.cursor = "pointer";
+            row.addEventListener("click", () => {
+                window.location = row.dataset.href;
+            });
+        });
+    });
+</script>
+

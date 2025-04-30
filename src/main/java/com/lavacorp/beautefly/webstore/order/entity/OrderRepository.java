@@ -23,4 +23,7 @@ public interface OrderRepository {
     BigDecimal sumTotalSales();
     BigDecimal sumTodaySales();
     BigDecimal sumMonthlySales();
+    
+    SalesOrderProduct findOrderProductById(int id);
+    void updateOrderProduct(SalesOrderProduct product);
 }
