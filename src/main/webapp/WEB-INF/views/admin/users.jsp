@@ -209,21 +209,6 @@
             </script>
 
             <script>
-                function openEditPopup(id) {
-                    fetch('/admin/account/edit?id=' + id)
-                        .then(res => {
-                            if (!res.ok) throw new Error("Failed to load account data");
-                            return res.text();
-                        })
-                        .then(html => {
-                            document.getElementById("edit-user-content").innerHTML = html;
-                            document.getElementById("edit-user-modal").showModal();
-                        })
-                        .catch(err => alert("Failed to load account data"));
-                }
-            </script>
-
-            <script>
                 function openEditModal(id) {
                     fetch('<c:url value="/admin/account" />?id=' + id)
                         .then(res => res.json())
@@ -245,8 +230,8 @@
             </script>
 
 
-            <dialog id="view-account" class="rounded-xl p-0 w-[90%] max-w-2xl fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-            <form method="dialog" class="w-full bg-white rounded-xl shadow-xl">
+            <dialog id="view-account" class="rounded-xl p-0 w-[90%] max-w-2xl">
+                <form method="dialog" class="w-full bg-white rounded-xl shadow-xl">
                     <!-- Title Bar -->
                     <div class="flex justify-between items-center px-6 py-4 border-b">
                         <h2 class="text-xl font-bold">👤 View Account Details</h2>
@@ -444,16 +429,6 @@
                 </form>
             </dialog>
 
-            <dialog id="edit-user-modal" class="rounded-lg p-4 w-[90%] max-w-2xl mx-auto top-1/2 -translate-y-1/2">
-            <form method="dialog" class="w-full bg-white rounded-xl shadow-xl">
-                    <div class="flex justify-between items-center px-6 py-4 border-b">
-                        <h2 class="text-xl font-bold">📝 Edit Account</h2>
-                        <button type="button" onclick="document.getElementById('edit-user-modal').close()"
-                                class="text-gray-500 hover:text-gray-700 text-2xl leading-none">&times;</button>
-                    </div>
-                    <div id="edit-user-content" class="px-6 py-4 text-sm">Loading...</div>
-                </form>
-            </dialog>
         </main>
 
         <script>
@@ -461,38 +436,3 @@
         </script>
     </jsp:body>
 </admin:base>
-
-<script>
-    document.getElementById("edit-user-form").addEventListener("submit", function (e) {
-        e.preventDefault();
-        const form = e.target;
-        const formData = new FormData(form);
-
-        fetch(form.action, {
-            method: "POST",
-            body: formData
-        })
-            .then(res => {
-                if (!res.ok) throw new Error("Failed to save");
-                return res.text();
-            })
-            .then(html => {
-                document.getElementById("edit-user-modal").close();
-
-                const viewDialog = document.getElementById("view-account");
-                const content = document.getElementById("view-account-content");
-                content.innerHTML = html;
-                viewDialog.showModal();
-            })
-            .catch(err => {
-                alert("❌ Failed to save user");
-                console.error(err);
-            });
-    });
-</script>
-
-<style>
-    dialog#edit-user-modal::backdrop {
-        background-color: rgba(0, 0, 0, 0.3);
-    }
-</style>
