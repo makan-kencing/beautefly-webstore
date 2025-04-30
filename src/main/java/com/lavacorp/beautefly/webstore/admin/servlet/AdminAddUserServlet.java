@@ -1,12 +1,13 @@
 package com.lavacorp.beautefly.webstore.admin.servlet;
 
-import com.lavacorp.beautefly.webstore.account.AccountService;
 import com.lavacorp.beautefly.webstore.account.entity.Account;
-import com.lavacorp.beautefly.webstore.account.entity.Credential;
 import com.lavacorp.beautefly.webstore.account.entity.Account.Gender;
+import com.lavacorp.beautefly.webstore.account.entity.Credential;
 import com.lavacorp.beautefly.webstore.account.entity.Credential.Role;
 import com.lavacorp.beautefly.webstore.admin.AdminAccountService;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.security.enterprise.identitystore.PasswordHash;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,7 +16,10 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @WebServlet("/admin/account/add")
@@ -23,6 +27,10 @@ public class AdminAddUserServlet extends HttpServlet {
 
     @Inject
     private AdminAccountService adminAccountService;
+
+    @Inject
+    @Named("Argon2idPasswordHash")
+    private PasswordHash passwordHash;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -66,7 +74,7 @@ public class AdminAddUserServlet extends HttpServlet {
         }
 
         Credential credential = new Credential();
-        credential.setPassword(password);
+        credential.setPassword(passwordHash.generate(password.toCharArray()));
 
         Set<Role> roles = Arrays.stream(rolesParam)
                 .map(Role::valueOf)
