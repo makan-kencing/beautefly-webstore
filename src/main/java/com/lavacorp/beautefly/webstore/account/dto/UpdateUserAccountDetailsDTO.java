@@ -9,14 +9,10 @@ import java.time.LocalDate;
 /**
  * DTO for {@link Account}
  */
-public record UpdateUserAccountDTO(
-        int id,
+public record UpdateUserAccountDetailsDTO(
         @Nullable String username,
-        @Nullable String gender,
         @Nullable String email,
-        @Nullable LocalDate dob,
-        @Nullable Integer profileImageFileId,
-        @Nullable Boolean active,
-        @Nullable String password
+        @Nullable Account.Gender gender,
+        @Nullable LocalDate dob
 ) implements Serializable {
 }
