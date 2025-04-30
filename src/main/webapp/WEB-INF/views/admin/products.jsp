@@ -116,14 +116,14 @@
                                         extend: "selected",
                                         text: "<i class='fa-solid fa-trash mr-1'></i> Delete",
                                         action: function (e, dt, node, config) {
-                                            const formData = new FormData();
+                                            const params = new URLSearchParams();
                                             dt.select.cumulative().rows.forEach(
-                                                (id) => formData.append("id", id)
+                                                (id) => params.append("id", id)
                                             );
 
                                             fetch("<c:url value='/admin/product/delete'/>", {
                                                 method: "post",
-                                                body: formData
+                                                body: params
                                             }).then((res) => {
                                                 if (!res.ok)
                                                     console.error(res);
@@ -355,7 +355,7 @@
                         <input type="number" name="unitCost" id="unitCost" step="0.01" required
                                class="w-full border border-border py-1 px-2 rounded">
                     </div>
-                    
+
                     <div>
                         <label for="unitPrice" class="block">Unit Price (RM) *</label>
                         <input type="number" name="unitPrice" id="unitPrice" step="0.01" required
