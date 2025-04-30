@@ -1,4 +1,4 @@
-package com.lavacorp.beautefly.webstore.admin.servlet;
+package com.lavacorp.beautefly.webstore.admin.account.servlet;
 
 import com.lavacorp.beautefly.webstore.account.entity.Account;
 import com.lavacorp.beautefly.webstore.account.entity.Address;

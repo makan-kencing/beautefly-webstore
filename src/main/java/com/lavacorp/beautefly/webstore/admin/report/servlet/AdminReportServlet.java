@@ -1,4 +1,4 @@
-package com.lavacorp.beautefly.webstore.admin.servlet;
+package com.lavacorp.beautefly.webstore.admin.report.servlet;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

@@ -1,4 +1,4 @@
-package com.lavacorp.beautefly.webstore.admin.dto.parameters;
+package com.lavacorp.beautefly.webstore.admin.account.dto;
 
 import com.lavacorp.beautefly.webstore.account.entity.Account;
 import com.lavacorp.beautefly.webstore.account.entity.Credential;

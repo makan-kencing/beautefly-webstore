@@ -1,4 +1,4 @@
-package com.lavacorp.beautefly.webstore.admin.dto;
+package com.lavacorp.beautefly.webstore.admin.account.dto;
 
 import java.io.Serializable;
 import java.util.List;

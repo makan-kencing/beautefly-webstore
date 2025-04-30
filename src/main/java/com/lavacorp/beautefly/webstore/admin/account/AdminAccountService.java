@@ -1,10 +1,9 @@
-package com.lavacorp.beautefly.webstore.admin;
+package com.lavacorp.beautefly.webstore.admin.account;
 
 import com.lavacorp.beautefly.webstore.account.entity.Account;
 import com.lavacorp.beautefly.webstore.account.mapper.AccountMapper;
-import com.lavacorp.beautefly.webstore.admin.dto.DeleteAccountDTO;
+import com.lavacorp.beautefly.webstore.admin.account.dto.DeleteAccountDTO;
 import com.lavacorp.beautefly.webstore.security.dto.AccountContextDTO;
-import com.lavacorp.beautefly.webstore.security.filter.UserContextFilter;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
@@ -12,9 +11,6 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceUnit;
 import jakarta.transaction.Transactional;
 import org.hibernate.SessionFactory;
-
-import java.util.function.Supplier;
-import java.util.stream.Stream;
 
 @Transactional
 @ApplicationScoped

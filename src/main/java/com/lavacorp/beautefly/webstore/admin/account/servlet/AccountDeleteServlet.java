@@ -1,7 +1,7 @@
-package com.lavacorp.beautefly.webstore.admin.servlet;
+package com.lavacorp.beautefly.webstore.admin.account.servlet;
 
-import com.lavacorp.beautefly.webstore.admin.AdminAccountService;
-import com.lavacorp.beautefly.webstore.admin.mapper.AdminAccountMapper;
+import com.lavacorp.beautefly.webstore.admin.account.AdminAccountService;
+import com.lavacorp.beautefly.webstore.admin.account.mapper.AdminAccountMapper;
 import com.lavacorp.beautefly.webstore.security.filter.UserContextFilter;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;

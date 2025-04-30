@@ -1,7 +1,7 @@
-package com.lavacorp.beautefly.webstore.admin.servlet;
+package com.lavacorp.beautefly.webstore.admin.dashboard.servlet;
 
-import com.lavacorp.beautefly.webstore.admin.AdminService;
-import com.lavacorp.beautefly.webstore.admin.dto.DashboardStatsDTO;
+import com.lavacorp.beautefly.webstore.admin.dashboard.AdminService;
+import com.lavacorp.beautefly.webstore.admin.dashboard.dto.DashboardStatsDTO;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

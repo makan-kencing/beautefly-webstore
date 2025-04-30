@@ -1,4 +1,4 @@
-package com.lavacorp.beautefly.webstore.admin.servlet;
+package com.lavacorp.beautefly.webstore.admin.report.servlet;
 
 import com.google.gson.Gson;
 import jakarta.inject.Inject;

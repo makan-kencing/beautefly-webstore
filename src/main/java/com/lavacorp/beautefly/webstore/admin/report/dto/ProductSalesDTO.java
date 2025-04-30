@@ -1,4 +1,4 @@
-package com.lavacorp.beautefly.webstore.admin.dto;
+package com.lavacorp.beautefly.webstore.admin.report.dto;
 
 import com.lavacorp.beautefly.webstore.product.dto.ProductPageDTO;
 

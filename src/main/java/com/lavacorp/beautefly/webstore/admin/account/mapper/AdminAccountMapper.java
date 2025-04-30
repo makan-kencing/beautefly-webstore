@@ -1,6 +1,6 @@
-package com.lavacorp.beautefly.webstore.admin.mapper;
+package com.lavacorp.beautefly.webstore.admin.account.mapper;
 
-import com.lavacorp.beautefly.webstore.admin.dto.DeleteAccountDTO;
+import com.lavacorp.beautefly.webstore.admin.account.dto.DeleteAccountDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;

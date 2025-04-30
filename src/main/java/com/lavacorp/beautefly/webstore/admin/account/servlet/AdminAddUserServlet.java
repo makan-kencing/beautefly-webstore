@@ -1,10 +1,10 @@
-package com.lavacorp.beautefly.webstore.admin.servlet;
+package com.lavacorp.beautefly.webstore.admin.account.servlet;
 
 import com.lavacorp.beautefly.webstore.account.entity.Account;
 import com.lavacorp.beautefly.webstore.account.entity.Account.Gender;
 import com.lavacorp.beautefly.webstore.account.entity.Credential;
 import com.lavacorp.beautefly.webstore.account.entity.Credential.Role;
-import com.lavacorp.beautefly.webstore.admin.AdminAccountService;
+import com.lavacorp.beautefly.webstore.admin.account.AdminAccountService;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.security.enterprise.identitystore.PasswordHash;

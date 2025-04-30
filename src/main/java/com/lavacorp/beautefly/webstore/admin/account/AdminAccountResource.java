@@ -1,4 +1,4 @@
-package com.lavacorp.beautefly.webstore.admin;
+package com.lavacorp.beautefly.webstore.admin.account;
 
 import com.lavacorp.beautefly.webstore.common.dto.PaginatedResult;
 import com.lavacorp.beautefly.webstore.search.AccountSearchService;

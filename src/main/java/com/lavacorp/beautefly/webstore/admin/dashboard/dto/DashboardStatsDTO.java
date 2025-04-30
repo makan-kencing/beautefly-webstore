@@ -1,4 +1,4 @@
-package com.lavacorp.beautefly.webstore.admin.dto;
+package com.lavacorp.beautefly.webstore.admin.dashboard.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

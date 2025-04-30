@@ -1,15 +1,12 @@
-package com.lavacorp.beautefly.webstore.admin;
+package com.lavacorp.beautefly.webstore.admin.dashboard;
 
-import com.lavacorp.beautefly.webstore.admin.dto.DashboardStatsDTO;
+import com.lavacorp.beautefly.webstore.admin.dashboard.dto.DashboardStatsDTO;
 import com.lavacorp.beautefly.webstore.order.entity.OrderRepository;
 import com.lavacorp.beautefly.webstore.search.AccountSearchService;
 import com.lavacorp.beautefly.webstore.search.dto.AccountSearchParametersDTO;
-import com.lavacorp.beautefly.webstore.order.entity.SalesOrder;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-
-import java.math.BigDecimal;
 
 @Transactional
 @ApplicationScoped
