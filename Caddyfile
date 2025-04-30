@@ -23,6 +23,8 @@
 {$BEAUTEFLY_SITE_URL} {
     import log_common beautefly
 
+    import cors-headers web
+
     encode gzip
 
     request_body {

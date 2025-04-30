@@ -3,6 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="admin" tagdir="/WEB-INF/tags/admin" %>
 
+<jsp:useBean id="context" type="com.lavacorp.beautefly.webstore.admin.product.dto.CreateProductContext"
+             scope="request"/>
+
 <admin:base pageTitle="Products">
     <jsp:attribute name="includeHead">
         <link href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css" rel="stylesheet"/>
@@ -12,6 +15,28 @@
         <script src="https://cdn.datatables.net/colreorder/2.0.4/js/dataTables.colReorder.min.js"></script>
         <script src="https://cdn.datatables.net/buttons/3.2.2/js/dataTables.buttons.min.js"></script>
         <script src="https://cdn.datatables.net/select/3.0.0/js/dataTables.select.min.js"></script>
+
+        <style>
+            .grow-wrap {
+                display: grid;
+
+                &::after {
+                    content: attr(data-replicated-value) " ";
+                    white-space: pre-wrap;
+                    visibility: hidden;
+                }
+
+                > textarea {
+                    resize: none;
+                    overflow: hidden;
+                }
+
+                > textarea,
+                &::after {
+                    grid-area: 1 / 1 / 2 / 2;
+                }
+            }
+        </style>
     </jsp:attribute>
 
     <jsp:body>
@@ -91,14 +116,14 @@
                                         extend: "selected",
                                         text: "<i class='fa-solid fa-trash mr-1'></i> Delete",
                                         action: function (e, dt, node, config) {
-                                            const formData = new FormData();
+                                            const params = new URLSearchParams();
                                             dt.select.cumulative().rows.forEach(
-                                                (id) => formData.append("id", id)
+                                                (id) => params.append("id", id)
                                             );
 
                                             fetch("<c:url value='/admin/product/delete'/>", {
                                                 method: "post",
-                                                body: formData
+                                                body: params
                                             }).then((res) => {
                                                 if (!res.ok)
                                                     console.error(res);
@@ -172,7 +197,7 @@
                                             return "<span class='text-bad'>No Stock</span>";
                                         else if (data < 10)
                                             return `<span class='text-bad'>\${data}</span>`;
-                                        // else if (data < 20)
+                                            // else if (data < 20)
                                         //    return `<span class='text-warn'>\${data}</span>`;
                                         else
                                             return `<span class='text-good'>\${data}</span>`;
@@ -238,36 +263,109 @@
                 </script>
             </div>
 
-            <admin:dialog-form dialogid="create-product" action="<c:url value='/admin/account/add' />" method="post"
+            <c:url var="endpoint" value='/admin/product/create'/>
+            <admin:dialog-form dialogid="create-product" action="${endpoint}" method="post"
                                title="Add Product">
-                <div>
-                    <label for="name" class="block">Product Name *</label>
-                    <input type="text" name="name" id="name" placeholder="" required
-                           class="w-full border border-border py-1 px-2 rounded">
+
+                <div class="horizontal *:flex-1 space-y-0! *:space-y-2">
+                    <div>
+                        <label for="name" class="block">Product Name *</label>
+                        <input type="text" name="name" id="name" placeholder="" required
+                               class="w-full border border-border py-1 px-2 rounded">
+                    </div>
+
+                    <div>
+                        <label for="brand" class="block">Brand *</label>
+                        <input type="text" name="brand" id="brand" list="brands" required
+                               class="w-full border border-border py-1 px-2 rounded">
+                        <datalist id="brands">
+                            <c:forEach var="brand" items="${context.existingBrands()}">
+                                <option value="${brand}">${brand}</option>
+                            </c:forEach>
+                        </datalist>
+                    </div>
                 </div>
 
-                <div>
-                    <label for="category" class="block">Category *</label>
-                    <select name="categoryId" id="category" required
-                            class="w-full border border-border py-1 px-2 rounded">
-                        <option value="">Select a category</option>
-                        <c:forEach var="cat" items="${categories}">
-                            <option value="${cat.categoryId}">${cat.name}</option>
-                        </c:forEach>
-                    </select>
-                </div>
 
                 <div>
                     <label for="description" class="block">Description</label>
-                    <div class="grow-wrap after:text-base after:rounded after:border after:border-border">
-                        <textarea name="description" id="description" required
-                                  class="w-full border border-border py-1 px-2 rounded"></textarea>
+                    <div class="grow-wrap after:text-base after:rounded-lg after:border after:border-gray-300">
+                            <textarea name="description" id="description"
+                                      class="w-full p-2 text-base rounded-lg border border-gray-300"
+                                      onInput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+                    </div>
+                </div>
+
+                <div class="horizontal *:flex-1 space-y-0! *:space-y-2">
+                    <div>
+                        <label for="category" class="block">Category *</label>
+                        <select name="categoryId" id="category" required
+                                class="w-full border border-border py-1 px-2 rounded">
+                            <option value=""></option>
+                            <c:forEach var="category" items="${context.availableCategories()}">
+                                <jsp:useBean id="category"
+                                             type="com.lavacorp.beautefly.webstore.product.dto.CategoryTreeDTO"/>
+
+                                <option value="${category.id()}" disabled
+                                        class="font-bold">
+                                        ${category.name()}
+                                </option>
+
+                                <c:forEach var="category" items="${category.subcategories()}">
+
+                                    <option value="${category.id()}" disabled
+                                            class="font-semibold">
+                                        - ${category.name()}
+                                    </option>
+
+                                    <c:forEach var="category" items="${category.subcategories()}">
+
+                                        <option value="${category.id()}">
+                                            - - ${category.name()}
+                                        </option>
+
+                                    </c:forEach>
+                                </c:forEach>
+                            </c:forEach>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="color" class="block">Color</label>
+                        <select name="colorId" id="color"
+                                class="w-full border border-border py-1 px-2 rounded">
+                            <option value=""></option>
+                            <c:forEach var="color" items="${context.availableColor()}">
+                                <jsp:useBean id="color" type="com.lavacorp.beautefly.webstore.product.dto.ColorDTO"/>
+                                <c:set var="r" value="${color.color().red}"/>
+                                <c:set var="g" value="${color.color().green}"/>
+                                <c:set var="b" value="${color.color().blue}"/>
+
+                                <option value="${color.id()}" style="color: rgb(${r}, ${g}, ${b})" class="font-bold">
+                                        ${color.name()}
+                                </option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="horizontal *:flex-1 space-y-0! *:space-y-2">
+                    <div>
+                        <label for="unitCost" class="block">Unit Cost (RM) *</label>
+                        <input type="number" name="unitCost" id="unitCost" step="0.01" required
+                               class="w-full border border-border py-1 px-2 rounded">
+                    </div>
+
+                    <div>
+                        <label for="unitPrice" class="block">Unit Price (RM) *</label>
+                        <input type="number" name="unitPrice" id="unitPrice" step="0.01" required
+                               class="w-full border border-border py-1 px-2 rounded">
                     </div>
                 </div>
 
                 <div>
-                    <label for="unitPrice" class="block">Unit Price (RM) *</label>
-                    <input type="number" name="unitPrice" id="unitPrice" step="0.01" required
+                    <label for="releaseDate" class="block">Release Date *</label>
+                    <input type="date" name="releaseDate" id="releaseDate" required
                            class="w-full border border-border py-1 px-2 rounded">
                 </div>
 
@@ -276,29 +374,6 @@
                     <input type="number" name="stockCount" id="stockCount" min="0" step="1" required
                            class="w-full border border-border py-1 px-2 rounded">
                 </div>
-
-                <%-- https://css-tricks.com/the-cleanest-trick-for-autogrowing-textareas/ --%>
-                <style>
-                    .grow-wrap {
-                        display: grid;
-
-                        &::after {
-                            content: attr(data-replicated-value) " ";
-                            white-space: pre-wrap;
-                            visibility: hidden;
-                        }
-
-                        > textarea {
-                            resize: none;
-                            overflow: hidden;
-                        }
-
-                        > textarea,
-                        &::after {
-                            grid-area: 1 / 1 / 2 / 2;
-                        }
-                    }
-                </style>
             </admin:dialog-form>
         </main>
     </jsp:body>

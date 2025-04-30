@@ -1,6 +1,6 @@
-package com.lavacorp.beautefly.webstore.admin.servlet;
+package com.lavacorp.beautefly.webstore.admin.order.servlet;
 
-import com.lavacorp.beautefly.webstore.admin.AdminOrderService;
+import com.lavacorp.beautefly.webstore.admin.order.AdminOrderService;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/admin/orders")
-public class AdminOrdersServlet extends HttpServlet {
+public class OrderListServlet extends HttpServlet {
     @Inject
     private AdminOrderService adminOrderService;
 
