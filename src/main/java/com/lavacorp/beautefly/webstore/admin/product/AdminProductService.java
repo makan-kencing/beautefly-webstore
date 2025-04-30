@@ -163,7 +163,7 @@ public class AdminProductService {
 
     public CreateProductContext getCreateProductContext() {
         return new CreateProductContext(
-                productService.getAvailableCategoryParents(),
+                productService.getAvailableCategoryTree(),
                 productService.getAvailableColors(),
                 productService.getExistingBrands()
         );

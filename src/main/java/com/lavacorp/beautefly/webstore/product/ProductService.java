@@ -1,7 +1,7 @@
 package com.lavacorp.beautefly.webstore.product;
 
 import com.lavacorp.beautefly.webstore.product.dto.CategoryDTO;
-import com.lavacorp.beautefly.webstore.product.dto.CategoryParentDTO;
+import com.lavacorp.beautefly.webstore.product.dto.CategoryTreeDTO;
 import com.lavacorp.beautefly.webstore.product.dto.ColorDTO;
 import com.lavacorp.beautefly.webstore.product.entity.Category;
 import com.lavacorp.beautefly.webstore.product.entity.Color;
@@ -40,15 +40,19 @@ public class ProductService {
                 .toList();
     }
 
-    public List<CategoryParentDTO> getAvailableCategoryParents() {
+    public List<CategoryTreeDTO> getAvailableCategoryTree() {
         var session = emf.unwrap(SessionFactory.class)
                 .openStatelessSession();
 
-        return session.createSelectionQuery("""        
-                        from Category
+        // how tf u write a recursive fetch
+        return session.createSelectionQuery("""     
+                        from Category c
+                            left join fetch c.subcategories cc
+                            left join fetch cc.subcategories ccc
+                        where c.parent is null
                         """, Category.class)
                 .stream()
-                .map(categoryMapper::toCategoryParentDTO)
+                .map(categoryMapper::toCategoryTreeDTO)
                 .toList();
     }
 

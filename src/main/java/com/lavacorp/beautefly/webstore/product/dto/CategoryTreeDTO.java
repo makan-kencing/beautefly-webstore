@@ -8,11 +8,11 @@ import java.util.List;
 /**
  * DTO for {@link com.lavacorp.beautefly.webstore.product.entity.Category}
  */
-public record CategoryParentDTO(
+public record CategoryTreeDTO(
         int id,
         String name,
         String description,
         FileUploadDTO image,
-        List<CategoryParentDTO> subcategories
+        List<CategoryTreeDTO> subcategories
 ) implements Serializable {
 }
