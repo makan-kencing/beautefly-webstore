@@ -99,7 +99,8 @@
                                             }).then((res) => {
                                                 if (!res.ok)
                                                     console.error(res);
-                                                dt.ajax.reload();
+                                            }).finally(() => {
+                                                dt.ajax.reload()
                                             });
                                         },
                                         className: "button-bad transition"
