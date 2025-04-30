@@ -351,14 +351,14 @@
 
                 <div class="horizontal *:flex-1 space-y-0! *:space-y-2">
                     <div>
-                        <label for="unitPrice" class="block">Unit Price (RM) *</label>
-                        <input type="number" name="unitPrice" id="unitPrice" step="0.01" required
-                               class="w-full border border-border py-1 px-2 rounded">
-                    </div>
-
-                    <div>
                         <label for="unitCost" class="block">Unit Cost (RM) *</label>
                         <input type="number" name="unitCost" id="unitCost" step="0.01" required
+                               class="w-full border border-border py-1 px-2 rounded">
+                    </div>
+                    
+                    <div>
+                        <label for="unitPrice" class="block">Unit Price (RM) *</label>
+                        <input type="number" name="unitPrice" id="unitPrice" step="0.01" required
                                class="w-full border border-border py-1 px-2 rounded">
                     </div>
                 </div>
