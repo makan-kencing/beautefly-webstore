@@ -4,6 +4,7 @@ import com.lavacorp.beautefly.webstore.account.entity.Account;
 import com.lavacorp.beautefly.webstore.admin.product.dto.*;
 import com.lavacorp.beautefly.webstore.admin.product.mapper.AdminProductMapper;
 import com.lavacorp.beautefly.webstore.file.FileService;
+import com.lavacorp.beautefly.webstore.product.ProductService;
 import com.lavacorp.beautefly.webstore.product.entity.Category;
 import com.lavacorp.beautefly.webstore.product.entity.Color;
 import com.lavacorp.beautefly.webstore.product.entity.Product;
@@ -28,6 +29,9 @@ public class AdminProductService {
 
     @Inject
     private FileService fileService;
+
+    @Inject
+    private ProductService productService;
 
     @Inject
     private AdminProductMapper productMapper;
@@ -155,5 +159,13 @@ public class AdminProductService {
                 .setParameter("productId", dto.id())
                 .setParameter("imageId", dto.imageId())
                 .executeUpdate();
+    }
+
+    public CreateProductContext getCreateProductContext() {
+        return new CreateProductContext(
+                productService.getAvailableCategoryParents(),
+                productService.getAvailableColors(),
+                productService.getExistingBrands()
+        );
     }
 }
