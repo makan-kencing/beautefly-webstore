@@ -3,8 +3,8 @@ package com.lavacorp.beautefly.webstore.admin;
 import com.lavacorp.beautefly.webstore.account.entity.Account;
 import com.lavacorp.beautefly.webstore.account.mapper.AccountMapper;
 import com.lavacorp.beautefly.webstore.admin.dto.DeleteAccountDTO;
-import com.lavacorp.beautefly.webstore.cart.entity.Cart;
-import com.lavacorp.beautefly.webstore.cart.entity.Wishlist;
+import com.lavacorp.beautefly.webstore.security.dto.AccountContextDTO;
+import com.lavacorp.beautefly.webstore.security.filter.UserContextFilter;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
@@ -12,6 +12,9 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceUnit;
 import jakarta.transaction.Transactional;
 import org.hibernate.SessionFactory;
+
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 @Transactional
 @ApplicationScoped
@@ -37,9 +40,30 @@ public class AdminAccountService {
         }
     }
 
-    public void deleteAccounts(DeleteAccountDTO dto) {
+    @SuppressWarnings("JpaQlInspection")
+    public void deleteAccounts(AccountContextDTO user, DeleteAccountDTO dto) {
         var sf = emf.unwrap(SessionFactory.class);
         var statelessSession = sf.openStatelessSession();
+        var session = sf.openSession();
+
+        var userAccount = session.get(Account.class, user.id());
+        var userHighestRole = userAccount.getCredential().getRoles()
+                .stream()
+                .max(Enum::compareTo)
+                .orElseThrow();
+        dto = new DeleteAccountDTO(
+                dto.id().stream()
+                        .map(id -> session.get(Account.class, id))
+                        .filter(account -> {
+                            var accountHighestRole = account.getCredential().getRoles()
+                                    .stream()
+                                    .max(Enum::compareTo)
+                                    .orElseThrow();
+
+                            return userHighestRole.compareTo(accountHighestRole) > 0;
+                        }).map(Account::getId)
+                        .toList()
+        );
 
         statelessSession.createMutationQuery("""
                         update FileUpload f
@@ -48,34 +72,6 @@ public class AdminAccountService {
                         """)
                 .setParameter("accountId", dto.id())
                 .executeUpdate();
-
-//        for (var id : dto.id()) {
-//            var cart = statelessSession.createSelectionQuery("""
-//                            from Cart
-//                            left join fetch CartProduct
-//                            where Account.id = :accountId
-//                            """, Cart.class)
-//                    .setParameter("accountId", id)
-//                    .getSingleResultOrNull();
-//
-//            if (cart != null) {
-//                cart.forEach(statelessSession::delete);
-//                statelessSession.delete(cart);
-//            }
-//
-//            var wishlist = statelessSession.createSelectionQuery("""
-//                            from Wishlist
-//                            left join fetch WishlistProduct
-//                            where Account.id = :accountId
-//                            """, Wishlist.class)
-//                    .setParameter("accountId", id)
-//                    .getSingleResultOrNull();
-//
-//            if (wishlist != null) {
-//                wishlist.forEach(statelessSession::delete);
-//                statelessSession.delete(wishlist);
-//            }
-//        }
 
         statelessSession.createMutationQuery("""
                         delete CartProduct cp
@@ -140,11 +136,10 @@ public class AdminAccountService {
                 .setParameter("accountId", dto.id())
                 .executeUpdate();
 
-        var session = sf.openSession();
         for (var id : dto.id()) {
-            var account = session.get(Account.class, id);
-            if (account != null)
-                session.remove(account);
+            userAccount = session.get(Account.class, id);
+            if (userAccount != null)
+                session.remove(userAccount);
         }
     }
 }

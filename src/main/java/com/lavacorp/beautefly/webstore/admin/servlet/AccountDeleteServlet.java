@@ -2,6 +2,7 @@ package com.lavacorp.beautefly.webstore.admin.servlet;
 
 import com.lavacorp.beautefly.webstore.admin.AdminAccountService;
 import com.lavacorp.beautefly.webstore.admin.mapper.AdminAccountMapper;
+import com.lavacorp.beautefly.webstore.security.filter.UserContextFilter;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -21,9 +22,12 @@ public class AccountDeleteServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        var user = UserContextFilter.getUserContext(req);
+        assert user != null;
+
         var dto = adminAccountMapper.toDeleteAccountDTO(req);
 
-        adminAccountService.deleteAccounts(dto);
+        adminAccountService.deleteAccounts(user, dto);
 
         resp.sendRedirect("/admin/accounts?delete=1");
     }
