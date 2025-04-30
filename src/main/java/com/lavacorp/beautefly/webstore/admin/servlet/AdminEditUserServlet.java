@@ -48,7 +48,7 @@ public class AdminEditUserServlet extends HttpServlet {
 
         req.setAttribute("account", dto);
 
-        var view = req.getRequestDispatcher("/WEB-INF/views/admin/edit-view-popup.jsp");
+        var view = req.getRequestDispatcher("/WEB-INF/views/admin/edit-user-details.jsp");
         view.forward(req, resp);
     }
 

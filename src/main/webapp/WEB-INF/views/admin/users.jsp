@@ -150,7 +150,7 @@
                                 name: "username",
                                 render: function (data, type, row, meta) {
                                     if (type === "display")
-                                        return `<button type="button" class="text-blue-600 underline" onclick="openUserModal(\${row.id})">\${data}</button>`;
+                                        return `<a href='<c:url value='/admin/account/\${row.id}' />'>\${data}</a>`;
                                     return data;
                                 }
                             },
@@ -186,64 +186,6 @@
                     });
                 </script>
             </div>
-
-            <script>
-                function openUserModal(id) {
-                    const dialog = document.getElementById("view-account");
-                    const content = document.getElementById("view-account-content");
-
-                    fetch('<c:url value="/admin/account" />?id=' + id)
-                            .then(res => {
-                            if (!res.ok) throw new Error("Not found");
-                            return res.text();
-                        })
-                        .then(html => {
-                            content.innerHTML = html;
-                            dialog.showModal();
-                        })
-                        .catch(err => {
-                            content.innerHTML = "❌ Failed to load user info.";
-                            console.error(err);
-                        });
-                }
-            </script>
-
-            <script>
-                function openEditModal(id) {
-                    fetch('<c:url value="/admin/account" />?id=' + id)
-                        .then(res => res.json())
-                        .then(data => {
-                            document.getElementById('edit-id').value = data.id;
-                            document.getElementById('edit-username').value = data.username;
-                            document.getElementById('edit-email').value = data.email;
-                            document.getElementById('edit-gender').value = data.gender;
-                            document.getElementById('edit-dob').value = data.dob;
-                            document.getElementById('edit-active').checked = data.active;
-
-                            document.getElementById('edit-account').showModal();
-                        })
-                        .catch(err => {
-                            alert("Failed to load account data");
-                            console.error(err);
-                        });
-                }
-            </script>
-
-
-            <dialog id="view-account" class="rounded-xl p-0 w-[90%] max-w-2xl">
-                <form method="dialog" class="w-full bg-white rounded-xl shadow-xl">
-                    <!-- Title Bar -->
-                    <div class="flex justify-between items-center px-6 py-4 border-b">
-                        <h2 class="text-xl font-bold">👤 View Account Details</h2>
-                        <button type="submit" class="text-gray-500 hover:text-gray-700 text-2xl leading-none">&times;</button>
-                    </div>
-
-                    <!-- Content -->
-                    <div id="view-account-content" class="px-6 py-4 text-sm">
-                        Loading...
-                    </div>
-                </form>
-            </dialog>
 
             <admin:dialog-form dialogid="create-account"
                                action="${pageContext.request.contextPath}/admin/account/add"
@@ -367,68 +309,6 @@
                     }
                 </script>
             </admin:dialog-form>
-
-            <dialog id="edit-account" class="rounded-xl p-0 w-[90%] max-w-2xl">
-                <form id="edit-account-form" method="post" action="${pageContext.request.contextPath}/admin/account/edit"
-                      class="w-full bg-white rounded-xl shadow-xl">
-
-                    <!-- Title Bar -->
-                    <div class="flex justify-between items-center px-6 py-4 border-b">
-                        <h2 class="text-xl font-bold">📝 Edit Account</h2>
-                        <button type="submit" class="text-gray-500 hover:text-gray-700 text-2xl leading-none">&times;</button>
-                    </div>
-
-                    <!-- Content -->
-                    <div class="px-6 py-4 grid gap-4 text-sm">
-                        <input type="hidden" name="id" id="edit-id"/>
-
-                        <div>
-                            <label for="edit-username">Username</label>
-                            <input type="text" name="username" id="edit-username"
-                                   class="w-full border border-border py-1 px-2 rounded" required/>
-                        </div>
-
-                        <div>
-                            <label for="edit-email">Email</label>
-                            <input type="email" name="email" id="edit-email"
-                                   class="w-full border border-border py-1 px-2 rounded" required/>
-                        </div>
-
-                        <div>
-                            <label for="edit-gender">Gender</label>
-                            <select name="gender" id="edit-gender"
-                                    class="w-full border border-border py-1 px-2 rounded">
-                                <option value="MALE">Male</option>
-                                <option value="FEMALE">Female</option>
-                                <option value="PREFER_NOT_TO_SAY">Prefer Not To Say</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label for="edit-dob">DOB</label>
-                            <input type="date" name="dob" id="edit-dob"
-                                   class="w-full border border-border py-1 px-2 rounded"/>
-                        </div>
-
-                        <div>
-                            <label for="edit-active" class="inline-flex items-center cursor-pointer">
-                                <input type="checkbox" name="active" id="edit-active" class="sr-only peer"/>
-                                <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 rounded-full peer  peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-blue-600"></div>
-                                <span class="ml-1">Active</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Footer -->
-                    <div class="flex justify-end px-6 py-4 border-t gap-2">
-                        <button type="submit"
-                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Save Changes</button>
-                        <button type="button" onclick="document.getElementById('edit-account').close()"
-                                class="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400">Cancel</button>
-                    </div>
-                </form>
-            </dialog>
-
         </main>
 
         <script>

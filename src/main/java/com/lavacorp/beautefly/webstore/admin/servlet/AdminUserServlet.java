@@ -32,7 +32,9 @@ public class AdminUserServlet extends HttpServlet {
             return;
         }
 
-        var session = emf.unwrap(SessionFactory.class).openStatelessSession();
+        var session = emf.unwrap(SessionFactory.class)
+                .openStatelessSession();
+
         var account = session.get(Account.class, id);
         if (account == null) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND, "User not found");
@@ -40,6 +42,8 @@ public class AdminUserServlet extends HttpServlet {
         }
 
         req.setAttribute("account", accountMapper.toAdminUserAccountDTO(account));
-        req.getRequestDispatcher("/WEB-INF/views/admin/view-popup.jsp").forward(req, resp);
+
+        var view = req.getRequestDispatcher("/WEB-INF/views/admin/user-details.jsp");
+        view.forward(req, resp);
     }
 }
