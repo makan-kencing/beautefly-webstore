@@ -10,6 +10,9 @@
     --color-border: var(--color-gray-300);
     --color-border-secondary: var(--color-gray-300);
 
+    --color-input: var(--color-gray-200);
+    --color-input-hover: var(--color-gray-300);
+
     --color-good: var(--color-green-600);
     --color-good-hover: var(--color-green-700);
 
