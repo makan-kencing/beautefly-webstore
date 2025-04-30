@@ -8,11 +8,16 @@ import com.lavacorp.beautefly.webstore.account.entity.AddressBook_;
 import com.lavacorp.beautefly.webstore.account.mapper.AccountMapper;
 import com.lavacorp.beautefly.webstore.account.mapper.AddressMapper;
 import com.lavacorp.beautefly.webstore.file.FileService;
+import com.lavacorp.beautefly.webstore.security.AccountIdentityStore;
 import com.lavacorp.beautefly.webstore.security.dto.AccountContextDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceUnit;
+import jakarta.security.enterprise.credential.UsernamePasswordCredential;
+import jakarta.security.enterprise.identitystore.CredentialValidationResult;
+import jakarta.security.enterprise.identitystore.PasswordHash;
 import jakarta.transaction.Transactional;
 import org.hibernate.SessionFactory;
 import org.hibernate.graph.GraphSemantic;
@@ -34,6 +39,10 @@ public class AccountService {
 
     @Inject
     private AddressMapper addressMapper;
+
+    @Inject
+    @Named("Argon2idPasswordHash")
+    private PasswordHash passwordHash;
 
     public UserAccountDetailsDTO getUserAccountDetails(AccountContextDTO user) {
         var session = emf.unwrap(SessionFactory.class)
@@ -69,6 +78,22 @@ public class AccountService {
         var account = session.get(Account.class, user.id());
         account = accountMapper.partialUpdate(dto, account);
         session.update(account);
+    }
+
+    public boolean updateUserAccountPassword(AccountContextDTO user, UpdateAccountPasswordDTO dto) {
+        var session = emf.unwrap(SessionFactory.class)
+                .openStatelessSession();
+
+        var account = session.get(Account.class, user);
+        var credential = account.getCredential();
+
+        if (!passwordHash.verify(dto.oldPassword().toCharArray(), credential.getPassword()))
+            return false;
+
+        credential.setPassword(passwordHash.generate(dto.newPassword().toCharArray()));
+        session.update(account);
+
+        return true;
     }
 
     public AddressesDTO getAccountAddressesDetails(AccountContextDTO user) {
