@@ -20,7 +20,7 @@
             </a>
         </li>
         <li ${pageTitle == "Password" ? "data-selected" : ""}>
-            <a href="<c:url value='/account/password' />"}>
+            <a href="<c:url value='/account/change-password' />"}>
                 <i data-lucide="key" class="w-5 h-5 m-2"></i>
                 Password
             </a>
