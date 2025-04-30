@@ -1,9 +1,6 @@
 package com.lavacorp.beautefly.webstore.account;
 
-import com.lavacorp.beautefly.webstore.account.dto.AddressDTO;
-import com.lavacorp.beautefly.webstore.account.dto.AddressesDTO;
-import com.lavacorp.beautefly.webstore.account.dto.UpdateAccountImageDTO;
-import com.lavacorp.beautefly.webstore.account.dto.UserAccountDetailsDTO;
+import com.lavacorp.beautefly.webstore.account.dto.*;
 import com.lavacorp.beautefly.webstore.account.entity.Account;
 import com.lavacorp.beautefly.webstore.account.entity.Account_;
 import com.lavacorp.beautefly.webstore.account.entity.Address;
@@ -62,6 +59,15 @@ public class AccountService {
         account.setProfileImage(file);
 
         session.insert(file);
+        session.update(account);
+    }
+
+    public void updateUserAccountDetails(AccountContextDTO user, UpdateUserAccountDetailsDTO dto) {
+        var session = emf.unwrap(SessionFactory.class)
+                .openStatelessSession();
+
+        var account = session.get(Account.class, user.id());
+        account = accountMapper.partialUpdate(dto, account);
         session.update(account);
     }
 

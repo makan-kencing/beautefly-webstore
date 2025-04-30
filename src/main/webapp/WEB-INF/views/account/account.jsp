@@ -38,16 +38,16 @@
                     </form>
 
 
-                    <form action="<c:url value='/account' />" method="post" class="space-y-4">
-                        <fieldset class="peer space-y-4 *:space-y-1 inert:opacity-90" inert>
+                    <form action="<c:url value='/account/update' />" method="post" class="space-y-4">
+                        <fieldset class="peer space-y-4 *:space-y-1 inert:opacity-70" inert>
                             <div>
                                 <label for="username" class="block font-medium">Username</label>
-                                <input type="text" name="username" id="username" value="${account.username()}"
+                                <input type="text" name="username" id="username" value="${account.username()}" required
                                        class="w-full border border-gray-300 p-2 rounded">
                             </div>
                             <div>
                                 <label for="email" class="block font-medium">Email</label>
-                                <input type="email" name="email" id="email" value="${account.email()}"
+                                <input type="email" name="email" id="email" value="${account.email()}" required
                                        class="w-full border border-gray-300 p-2 rounded">
                             </div>
                             <div>
@@ -57,7 +57,7 @@
                                             ${account.gender().pretty()}
                                     </p>
                                 </div>
-                                <div class="inert:hidden ml-2 my-3 flex gap-4">
+                                <div class="inert:hidden ml-2 mt-4 mb-5 flex gap-5">
                                     <label>
                                         <input type="radio" name="gender"
                                                value="MALE" ${account.gender() == "MALE" ? "checked" : ""}>
@@ -114,12 +114,12 @@
 
         <!-- Crop dialog -->
         <dialog id="crop-preview" class="rounded-xl p-4 m-auto">
-            <form method="dialog">
+            <form method="dialog" class="space-y-4">
                 <div>
                     <img src="" alt="">
                 </div>
-                <div class="horizontal justify-end p-4">
-                    <button type="reset" class="button-bad">Cancel</button>
+                <div class="horizontal justify-end">
+                    <button type="reset" class="button-bad" onclick="this.closest('dialog').close()">Cancel</button>
                     <button type="submit" class="button-good">Confirm</button>
                 </div>
             </form>
