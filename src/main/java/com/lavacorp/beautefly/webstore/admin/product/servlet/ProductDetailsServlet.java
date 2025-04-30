@@ -10,18 +10,28 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/admin/products")
-public class ProductListServlet extends HttpServlet {
+@WebServlet("/admin/product")
+public class ProductDetailsServlet extends HttpServlet {
     @Inject
     private AdminProductService adminProductService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int id;
+        try {
+            id = Integer.parseUnsignedInt(req.getParameter("id"));
+        } catch (NullPointerException | NumberFormatException e) {
+            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+
+        var product = adminProductService.getProductDetails(id);
         var context = adminProductService.getCreateProductContext();
 
+        req.setAttribute("product", product);
         req.setAttribute("context", context);
 
-        var view = req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp");
+        var view = req.getRequestDispatcher("/WEB-INF/views/admin/product-details.jsp");
         view.forward(req, resp);
     }
 }

@@ -1,6 +1,7 @@
 package com.lavacorp.beautefly.webstore.admin.product.servlet;
 
 import com.lavacorp.beautefly.webstore.admin.product.AdminProductService;
+import com.lavacorp.beautefly.webstore.admin.product.mapper.AdminProductMapper;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -10,18 +11,20 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/admin/products")
-public class ProductListServlet extends HttpServlet {
+@WebServlet("/admin/product/delete")
+public class ProductDeleteServlet extends HttpServlet {
     @Inject
     private AdminProductService adminProductService;
 
+    @Inject
+    private AdminProductMapper adminProductMapper;
+
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        var context = adminProductService.getCreateProductContext();
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        var dto = adminProductMapper.toDeleteProductDTO(req);
 
-        req.setAttribute("context", context);
+        adminProductService.deleteProducts(dto);
 
-        var view = req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp");
-        view.forward(req, resp);
+        resp.sendRedirect("/admin/products");
     }
 }
