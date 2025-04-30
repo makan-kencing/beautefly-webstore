@@ -263,13 +263,27 @@
                 </script>
             </div>
 
-            <c:url var="endpoint" value='/admin/product/create' />
+            <c:url var="endpoint" value='/admin/product/create'/>
             <admin:dialog-form dialogid="create-product" action="${endpoint}" method="post"
                                title="Add Product">
-                <div>
-                    <label for="name" class="block">Product Name *</label>
-                    <input type="text" name="name" id="name" placeholder="" required
-                           class="w-full border border-border py-1 px-2 rounded">
+
+                <div class="horizontal *:flex-1 space-y-0! *:space-y-2">
+                    <div>
+                        <label for="name" class="block">Product Name *</label>
+                        <input type="text" name="name" id="name" placeholder="" required
+                               class="w-full border border-border py-1 px-2 rounded">
+                    </div>
+
+                    <div>
+                        <label for="brand" class="block">Brand *</label>
+                        <input type="text" name="brand" id="brand" list="brands" required
+                               class="w-full border border-border py-1 px-2 rounded">
+                        <datalist id="brands">
+                            <c:forEach var="brand" items="${context.existingBrands()}">
+                                <option value="${brand}">${brand}</option>
+                            </c:forEach>
+                        </datalist>
+                    </div>
                 </div>
 
 
@@ -282,78 +296,71 @@
                     </div>
                 </div>
 
-                <div>
-                    <label for="brand" class="block">Brand *</label>
-                    <input type="text" name="brand" id="brand" list="brands" required
-                           class="w-full border border-border py-1 px-2 rounded">
-                    <datalist id="brands">
-                        <c:forEach var="brand" items="${context.existingBrands()}">
-                            <option value="${brand}">${brand}</option>
-                        </c:forEach>
-                    </datalist>
-                </div>
-
-                <div>
-                    <label for="category" class="block">Category *</label>
-                    <select name="categoryId" id="category" required
-                            class="w-full border border-border py-1 px-2 rounded">
-                        <option value=""></option>
-                        <c:forEach var="category" items="${context.availableCategories()}">
-                            <jsp:useBean id="category"
-                                         type="com.lavacorp.beautefly.webstore.product.dto.CategoryTreeDTO"/>
-
-                            <option value="${category.id()}" disabled
-                                    class="font-bold">
-                                    ${category.name()}
-                            </option>
-
-                            <c:forEach var="category" items="${category.subcategories()}">
+                <div class="horizontal *:flex-1 space-y-0! *:space-y-2">
+                    <div>
+                        <label for="category" class="block">Category *</label>
+                        <select name="categoryId" id="category" required
+                                class="w-full border border-border py-1 px-2 rounded">
+                            <option value=""></option>
+                            <c:forEach var="category" items="${context.availableCategories()}">
+                                <jsp:useBean id="category"
+                                             type="com.lavacorp.beautefly.webstore.product.dto.CategoryTreeDTO"/>
 
                                 <option value="${category.id()}" disabled
-                                        class="font-semibold">
-                                    - ${category.name()}
+                                        class="font-bold">
+                                        ${category.name()}
                                 </option>
 
                                 <c:forEach var="category" items="${category.subcategories()}">
 
-                                    <option value="${category.id()}">
-                                        - - ${category.name()}
+                                    <option value="${category.id()}" disabled
+                                            class="font-semibold">
+                                        - ${category.name()}
                                     </option>
 
+                                    <c:forEach var="category" items="${category.subcategories()}">
+
+                                        <option value="${category.id()}">
+                                            - - ${category.name()}
+                                        </option>
+
+                                    </c:forEach>
                                 </c:forEach>
                             </c:forEach>
-                        </c:forEach>
-                    </select>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="color" class="block">Color</label>
+                        <select name="colorId" id="color"
+                                class="w-full border border-border py-1 px-2 rounded">
+                            <option value=""></option>
+                            <c:forEach var="color" items="${context.availableColor()}">
+                                <jsp:useBean id="color" type="com.lavacorp.beautefly.webstore.product.dto.ColorDTO"/>
+                                <c:set var="r" value="${color.color().red}"/>
+                                <c:set var="g" value="${color.color().green}"/>
+                                <c:set var="b" value="${color.color().blue}"/>
+
+                                <option value="${color.id()}" style="color: rgb(${r}, ${g}, ${b})" class="font-bold">
+                                        ${color.name()}
+                                </option>
+                            </c:forEach>
+                        </select>
+                    </div>
                 </div>
 
-                <div>
-                    <label for="color" class="block">Color</label>
-                    <select name="colorId" id="color"
-                            class="w-full border border-border py-1 px-2 rounded">
-                        <option value=""></option>
-                        <c:forEach var="color" items="${context.availableColor()}">
-                            <jsp:useBean id="color" type="com.lavacorp.beautefly.webstore.product.dto.ColorDTO"/>
-                            <c:set var="r" value="${color.color().red}"/>
-                            <c:set var="g" value="${color.color().green}"/>
-                            <c:set var="b" value="${color.color().blue}"/>
+                <div class="horizontal *:flex-1 space-y-0! *:space-y-2">
+                    <div>
+                        <label for="unitPrice" class="block">Unit Price (RM) *</label>
+                        <input type="number" name="unitPrice" id="unitPrice" step="0.01" required
+                               class="w-full border border-border py-1 px-2 rounded">
+                    </div>
 
-                            <option value="${color.id()}" style="color: rgb(${r}, ${g}, ${b})" class="font-bold">
-                                    ${color.name()}
-                            </option>
-                        </c:forEach>
-                    </select>
-                </div>
-
-                <div>
-                    <label for="unitPrice" class="block">Unit Price (RM) *</label>
-                    <input type="number" name="unitPrice" id="unitPrice" step="0.01" required
-                           class="w-full border border-border py-1 px-2 rounded">
-                </div>
-
-                <div>
-                    <label for="unitCost" class="block">Unit Cost (RM) *</label>
-                    <input type="number" name="unitCost" id="unitCost" step="0.01" required
-                           class="w-full border border-border py-1 px-2 rounded">
+                    <div>
+                        <label for="unitCost" class="block">Unit Cost (RM) *</label>
+                        <input type="number" name="unitCost" id="unitCost" step="0.01" required
+                               class="w-full border border-border py-1 px-2 rounded">
+                    </div>
                 </div>
 
                 <div>
