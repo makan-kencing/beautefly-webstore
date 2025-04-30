@@ -84,7 +84,7 @@ public class AccountService {
         var session = emf.unwrap(SessionFactory.class)
                 .openStatelessSession();
 
-        var account = session.get(Account.class, user);
+        var account = session.get(Account.class, user.id());
         var credential = account.getCredential();
 
         if (!passwordHash.verify(dto.oldPassword().toCharArray(), credential.getPassword()))
