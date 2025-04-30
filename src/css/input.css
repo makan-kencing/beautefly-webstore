@@ -57,6 +57,8 @@
         cursor: default;
         filter: brightness(70%);
     }
+
+    @apply transition
 }
 
 @utility toast {
