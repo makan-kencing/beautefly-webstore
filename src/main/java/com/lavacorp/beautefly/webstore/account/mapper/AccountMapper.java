@@ -1,5 +1,6 @@
 package com.lavacorp.beautefly.webstore.account.mapper;
 
+import com.lavacorp.beautefly.webstore.account.dto.UpdateAccountPasswordDTO;
 import com.lavacorp.beautefly.webstore.account.dto.UpdateUserAccountDetailsDTO;
 import com.lavacorp.beautefly.webstore.account.dto.UserAccountDetailsDTO;
 import com.lavacorp.beautefly.webstore.account.entity.Account;
@@ -67,6 +68,13 @@ public interface AccountMapper {
                         .filter(s -> !s.isBlank())
                         .map(LocalDate::parse)
                         .orElse(null)
+        );
+    }
+
+    default UpdateAccountPasswordDTO toUpdateAccountPasswordDTO(HttpServletRequest req) {
+        return new UpdateAccountPasswordDTO(
+                req.getParameter("oldPassword"),
+                req.getParameter("newPassword")
         );
     }
 }
