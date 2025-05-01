@@ -82,7 +82,7 @@
                 /favicon.ico
                 /login.*
                 /logout
-                /api/*
+                /api/.*
             </param-value>
         </init-param>
     </filter>
