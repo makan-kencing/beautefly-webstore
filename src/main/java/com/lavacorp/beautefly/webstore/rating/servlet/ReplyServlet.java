@@ -7,6 +7,8 @@ import jakarta.inject.Inject;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceUnit;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.HttpConstraint;
+import jakarta.servlet.annotation.ServletSecurity;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +18,7 @@ import org.hibernate.SessionFactory;
 import java.io.IOException;
 
 @WebServlet("/reply")
+@ServletSecurity(@HttpConstraint(rolesAllowed = {"*"}))
 public class ReplyServlet extends HttpServlet {
     @Inject
     private RatingMapper ratingMapper;
