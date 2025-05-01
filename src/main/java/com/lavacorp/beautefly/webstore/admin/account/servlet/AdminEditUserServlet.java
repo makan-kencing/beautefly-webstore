@@ -1,94 +1,61 @@
 package com.lavacorp.beautefly.webstore.admin.account.servlet;
 
-import com.lavacorp.beautefly.webstore.account.entity.Account;
-import com.lavacorp.beautefly.webstore.account.mapper.AccountMapper;
+import com.lavacorp.beautefly.webstore.account.AccountService;
+import com.lavacorp.beautefly.webstore.account.dto.AddressDTO;
+import com.lavacorp.beautefly.webstore.account.dto.UpdateUserAccountDetailsDTO;
+import com.lavacorp.beautefly.webstore.security.dto.AccountContextDTO;
 import jakarta.inject.Inject;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.PersistenceUnit;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.transaction.Transactional;
-import org.hibernate.SessionFactory;
 
 import java.io.IOException;
 import java.time.LocalDate;
 
 @WebServlet("/admin/account/edit")
-@Transactional
 public class AdminEditUserServlet extends HttpServlet {
-    @PersistenceUnit
-    private EntityManagerFactory emf;
 
     @Inject
-    private AccountMapper accountMapper;
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int id;
-        try {
-            id = Integer.parseInt(req.getParameter("id"));
-        } catch (NullPointerException | NumberFormatException exc) {
-            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
-            return;
-        }
-
-        var session = emf.unwrap(SessionFactory.class)
-                .openStatelessSession();
-
-        Account account = session.get(Account.class, id);
-        if (account == null) {
-            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
-            return;
-        }
-
-        var dto = accountMapper.toAdminUserAccountDTO(account);
-
-        req.setAttribute("account", dto);
-
-        var view = req.getRequestDispatcher("/WEB-INF/views/admin/edit-user-details.jsp");
-        view.forward(req, resp);
-    }
+    private AccountService accountService;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int id;
-        try {
-            id = Integer.parseInt(req.getParameter("id"));
-        } catch (Exception e) {
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid user ID");
-            return;
-        }
+        int accountId = Integer.parseInt(req.getParameter("id"));
 
-        var session = emf.unwrap(SessionFactory.class)
-                .openSession();
-        var tx = session.beginTransaction();
+        // Update Account Details
+        var updateAccount = new UpdateUserAccountDetailsDTO(
+                req.getParameter("username"),
+                req.getParameter("email"),
+                req.getParameter("gender") != null
+                        ? Enum.valueOf(com.lavacorp.beautefly.webstore.account.entity.Account.Gender.class, req.getParameter("gender"))
+                        : com.lavacorp.beautefly.webstore.account.entity.Account.Gender.PREFER_NOT_TO_SAY,
+                req.getParameter("dob") != null && !req.getParameter("dob").isBlank()
+                        ? LocalDate.parse(req.getParameter("dob"))
+                        : null
+        );
 
-        try {
-            Account account = session.get(Account.class, id);
-            if (account == null) {
-                resp.sendError(HttpServletResponse.SC_NOT_FOUND, "User not found");
-                return;
-            }
+        var contextDTO = new AccountContextDTO(accountId, null, null, null, null);
+        accountService.updateUserAccountDetails(contextDTO, updateAccount);
 
-            // Update fields
-            account.setUsername(req.getParameter("username"));
-            account.setEmail(req.getParameter("email"));
-            account.setGender(Account.Gender.valueOf(req.getParameter("gender")));
-            account.setDob(LocalDate.parse(req.getParameter("dob")));
+        // Update Address
+        Integer.parseInt(req.getParameter("addressId"));
+        var updateAddress = new AddressDTO(
+                Integer.parseInt(req.getParameter("addressId")),
+                req.getParameter("name"),
+                req.getParameter("contactNo"),
+                req.getParameter("address1"),
+                req.getParameter("address2"),
+                req.getParameter("address3"),
+                req.getParameter("city"),
+                req.getParameter("postcode"),
+                req.getParameter("state"),
+                req.getParameter("country")
+        );
 
-            session.merge(account);
+        accountService.updateAddressDetails(updateAddress);
 
-            tx.commit();
-            resp.sendRedirect(req.getContextPath() + "/admin/account?id=" + id); // Redirect back to View User Details
-        } catch (Exception e) {
-            if (tx != null) tx.rollback();
-            throw new ServletException("Failed to update user", e);
-        } finally {
-            session.close();
-        }
+        resp.sendRedirect(req.getContextPath() + "/admin/account?id=" + accountId);
     }
-
 }

@@ -4,6 +4,7 @@
 <%@ taglib prefix="admin" tagdir="/WEB-INF/tags/admin" %>
 
 <jsp:useBean id="account" type="com.lavacorp.beautefly.webstore.admin.account.dto.AdminUserAccountDTO" scope="request"/>
+<jsp:useBean id="address" type="com.lavacorp.beautefly.webstore.account.dto.AddressDTO" scope="request"/>
 
 <admin:base pageTitle="Account Details">
     <main>
@@ -35,6 +36,29 @@
                 <td class="p-3 font-semibold">DOB:</td>
                 <td class="p-3">${account.dob()}</td>
             </tr>
+            <tr>
+                <td class="p-3 font-semibold">Updated At:</td>
+                <td class="p-3">${account.createdAt()}</td>
+            </tr>
+            <c:if test="${not empty address}">
+                <tr>
+                    <td class="p-3 font-semibold">Full Name:</td>
+                    <td class="p-3">${address.name()}</td>
+                </tr>
+                <tr>
+                    <td class="p-3 font-semibold">Phone:</td>
+                    <td class="p-3">${address.contactNo()}</td>
+                </tr>
+                <tr>
+                    <td class="p-3 font-semibold">Address:</td>
+                    <td class="p-3">
+                            ${address.address1()}<br/>
+                        <c:if test="${not empty address.address2()}">${address.address2()}<br/></c:if>
+                        <c:if test="${not empty address.address3()}">${address.address3()}<br/></c:if>
+                            ${address.postcode()} ${address.city()}, ${address.state()}, ${address.country()}
+                    </td>
+                </tr>
+            </c:if>
             <tr>
                 <td class="p-3 font-semibold">Active:</td>
                 <td class="p-3">
@@ -94,22 +118,68 @@
 
                 <form action="${pageContext.request.contextPath}/admin/account/edit" method="post" class="space-y-4">
                     <input type="hidden" name="id" value="${account.id()}" />
+                    <input type="hidden" name="addressId" value="${address.id()}"/>
                     <input type="hidden" name="username" value="${account.username()}" />
 
                     <div class="grid grid-cols-2 gap-4">
+                        <!-- Email -->
                         <div>
                             <label class="block font-semibold mb-1">Email</label>
                             <input type="email" name="email" value="${account.email()}" class="w-full border rounded p-2"/>
                         </div>
 
+                        <!-- Gender -->
                         <div>
                             <label class="block font-semibold mb-1">Gender</label>
                             <input type="text" name="gender" value="${account.gender()}" class="w-full border rounded p-2"/>
                         </div>
 
+                        <!-- DOB -->
                         <div>
                             <label class="block font-semibold mb-1">DOB</label>
                             <input type="date" name="dob" value="${account.dob()}" class="w-full border rounded p-2"/>
+                        </div>
+
+                        <!-- Full Name -->
+                        <div>
+                            <label class="block font-semibold mb-1">Full Name</label>
+                            <input type="text" name="name" value="${address.name()}" class="w-full border rounded p-2"/>
+                        </div>
+
+                        <!-- Phone -->
+                        <div>
+                            <label class="block font-semibold mb-1">Phone</label>
+                            <input type="text" name="contactNo" value="${address.contactNo()}" class="w-full border rounded p-2"/>
+                        </div>
+
+                        <!-- Address 1 -->
+                        <div>
+                            <label class="block font-semibold mb-1">Street Address</label>
+                            <input type="text" name="address1" value="${address.address1()}" class="w-full border rounded p-2"/>
+                        </div>
+
+                        <!-- City -->
+                        <div>
+                            <label class="block font-semibold mb-1">City</label>
+                            <input type="text" name="city" value="${address.city()}" class="w-full border rounded p-2"/>
+                        </div>
+
+                        <!-- State -->
+                        <div>
+                            <label class="block font-semibold mb-1">State</label>
+                            <input type="text" name="state" value="${address.state()}" class="w-full border rounded p-2"/>
+                        </div>
+
+                        <!-- Postcode -->
+                        <div>
+                            <label class="block font-semibold mb-1">Postcode</label>
+                            <input type="text" name="postcode" value="${address.postcode()}" class="w-full border rounded p-2"/>
+                        </div>
+
+                        <!-- Country -->
+                        <div>
+                            <label class="block font-semibold mb-1">Country</label>
+                            <input type="text" name="country" value="${address.country()}" class="w-full border rounded p-2"/>
                         </div>
                     </div>
 

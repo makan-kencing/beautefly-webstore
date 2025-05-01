@@ -1,5 +1,6 @@
 package com.lavacorp.beautefly.webstore.admin.account.dto;
 
+import com.lavacorp.beautefly.webstore.account.dto.AddressDTO;
 import com.lavacorp.beautefly.webstore.account.entity.Credential;
 import com.lavacorp.beautefly.webstore.account.entity.Account.Gender;
 import java.io.Serializable;
@@ -16,5 +17,6 @@ public record AdminUserAccountDTO(
         LocalDate dob,
         Instant createdAt,
         boolean active,
-        String profileImageHash
+        String profileImageHash,
+        AddressDTO address
 ) implements Serializable {}
