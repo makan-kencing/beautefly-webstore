@@ -53,7 +53,7 @@
             <div class="border rounded-xl border-border shadow-md p-4">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-lg font-semibold">Ordered Products</h3>
-                    <a href="/admin/orders" class="text-blue-500 hover:underline">← Back to Orders</a>
+                    <a href="<c:url value='/admin/orders' />" class="text-blue-500 hover:underline">← Back to Orders</a>
                 </div>
 
                 <c:choose>
@@ -97,7 +97,7 @@
                                                 </c:when>
                                                 <c:when test="${item.deliveryStartedAt() != null}">
                                                     <span class="px-2 py-1 rounded-full text-xs bg-yellow-100 text-yellow-800">On Delivery</span>
-                                                    <form action="/admin/orders/status" method="post" class="inline">
+                                                    <form action="<c:url value='/admin/orders/status' />" method="post" class="inline">
                                                         <input type="hidden" name="orderId" value="${order.id()}" />
                                                         <input type="hidden" name="productId" value="${item.product().id()}" />
                                                         <input type="hidden" name="action" value="delivered" />
@@ -106,7 +106,7 @@
                                                 </c:when>
                                                 <c:when test="${item.shippedAt() != null}">
                                                     <span class="px-2 py-1 rounded-full text-xs bg-blue-100 text-blue-800">Shipped</span>
-                                                    <form action="/admin/orders/status" method="post" class="inline">
+                                                    <form action="<c:url value='/admin/orders/status' />" method="post" class="inline">
                                                         <input type="hidden" name="orderId" value="${order.id()}" />
                                                         <input type="hidden" name="productId" value="${item.product().id()}" />
                                                         <input type="hidden" name="action" value="delivery" />
@@ -115,7 +115,7 @@
                                                 </c:when>
                                                 <c:otherwise>
                                                     <span class="px-2 py-1 rounded-full text-xs bg-gray-100 text-gray-800">Ordered</span>
-                                                    <form action="/admin/orders/status" method="post" class="inline">
+                                                    <form action="<c:url value='/admin/orders/status' />" method="post" class="inline">
                                                         <input type="hidden" name="orderId" value="${order.id()}" />
                                                         <input type="hidden" name="productId" value="${item.product().id()}" />
                                                         <input type="hidden" name="action" value="shipped" />
