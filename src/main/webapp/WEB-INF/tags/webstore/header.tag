@@ -72,62 +72,62 @@
                 <div id="sub-skin-care" class="not-target:hidden">
                     <ul>
                         <li class="fancy-li"><a href="<c:url value='/search?categories=Facial+Cleanser' />">Cleansing</a></li>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Toning</a></li>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Moisturizing</a></li>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Serums & Treatments</a></li>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Eye Care</a></li>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Sun Protection</a></li>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Special Treatments</a></li>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Repair & Recovery</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Toner' />">Toning</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Lotion&categories=Face+Cream&categories=Gel' />">Moisturizing</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Brightening+Serum&categories=Anti-aging+Serum&categories=Repairing+Serum' />">Serums & Treatments</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Eye+Cream&categories=Eye+Serum' />">Eye Care</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Sunscreen&categories=Sunblock+Spray' />">Sun Protection</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Acne+Treatment&categories=Exfoliators&categories=Sheet+Masks&categories=Clay+Masks&categories=Peel-off+Masks' />">Special Treatments</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=After-Sun+Repair&categories=Sensitive+Skin+Repair' />">Repair & Recovery</a></li>
                     </ul>
                 </div>
 
                 <div id="sub-makeup" class="not-target:hidden">
                     <ul>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Base Makeup</a></li>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Eye Makeup</a></li>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Lip Makeup</a></li>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Blush & Contouring</a></li>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Setting Makeup</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Foundation&categories=BB+Cream&categories=Cushion+Compact&categories=Concealer&categories=Setting+Powder' />">Base Makeup</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Eyeshadow&categories=Eyeliner&categories=Mascara&categories=Eyebrow+Pencil' />">Eye Makeup</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Lipstick&categories=Lip+Gloss&categories=Lip+Balm&categories=Lip+Liner' />">Lip Makeup</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Blush&categories=Contour+Powder&categories=Highlighter&categories=Nose+Shadow' />">Blush & Contouring</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Setting+Spray&categories=Oil-Control+Powder' />">Setting Makeup</a></li>
                     </ul>
                 </div>
 
                 <div id="sub-body-care" class="not-target:hidden">
                     <ul>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Cleansing</a></li>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Moisturizing</a></li>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Fragrance</a></li>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Hair Removal</a></li>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Whitening & Acne Treatment</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Body+Wash&categories=Soap&categories=Body+Scrub' />">Cleansing</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Body+Lotion&categories=Body+Oil&categories=Hand+Cream' />">Moisturizing</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Perfume&categories=Body+Mist' />">Fragrance</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Body+Cleansing&categories=Razor' />">Hair Removal</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Body+Whitening+Lotion&categories=Back+Acne+Spray' />">Whitening & Acne Treatment</a></li>
                     </ul>
                 </div>
 
                 <div id="sub-hair-care" class="not-target:hidden">
                     <ul>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Shampoo & Conditioner</a></li>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Hair Treatment</a></li>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Styling</a></li>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Hair Coloring</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Shampoo&categories=Conditioner' />">Shampoo & Conditioner</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Hair+Mask&categories=Hair+Oil&categories=Scalp+Care+Serum' />">Hair Treatment</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Hair+Spray&categories=Hair+Wax&categories=Curling+Mousse&categories=Hair+Straightening+Cream' />">Styling</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Hair+Dye&categories=Bleach' />">Hair Coloring</a></li>
                     </ul>
                 </div>
 
                 <div id="sub-beauty-tools" class="not-target:hidden">
                     <ul>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Makeup Tools</a></li>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Skincare Devices</a></li>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Hair Removal Devices</a></li>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Message Tools</a></li>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Nail Care Tools</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Makeup+Brushes&categories=Beauty+Sponge&categories=Powder+Puff&categories=Eyelash+Curler' />">Makeup Tools</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Facial+Cleansing+Brush&categories=Facial+Steamer&categories=LED+Beauty+Device' />">Skincare Devices</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Home-use+Hair+Removal+Device' />">Hair Removal Devices</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Face+Slimming+Device&categories=Roller+Massager&categories=Gua+Sha+Tool' />">Message Tools</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Nail+Polish&categories=Nail+Lamp&categories=Manicure+Set' />">Nail Care Tools</a></li>
                     </ul>
                 </div>
 
                 <div id="sub-treatments" class="not-target:hidden">
                     <ul>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Acne Treatment</a></li>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Anti-Aging</a></li>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Whitening</a></li>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Sensitive Skin Repair</a></li>
-                        <li class="fancy-li"><a href="<c:url value='/search' />">Dark Circle Treatment</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Acne+Gel&categories=Pimple+Patch' />">Acne Treatment</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Anti-wrinkle+Serum&categories=Firming+Cream' />">Anti-Aging</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Dark+Spot+Corrector' />">Whitening</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Sensitive+Skin+Protection+Cream' />">Sensitive Skin Repair</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Eye+Mask' />">Dark Circle Treatment</a></li>
                     </ul>
                 </div>
             </div>
