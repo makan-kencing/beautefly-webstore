@@ -103,7 +103,6 @@
         <div class="swiper-wrapper flex transition-transform duration-700 ease-in-out">
             <c:forEach var="category" begin="1" end="6">
                 <div class="swiper-slide min-w-full flex justify-center items-center relative">
-
                     <!-- Category Title with refined font -->
                     <div class="absolute top-[60px] w-full text-center text-[75px] font-bold text-[#F7F7F7] z-10">
                         <p class="text-shadow-lg opacity-90">Skin Care</p>
