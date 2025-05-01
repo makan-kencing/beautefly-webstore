@@ -6,6 +6,7 @@
 
 <jsp:useBean id="product" type="com.lavacorp.beautefly.webstore.product.dto.ProductPageDTO" scope="request"/>
 <jsp:useBean id="reviews" type="java.util.List<com.lavacorp.beautefly.webstore.rating.dto.RatingDTO>" scope="request"/>
+<jsp:useBean id="reviewStats" type="com.lavacorp.beautefly.webstore.rating.dto.RatingStatsDTO" scope="request" />
 
 <webstore:base pageTitle="${product.name()}">
     <jsp:attribute name="includeHead">
@@ -17,7 +18,8 @@
         <main class="font-sans px-10 py-4 space-y-5">
             <div class="flex justify-center gap-x-8 px-4 min-h-[80vh]">
                 <div class="w-[55%] max-w-[600px] items-center justify-center gap-10 flex flex-col">
-                    <img class="w-full max-w-md border-4 border-gray-300 rounded-md" src="${product.images()[0].url()}" alt="">
+                    <img class="w-full max-w-md border-4 border-gray-300 rounded-md" src="${product.images()[0].url()}"
+                         alt="">
                 </div>
 
                 <form action="<c:url value='/cart/add' />" method="post"
@@ -81,55 +83,27 @@
                     <div class="space-y-2">
                         <h2 class="text-xl font-semibold">Customer ratings</h2>
                         <div class="text-orange-400 text-4xl font-bold mb-1">
-                            4.9 <span class="text-base font-normal">out of 5</span>
+                            ${reviewStats.average()} <span class="text-base font-normal">out of 5</span>
                         </div>
                         <div data-raty data-star-type="i" data-read-only="true"
-                             data-half-show="true" data-score="4.6"
+                             data-half-show="true" data-score="${reviewStats.average()}"
                              class="text-orange-400"></div>
 
-                        <p>{total} ratings</p>
+                        <p> ${reviewStats.total()} ratings</p>
 
                         <table class="whitespace-nowrap text-right border-separate border-spacing-x-2 border-spacing-y-3
-                            **:[td]:even:w-full **:[td]:even:*:h-full **:[td]:even:border **:[td]:even:rounded-lg">
-                            <tr>
-                                <td>5 star</td>
-                                <td>
-                                    <div></div>
-                                </td>
-                                <td>312</td>
-                            </tr>
-                            <tr>
-                                <td>4 star</td>
-                                <td>
-                                    <div></div>
-                                </td>
-                                <td>11</td>
-                            </tr>
-                            <tr>
-                                <td>3 star</td>
-                                <td>
-                                    <div></div>
-                                </td>
-                                <td>30</td>
-                            </tr>
-                            <tr>
-                                <td>2 star</td>
-                                <td>
-                                    <div></div>
-                                </td>
-                                <td>1</td>
-                            </tr>
-                            <tr>
-                                <td>1 star</td>
-                                <td>
-                                    <div></div>
-                                </td>
-                                <td>1</td>
-                            </tr>
+                            **:[td]:even:w-full **:[td]:even:*:h-full **:[td]:even:border **:[td]:even:rounded-full">
+                            <c:forEach var="entry" items="${reviewStats.counts()}">
+                                <tr>
+                                    <td>${entry.key} star</td>
+                                    <td class="h-4 overflow-hidden"><div class="bg-orange-400 rounded-full h-full" style="width: <fmt:formatNumber value='${entry.value * 100 / reviewStats.total()}' maxFractionDigits="0" />%"></div></td>
+                                    <td>${entry.value}</td>
+                                </tr>
+                            </c:forEach>
                         </table>
                     </div>
 
-                    <c:if test="${true}">
+                    <c:if test="${pageContext.request.userPrincipal != null}">
                         <hr class="text-gray-300">
                         <div class="space-y-2">
                             <h2 class="text-xl font-semibold">Review this product</h2>
@@ -146,21 +120,24 @@
                     <c:forEach var="review" items="${reviews}">
                         <div class="comment rounded-lg p-4 shadow-lg bg-white">
                             <div class="flex items-center space-x-2 mb-2">
-                                <img src="${review.account().profileImage().url()}" alt="" class="w-8 h-8 rounded-full">
+                                <c:if test="${review.account().profileImage() != null}">
+                                    <img src="${review.account().profileImage().url()}" alt=""
+                                         class="w-8 h-8 rounded-full">
+                                </c:if>
                                 <span class="font-semibold">${review.account().username()}</span>
                             </div>
 
                             <div>
                                 <span class="text-base font-semibold text-gray-800">${review.title()}</span><br/>
                                 <span data-raty data-star-type="i" data-read-only="true" data-score="${review.rating()}"
-                                    class="text-orange-400 text-[3xl] text-[0.5rem]"></span>
+                                      class="text-orange-400 text-3xl text-[0.5rem]"></span>
                             </div>
                             <div class="text-gray-700 text-sm mb-4">
                                     ${review.message()}
                             </div>
 
                             <div class="flex gap-4 mt-2">
-                                <c:forEach var="reviewImages" items="${review.images()}" >
+                                <c:forEach var="reviewImages" items="${review.images()}">
                                     <img src="${reviewImages.url()}" alt="" class="w-[175px] h-[125px]">
                                 </c:forEach>
                             </div>
@@ -168,31 +145,36 @@
                             <c:if test="${pageContext.request.userPrincipal != null}">
                                 <button class="mt-3 text-blue-500 reply-button cursor-pointer">Reply</button>
                             </c:if>
-                            
+
                             <div class="reply-box hidden mt-3">
                                 <form id="reply-form"
                                       action="<c:url value='/reply'/>"
                                       method="post"
                                       class="reply-form w-full space-y-3">
-                                    <input type="hidden" name="ratingId" value="${review.id()}" />
-                                    <textarea name="message" class="w-full p-2 border border-gray-300 rounded-lg" rows="3"
+                                    <input type="hidden" name="ratingId" value="${review.id()}"/>
+                                    <textarea name="message" class="w-full p-2 border border-gray-300 rounded-lg"
+                                              rows="3"
                                               placeholder="Write your reply..."></textarea>
-                                    <button type="submit" class="cursor-pointer mt-2 bg-blue-500 text-white py-1 px-4 rounded-lg">
+                                    <button type="submit"
+                                            class="cursor-pointer mt-2 bg-blue-500 text-white py-1 px-4 rounded-lg">
                                         Submit Reply
                                     </button>
                                 </form>
                             </div>
 
                             <c:forEach var="reply" items="${review.replies()}">
-                            <div class="replies mt-3 space-y-2 p-2 bg-gray-50 rounded-lg max-h-60 overflow-y-auto">
-                                <div>
-                                    <div class="flex items-center space-x-2 mb-2">
-                                        <img src="${reply.account().profileImage().url()}" alt="" class="w-8 h-8 rounded-full">
-                                        <span class="font-medium text-sm">${reply.account().username()}</span>
+                                <div class="replies mt-3 space-y-2 p-2 bg-gray-50 rounded-lg max-h-60 overflow-y-auto">
+                                    <div>
+                                        <div class="flex items-center space-x-2 mb-2">
+                                            <c:if test="${reply.account().profileImage() != null}">
+                                                <img src="${reply.account().profileImage().url()}" alt=""
+                                                     class="w-8 h-8 rounded-full">
+                                            </c:if>
+                                            <span class="font-medium text-sm">${reply.account().username()}</span>
+                                        </div>
+                                        <span class="text-sm text-gray-700">${reply.message()}</span>
                                     </div>
-                                    <span class="text-sm text-gray-700">${reply.message()}</span>
                                 </div>
-                            </div>
                             </c:forEach>
                         </div>
                     </c:forEach>

@@ -41,10 +41,12 @@ public class ProductServlet extends HttpServlet {
             return;
         }
 
-        req.setAttribute("product", product);
-
         var reviews = ratingService.getProductRatings(productId);
+        var reviewStats = ratingService.getProductRatingStats(productId);
+
+        req.setAttribute("product", product);
         req.setAttribute("reviews", reviews);
+        req.setAttribute("reviewStats", reviewStats);
 
         var view = req.getRequestDispatcher("/WEB-INF/views/product.jsp");
         view.forward(req, resp);

@@ -7,6 +7,7 @@ import com.lavacorp.beautefly.webstore.file.entity.FileUpload;
 import com.lavacorp.beautefly.webstore.product.entity.Product;
 import com.lavacorp.beautefly.webstore.rating.dto.RatingDTO;
 import com.lavacorp.beautefly.webstore.rating.dto.RatingNewDTO;
+import com.lavacorp.beautefly.webstore.rating.dto.RatingStatsDTO;
 import com.lavacorp.beautefly.webstore.rating.dto.ReplyNewDTO;
 import com.lavacorp.beautefly.webstore.rating.entity.Rating;
 import com.lavacorp.beautefly.webstore.rating.entity.Rating_;
@@ -22,10 +23,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.graph.GraphSemantic;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Transactional
 @ApplicationScoped
@@ -117,5 +116,45 @@ public class RatingService {
         reply.setAccount(account);
 
         session.insert(reply);
+    }
+
+    public RatingStatsDTO getProductRatingStats(int productId) {
+        var session = emf.unwrap(SessionFactory.class)
+                .openStatelessSession();
+
+        var total = session.createSelectionQuery(
+                        "select count(*) from Rating where product.id = :productId", Long.class
+                ).setParameter("productId", productId)
+                .getSingleResult();
+
+        var average = session.createSelectionQuery(
+                        "select avg(rating) from Rating where product.id = :productId", Double.class
+                ).setParameter("productId", productId)
+                .getSingleResult();
+
+        var ratings = session.createSelectionQuery("""
+                select rating, count(*)
+                from Rating
+                where product.id = :productId
+                group by rating
+            """, Object[].class)
+                .setParameter("productId", productId)
+                .stream()
+                .collect(Collectors.toMap(
+                        value -> (Integer) value[0],
+                        value -> ((Long) value[1]).intValue()
+                ));
+
+        ratings.merge(1, 0, Integer::sum);
+        ratings.merge(2, 0, Integer::sum);
+        ratings.merge(3, 0, Integer::sum);
+        ratings.merge(4, 0, Integer::sum);
+        ratings.merge(5, 0, Integer::sum);
+
+        return new RatingStatsDTO(
+                total,
+                average,
+                ratings
+        );
     }
 }
