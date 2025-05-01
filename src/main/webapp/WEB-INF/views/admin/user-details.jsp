@@ -18,39 +18,19 @@
         </div>
 
         <!-- Detail Table -->
-        <table class="w-full max-w-3xl bg-white rounded shadow text-sm">
-            <tbody class="divide-y">
-            <tr>
-                <td class="p-3 font-semibold w-1/3">Username:</td>
-                <td class="p-3">${account.username()}</td>
-            </tr>
-            <tr>
-                <td class="p-3 font-semibold">Email:</td>
-                <td class="p-3">${account.email()}</td>
-            </tr>
-            <tr>
-                <td class="p-3 font-semibold">Gender:</td>
-                <td class="p-3">${account.gender()}</td>
-            </tr>
-            <tr>
-                <td class="p-3 font-semibold">DOB:</td>
-                <td class="p-3">${account.dob()}</td>
-            </tr>
-            <tr>
-                <td class="p-3 font-semibold">Updated At:</td>
-                <td class="p-3">${account.createdAt()}</td>
-            </tr>
+        <table class="w-full max-w-4xl bg-white rounded shadow text-sm border border-gray-300">
+            <tbody>
+            <tr><td class="p-3 font-semibold w-1/3 bg-gray-50">Username:</td><td class="p-3">${account.username()}</td></tr>
+            <tr><td class="p-3 font-semibold bg-gray-50">Email:</td><td class="p-3">${account.email()}</td></tr>
+            <tr><td class="p-3 font-semibold bg-gray-50">Gender:</td><td class="p-3">${account.gender()}</td></tr>
+            <tr><td class="p-3 font-semibold bg-gray-50">DOB:</td><td class="p-3">${account.dob()}</td></tr>
+            <tr><td class="p-3 font-semibold bg-gray-50">Updated At:</td><td class="p-3">${account.createdAt()}</td></tr>
+
             <c:if test="${not empty address}">
+                <tr><td class="p-3 font-semibold bg-gray-50">Full Name:</td><td class="p-3">${address.name()}</td></tr>
+                <tr><td class="p-3 font-semibold bg-gray-50">Phone:</td><td class="p-3">${address.contactNo()}</td></tr>
                 <tr>
-                    <td class="p-3 font-semibold">Full Name:</td>
-                    <td class="p-3">${address.name()}</td>
-                </tr>
-                <tr>
-                    <td class="p-3 font-semibold">Phone:</td>
-                    <td class="p-3">${address.contactNo()}</td>
-                </tr>
-                <tr>
-                    <td class="p-3 font-semibold">Address:</td>
+                    <td class="p-3 font-semibold bg-gray-50">Address:</td>
                     <td class="p-3">
                             ${address.address1()}<br/>
                         <c:if test="${not empty address.address2()}">${address.address2()}<br/></c:if>
@@ -59,133 +39,116 @@
                     </td>
                 </tr>
             </c:if>
-            <tr>
-                <td class="p-3 font-semibold">Active:</td>
+
+            <tr><td class="p-3 font-semibold bg-gray-50">Active:</td>
                 <td class="p-3">
-                    <span class="data-active:text-green-600 text-red-600 font-semibold"
-                        ${account.active() ? "data-active" : ""}>
-                            ${account.active() ? "YES" : "NO"}
-                    </span>
+                <span class="${account.active() ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold'}">
+                        ${account.active() ? "YES" : "NO"}
+                </span>
                 </td>
             </tr>
-            <tr>
-                <td class="p-3 font-semibold">Roles:</td>
-                <td class="p-3">
+
+            <tr><td class="p-3 font-semibold bg-gray-50">Roles:</td>
+                <td class="p-3 space-x-1">
                     <c:forEach var="role" items="${account.roles()}">
-                        <c:set var="roleClass" value="bg-green-600" /> <!-- Default color -->
-
+                        <c:set var="roleClass" value="bg-green-600" />
                         <c:choose>
-                            <c:when test="${role.name() == 'ADMIN'}">
-                                <c:set var="roleClass" value="bg-red-600" />
-                            </c:when>
-                            <c:when test="${role.name() == 'STAFF'}">
-                                <c:set var="roleClass" value="bg-blue-600" />
-                            </c:when>
-                            <c:when test="${role.name() == 'USER'}">
-                                <c:set var="roleClass" value="bg-green-600" />
-                            </c:when>
+                            <c:when test="${role.name() == 'ADMIN'}"><c:set var="roleClass" value="bg-red-600" /></c:when>
+                            <c:when test="${role.name() == 'STAFF'}"><c:set var="roleClass" value="bg-blue-600" /></c:when>
+                            <c:when test="${role.name() == 'USER'}"><c:set var="roleClass" value="bg-green-600" /></c:when>
                         </c:choose>
-
-                        <span class="inline-block px-2 py-1 text-white text-xs rounded-full ${roleClass}">
-                                ${role}
-                        </span>
+                        <span class="inline-block px-2 py-1 text-white text-xs rounded-full ${roleClass}">${role}</span>
                     </c:forEach>
                 </td>
             </tr>
-            <tr>
-                <td class="p-3 font-semibold">Profile Picture:</td>
-                <td class="p-3">
-                    <c:if test="${not empty account.profileImageHash()}">
-                        <img src="${pageContext.request.contextPath}/upload/${account.profileImageHash()}"
-                             class="w-20 h-20 object-cover rounded-full border"
-                             alt="Profile"/>
-                    </c:if>
-                    <c:if test="${empty account.profileImageHash()}">
-                        <img src="${pageContext.request.contextPath}/static/default-profile.png"
-                             class="w-20 h-20 object-cover rounded-full border"
-                             alt="Profile"/>
-                    </c:if>
 
+            <tr><td class="p-3 font-semibold bg-gray-50">Profile Picture:</td>
+                <td class="p-3">
+                    <img src="${pageContext.request.contextPath}${not empty account.profileImageHash()
+                    ? '/upload/' += account.profileImageHash()
+                    : '/static/default-profile.png'}"
+                         class="w-20 h-20 object-cover rounded-full border"
+                         alt="Profile"/>
                 </td>
             </tr>
             </tbody>
         </table>
-        
+
         <!-- 🔧 Edit User Modal -->
         <div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 hidden">
             <div class="bg-white w-full max-w-3xl p-6 rounded-lg shadow-lg relative">
                 <button onclick="closeEditModal()" class="absolute top-2 right-3 text-gray-600 hover:text-black text-xl">&times;</button>
 
-                <form action="${pageContext.request.contextPath}/admin/account/edit" method="post" class="space-y-4">
+                <form action="${pageContext.request.contextPath}/admin/account/edit" method="post" class="space-y-6">
                     <input type="hidden" name="id" value="${account.id()}" />
-                    <input type="hidden" name="addressId" value="${address.id()}"/>
                     <input type="hidden" name="username" value="${account.username()}" />
+                    <input type="hidden" name="addressId" value="${address.id()}" />
 
                     <div class="grid grid-cols-2 gap-4">
-                        <!-- Email -->
                         <div>
-                            <label class="block font-semibold mb-1">Email</label>
-                            <input type="email" name="email" value="${account.email()}" class="w-full border rounded p-2"/>
+                            <label class="block text-sm font-medium mb-1 text-gray-700">Email</label>
+                            <input type="email" name="email" value="${account.email()}" class="w-full border border-gray-300 rounded-lg p-2"/>
                         </div>
 
-                        <!-- Gender -->
                         <div>
-                            <label class="block font-semibold mb-1">Gender</label>
-                            <input type="text" name="gender" value="${account.gender()}" class="w-full border rounded p-2"/>
+                            <label class="block text-sm font-medium mb-1 text-gray-700">Gender</label>
+                            <input type="text" name="gender" value="${account.gender()}" class="w-full border border-gray-300 rounded-lg p-2"/>
                         </div>
 
-                        <!-- DOB -->
                         <div>
-                            <label class="block font-semibold mb-1">DOB</label>
-                            <input type="date" name="dob" value="${account.dob()}" class="w-full border rounded p-2"/>
+                            <label class="block text-sm font-medium mb-1 text-gray-700">Date of Birth</label>
+                            <input type="date" name="dob" value="${account.dob()}" class="w-full border border-gray-300 rounded-lg p-2"/>
                         </div>
 
-                        <!-- Full Name -->
                         <div>
-                            <label class="block font-semibold mb-1">Full Name</label>
-                            <input type="text" name="name" value="${address.name()}" class="w-full border rounded p-2"/>
+                            <label class="block text-sm font-medium mb-1 text-gray-700">Full Name</label>
+                            <input type="text" name="name" value="${address.name()}" class="w-full border border-gray-300 rounded-lg p-2"/>
                         </div>
 
-                        <!-- Phone -->
                         <div>
-                            <label class="block font-semibold mb-1">Phone</label>
-                            <input type="text" name="contactNo" value="${address.contactNo()}" class="w-full border rounded p-2"/>
+                            <label class="block text-sm font-medium mb-1 text-gray-700">Phone</label>
+                            <input type="text" name="contactNo" value="${address.contactNo()}" class="w-full border border-gray-300 rounded-lg p-2"/>
                         </div>
 
-                        <!-- Address 1 -->
                         <div>
-                            <label class="block font-semibold mb-1">Street Address</label>
-                            <input type="text" name="address1" value="${address.address1()}" class="w-full border rounded p-2"/>
+                            <label class="block text-sm font-medium mb-1 text-gray-700">Address Line 1</label>
+                            <input type="text" name="address1" value="${address.address1()}" class="w-full border border-gray-300 rounded-lg p-2"/>
                         </div>
 
-                        <!-- City -->
                         <div>
-                            <label class="block font-semibold mb-1">City</label>
-                            <input type="text" name="city" value="${address.city()}" class="w-full border rounded p-2"/>
+                            <label class="block text-sm font-medium mb-1 text-gray-700">Address Line 2</label>
+                            <input type="text" name="address2" value="${address.address2()}" class="w-full border border-gray-300 rounded-lg p-2"/>
                         </div>
 
-                        <!-- State -->
                         <div>
-                            <label class="block font-semibold mb-1">State</label>
-                            <input type="text" name="state" value="${address.state()}" class="w-full border rounded p-2"/>
+                            <label class="block text-sm font-medium mb-1 text-gray-700">Address Line 3</label>
+                            <input type="text" name="address3" value="${address.address3()}" class="w-full border border-gray-300 rounded-lg p-2"/>
                         </div>
 
-                        <!-- Postcode -->
                         <div>
-                            <label class="block font-semibold mb-1">Postcode</label>
-                            <input type="text" name="postcode" value="${address.postcode()}" class="w-full border rounded p-2"/>
+                            <label class="block text-sm font-medium mb-1 text-gray-700">City</label>
+                            <input type="text" name="city" value="${address.city()}" class="w-full border border-gray-300 rounded-lg p-2"/>
                         </div>
 
-                        <!-- Country -->
                         <div>
-                            <label class="block font-semibold mb-1">Country</label>
-                            <input type="text" name="country" value="${address.country()}" class="w-full border rounded p-2"/>
+                            <label class="block text-sm font-medium mb-1 text-gray-700">State</label>
+                            <input type="text" name="state" value="${address.state()}" class="w-full border border-gray-300 rounded-lg p-2"/>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium mb-1 text-gray-700">Postcode</label>
+                            <input type="text" name="postcode" value="${address.postcode()}" class="w-full border border-gray-300 rounded-lg p-2"/>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium mb-1 text-gray-700">Country</label>
+                            <input type="text" name="country" value="${address.country()}" class="w-full border border-gray-300 rounded-lg p-2"/>
                         </div>
                     </div>
 
                     <div class="text-right">
-                        <button type="submit" class="mt-6 bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded">
-                            Save Changes
+                        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg">
+                            ✅ Save Changes
                         </button>
                     </div>
                 </form>
