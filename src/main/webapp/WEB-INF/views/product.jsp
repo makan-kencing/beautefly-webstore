@@ -142,42 +142,39 @@
                 </div>
 
                     <%-- Right --%>
-                <div class="p-6 space-y-2 flex-1">
-                    <h2 class="text-xl font-semibold">Reviews</h2>
-
-                    <div class="space-y-6 p-6">
+                <div class="space-y-6 p-6 flex-1">
+                    <c:forEach var="review" items="${reviews}">
                         <div class="comment rounded-lg p-4 shadow-lg bg-white">
-                            <c:forEach var="review" items="${reviews}">
-                                <div class="flex items-center space-x-2 mb-2">
-                                    <img src="" alt="" class="w-8 h-8 rounded-full">
-                                    <span class="font-semibold">${review.account().username()}</span>
-                                </div>
-                                <div>
-                                    <span data-raty data-star-type="i" data-read-only="true" data-score="${review.rating()}"
-                                          class="text-orange-400 text-[0.5rem]"></span>
-                                </div>
-                                <div class="text-gray-700 text-sm mb-4">
-                                        ${review.message()}
-                                </div>
-                            </c:forEach>
+                            <div class="flex items-center space-x-2 mb-2">
+                                <img src="${review.account().profileImage().url()}" alt="" class="w-8 h-8 rounded-full">
+                                <span class="font-semibold">${review.account().username()}</span>
+                            </div>
+                            <c:out value="${review.account().profileImage().url()}"/>
 
-                            <button class="mt-3 text-blue-500 reply-button cursor-pointer" onclick="showReplyBox(this)">
-                                Reply
-                            </button>
+                            <div>
+                                <span class="text-base font-semibold text-gray-800">${review.title()}</span><br/>
+                <span data-raty data-star-type="i" data-read-only="true" data-score="${review.rating()}"
+                      class="text-orange-400 text-[3xl] text-[0.5rem]"></span>
+                            </div>
+                            <div class="text-gray-700 text-sm mb-4">
+                                    ${review.message()}
+                            </div>
+
+                            <button class="mt-3 text-blue-500 reply-button cursor-pointer">Reply</button>
 
                             <div class="reply-box hidden mt-3">
-                                <textarea class="w-full p-2 border border-gray-300 rounded-lg" rows="3"
-                                          placeholder="Write your reply..."></textarea>
-                                <button type="button" class="mt-2 bg-blue-500 text-white py-1 px-4 rounded-lg"
+                <textarea class="w-full p-2 border border-gray-300 rounded-lg" rows="3"
+                          placeholder="Write your reply..."></textarea>
+                                <button type="button" class="cursor-pointer mt-2 bg-blue-500 text-white py-1 px-4 rounded-lg"
                                         onclick="submitReply(this)">Submit Reply
                                 </button>
                             </div>
 
-                            <!-- reply-->
                             <div class="replies mt-3 space-y-2 p-2 bg-gray-50 rounded-lg max-h-60 overflow-y-auto"></div>
                         </div>
-                    </div>
+                    </c:forEach>
                 </div>
+
             </div>
 
             <script>
@@ -190,68 +187,52 @@
                 document.querySelectorAll('.reply-button').forEach(button => {
                     button.addEventListener('click', () => {
                         const replyBox = button.nextElementSibling;
-                        if (replyBox.style.display === 'block') {
-                            replyBox.style.display = 'none';
-                        } else {
-                            replyBox.style.display = 'block';
-                        }
+                        replyBox.style.display = replyBox.style.display === 'block' ? 'none' : 'block';
                     });
                 });
 
-                document.querySelectorAll('.reply-box button').forEach(button => {
-                    button.addEventListener('click', () => {
-                        const replyBox = button.parentElement;
-                        const textarea = replyBox.querySelector('textarea');
-                        const replyText = textarea.value.trim();
-                        if (!replyText) {
-                            alert('Enter reply...');
-                            return;
-                        }
+                function submitReply(button) {
+                    const replyBox = button.parentElement;
+                    const textarea = replyBox.querySelector('textarea');
+                    const replyText = textarea.value.trim();
 
-                        const repliesContainer = replyBox.nextElementSibling;
+                    if (!replyText) {
+                        alert('Enter reply...');
+                        return;
+                    }
 
-                        const replyDiv = document.createElement('div');
-                        replyDiv.className = 'reply border-b border-gray-300';
+                    const repliesContainer = replyBox.nextElementSibling;
 
-                        const userContainer = document.createElement('div');
-                        userContainer.style.display = 'flex';
-                        userContainer.style.alignItems = 'center';
-                        userContainer.style.marginRight = '12px';
+                    const replyDiv = document.createElement('div');
+                    replyDiv.className = 'reply border-b border-gray-300 py-2';
 
-                        const avatar = document.createElement('img');
-                        avatar.src = '';
-                        avatar.alt = 'Avatar';
-                        avatar.style.width = '30px';
-                        avatar.style.height = '30px';
-                        avatar.style.borderRadius = '50%';
-                        avatar.style.objectFit = 'cover';
-                        avatar.style.marginRight = '8px';
+                    const userContainer = document.createElement('div');
+                    userContainer.className = 'flex items-center mb-1';
 
-                        const usernameDiv = document.createElement('div');
-                        usernameDiv.className = 'reply-username';
-                        usernameDiv.textContent = 'Me';
+                    const avatar = document.createElement('img');
+                    avatar.src = '';
+                    avatar.alt = 'Avatar';
+                    avatar.className = 'w-6 h-6 rounded-full mr-2';
 
-                        userContainer.appendChild(avatar);
-                        userContainer.appendChild(usernameDiv);
+                    const usernameDiv = document.createElement('span');
+                    usernameDiv.className = 'font-semibold text-sm';
+                    usernameDiv.textContent = 'Me';
 
-                        const contentDiv = document.createElement('div');
-                        contentDiv.className = 'reply-content';
+                    userContainer.appendChild(avatar);
+                    userContainer.appendChild(usernameDiv);
 
-                        const textDiv = document.createElement('div');
-                        textDiv.className = 'reply-text';
-                        textDiv.textContent = replyText;
+                    const textDiv = document.createElement('div');
+                    textDiv.className = 'text-sm text-gray-700';
+                    textDiv.textContent = replyText;
 
-                        contentDiv.appendChild(textDiv);
+                    replyDiv.appendChild(userContainer);
+                    replyDiv.appendChild(textDiv);
+                    repliesContainer.appendChild(replyDiv);
 
-                        replyDiv.appendChild(userContainer);
-                        replyDiv.appendChild(contentDiv);
+                    textarea.value = '';
+                    replyBox.style.display = 'none';
+                }
 
-                        repliesContainer.appendChild(replyDiv);
-
-                        textarea.value = '';
-                        replyBox.style.display = 'none';
-                    });
-                });
 
             </script>
         </main>

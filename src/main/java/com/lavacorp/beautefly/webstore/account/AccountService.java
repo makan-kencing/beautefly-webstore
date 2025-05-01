@@ -1,23 +1,28 @@
 package com.lavacorp.beautefly.webstore.account;
 
-import com.lavacorp.beautefly.webstore.account.dto.AddressDTO;
-import com.lavacorp.beautefly.webstore.account.dto.AddressesDTO;
-import com.lavacorp.beautefly.webstore.account.dto.UserAccountDetailsDTO;
+import com.lavacorp.beautefly.webstore.account.dto.*;
 import com.lavacorp.beautefly.webstore.account.entity.Account;
 import com.lavacorp.beautefly.webstore.account.entity.Account_;
 import com.lavacorp.beautefly.webstore.account.entity.Address;
 import com.lavacorp.beautefly.webstore.account.entity.AddressBook_;
 import com.lavacorp.beautefly.webstore.account.mapper.AccountMapper;
 import com.lavacorp.beautefly.webstore.account.mapper.AddressMapper;
+import com.lavacorp.beautefly.webstore.file.FileService;
+import com.lavacorp.beautefly.webstore.security.AccountIdentityStore;
 import com.lavacorp.beautefly.webstore.security.dto.AccountContextDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceUnit;
+import jakarta.security.enterprise.credential.UsernamePasswordCredential;
+import jakarta.security.enterprise.identitystore.CredentialValidationResult;
+import jakarta.security.enterprise.identitystore.PasswordHash;
 import jakarta.transaction.Transactional;
 import org.hibernate.SessionFactory;
 import org.hibernate.graph.GraphSemantic;
 
+import java.io.IOException;
 import java.util.NoSuchElementException;
 
 @Transactional
@@ -27,10 +32,17 @@ public class AccountService {
     private EntityManagerFactory emf;
 
     @Inject
+    private FileService fileService;
+
+    @Inject
     private AccountMapper accountMapper;
 
     @Inject
     private AddressMapper addressMapper;
+
+    @Inject
+    @Named("Argon2idPasswordHash")
+    private PasswordHash passwordHash;
 
     public UserAccountDetailsDTO getUserAccountDetails(AccountContextDTO user) {
         var session = emf.unwrap(SessionFactory.class)
@@ -42,6 +54,46 @@ public class AccountService {
             throw new NoSuchElementException("Account id does not exists.");
 
         return accountMapper.toUserAccountDetailsDTO(account);
+    }
+
+    public void updateAccountProfileImage(UpdateAccountImageDTO dto) throws IOException {
+        var session = emf.unwrap(SessionFactory.class)
+                .openStatelessSession();
+
+        var account = session.get(Account.class, dto.accountId());
+
+        var file = fileService.save(dto.image().getInputStream(), dto.image().getSubmittedFileName());
+        file.setCreatedBy(account);
+
+        account.setProfileImage(file);
+
+        session.insert(file);
+        session.update(account);
+    }
+
+    public void updateUserAccountDetails(AccountContextDTO user, UpdateUserAccountDetailsDTO dto) {
+        var session = emf.unwrap(SessionFactory.class)
+                .openStatelessSession();
+
+        var account = session.get(Account.class, user.id());
+        account = accountMapper.partialUpdate(dto, account);
+        session.update(account);
+    }
+
+    public boolean updateUserAccountPassword(AccountContextDTO user, UpdateAccountPasswordDTO dto) {
+        var session = emf.unwrap(SessionFactory.class)
+                .openStatelessSession();
+
+        var account = session.get(Account.class, user.id());
+        var credential = account.getCredential();
+
+        if (!passwordHash.verify(dto.oldPassword().toCharArray(), credential.getPassword()))
+            return false;
+
+        credential.setPassword(passwordHash.generate(dto.newPassword().toCharArray()));
+        session.update(account);
+
+        return true;
     }
 
     public AddressesDTO getAccountAddressesDetails(AccountContextDTO user) {

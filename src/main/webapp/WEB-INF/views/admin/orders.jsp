@@ -4,6 +4,8 @@
 <%@ taglib prefix="admin" tagdir="/WEB-INF/tags/admin" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<jsp:useBean id="prettyTime" class="org.ocpsoft.prettytime.PrettyTime" />
+
 <jsp:useBean id="orders" type="java.util.List<com.lavacorp.beautefly.webstore.order.dto.OrderListingDTO>"
              scope="request"/>
 
@@ -28,7 +30,7 @@
                         <th class="dt-left">#</th>
                         <th>Customer</th>
                         <th>Items</th>
-                        <th>Shipments</th>
+                        <th class="dt-center">Shipments</th>
                         <th>Order Status</th>
                         <th>Ordered At</th>
                         <th>Total Price (RM)</th>
@@ -40,8 +42,7 @@
                         <c:set var="totalCompleted"
                                value="${order.products().stream().filter(p -> p.status() == 'DELIVERED').count()}"/>
 
-                        <tr data-href="<c:url value='/admin/order/${order.id()}' />"
-                            onclick="window.location = this.dataset.href">
+                        <tr data-href="<c:url value='/admin/order/${order.id()}' />" class="clickable-row">
                             <td data-order="${order.id()}">#${order.id()}</td>
                             <td data-search="${order.account().username()}">
                                 <img src="<c:url value='${order.account().profileImage().url()}' />" alt="">
@@ -50,29 +51,35 @@
                             <td data-order="${order.products().size()}">${order.products().size()}</td>
                             <td data-order="${totalCompleted / totalItems}">
                                 <p class="text-xs text-center">${totalCompleted}/${totalItems}</p>
-                                <div class="rounded-full overflow-hidden flex *:flex-1 h-2">
+                                <div class="rounded-full overflow-hidden flex *:flex-1 h-2 gap-0.5">
                                     <c:forEach var="item" items="${order.products()}">
                                         <c:choose>
+                                            <c:when test="${item.status() == 'SHIPPED'}">
+                                                <div class="bg-admin -order-1" title="${item.status()}"></div>
+                                            </c:when>
+                                            <c:when test="${item.status() == 'OUT_FOR_DELIVERY'}">
+                                                <div class="bg-yellow-500 -order-2" title="${item.status()}"></div>
+                                            </c:when>
                                             <c:when test="${item.status() == 'DELIVERED'}">
-                                                <div class="bg-good -order-1"></div>
+                                                <div class="bg-good -order-3" title="${item.status()}"></div>
                                             </c:when>
                                             <c:otherwise>
-                                                <div class="bg-border"></div>
+                                                <div class="bg-border" title="${item.status()}"></div>
                                             </c:otherwise>
                                         </c:choose>
                                     </c:forEach>
                                 </div>
                             </td>
                             <td data-search="${order.status()}" data-order="${order.status()}" class="cell">
-                                    <%-- reusing role color kek --%>
                                 <span data-cell data-role="${order.status() ==  "COMPLETED" ? "USER" : "STAFF"}">
                                         ${order.status()}
                                 </span>
                             </td>
                             <td data-order="${order.orderedAt().toEpochMilli()}">
-                                <fmt:parseDate var="parsedDate" value="${order.orderedAt()}"
+                                <fmt:parseDate var="parsedDate" value="${order.orderedAt()}" timeZone="UTC"
                                                pattern="yyyy-MM-dd'T'HH:mm" type="both"/>
-                                <fmt:formatDate value="${parsedDate}" pattern="yyyy-MM-dd HH:mm"/>
+                                <fmt:formatDate value="${parsedDate}" pattern="yyyy-MM-dd HH:mm" />
+                                (${prettyTime.format(order.orderedAt())})
                             </td>
                             <td>${order.netAmount()}</td>
                         </tr>
@@ -99,7 +106,7 @@
                         pageLength: 50,
                         paging: true,
                         scrollX: true,
-                        order: [[0, 'asc']],
+                        order: [[4, 'asc'], [5, 'asc']],
                         columnDefs: [
                             {
                                 targets: 0,
@@ -112,3 +119,15 @@
         </main>
     </jsp:body>
 </admin:base>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".clickable-row").forEach(row => {
+            row.style.cursor = "pointer";
+            row.addEventListener("click", () => {
+                window.location = row.dataset.href;
+            });
+        });
+    });
+</script>
+

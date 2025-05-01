@@ -7,6 +7,7 @@
 
     <h2 class="text-2xl font-bold mb-6">📊 Top 10 Best-Selling Products</h2>
 
+    <!-- Form to generate report (view on page) -->
     <form method="get" action="/admin/reports" class="mb-6 flex gap-4 items-end">
         <div>
             <label class="block font-semibold mb-1">From Date:</label>
@@ -20,6 +21,17 @@
             Generate Report
         </button>
     </form>
+
+    <!-- Button to download PDF (separate form) -->
+    <c:if test="${not empty topProducts}">
+        <form method="get" action="/admin/reports/pdf" class="mb-6">
+            <input type="hidden" name="from" value="${from}" />
+            <input type="hidden" name="to" value="${to}" />
+            <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                🧾 Download PDF
+            </button>
+        </form>
+    </c:if>
 
     <c:if test="${not empty topProducts}">
         <table class="min-w-full bg-white shadow-md rounded text-sm">
@@ -45,4 +57,5 @@
     <c:if test="${empty topProducts}">
         <p class="text-gray-500 mt-4">No records found for the selected date range.</p>
     </c:if>
+
 </admin:base>

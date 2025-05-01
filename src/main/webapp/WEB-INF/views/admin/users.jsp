@@ -88,18 +88,19 @@
                                         extend: "selected",
                                         text: "<i class='fa-solid fa-trash mr-1'></i> Delete",
                                         action: function (e, dt, node, config) {
-                                            const formData = new FormData();
+                                            const params = new URLSearchParams();
                                             dt.select.cumulative().rows.forEach(
-                                                (id) => formData.append("id", id)
+                                                (id) => params.append("id", id)
                                             );
 
                                             fetch("<c:url value='/admin/account/delete'/>", {
                                                 method: "post",
-                                                body: formData
+                                                body: params
                                             }).then((res) => {
                                                 if (!res.ok)
                                                     console.error(res);
-                                                dt.ajax.reload();
+                                            }).finally(() => {
+                                                dt.ajax.reload()
                                             });
                                         },
                                         className: "button-bad transition"

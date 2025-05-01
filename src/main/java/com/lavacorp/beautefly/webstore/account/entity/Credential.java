@@ -2,6 +2,7 @@ package com.lavacorp.beautefly.webstore.account.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,7 +31,11 @@ public class Credential implements Serializable {
                 .collect(Collectors.toSet());
     }
 
+    @Getter
+    @AllArgsConstructor
     public enum Role {
-        USER, ADMIN, STAFF
+        USER,
+        STAFF,
+        ADMIN
     }
 }

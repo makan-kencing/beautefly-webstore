@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="admin" tagdir="/WEB-INF/tags/admin" %>
 
-<jsp:useBean id="account" type="com.lavacorp.beautefly.webstore.admin.dto.AdminUserAccountDTO" scope="request"/>
+<jsp:useBean id="account" type="com.lavacorp.beautefly.webstore.admin.account.dto.AdminUserAccountDTO" scope="request"/>
 
 <admin:base pageTitle="Edit Account Details">
     <h2 class="text-2xl font-bold mb-6">Edit User Details</h2>

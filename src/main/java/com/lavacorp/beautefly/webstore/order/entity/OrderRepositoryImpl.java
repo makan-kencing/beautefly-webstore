@@ -178,4 +178,21 @@ public class OrderRepositoryImpl implements OrderRepository {
                 .setParameter("startOfMonth", startOfMonth)
                 .getSingleResult();
     }
+
+    @Override
+    public SalesOrderProduct findOrderProductById(int id) {
+        return em.createQuery("""
+        SELECT p FROM SalesOrderProduct p
+        WHERE p.id = :id
+    """, SalesOrderProduct.class)
+                .setParameter("id", id)
+                .getResultStream()
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Override
+    public void updateOrderProduct(SalesOrderProduct product) {
+        em.merge(product);
+    }
 }

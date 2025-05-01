@@ -1,13 +1,10 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: CheeHua
-  Date: 4/19/2025
-  Time: 11:15 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" %>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="admin" tagdir="/WEB-INF/tags/admin" %>
+
+<jsp:useBean id="product" type="com.lavacorp.beautefly.webstore.admin.product.dto.ProductDetailsDTO" scope="request" />
+<jsp:useBean id="context" type="com.lavacorp.beautefly.webstore.admin.product.dto.CreateProductContext" scope="request" />
 
 <admin:base pageTitle="Product Details">
     <main class = "mt-8">

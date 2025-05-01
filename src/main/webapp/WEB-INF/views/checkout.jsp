@@ -11,29 +11,48 @@
 
 <webstore:base pageTitle="Checkout">
     <main class="p-4">
-        <form action="<c:url value='/checkout' />" method="post" class="horizontal justify-center gap-10 ">
+        <form action="<c:url value='/checkout' />" method="post" class="group horizontal justify-center gap-10 ">
             <!-- 左边内容 -->
             <div class="vertical *:border-inherit *:rounded-lg *:p-4 border-gray-200">
                 <!-- 地址 -->
                 <div class="vertical border-b-8">
-                    <c:forEach var="address" items="${addresses.addresses()}">
-                        <jsp:useBean id="address" type="com.lavacorp.beautefly.webstore.account.dto.AddressDTO"/>
+                    <c:choose>
+                        <c:when test="${addresses.addresses().size() == 0}">
+                            <div>
+                                <label for="null-address">
+                                    <a href="<c:url value='/addresses' />" class="text-link hover:underline">
+                                        Create a new address
+                                    </a>
+                                </label>
 
-                        <div class="has-checked:-order-1 horizontal">
-                            <div class="*:empty:hidden">
-                                <h2 class="font-semibold">${address.name()}</h2>
-                                <p>${address.address1()}</p>
-                                <p>${address.address2()}</p>
-                                <p>${address.address3()}</p>
-                                <p>${address.city()}, ${address.state()} ${address.postcode()}</p>
-                                <p>Phone number: ${address.contactNo()}</p>
+                                <input type="radio" name="addressId" id="null-address" required class="hidden">
                             </div>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach var="address" items="${addresses.addresses()}">
+                                <jsp:useBean id="address"
+                                             type="com.lavacorp.beautefly.webstore.account.dto.AddressDTO"/>
 
-                            <label for="address"></label>
-                            <input type="radio" name="addressId" id="address" value="${address.id()}"
-                                ${address.id() == addresses.defaultAddressId() ? "checked" : ""}>
-                        </div>
-                    </c:forEach>
+                                <div class="horizontal" style="order: ${address.id()}"
+                                     onclick="this.querySelector('input[type=radio]').click()">
+                                    <div class="*:empty:hidden">
+                                        <h2 class="font-semibold">${address.name()}</h2>
+                                        <p>${address.address1()}</p>
+                                        <p>${address.address2()}</p>
+                                        <p>${address.address3()}</p>
+                                        <p>${address.city()}, ${address.state()} ${address.postcode()}</p>
+                                        <p>Phone number: ${address.contactNo()}</p>
+                                    </div>
+
+                                    <label for="address"></label>
+
+                                    <input type="radio" name="addressId" id="address" value="${address.id()}"
+                                        ${address.id() == addresses.defaultAddressId() ? "checked" : ""}
+                                           class="ml-auto">
+                                </div>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
 
                 <!-- 商品区块 -->
@@ -113,15 +132,12 @@
                     </table>
 
                     <button type="submit"
-                            class="w-full p-2 rounded-full font-bold text-white bg-blue-500 hover:bg-blue-600 cursor-pointer">
+                            class="w-full p-2 rounded-full font-bold text-white bg-blue-500 not-group-invalid:hover:bg-blue-600 not-group-invalid:cursor-pointer group-invalid:bg-blue-300">
                         Place Order
                     </button>
                 </div>
             </div>
         </form>
-
-        <!-- Modal -->
-
     </main>
 </webstore:base>
 

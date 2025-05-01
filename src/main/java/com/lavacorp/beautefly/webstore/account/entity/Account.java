@@ -52,7 +52,7 @@ public class Account extends UserCreated {
 
     @NotNull
     @Email
-    @NaturalId
+    @NaturalId(mutable = true)
     private String email;
 
     @OneToOne(fetch = EAGER)

@@ -3,18 +3,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="admin" tagdir="/WEB-INF/tags/admin" %>
 
-<jsp:useBean id="account" type="com.lavacorp.beautefly.webstore.admin.dto.AdminUserAccountDTO" scope="request"/>
+<jsp:useBean id="account" type="com.lavacorp.beautefly.webstore.admin.account.dto.AdminUserAccountDTO" scope="request"/>
 
 <admin:base pageTitle="Account Details">
     <main>
         <!-- Page Header + Edit Btn -->
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-2xl font-bold">User Details</h2>
-            <a href="${pageContext.request.contextPath}/admin/account/edit?id=${account.id()}"
-               class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+            <button onclick="openEditModal()"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
                 ✏️ Edit Info
-            </a>
-
+            </button>
         </div>
 
         <!-- Detail Table -->
@@ -87,7 +86,51 @@
             </tr>
             </tbody>
         </table>
+        
+        <!-- 🔧 Edit User Modal -->
+        <div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 hidden">
+            <div class="bg-white w-full max-w-3xl p-6 rounded-lg shadow-lg relative">
+                <button onclick="closeEditModal()" class="absolute top-2 right-3 text-gray-600 hover:text-black text-xl">&times;</button>
+
+                <form action="${pageContext.request.contextPath}/admin/account/edit" method="post" class="space-y-4">
+                    <input type="hidden" name="id" value="${account.id()}" />
+                    <input type="hidden" name="username" value="${account.username()}" />
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block font-semibold mb-1">Email</label>
+                            <input type="email" name="email" value="${account.email()}" class="w-full border rounded p-2"/>
+                        </div>
+
+                        <div>
+                            <label class="block font-semibold mb-1">Gender</label>
+                            <input type="text" name="gender" value="${account.gender()}" class="w-full border rounded p-2"/>
+                        </div>
+
+                        <div>
+                            <label class="block font-semibold mb-1">DOB</label>
+                            <input type="date" name="dob" value="${account.dob()}" class="w-full border rounded p-2"/>
+                        </div>
+                    </div>
+
+                    <div class="text-right">
+                        <button type="submit" class="mt-6 bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded">
+                            Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </main>
 </admin:base>
 
+<script>
+        function openEditModal() {
+        document.getElementById("editModal").classList.remove("hidden");
+    }
+
+        function closeEditModal() {
+        document.getElementById("editModal").classList.add("hidden");
+    }
+</script>
 

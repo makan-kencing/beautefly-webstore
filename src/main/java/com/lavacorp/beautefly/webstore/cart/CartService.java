@@ -3,7 +3,6 @@ package com.lavacorp.beautefly.webstore.cart;
 import com.lavacorp.beautefly.webstore.account.entity.Account;
 import com.lavacorp.beautefly.webstore.account.entity.Address;
 import com.lavacorp.beautefly.webstore.cart.dto.CartDTO;
-import com.lavacorp.beautefly.webstore.cart.dto.CartItemDTO;
 import com.lavacorp.beautefly.webstore.cart.dto.UpdateCartProductDTO;
 import com.lavacorp.beautefly.webstore.cart.entity.Cart;
 import com.lavacorp.beautefly.webstore.cart.entity.CartProduct;
@@ -20,6 +19,8 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.SessionFactory;
 
+import static com.lavacorp.beautefly.webstore.cart.dto.UpdateCartProductDTO.Action.DECREMENT;
+
 @Transactional
 @ApplicationScoped
 public class CartService {
@@ -31,32 +32,42 @@ public class CartService {
     @Inject
     private CartMapper cartMapper;
 
-    @SuppressWarnings("UnusedReturnValue")
-    public CartItemDTO updateCartProductQuantity(HttpSession session, AccountContextDTO user, UpdateCartProductDTO item) {
+    public void updateCartProductQuantity(HttpSession session, AccountContextDTO user, UpdateCartProductDTO update) {
         var cart = getCart(session, user);
 
         var statelessSession = emf.unwrap(SessionFactory.class)
                 .openStatelessSession();
 
-        var product = statelessSession.get(Product.class, item.productId());
+        var product = new Product();
+        product.setId(update.productId());
 
-        var cartItem = new CartProduct();
-        cartItem.setProduct(product);
-        cartItem.setCart(cart);
-        cartItem.setQuantity(item.quantity());
+        var item = cart.getCartItem(update.productId()).orElse(null);
 
-        cartItem = switch (item.action()) {
-            case INCREMENT -> cart.addProduct(cartItem);
-            case SET -> cart.setProduct(cartItem);
-            case DECREMENT -> cart.removeProduct(cartItem);
-        };
+        if (item != null) {
+            switch (update.action()) {
+                case INCREMENT -> item.addQuantity(update.quantity());
+                case SET -> item.setQuantity(update.quantity());
+                case DECREMENT -> item.removeQuantity(update.quantity());
+            }
 
-        if (cartItem.getId().getCartId() == 0 && cartItem.getId().getProductId() == 0)
-            statelessSession.insert(cartItem);
-        else
-            statelessSession.update(cartItem);
-        return cartMapper.toCartItemDTO(cartItem);
+            if (item.getQuantity() <= 0)
+                statelessSession.delete(item);
+            else
+                statelessSession.update(item);
+        } else {
+            if (update.action() == DECREMENT)
+                return;
+
+            item = new CartProduct();
+
+            item.setProduct(product);
+            item.setCart(cart);
+            item.setQuantity(update.quantity());
+
+            statelessSession.insert(item);
+        }
     }
+
 
     public CartDTO getCartDetails(HttpSession session, @Nullable AccountContextDTO user) {
         var cart = getCart(session, user);
@@ -83,7 +94,7 @@ public class CartService {
 
         return statelessSession.createSelectionQuery("""
                             from Cart c
-                                join fetch c.products
+                                left join fetch c.products
                             where c.account.id = :accountId
                         """, Cart.class)
                 .setParameter("accountId", user.id())
@@ -100,7 +111,7 @@ public class CartService {
 
         return statelessSession.createSelectionQuery("""
                             from Cart c
-                            join fetch c.products
+                                left join fetch c.products
                             where c.id = :cartId
                         """, Cart.class)
                 .setParameter("cartId", cartId)
@@ -163,15 +174,20 @@ public class CartService {
                 .openStatelessSession();
 
         for (var item : src) {
-            var updatedItem = dest.addProduct(item);
-            updatedItem.setCart(dest);
-
             statelessSession.delete(item);
+            item.setCart(dest);
 
-            if (item != updatedItem) {
-                statelessSession.update(updatedItem);
-            } else
-                statelessSession.insert(updatedItem);
+            var existingItem = dest.getCartItem(item.getProduct().getId()).orElse(null);
+
+            if (existingItem != null) {
+                existingItem.setQuantity(existingItem.getQuantity() + item.getQuantity());
+
+                statelessSession.update(existingItem);
+            } else {
+                dest.getProducts().add(item);
+
+                statelessSession.insert(item);
+            }
         }
 
         statelessSession.delete(src);

@@ -9,167 +9,194 @@
 <c:set var="pageTitle" value="Account Details"/>
 
 <webstore:base pageTitle="${pageTitle}">
-    <main class="flex min-h-screen bg-white text-black">
-        <account:sidebar pageTitle="${pageTitle}"/>
+    <jsp:attribute name="includeHead">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css"
+              integrity="sha512-UtLOu9C7NuThQhuXXrGwx9Jb/z9zPQJctuAgNUBK3Z6kkSYT9wJ+2+dh6klS+TDBCV9kNPBbAxbVD+vCcfGPaA=="
+              crossorigin="anonymous" referrerpolicy="no-referrer"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js"></script>
+    </jsp:attribute>
 
-        <div class="p-5 flex-1">
-            <!-- Account Details -->
-            <h1 class="text-2xl font-semibold mb-4">Account Details</h1>
-            <div class="bg-white border border-gray-300 p-6 rounded-lg shadow-sm space-y-6">
+    <jsp:body>
+        <main class="flex min-h-screen bg-white text-black">
+            <account:sidebar pageTitle="${pageTitle}"/>
 
-                <!--images-->
-                <form id="update-image" action="<c:url value='/api/file/upload' />" method="post"
-                      enctype="multipart/form-data" class="flex items-center gap-6">
-                    <div class="w-20 h-20 rounded-full overflow-hidden border-2 border-gray-300">
-                        <img src="${account.profileImage().url()}" alt="" class="w-full h-full object-cover">
-                    </div>
-                    <div class="peer-inert:hidden">
-                        <label id="uploadImageBtn" for="file"
-                               class="bg-gray-200 px-4 py-2 rounded cursor-pointer hidden">Upload Image</label>
-                        <input type="file" name="file" id="file" accept="image/*" class="hidden">
-                    </div>
-                </form>
+            <div class="p-5 flex-1">
+                <!-- Account Details -->
+                <h1 class="text-2xl font-semibold mb-4">Account Details</h1>
+                <div class="bg-white border border-gray-300 p-6 rounded-lg shadow-sm space-y-6">
 
-
-                <form id="update-details" action="<c:url value='/account' />" method="post"
-                      class="space-y-4">
-                    <input type="hidden" name="profileImageFileId" value="${account.profileImage().id()}">
-
-                    <fieldset class="peer space-y-4 *:space-y-1 inert:opacity-90" inert>
-                        <div>
-                            <label for="username" class="block font-medium">Username</label>
-                            <input type="text" name="username" id="username" value="${account.username()}"
-                                   class="w-full border border-gray-300 p-2 rounded">
+                    <!--images-->
+                    <form action="<c:url value='/account/upload' />" method="post" enctype="multipart/form-data"
+                          id="image-upload" class="flex items-center gap-6">
+                        <div class="w-20 h-20 rounded-full overflow-hidden border-2 border-gray-300">
+                            <img src="${account.profileImage().url()}" alt="" class="w-full h-full object-cover">
                         </div>
                         <div>
-                            <label for="email" class="block font-medium">Email</label>
-                            <input type="email" name="email" id="email" value="${account.email()}"
-                                   class="w-full border border-gray-300 p-2 rounded">
+                            <label for="image" class="button-input text-gray-900">Upload Image</label>
+                            <input type="file" name="image" id="image" accept="image/*" class="hidden">
                         </div>
-                        <div>
-                            <label class="block font-medium">Gender</label>
-                            <div class="not-inert:hidden">
-                                <p class="w-full border border-gray-300 p-2 rounded">
-                                        ${account.gender().pretty()}
-                                </p>
+                    </form>
+
+
+                    <form action="<c:url value='/account/update' />" method="post" class="space-y-4">
+                        <fieldset class="peer space-y-4 *:space-y-1 inert:opacity-70" inert>
+                            <div>
+                                <label for="username" class="block font-medium">Username</label>
+                                <input type="text" name="username" id="username" value="${account.username()}" required
+                                       class="w-full border border-gray-300 p-2 rounded">
                             </div>
-                            <div class="inert:hidden ml-2 my-3 flex gap-4">
-                                <label>
-                                    <input type="radio" name="gender"
-                                           value="MALE" ${account.gender() == "MALE" ? "checked" : ""}>
-                                    Male
-                                </label>
-                                <label>
-                                    <input type="radio" name="gender"
-                                           value="FEMALE" ${account.gender() == "FEMALE" ? "checked" : ""}>
-                                    Female
-                                </label>
-                                <label>
-                                    <input type="radio" name="gender"
-                                           value="PREFER_NOT_TO_SAY" ${account.gender() == "PREFER_NOT_TO_SAY" ? "checked" : ""}>
-                                    Prefer not to say
-                                </label>
+                            <div>
+                                <label for="email" class="block font-medium">Email</label>
+                                <input type="email" name="email" id="email" value="${account.email()}" required
+                                       class="w-full border border-gray-300 p-2 rounded">
                             </div>
-                        </div>
-                        <div>
-                            <label for="dob" class="block font-medium">Date of Birth</label>
-                            <input type="date" name="dob" id="dob" value="${account.dob()}"
-                                   class="w-full border border-gray-300 p-2 rounded">
-                        </div>
-                    </fieldset>
+                            <div>
+                                <label class="block font-medium">Gender</label>
+                                <div class="not-inert:hidden">
+                                    <p class="w-full border border-gray-300 p-2 rounded">
+                                            ${account.gender().pretty()}
+                                    </p>
+                                </div>
+                                <div class="inert:hidden ml-2 mt-4 mb-5 flex gap-5">
+                                    <label>
+                                        <input type="radio" name="gender"
+                                               value="MALE" ${account.gender() == "MALE" ? "checked" : ""}>
+                                        Male
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="gender"
+                                               value="FEMALE" ${account.gender() == "FEMALE" ? "checked" : ""}>
+                                        Female
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="gender"
+                                               value="PREFER_NOT_TO_SAY" ${account.gender() == "PREFER_NOT_TO_SAY" ? "checked" : ""}>
+                                        Prefer not to say
+                                    </label>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="dob" class="block font-medium">Date of Birth</label>
+                                <input type="date" name="dob" id="dob" value="${account.dob()}"
+                                       class="w-full border border-gray-300 p-2 rounded">
+                            </div>
+                        </fieldset>
 
-                    <div class="not-peer-inert:hidden">
-                        <button type="button" onclick="toggleFormInert.call(this)"
-                                class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Edit
-                        </button>
-                    </div>
-                    <div class="peer-inert:hidden space-x-2">
-                        <button type="reset" onclick="toggleFormInert.call(this)"
-                                class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Cancel
-                        </button>
-                        <button type="submit" onclick="toggleFormInert.call(this)"
-                                class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Save
-                        </button>
-                    </div>
-                </form>
+                        <div class="not-peer-inert:hidden">
+                            <button type="button" onclick="toggleFormInert.call(this)"
+                                    class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Edit
+                            </button>
+                        </div>
+                        <div class="peer-inert:hidden space-x-2">
+                            <button type="reset" onclick="toggleFormInert.call(this)"
+                                    class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Cancel
+                            </button>
+                            <button type="submit" onclick="toggleFormInert.call(this)"
+                                    class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Save
+                            </button>
+                        </div>
+
+                        <script>
+                            function toggleFormInert() {
+                                const form = this.closest("form");
+                                const fieldset = form.querySelector("fieldset");
+
+                                if (fieldset.hasAttribute("inert"))
+                                    fieldset.removeAttribute("inert");
+                                else
+                                    fieldset.setAttribute("inert", "");
+                            }
+                        </script>
+                    </form>
+                </div>
             </div>
-        </div>
-    </main>
+        </main>
 
-    <!-- Crop dialog -->
-    <dialog id="crop-preview" class="rounded-xl p-4 backdrop:brightness-50">
-        <form method="dialog">
-            <img src="" alt="" class="max-w-full max-h-72 mb-4">
-            <button type="reset">Cancel</button>
-            <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Confirm</button>
-        </form>
-    </dialog>
+        <!-- Crop dialog -->
+        <dialog id="crop-preview" class="rounded-xl p-4 m-auto">
+            <form method="dialog" class="space-y-4">
+                <div>
+                    <img src="" alt="">
+                </div>
+                <div class="horizontal justify-end">
+                    <button type="reset" class="button-bad" onclick="this.closest('dialog').close()">Cancel</button>
+                    <button type="submit" class="button-good">Confirm</button>
+                </div>
+            </form>
+        </dialog>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js"></script>
-    <script>
-        // sidebar
-        function toggleFormInert() {
-            const form = this.closest("form");
-            const fieldset = form.querySelector("fieldset");
-            const uploadBtn = document.getElementById("uploadImageBtn");
+        <script>
+            class ImageUpload {
+                constructor(imageForm, previewDialog) {
+                    this.imageForm = imageForm;
+                    this.imageFormImage = imageForm.querySelector("img");
+                    this.imageFormInput = imageForm.querySelector("input[type='file']");
 
-            if (fieldset.hasAttribute("inert"))
-                fieldset.removeAttribute("inert");
-            else
-                fieldset.setAttribute("inert", "");
-        }
+                    this.previewDialog = previewDialog;
+                    this.previewForm = previewDialog.querySelector("form");
+                    this.previewImage = previewDialog.querySelector("img");
 
-        const updateImageForm = document.querySelector("#update-image");
-        const displayImage = updateImageForm.querySelector("img");
-        const imageInput = updateImageForm.querySelector("input[name='file']");
-        const imageIdInput = document.querySelector("input[name='profileImageFileId']");
-        const cropModal = document.querySelector("#crop-preview");
-        const cropForm = cropModal.querySelector("form");
-        const cropPreview = cropModal.querySelector("img");
-        let cropper;
+                    this.cropper = null;
 
-        imageInput.addEventListener("change", function (e) {
-            const file = e.target.files[0];
-            if (!file || !file.type.startsWith("image/")) return;
+                    this.imageFormInput.addEventListener("change", () => this.onImageAdded());
+                    this.previewForm.addEventListener("submit", () => this.onCrop());
+                }
 
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                cropPreview.onload = function () {
-                    if (cropper) cropper.destroy();
-                    cropper = new Cropper(cropPreview, {aspectRatio: 1, viewMode: 1});
-                    cropModal.showModal();
-                };
-                cropPreview.src = e.target.result;
-            };
+                getImage() {
+                    return this.imageFormInput.files[0];
+                }
 
-            reader.readAsDataURL(file);
-        });
+                onImageAdded() {
+                    const file = this.getImage();
 
-        cropForm.addEventListener("submit", function (e) {
-            e.preventDefault();
+                    if (!file || !file.type.startsWith("image/"))
+                        return;
 
-            const canvas = cropper.getCroppedCanvas({width: 160, height: 160});
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        this.previewImage.src = e.target.result;
+                        this.previewDialog.showModal();
 
-            canvas.toBlob(blob => {
-                const formData = new FormData(updateImageForm);
-                formData.set("file", blob, "avatar.jpg");
+                        if (this.cropper) this.cropper.destroy();
 
-                fetch(updateImageForm.action, {
-                    method: updateImageForm.method,
-                    body: formData
-                })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data) {
-                            displayImage.src = data.href;
-                            imageIdInput.value = data.id;
-                        }
-                    })
-                    .catch(err => {
-                        console.error("上传出错：", err);
+                        this.cropper = new Cropper(this.previewImage, {
+                            aspectRatio: 1,
+                            viewMode: 1
+                        });
+
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+
+                onCrop() {
+                    const canvas = this.cropper.getCroppedCanvas({width: 160, height: 160});
+
+                    canvas.toBlob(blob => {
+                        const formData = new FormData(this.imageForm);
+                        formData.set(this.imageFormInput.name, blob, this.getImage().name);
+
+                        fetch(this.imageForm.action, {
+                            method: this.imageForm.method,
+                            body: formData
+                        }).then(res =>
+                            res.json()
+                        ).then(data => {
+                            if (data)
+                                this.imageFormImage.src = data.href;
+                        }).catch(err => {
+                            console.error("上传出错：", err);
+                            location.reload();
+                        });
                     });
+                }
+            }
 
-            }, "image/jpeg");
-        });
-    </script>
+            const imageUpload = new ImageUpload(
+                document.querySelector("form#image-upload"),
+                document.querySelector("dialog#crop-preview")
+            );
+        </script>
+    </jsp:body>
+
 </webstore:base>

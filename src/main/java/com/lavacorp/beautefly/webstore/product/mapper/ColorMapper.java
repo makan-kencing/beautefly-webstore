@@ -7,5 +7,5 @@ import org.mapstruct.MappingConstants;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.CDI)
 public interface ColorMapper {
-    ColorDTO fromColor(Color color);
+    ColorDTO toColorDTO(Color color);
 }
