@@ -102,7 +102,9 @@
                 </div>
             </c:if>
             <c:if test="${pageContext.request.userPrincipal == null}">
-                <a href="<c:url value='/login' />" class="text-white font-semibold">Login</a>
+                <a href="<c:url value='/login' />" class="text-white px-3 py-2 flex items-center">
+                    <i class="fa-solid fa-right-to-bracket text-2xl"></i>
+                </a>
             </c:if>
 
 
