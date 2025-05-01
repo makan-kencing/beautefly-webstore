@@ -46,12 +46,12 @@
                         Orders
                     </a>
                 </li>
-                <li ${pageTitle == "View Logs" ? "data-selected" : ""}>
-                    <a href="<c:url value='/admin/logs' />">
-                        <i class="fa-solid fa-book mr-2"></i>
-                        View Logs
-                    </a>
-                </li>
+<%--                <li ${pageTitle == "View Logs" ? "data-selected" : ""}>--%>
+<%--                    <a href="<c:url value='/admin/logs' />">--%>
+<%--                        <i class="fa-solid fa-book mr-2"></i>--%>
+<%--                        View Logs--%>
+<%--                    </a>--%>
+<%--                </li>--%>
                 <li ${pageTitle == "Reports" ? "data-selected" : ""}>
                     <a href="<c:url value='/admin/reports' />">
                         <i class="fa-solid fa-clipboard mr-2"></i>
@@ -67,7 +67,7 @@
             <h3 class="py-1 px-2 text-sm">Settings</h3>
             <ul class="*:hover:bg-gray-200 *:transition **:[a]:py-1 **:[a]:px-4">
                 <li>
-                    <a href="<c:url value='/admin/settings' />">
+                    <a href="<c:url value='/account' />">
                         <i class="fa-solid fa-user-gear mr-1"></i> Account Settings
                     </a>
                 </li>

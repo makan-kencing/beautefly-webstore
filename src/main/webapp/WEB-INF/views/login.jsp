@@ -27,10 +27,10 @@
                             class="rounded-full bg-blue-500 px-5 py-2 font-bold text-white hover:bg-blue-700">
                         Sign In
                     </button>
-                    <a href="#"
-                       class="rounded-full px-5 py-2 align-baseline text-sm font-bold text-blue-500 hover:bg-blue-50">
-                        Forgot password?
-                    </a>
+<%--                    <a href="#"--%>
+<%--                       class="rounded-full px-5 py-2 align-baseline text-sm font-bold text-blue-500 hover:bg-blue-50">--%>
+<%--                        Forgot password?--%>
+<%--                    </a>--%>
                 </div>
             </form>
 

@@ -1,5 +1,7 @@
 package com.lavacorp.beautefly.webstore.rating.dto;
 
+import com.lavacorp.beautefly.webstore.security.dto.AccountContextDTO;
+
 import java.io.Serializable;
 import java.time.Instant;
 
@@ -9,6 +11,7 @@ import java.time.Instant;
 public record ReplyDTO(
         int id,
         String message,
+        AccountContextDTO account,
         Instant repliedOn
 ) implements Serializable {
 }
