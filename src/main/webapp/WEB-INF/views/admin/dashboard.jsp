@@ -28,8 +28,8 @@
         <!-- Tabs -->
         <div class="flex gap-4 mb-6">
             <button class="tab-button bg-blue-100 text-blue-700 font-semibold px-4 py-2 rounded active" data-type="daily">Daily Sales</button>
-            <button class="tab-button bg-gray-100 text-gray-700 font-semibold px-4 py-2 rounded" data-type="monthly">Monthly Sales</button>
-            <button class="tab-button bg-gray-100 text-gray-700 font-semibold px-4 py-2 rounded" data-type="total">Total Sales</button>
+            <button class="tab-button bg-blue-100 text-blue-700 font-semibold px-4 py-2 rounded" data-type="monthly">Monthly Sales</button>
+            <button class="tab-button bg-blue-100 text-blue-700 font-semibold px-4 py-2 rounded" data-type="total">Total Sales</button>
         </div>
 
         <!-- Chart -->

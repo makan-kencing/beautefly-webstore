@@ -7,13 +7,22 @@
 
     <ul class="space-y-4 text-lg">
         <li>
-            <a href="/admin/reports/top" class="text-blue-600 hover:underline">🧾 Top 10 Best-Selling Products</a>
+            <a href="/admin/reports/top" class="text-blue-600 hover:underline">
+                🧾 Top 10 Best-Selling Products
+            </a>
         </li>
         <li>
             <span class="text-gray-400">📦 Sales by Category (coming soon)</span>
         </li>
         <li>
-            <span class="text-gray-400">👥 Customer Summary (coming soon)</span>
+            <a href="/admin/reports/customers" class="text-blue-600 hover:underline">
+                👥 Customer Summary Report
+            </a>
+        </li>
+        <li>
+            <a href="/admin/reports/tax" class="text-blue-600 hover:underline">
+                💰 Tax Collected Report
+            </a>
         </li>
     </ul>
 
