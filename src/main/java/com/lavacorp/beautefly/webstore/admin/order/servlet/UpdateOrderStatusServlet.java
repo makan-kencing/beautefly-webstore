@@ -11,9 +11,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import jakarta.transaction.Transactional;
+import lombok.extern.log4j.Log4j2;
+
 import java.io.IOException;
 import java.time.Instant;
 
+@Log4j2
 @WebServlet("/admin/orders/status")
 public class UpdateOrderStatusServlet extends HttpServlet {
 
@@ -58,10 +61,11 @@ public class UpdateOrderStatusServlet extends HttpServlet {
                 }
             }
 
-            resp.sendRedirect(req.getContextPath() + "/admin/orders/" + orderId);
+            orderRepo.updateOrderProduct(product);
 
+            resp.sendRedirect(req.getContextPath() + "/admin/order/" + orderId);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e);
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Failed to update product status");
         }
     }
