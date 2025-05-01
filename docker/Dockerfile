@@ -27,7 +27,7 @@ RUN --mount=type=cache,target=/root/.m2 ./mvnw clean package
 
 FROM ghcr.io/eclipse-ee4j/glassfish
 
-COPY --from=build-env /usr/app/target/*.war /opt/glassfish7/glassfish/domains/domain1/autodeploy/web.war
+COPY --from=build /usr/app/target/*.war /opt/glassfish7/glassfish/domains/domain1/autodeploy/web.war
 
 HEALTHCHECK --start-period=1m \
   CMD curl -f http://localhost:8080/api/ping || exit 1
