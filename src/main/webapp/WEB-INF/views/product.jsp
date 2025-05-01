@@ -146,9 +146,11 @@
                     <c:forEach var="review" items="${reviews}">
                         <div class="comment rounded-lg p-4 shadow-lg bg-white">
                             <div class="flex items-center space-x-2 mb-2">
-                                <img src="" alt="" class="w-8 h-8 rounded-full">
+                                <img src="${review.account().profileImage().url()}" alt="" class="w-8 h-8 rounded-full">
                                 <span class="font-semibold">${review.account().username()}</span>
                             </div>
+                            <c:out value="${review.account().profileImage().url()}"/>
+
                             <div>
                                 <span class="text-base font-semibold text-gray-800">${review.title()}</span><br/>
                 <span data-raty data-star-type="i" data-read-only="true" data-score="${review.rating()}"
