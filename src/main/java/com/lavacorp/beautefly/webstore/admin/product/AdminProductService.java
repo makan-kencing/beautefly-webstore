@@ -110,6 +110,8 @@ public class AdminProductService {
 
             product.setColor(color);
         }
+
+        session.update(product);
     }
 
     public void deleteProducts(DeleteProductDTO dto) {
