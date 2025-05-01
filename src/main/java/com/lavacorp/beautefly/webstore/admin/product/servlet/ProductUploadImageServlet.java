@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/admin/product/image/remove")
+@WebServlet("/admin/product/image/upload")
 public class ProductUploadImageServlet extends HttpServlet {
     @Inject
     private AdminProductService adminProductService;

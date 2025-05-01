@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/admin/product/image/upload")
+@WebServlet("/admin/product/image/remove")
 public class ProductRemoveImageServlet extends HttpServlet {
     @Inject
     private AdminProductService adminProductService;
