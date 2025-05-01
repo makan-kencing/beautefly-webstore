@@ -24,5 +24,7 @@ public class ProductRemoveImageServlet extends HttpServlet {
         var dto = adminProductMapper.toRemoveProductImageDTO(req);
 
         adminProductService.removeProductImage(dto);
+
+        resp.sendRedirect("/admin/product/" + dto.id());
     }
 }

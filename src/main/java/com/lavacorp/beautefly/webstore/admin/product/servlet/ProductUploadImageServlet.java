@@ -30,5 +30,7 @@ public class ProductUploadImageServlet extends HttpServlet {
         var dto = adminProductMapper.toUploadProductImageDTO(req);
 
         adminProductService.uploadProductImage(user, dto);
+
+        resp.sendRedirect("/admin/product/" + dto.id());
     }
 }
