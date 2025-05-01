@@ -42,7 +42,7 @@
                         <c:set var="totalCompleted"
                                value="${order.products().stream().filter(p -> p.status() == 'DELIVERED').count()}"/>
 
-                        <tr data-href="<c:url value='/admin/orders/${order.id()}' />" class="clickable-row">
+                        <tr data-href="<c:url value='/admin/order/${order.id()}' />" class="clickable-row">
                             <td data-order="${order.id()}">#${order.id()}</td>
                             <td data-search="${order.account().username()}">
                                 <img src="<c:url value='${order.account().profileImage().url()}' />" alt="">
