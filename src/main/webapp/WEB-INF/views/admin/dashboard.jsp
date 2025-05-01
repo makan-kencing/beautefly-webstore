@@ -11,9 +11,9 @@
     </jsp:attribute>
 
     <jsp:body>
-        <main class="p-6">
+        <main class="p-6 space-y-6">
             <!-- Header -->
-            <div class="flex justify-between items-center mb-6">
+            <div class="flex justify-between items-center">
                 <h1 class="text-2xl font-bold">Admin Dashboard</h1>
 
                 <div class="relative">
@@ -35,8 +35,30 @@
                 </div>
             </div>
 
+            <!-- Summary Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="p-6 bg-white rounded shadow border border-border text-center">
+                    <h3 class="text-lg font-semibold mb-2">Total Users</h3>
+                    <p class="text-2xl font-bold">
+                            ${stats.totalUsers}
+                    </p>
+                </div>
+                <div class="p-6 bg-white rounded shadow border border-border text-center">
+                    <h3 class="text-lg font-semibold mb-2">Total Sales</h3>
+                    <p class="text-2xl font-bold">
+                        <fmt:formatNumber value="${stats.totalSales}" type="currency" currencySymbol="RM "/>
+                    </p>
+                </div>
+                <div class="p-6 bg-white rounded shadow border border-border text-center">
+                    <h3 class="text-lg font-semibold mb-2">Today's Sales</h3>
+                    <p class="text-2xl font-bold">
+                        <fmt:formatNumber value="${stats.todaySales}" type="currency" currencySymbol="RM "/>
+                    </p>
+                </div>
+            </div>
+
             <!-- Tabs -->
-            <div class="flex gap-4 mb-6">
+            <div class="flex gap-4">
                 <button class="tab-button bg-blue-100 text-blue-700 font-semibold px-4 py-2 rounded active"
                         data-type="daily">Daily Sales
                 </button>
@@ -52,28 +74,6 @@
             <div class="bg-white p-6 rounded shadow relative">
                 <canvas id="salesChart" height="100"></canvas>
                 <div id="legend-container" class="flex mt-4"></div>
-            </div>
-
-            <!-- Summary Cards -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-                <div class="p-6 bg-white rounded shadow text-center">
-                    <h3 class="text-lg font-semibold mb-2">Total Users</h3>
-                    <p class="text-2xl font-bold">
-                            ${stats.totalUsers}
-                    </p>
-                </div>
-                <div class="p-6 bg-white rounded shadow text-center">
-                    <h3 class="text-lg font-semibold mb-2">Total Sales</h3>
-                    <p class="text-2xl font-bold">
-                        <fmt:formatNumber value="${stats.totalSales}" type="currency" currencySymbol="RM "/>
-                    </p>
-                </div>
-                <div class="p-6 bg-white rounded shadow text-center">
-                    <h3 class="text-lg font-semibold mb-2">Today's Sales</h3>
-                    <p class="text-2xl font-bold">
-                        <fmt:formatNumber value="${stats.todaySales}" type="currency" currencySymbol="RM "/>
-                    </p>
-                </div>
             </div>
         </main>
 
