@@ -63,12 +63,17 @@
 
         <%-- settings popup --%>
         <div id="settings" popover role="menu" style="position-area: bottom span-left"
-             class="mt-2 p-1 border-gray-500 shadow w-60">
+             class="mt-2 py-2 px-1 border-gray-500 shadow w-60 overflow-hidden">
             <h3 class="py-1 px-2 text-sm">Settings</h3>
-            <ul class="*:hover:bg-gray-200 *:transition **:[a]:py-1 **:[a]:px-4">
+            <ul class="*:hover:bg-gray-200 *:transition **:[a]:block **:[a]:py-1 **:[a]:px-4 space-y-1">
                 <li>
                     <a href="<c:url value='/account' />">
                         <i class="fa-solid fa-user-gear mr-1"></i> Account Settings
+                    </a>
+                </li>
+                <li>
+                    <a href="<c:url value='/' />">
+                        <i class="fa-solid fa-store mr-1"></i> Webstore
                     </a>
                 </li>
                 <li class="px-1! hover:bg-transparent!">
