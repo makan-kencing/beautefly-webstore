@@ -70,63 +70,63 @@
             <div class="">
                 <div id="sub-skin-care" class="not-target:hidden">
                     <ul>
-                        <li class="fancy-li"><a href="">Cleansing</a></li>
-                        <li class="fancy-li"><a href="">Toning</a></li>
-                        <li class="fancy-li"><a href="">Moisturizing</a></li>
-                        <li class="fancy-li"><a href="">Serums & Treatments</a></li>
-                        <li class="fancy-li"><a href="">Eye Care</a></li>
-                        <li class="fancy-li"><a href="">Sun Protection</a></li>
-                        <li class="fancy-li"><a href="">Special Treatments</a></li>
-                        <li class="fancy-li"><a href="">Repair & Recovery</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search?categories=Facial+Cleanser' />">Cleansing</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Toning</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Moisturizing</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Serums & Treatments</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Eye Care</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Sun Protection</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Special Treatments</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Repair & Recovery</a></li>
                     </ul>
                 </div>
 
                 <div id="sub-makeup" class="not-target:hidden">
                     <ul>
-                        <li class="fancy-li"><a href="">Base Makeup</a></li>
-                        <li class="fancy-li"><a href="">Eye Makeup</a></li>
-                        <li class="fancy-li"><a href="">Lip Makeup</a></li>
-                        <li class="fancy-li"><a href="">Blush & Contouring</a></li>
-                        <li class="fancy-li"><a href="">Setting Makeup</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Base Makeup</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Eye Makeup</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Lip Makeup</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Blush & Contouring</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Setting Makeup</a></li>
                     </ul>
                 </div>
 
                 <div id="sub-body-care" class="not-target:hidden">
                     <ul>
-                        <li class="fancy-li"><a href="">Cleansing</a></li>
-                        <li class="fancy-li"><a href="">Moisturizing</a></li>
-                        <li class="fancy-li"><a href="">Fragrance</a></li>
-                        <li class="fancy-li"><a href="">Hair Removal</a></li>
-                        <li class="fancy-li"><a href="">Whitening & Acne Treatment</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Cleansing</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Moisturizing</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Fragrance</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Hair Removal</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Whitening & Acne Treatment</a></li>
                     </ul>
                 </div>
 
                 <div id="sub-hair-care" class="not-target:hidden">
                     <ul>
-                        <li class="fancy-li"><a href="">Shampoo & Conditioner</a></li>
-                        <li class="fancy-li"><a href="">Hair Treatment</a></li>
-                        <li class="fancy-li"><a href="">Styling</a></li>
-                        <li class="fancy-li"><a href="">Hair Coloring</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Shampoo & Conditioner</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Hair Treatment</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Styling</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Hair Coloring</a></li>
                     </ul>
                 </div>
 
                 <div id="sub-beauty-tools" class="not-target:hidden">
                     <ul>
-                        <li class="fancy-li"><a href="">Makeup Tools</a></li>
-                        <li class="fancy-li"><a href="">Skincare Devices</a></li>
-                        <li class="fancy-li"><a href="">Hair Removal Devices</a></li>
-                        <li class="fancy-li"><a href="">Message Tools</a></li>
-                        <li class="fancy-li"><a href="">Nail Care Tools</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Makeup Tools</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Skincare Devices</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Hair Removal Devices</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Message Tools</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Nail Care Tools</a></li>
                     </ul>
                 </div>
 
                 <div id="sub-treatments" class="not-target:hidden">
                     <ul>
-                        <li class="fancy-li"><a href="">Acne Treatment</a></li>
-                        <li class="fancy-li"><a href="">Anti-Aging</a></li>
-                        <li class="fancy-li"><a href="">Whitening</a></li>
-                        <li class="fancy-li"><a href="">Sensitive Skin Repair</a></li>
-                        <li class="fancy-li"><a href="">Dark Circle Treatment</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Acne Treatment</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Anti-Aging</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Whitening</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Sensitive Skin Repair</a></li>
+                        <li class="fancy-li"><a href="<c:url value='/search' />">Dark Circle Treatment</a></li>
                     </ul>
                 </div>
             </div>

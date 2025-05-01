@@ -32,9 +32,16 @@
             <c:forEach var="product" begin="1" end="10">
                 <div class="swiper-slide min-w-[22%] box-border p-2 flex flex-col justify-between">
                     <div class="bg-gradient-to-b from-white to-blue-100 rounded-xl shadow-md text-center p-4 flex flex-col justify-between h-[300px]">
-                        <div class="h-[300px] overflow-hidden flex justify-center items-center">
-                            <img class="max-h-full w-auto rounded-xl" src="https://hadalabo.com.my/img/2ab67433-0e27-49c1-bae4-ae833fe37f17/hydrating-oil-lg.png?fm=png&q=80&fit=max&crop=1855%2C2334%2C0%2C0" alt="Product ${product}" />
+
+                        <!-- Fix: wrap <img> in block-level <a> with full height/width -->
+                        <div class="h-[180px] overflow-hidden flex justify-center items-center">
+                            <a href="<c:url value='/search' />" class="block h-full">
+                                <img class="max-h-full max-w-full mx-auto object-contain"
+                                     src="https://hadalabo.com.my/img/2ab67433-0e27-49c1-bae4-ae833fe37f17/hydrating-oil-lg.png?fm=png&q=80&fit=max&crop=1855%2C2334%2C0%2C0"
+                                     alt="Product ${product}" />
+                            </a>
                         </div>
+
                         <p class="mt-5 font-bold text-xl">Product ${product}</p>
                     </div>
                 </div>
@@ -45,6 +52,13 @@
         <div class="swiper-button-next swiper-button-next-products"></div>
         <div class="swiper-button-prev swiper-button-prev-products"></div>
     </div>
+
+
+    <div class="swiper-pagination swiper-pagination-products"></div>
+        <div class="swiper-button-next swiper-button-next-products"></div>
+        <div class="swiper-button-prev swiper-button-prev-products"></div>
+    </div>
+
 
     <div class="flex justify-center items-center max-w-screen-lg mx-auto my-16 gap-12 px-5 mt-20">
         <div class="flex-1 pr-10">
@@ -71,11 +85,19 @@
         <div class="swiper-wrapper flex transition-transform duration-500">
             <c:forEach var="category" begin="1" end="6">
                 <div class="swiper-slide min-w-full flex justify-center items-center relative">
-                    <div class="absolute top-[110px] w-full text-center text-5xl font-bold text-white z-10">
-                        <p class="text-shadow-lg/40">Skin Care</p>
+
+                    <!-- Title slightly higher -->
+                    <div class="absolute top-[70px] w-full text-center text-5xl font-bold text-white z-10">
+                        <p class="text-shadow-lg/40 drop-shadow-lg">Skin Care</p>
                     </div>
-                    <div class="absolute top-[25px] left-1/2 transform -translate-x-1/2 -translate-y-4 w-[300px] h-[300px]">
-                        <img class="w-full h-full object-cover" src="https://m.media-amazon.com/images/I/71-55TGAWNL.jpg" alt="Category ${category}" />
+
+                    <!-- Image slightly lower -->
+                    <div class="absolute top-[150px] left-1/2 transform -translate-x-1/2 w-[300px] h-[300px]">
+                        <a href="<c:url value='/search' />" class="block w-full h-full">
+                            <img class="w-full h-full object-contain rounded-xl shadow-md"
+                                 src="https://m.media-amazon.com/images/I/71-55TGAWNL.jpg"
+                                 alt="Category ${category}" />
+                        </a>
                     </div>
                 </div>
             </c:forEach>
@@ -85,6 +107,7 @@
         <div class="swiper-button-next swiper-button-next-topsales"></div>
         <div class="swiper-button-prev swiper-button-prev-topsales"></div>
     </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
     <script>
