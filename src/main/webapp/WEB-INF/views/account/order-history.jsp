@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="webstore" tagdir="/WEB-INF/tags/webstore" %>
 <%@ taglib prefix="account" tagdir="/WEB-INF/tags/account" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <c:set var="pageTitle" value="Order History" />
 
@@ -12,6 +13,7 @@
         'recipient': 'Ali Baba',
         'orderTime': '2025-04-27 15:30',
         'totalAmount': 207.90,
+        'status':'Order Placed',
         'products': [
             {
                 'name': 'Minimalist Bag',
@@ -32,6 +34,7 @@
         'recipient': 'Chee Hua',
         'orderTime': '2025-04-28 10:15',
         'totalAmount': 45.50,
+        'status':'Order Received',
         'products': [
             {
                 'name': 'Stainless Steel Water Bottle',
@@ -40,7 +43,37 @@
                 'unitPrice': 45.50
             }
         ]
+    },
+    {
+  'orderNumber': 'BK1000003',
+  'recipient': 'Muthu Kumar',
+  'orderTime': '2025-04-28 16:10',
+  'status': 'Shipped Out',
+  'totalAmount': 129.80,
+  'products': [
+    {
+      'name': 'Bluetooth Speaker',
+      'imageUrl': 'https://img.icons8.com/plasticine/100/000000/bluetooth.png',
+      'quantity': 1,
+      'unitPrice': 129.80
     }
+  ]
+},
+{
+  'orderNumber': 'BK1000004',
+  'recipient': 'Tan Mei Ling',
+  'orderTime': '2025-04-29 09:25',
+  'status': 'Out Of Delivery',
+  'totalAmount': 55.00,
+  'products': [
+    {
+      'name': 'Portable Charger',
+      'imageUrl': 'https://img.icons8.com/color/100/000000/charger.png',
+      'quantity': 1,
+      'unitPrice': 55.00
+    }
+  ]
+}
 ]}" />
   <body class="flex flex-col min-h-screen">
   <main class="flex-1 py-10 px-10 max-w-5xl w-full mx-auto">
@@ -52,7 +85,7 @@
       </div>
       <div class="flex flex-row items-end text-right">
         <p class="text-3xl mx-2 text-gray-700 font-semibold">Total Orders:</p>
-        <p class="text-4xl font-extrabold text-indigo-300">??</p>
+        <p class="text-4xl font-extrabold text-indigo-300" id="orderCount">${fn:length(orders)}</p>
       </div>
     </div>
 
@@ -105,23 +138,44 @@
 
     <!-- Tabs -->
     <div class="flex space-x-10 items-center text-gray-600 font-semibold border-b mb-5">
-      <button id="Orders" class="tab-button flex items-center gap-2 py-3 font-medium text-gray-800 border-b-2 border-gray-800 transition" onclick="setActiveTab('Orders')">
-        <img src="https://img.icons8.com/fluency-systems-filled/20/000000/shopping-cart.png" alt="Orders" />
-        Orders
+      <button class="tab-button flex items-center gap-2 py-3 font-medium text-gray-800 border-b-2 border-gray-800 transition"
+              onclick="filterOrders('All', event)">
+        <img src="https://img.icons8.com/ios-filled/20/grid.png" alt="All" />
+        Show All
       </button>
-      <button id="Shipping" class="tab-button flex items-center gap-2 py-3 font-medium text-gray-500 transition hover:text-gray-800" onclick="setActiveTab('Shipping')">
-        <img src="https://img.icons8.com/fluency-systems-filled/20/000000/delivery.png" alt="Shipping" />
-        Shipping
+
+      <button class="tab-button flex items-center gap-2 py-3 font-medium text-gray-500 transition hover:text-gray-800"
+              onclick="filterOrders('Order Placed', event)">
+        <img src="https://img.icons8.com/fluency-systems-filled/20/000000/shopping-cart.png" alt="OrderPlaced" />
+        Order Placed
       </button>
-      <button id="Completed" class="tab-button flex items-center gap-2 py-3 font-medium text-gray-500 transition hover:text-gray-800" onclick="setActiveTab('Completed')">
-        <img src="https://img.icons8.com/fluency-systems-filled/20/000000/checked--v1.png" alt="Completed" />
-        Completed
+
+      <button class="tab-button flex items-center gap-2 py-3 font-medium text-gray-500 transition hover:text-gray-800"
+              onclick="filterOrders('Shipped Out', event)">
+        <img src="https://img.icons8.com/ios-filled/20/money.png" alt="ShippedOut" />
+        Shipped Out
+      </button>
+
+      <button class="tab-button flex items-center gap-2 py-3 font-medium text-gray-500 transition hover:text-gray-800"
+              onclick="filterOrders('Out Of Delivery', event)">
+        <img src="https://img.icons8.com/ios-filled/20/delivery.png" alt="OutOfDelivery" />
+        Out Of Delivery
+      </button>
+
+      <button class="tab-button flex items-center gap-2 py-3 font-medium text-gray-500 transition hover:text-gray-800"
+              onclick="filterOrders('Order Received', event)">
+        <img src="https://img.icons8.com/fluency-systems-filled/20/checked--v1.png" alt="OrderReceived" />
+        Order Received
       </button>
     </div>
+
     <!-- Order List -->
-    <div class="space-y-8">
+    <div id="orderList" class="space-y-8">
       <c:forEach var="order" items="${orders}">
-        <div class="border rounded-lg p-6 shadow-sm">
+        <a href="${pageContext.request.contextPath}/history/details?orderId=${order.orderNumber}"
+           class="block mb-4 order-card"
+           data-status="${order.status}">
+          <div class="border rounded-lg p-6 shadow-sm hover:shadow-md transition">
           <!-- Order Header -->
           <div class="flex justify-between items-center border-b border-gray-500 pb-2 mb-4">
             <!-- 左边 (Order ID + Ship To) -->
@@ -164,6 +218,7 @@
             <p class="text-lg font-bold text-gray-900">Total: RM ${order.totalAmount}</p>
           </div>
         </div>
+        </a>
       </c:forEach>
     </div>
   </main>
@@ -171,14 +226,27 @@
 </webstore:base>
 
 <script>
-  function setActiveTab(tabName) {
+  function filterOrders(status, event) {
+    const orderCards = document.querySelectorAll('.order-card');
+    let visibleCount = 0;
+
+    orderCards.forEach(card => {
+      const cardStatus = card.getAttribute('data-status');
+      const show = (status === 'All' || cardStatus === status);
+      card.style.display = show ? 'block' : 'none';
+      if (show) visibleCount++;
+    });
+
+    // 更新按钮状态
     document.querySelectorAll('.tab-button').forEach(btn => {
       btn.classList.remove('text-gray-800', 'border-b-2', 'border-gray-800');
       btn.classList.add('text-gray-500');
     });
+    event.currentTarget.classList.add('text-gray-800', 'border-b-2', 'border-gray-800');
+    event.currentTarget.classList.remove('text-gray-500');
 
-    const activeBtn = document.getElementById(tabName);
-    activeBtn.classList.add('text-gray-800', 'border-b-2', 'border-gray-800');
-    activeBtn.classList.remove('text-gray-500');
+    // 更新订单总数
+    document.getElementById('orderCount').textContent = visibleCount;
   }
 </script>
+
