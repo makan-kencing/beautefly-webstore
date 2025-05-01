@@ -48,12 +48,14 @@
                         <div class="mt-auto flex gap-3 text-blue-700 border-gray-600">
                             <a href="<c:url value='/address/${address.id()}/edit' />" class="hover:underline">Edit</a>
 
-                            <div class="border border-inherit"></div>
+                            <c:if test="${isDefault}">
+                                <div class="border border-inherit"></div>
 
-                            <button type="button" onclick="this.parentElement.querySelector('dialog').showModal()"
-                                    class="hover:underline">
-                                Remove
-                            </button>
+                                <button type="button" onclick="this.parentElement.querySelector('dialog').showModal()"
+                                        class="hover:underline">
+                                    Remove
+                                </button>
+                            </c:if>
 
                             <c:if test="not ${isDefault}">
                                 <div class="border border-inherit"></div>
