@@ -5,6 +5,7 @@ import com.lavacorp.beautefly.webstore.admin.product.mapper.AdminProductMapper;
 import com.lavacorp.beautefly.webstore.security.filter.UserContextFilter;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,7 +13,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/admin/product/image/remove")
+@MultipartConfig
+@WebServlet("/admin/product/image/upload")
 public class ProductUploadImageServlet extends HttpServlet {
     @Inject
     private AdminProductService adminProductService;
@@ -28,5 +30,7 @@ public class ProductUploadImageServlet extends HttpServlet {
         var dto = adminProductMapper.toUploadProductImageDTO(req);
 
         adminProductService.uploadProductImage(user, dto);
+
+        resp.sendRedirect("/admin/product/" + dto.id());
     }
 }

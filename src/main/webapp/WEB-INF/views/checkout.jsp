@@ -40,7 +40,7 @@
                                         <p>${address.address1()}</p>
                                         <p>${address.address2()}</p>
                                         <p>${address.address3()}</p>
-                                        <p>${address.city()}, ${address.state()} ${address.postcode()}</p>
+                                        <p>${address.city()}, ${address.state()}&ensp;${address.postcode()}</p>
                                         <p>Phone number: ${address.contactNo()}</p>
                                     </div>
 

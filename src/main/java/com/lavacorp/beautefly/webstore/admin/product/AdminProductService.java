@@ -20,6 +20,7 @@ import org.hibernate.graph.GraphSemantic;
 
 import java.io.IOException;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Transactional
 @ApplicationScoped
@@ -110,6 +111,8 @@ public class AdminProductService {
 
             product.setColor(color);
         }
+
+        session.update(product);
     }
 
     public void deleteProducts(DeleteProductDTO dto) {
@@ -151,14 +154,20 @@ public class AdminProductService {
         var session = emf.unwrap(SessionFactory.class)
                 .openStatelessSession();
 
-        session.createMutationQuery("""
-                            delete Product.images
-                            where Product.id = :productId
-                            and FileUpload.id = :imageId
-                        """)
-                .setParameter("productId", dto.id())
-                .setParameter("imageId", dto.imageId())
-                .executeUpdate();
+        var graph = session.createEntityGraph(Product.class);
+        graph.addPluralSubgraph(Product_.images);
+
+        var product = session.get(graph, GraphSemantic.FETCH, dto.id());
+        if (product == null)
+            return;
+
+        product.setImages(
+                product.getImages().stream()
+                        .filter(i -> i.getId() != dto.imageId())
+                        .collect(Collectors.toSet())
+        );
+
+        session.update(product);
     }
 
     public CreateProductContext getCreateProductContext() {

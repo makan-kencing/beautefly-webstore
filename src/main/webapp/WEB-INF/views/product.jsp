@@ -165,8 +165,10 @@
                                 </c:forEach>
                             </div>
 
-                            <button class="mt-3 text-blue-500 reply-button cursor-pointer">Reply</button>
-
+                            <c:if test="${pageContext.request.userPrincipal != null}">
+                                <button class="mt-3 text-blue-500 reply-button cursor-pointer">Reply</button>
+                            </c:if>
+                            
                             <div class="reply-box hidden mt-3">
                                 <form id="reply-form"
                                       action="<c:url value='/reply'/>"
