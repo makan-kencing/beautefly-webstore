@@ -149,12 +149,11 @@
                                 <img src="${review.account().profileImage().url()}" alt="" class="w-8 h-8 rounded-full">
                                 <span class="font-semibold">${review.account().username()}</span>
                             </div>
-                            <c:out value="${review.account().profileImage().url()}"/>
 
                             <div>
                                 <span class="text-base font-semibold text-gray-800">${review.title()}</span><br/>
-                <span data-raty data-star-type="i" data-read-only="true" data-score="${review.rating()}"
-                      class="text-orange-400 text-[3xl] text-[0.5rem]"></span>
+                                <span data-raty data-star-type="i" data-read-only="true" data-score="${review.rating()}"
+                                    class="text-orange-400 text-[3xl] text-[0.5rem]"></span>
                             </div>
                             <div class="text-gray-700 text-sm mb-4">
                                     ${review.message()}
@@ -163,14 +162,30 @@
                             <button class="mt-3 text-blue-500 reply-button cursor-pointer">Reply</button>
 
                             <div class="reply-box hidden mt-3">
-                <textarea class="w-full p-2 border border-gray-300 rounded-lg" rows="3"
-                          placeholder="Write your reply..."></textarea>
-                                <button type="button" class="cursor-pointer mt-2 bg-blue-500 text-white py-1 px-4 rounded-lg"
-                                        onclick="submitReply(this)">Submit Reply
-                                </button>
+                                <form id="reply-form"
+                                      action="<c:url value='/reply'/>"
+                                      method="post"
+                                      class="reply-form w-full space-y-3">
+                                    <input type="hidden" name="ratingId" value="${review.id()}" />
+                                    <textarea name="message" class="w-full p-2 border border-gray-300 rounded-lg" rows="3"
+                                              placeholder="Write your reply..."></textarea>
+                                    <button type="submit" class="cursor-pointer mt-2 bg-blue-500 text-white py-1 px-4 rounded-lg">
+                                        Submit Reply
+                                    </button>
+                                </form>
                             </div>
 
-                            <div class="replies mt-3 space-y-2 p-2 bg-gray-50 rounded-lg max-h-60 overflow-y-auto"></div>
+                            <c:forEach var="reply" items="${review.replies()}">
+                            <div class="replies mt-3 space-y-2 p-2 bg-gray-50 rounded-lg max-h-60 overflow-y-auto">
+                                <div>
+                                    <div class="flex items-center space-x-2 mb-2">
+                                        <img src="${reply.account().profileImage().url()}" alt="" class="w-8 h-8 rounded-full">
+                                        <span class="font-medium text-sm">${reply.account().username()}</span>
+                                    </div>
+                                    <span class="text-sm text-gray-700">${reply.message()}</span>
+                                </div>
+                            </div>
+                            </c:forEach>
                         </div>
                     </c:forEach>
                 </div>
