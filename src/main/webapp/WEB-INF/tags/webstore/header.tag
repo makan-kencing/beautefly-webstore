@@ -19,9 +19,10 @@
 
 <header>
     <nav class="flex items-center gap-8 from-blue-300 to-pink-300 px-5 py-3 text-white bg-linear-65">
-        <div class="logo">
-            <a href="<c:url value='/' />">${initParam["company.name"]}</a>
-        </div>
+        <a href="<c:url value='/' />" class="font-bold text-3xl horizontal items-center gap-2">
+            <img src="<c:url value='/static/images/logo.png' />" alt="" class="h-8">
+            ${initParam["company.name"]}
+        </a>
 
         <form action="<c:url value='/search' />" method="get"
               class="flex flex-1 items-center rounded-md bg-white">

@@ -40,47 +40,10 @@
 
 }
 
-.navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: linear-gradient(to right, #70D6FF, #FF70A6);
-    padding: 10px 20px;
-    color: white;
-    font-family: 'Times New Roman', Times, serif, sans-serif;
-}
-
 .nav-links {
     display: flex;
     align-items: center;
     gap: 20px;
-}
-
-.logo {
-    font-size: 30px;
-    font-weight: bold;
-}
-
-.search-bar {
-    flex: 1;
-    margin: 0 20px;
-    display: flex;
-}
-
-.search-bar input {
-    flex: 1;
-    padding: 8px;
-    border: none;
-    border-radius: 4px 0 0 4px;
-    outline: none;
-}
-
-.search-bar button {
-    padding: 8px 15px;
-    border: none;
-    background: #FFF;
-    cursor: pointer;
-    border-radius: 0 4px 4px 0;
 }
 
 .nav-links {
