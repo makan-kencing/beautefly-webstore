@@ -18380,3 +18380,13 @@ BEGIN
     PERFORM setval('reply_id_seq', (SELECT max(id) FROM reply), true);
 END;
 $BODY$ LANGUAGE plpgsql;
+
+CALL initaccount();
+CALL initaddress();
+
+CALL initcategory();
+CALL initproduct();
+CALL initproductimage();
+
+CALL initorder();
+CALL initrating();
