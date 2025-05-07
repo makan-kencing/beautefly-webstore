@@ -50,7 +50,7 @@ services:
         restart: unless-stopped
         environment:
             BEAUTEFLY_SITE_URL: ${BEAUTEFLY_SITE_URL}
-            BEAUTEFLY_SERVER: ${BEAUTEFLY_SERVER_CONTAINER_NAME}:8080
+            BEAUTEFLY_SERVER: ${BEAUTEFLY_WEB_CONTAINER_NAME}:8080
             BEAUTEFLY_FILESERVER_BASE_URI: ${BEAUTEFLY_FILESERVER_BASE_URI}
         volumes:
             - ./Caddyfile:/etc/caddy/Caddyfile:ro,z
